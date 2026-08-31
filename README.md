@@ -103,7 +103,7 @@ Papers that provide valuable context but don't produce standalone skills:
 
 Every artifact traces back to a specific paper and was produced through a systematic pipeline:
 
-1. Papers ingested and indexed via [Praxis](https://github.com/Marontis/praxis)
+1. Papers ingested and indexed via [Praxis](https://github.com/sparkplug604/praxis)
 2. Each paper analyzed through the [skill-design-methodology](skills/skill-design-methodology/SKILL.md) checklist
 3. Papers with transferable subtask-level procedures became **skills**
 4. Decision criteria and quantitative pitfalls became **rules**
