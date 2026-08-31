@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems — distilled from 27 arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 27 arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -14,8 +14,8 @@ Research-backed rules, skills, and spec templates for building LLM agent systems
 
 **For AI coding assistants** (Antigravity, Claude Code, Cursor, etc.):
 
-1. Copy `rules/` into your project's `.agents/rules/` (or equivalent) — they'll be active during every session
-2. Copy `skills/` into your project's `.agents/skills/` — they'll be retrieved on-demand when relevant
+1. Copy `rules/` into your project's `.agents/rules/` (or equivalent) -- they'll be active during every session
+2. Copy `skills/` into your project's `.agents/skills/` -- they'll be retrieved on-demand when relevant
 3. Fill in a `specs/` template when starting a new project in a covered domain
 
 **For humans**: Browse the rules for decision criteria and pitfalls, read the skills for step-by-step procedures, or start from a spec template to map out your design space.
@@ -122,4 +122,4 @@ Found a paper that should be here? Open an issue with the arXiv link and a brief
 
 ## License
 
-This work is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). You're free to use, share, and adapt everything here — just give credit.
+This work is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). You're free to use, share, and adapt everything here -- just give credit.
