@@ -206,6 +206,38 @@ models, reducing false answer rates by 75% over prompt-based baselines.
 
 ---
 
+## Skill Library Integrity
+
+### DO: Validate skill provenance before adding to library
+
+Every skill entering a library must have verified provenance — traceable
+origin, lineage (which parent skills or experiences produced it), and
+evidence (which task outcomes justified its creation).  Self-evolving
+agent systems are vulnerable to skill injection attacks where adversaries
+insert malicious skills that persist across evolution rounds and propagate
+to unrelated tasks.  An unprovenanced skill is the primary attack vector.
+
+> Source: EvoSkill Injection (arXiv:2608.30429)
+
+---
+
+## Hallucination Detection
+
+### DON'T: Collapse "missing evidence" and "conflicting evidence" into a single refusal
+
+When an agent encounters unsupported claims, distinguish between
+*insufficient* evidence (not enough information) and *conflicting*
+evidence (contradictory sources).  These require different downstream
+actions: insufficient evidence should trigger additional retrieval,
+while conflicting evidence should surface the contradiction explicitly.
+The hallucination signal in LLM hidden states is a linearly detectable
+mean shift — simple probes suffice for detection without collapsing
+the distinction.
+
+> Source: The Hallucination Signal Is a Mean Shift (arXiv:2608.28930)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -214,6 +246,8 @@ For implementation details on the procedures behind these rules:
 - [`knowledge-compounding-loop`](skills/knowledge-compounding-loop/SKILL.md) — Persistent knowledge accumulation
 - [`iterative-instruction-refinement`](skills/iterative-instruction-refinement/SKILL.md) — NPO-style revision loop
 - [`rag-evidence-triage`](skills/rag-evidence-triage/SKILL.md) — Three-way evidence classification
+- [`skill-evolution-defense`](skills/skill-evolution-defense/SKILL.md) — Hardening skill evolution loops
+- [`hallucination-mean-shift-probe`](skills/hallucination-mean-shift-probe/SKILL.md) — Linear probe hallucination detection
 
 ## Sources
 
@@ -223,3 +257,5 @@ For implementation details on the procedures behind these rules:
 - Naive Prompt Optimization: arXiv:2608.27266
 - ACE Lens: arXiv:2608.27260
 - Knowing Before Answering: arXiv:2608.27661
+- EvoSkill Injection: arXiv:2608.30429
+- Hallucination Mean Shift: arXiv:2608.28930
