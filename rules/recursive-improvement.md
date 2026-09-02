@@ -239,6 +239,65 @@ accepting.
 
 ---
 
+## Multi-Day Autonomous Development Loops
+
+### DO: Balance repair cycles with concrete capability increments
+
+Autonomous coding loops must not collapse into endless local repair. When an
+agent operates autonomously over extended horizons, require every iteration plan
+to deliver a small, verifiable capability increment alongside outstanding bug fixes.
+
+**Evidence**: Scoping development into small, verifiable capability additions
+prevents repetitive inspection cycles and sustains improvement across 10+
+consecutive loops (improving resolution from 22% to 72.7% on FrontierSWE).
+
+> Source: Harness-of-Harness (arXiv:2609.01481)
+
+### DO: Enforce independent tester role separation
+
+Never allow the agent that authored the code to be the sole certifier of task
+completion. Separate Planner, Developer, and Tester roles:
+- The Tester runs independent white-box unit tests and black-box behavioral tests.
+- Structured test reports are passed to the Planner as evidence for the next loop.
+- Schema violations on role outputs trigger immediate retries.
+
+> Source: Harness-of-Harness (arXiv:2609.01481)
+
+---
+
+## Joint Harness-Weight Co-Optimization
+
+### DO: Alternate model weight updates and harness search
+
+Do not attempt to optimize model parameters $\theta$ while holding the harness $h$
+frozen, or optimize prompts/tools while holding model weights frozen.
+
+**Evidence**: Either component can become the bottleneck for the other. WHALE
+alternates updating model weights (via rejection sampling) and searching harness
+code (prompts, tool wrappers, control flow), outperforming single-component updates
+by 4.15–24.38 percentage points with lower rollout costs. Use adaptive patience
+switching over training signals to transition between phases.
+
+> Source: WHALE (arXiv:2609.00196)
+
+---
+
+## Reference Trajectory Evolution
+
+### DO: Isolate harness evolution credit assignment using reference trajectories
+
+When evolving prompts or tools based on execution failures, compare failing
+trajectories against reference/golden traces to locate the earliest step where
+actions diverged.
+
+**Evidence**: Terminal pass/fail rewards provide ambiguous gradients. Updating
+the harness specifically at the first divergent step prevents shortcut learning
+and ensures updates generalize across held-out benchmark tasks.
+
+> Source: HarnessEvolve (arXiv:2609.00829)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -248,6 +307,8 @@ For implementation details on the procedures behind these rules:
 - [`knowledge-compounding-loop`](skills/knowledge-compounding-loop/SKILL.md) — Persistent knowledge accumulation
 - [`targeted-failure-attribution`](skills/targeted-failure-attribution/SKILL.md) — DoCtOR decisive error identification
 - [`behavior-aware-verification`](skills/behavior-aware-verification/SKILL.md) — HarnessLens targeted verification
+- [`reference-trajectory-harness-evolution`](skills/reference-trajectory-harness-evolution/SKILL.md) — Trace-aligned harness evolution
+- [`requirements-driven-code-generation`](skills/requirements-driven-code-generation/SKILL.md) — Pre-implementation specification quality assessment
 
 ## Sources
 
@@ -256,3 +317,7 @@ For implementation details on the procedures behind these rules:
 - Naive Prompt Optimization: arXiv:2608.27266
 - DoCtOR: arXiv:2608.28264
 - HarnessLens: arXiv:2608.27311
+- Harness-of-Harness: arXiv:2609.01481
+- WHALE: arXiv:2609.00196
+- HarnessEvolve: arXiv:2609.00829
+- Recursive Criticality: arXiv:2609.00137
