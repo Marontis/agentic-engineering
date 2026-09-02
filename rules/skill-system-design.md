@@ -238,6 +238,42 @@ the distinction.
 
 ---
 
+## Prompt Context Assembly & Prefix Invariance
+
+### DO: Maintain byte-identical prefix ordering for static skills and tools
+
+When assembling system prompts and injecting skills, order prompt components into
+deterministic tiers:
+1. Immutable System Persona (never changes across session)
+2. Alphabetically Sorted Tool & Skill Schemas (changes only on dynamic tool load)
+3. Compacted Milestone Summaries (evictable)
+4. Dynamic Turn Observations & Working Scratchpad (volatile tail)
+
+**DON'T**: Inject dynamic variables (timestamps, request UUIDs, turn counters)
+into top-level system prompts. Doing so invalidates the entire provider KV cache,
+dropping cache hit rates to 0% and dramatically inflating latency and cost.
+
+> Source: ContextPipe (arXiv:2609.00749)
+
+---
+
+## Persistent Agent Architecture
+
+### DO: Decouple continuity-bearing substrate from execution substrate
+
+Architect long-lived agents by separating the **continuity-bearing substrate**
+$\mathcal{P}_t = (I_t, M_t, B_t)$ (Identity, Memory, Software Body) from the
+transient **execution substrate** $\mathcal{E}_t = (R_t, H_t, D_t)$ (Reasoner
+model, orchestration harness, host server).
+
+Substituting a model or server is a **migration**, not agent creation. Enforce a
+quiesce–checkpoint–validate–bind–rehydrate–resume protocol to preserve memory
+lineage across transitions.
+
+> Source: Runtime-Independent Persistent Agents (arXiv:2609.00546)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -248,6 +284,9 @@ For implementation details on the procedures behind these rules:
 - [`rag-evidence-triage`](skills/rag-evidence-triage/SKILL.md) — Three-way evidence classification
 - [`skill-evolution-defense`](skills/skill-evolution-defense/SKILL.md) — Hardening skill evolution loops
 - [`hallucination-mean-shift-probe`](skills/hallucination-mean-shift-probe/SKILL.md) — Linear probe hallucination detection
+- [`prefix-preserving-context-assembly`](skills/prefix-preserving-context-assembly/SKILL.md) — Database-style context assembly
+- [`persistent-agent-migration`](skills/persistent-agent-migration/SKILL.md) — Runtime-independent agent migration
+- [`trajectory-aware-eval-pruning`](skills/trajectory-aware-eval-pruning/SKILL.md) — Trajectory-aware benchmark item selection
 
 ## Sources
 
@@ -259,3 +298,6 @@ For implementation details on the procedures behind these rules:
 - Knowing Before Answering: arXiv:2608.27661
 - EvoSkill Injection: arXiv:2608.30429
 - Hallucination Mean Shift: arXiv:2608.28930
+- ContextPipe: arXiv:2609.00749
+- Runtime-Independent Persistent Agents: arXiv:2609.00546
+- Efficient SWE Agent Benchmarking: arXiv:2609.01603
