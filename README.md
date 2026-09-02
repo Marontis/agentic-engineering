@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 57 arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 81 arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -30,9 +30,9 @@ Concise, evidence-backed guardrails. Load these so your agent applies them autom
 
 | Rules File | Domain |
 |:-----------|:-------|
-| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety |
-| [`skill-system-design`](rules/skill-system-design.md) | Skill authoring, selection, library management, skill evolution, training data quality, evidence triage, library integrity, hallucination detection |
-| [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification |
+| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring |
+| [`skill-system-design`](rules/skill-system-design.md) | Skill authoring, selection, library management, skill evolution, training data quality, evidence triage, library integrity, hallucination detection, prefix-preserving context assembly, persistent agent architecture |
+| [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification, multi-day autonomous loops, joint harness-weight optimization, reference trajectory evolution |
 
 ### Skills (On-Demand)
 
@@ -50,6 +50,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`covert-tool-injection-defense`](skills/covert-tool-injection-defense/SKILL.md) | Covert Indirect Prompt Injection (arXiv:2608.30362) |
 | [`skill-evolution-defense`](skills/skill-evolution-defense/SKILL.md) | EvoSkill Injection (arXiv:2608.30429) |
 | [`self-improving-red-team`](skills/self-improving-red-team/SKILL.md) | SIR Red-teaming (arXiv:2608.30207) |
+| [`deterministic-span-editing`](skills/deterministic-span-editing/SKILL.md) | Minimal-Diff GitOps Remediation (arXiv:2609.00227) |
+| [`harness-tampering-audit`](skills/harness-tampering-audit/SKILL.md) | Auditing Harness Tampering (arXiv:2609.00069) |
 
 #### Self-Improvement & Evaluation
 
@@ -60,6 +62,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`targeted-failure-attribution`](skills/targeted-failure-attribution/SKILL.md) | DoCtOR (arXiv:2608.28264) |
 | [`behavior-aware-verification`](skills/behavior-aware-verification/SKILL.md) | HarnessLens (arXiv:2608.27311) |
 | [`agent-working-memory-eval`](skills/agent-working-memory-eval/SKILL.md) | Measure Before You Manage (arXiv:2608.31057) |
+| [`reference-trajectory-harness-evolution`](skills/reference-trajectory-harness-evolution/SKILL.md) | HarnessEvolve (arXiv:2609.00829) |
+| [`trajectory-aware-eval-pruning`](skills/trajectory-aware-eval-pruning/SKILL.md) | PTA-IRT Benchmarking (arXiv:2609.01603) |
 
 #### Skill Evolution & Knowledge
 
@@ -72,6 +76,9 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`policy-centroid-routing`](skills/policy-centroid-routing/SKILL.md) | Policy-Centroid Routing (arXiv:2608.30757) |
 | [`governed-knowledge-graph`](skills/governed-knowledge-graph/SKILL.md) | MAGG Governed KGs (arXiv:2608.28642) |
 | [`agentic-data-cracking`](skills/agentic-data-cracking/SKILL.md) | Token-Efficient Data Reasoning (arXiv:2608.31082) |
+| [`prefix-preserving-context-assembly`](skills/prefix-preserving-context-assembly/SKILL.md) | ContextPipe (arXiv:2609.00749) |
+| [`persistent-agent-migration`](skills/persistent-agent-migration/SKILL.md) | Enoch Persistent Agents (arXiv:2609.00546) |
+| [`requirements-driven-code-generation`](skills/requirements-driven-code-generation/SKILL.md) | WiseSpec (arXiv:2609.00568) |
 
 #### Retrieval & Evidence
 
@@ -126,6 +133,23 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`ontology-learning-scale`](research-briefs/ontology-learning-scale.md) | When bigger models help (and don't) for ontology learning |
 | [`searchwiki-active-seeking`](research-briefs/searchwiki-active-seeking.md) | Wiki-structured knowledge building during information seeking |
 | [`test-time-prompt-calibration`](research-briefs/test-time-prompt-calibration.md) | Calibration-aware test-time prompt tuning |
+| [`harness-of-harness-autonomous-development`](research-briefs/harness-of-harness-autonomous-development.md) | Multi-day autonomous development with continual improvement |
+| [`agent-factory-workflow-optimization`](research-briefs/agent-factory-workflow-optimization.md) | Automated optimization of multi-agent topologies and models |
+| [`checklist-aggregation-eval-pipeline`](research-briefs/checklist-aggregation-eval-pipeline.md) | Decomposed checklist aggregation for reliable LLM evals |
+| [`drift-aware-llm-routing`](research-briefs/drift-aware-llm-routing.md) | Routing across model portfolios under shared budgets and drift |
+| [`quantum-federated-learning-aggregation`](research-briefs/quantum-federated-learning-aggregation.md) | Stable aggregation for quantum neural network parameters |
+| [`assistant-ideal-self-concept`](research-briefs/assistant-ideal-self-concept.md) | Post-training self-concept elicitation and value stability |
+| [`cot-monitoring-answer-bias`](research-briefs/cot-monitoring-answer-bias.md) | Measuring bias when oversight monitors have answer access |
+| [`recursive-self-improvement-criticality`](research-briefs/recursive-self-improvement-criticality.md) | Criticality thresholds in dynamical self-improvement systems |
+| [`verbal-reinforcement-learning-taxonomy`](research-briefs/verbal-reinforcement-learning-taxonomy.md) | Taxonomy of natural language feedback across agent lifecycles |
+| [`byzantine-placement-decentralized-fl`](research-briefs/byzantine-placement-decentralized-fl.md) | Adversarial node placement in decentralized federated learning |
+| [`embodied-vla-skill-orchestration`](research-briefs/embodied-vla-skill-orchestration.md) | Proposal-validation-recovery runtime for embodied VLA agents |
+| [`predictive-coding-boundary-optimization`](research-briefs/predictive-coding-boundary-optimization.md) | Boundary-first inference schedules in predictive coding |
+| [`rank-heterogeneous-federated-lora`](research-briefs/rank-heterogeneous-federated-lora.md) | Federated LoRA under client rank heterogeneity |
+| [`activation-matched-finetuning-detection`](research-briefs/activation-matched-finetuning-detection.md) | Unsupervised dormant backdoor detection via activation residuals |
+| [`joint-harness-weight-optimization`](research-briefs/joint-harness-weight-optimization.md) | Alternating harness search and weight updates (WHALE) |
+| [`workload-aware-column-imprint-joins`](research-briefs/workload-aware-column-imprint-joins.md) | Real-time edge query processing with workload-aware column imprints |
+| [`attention-sensitivity-dissociation`](research-briefs/attention-sensitivity-dissociation.md) | Dissociating attention proxies from behavioral in-context learning |
 
 ---
 

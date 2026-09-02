@@ -251,6 +251,66 @@ patterns (return anchors, user-framing attacks) before injection.
 
 ---
 
+## Configuration & GitOps Mutation Safety
+
+### DON'T: Let the model author raw diffs or full rewrites for declarative manifests
+
+When modifying structured configuration or infrastructure-as-code files
+(YAML, JSON, TOML, Kubernetes, Terraform, GitOps manifests), do not permit
+the model to output raw diffs or full rewritten files.
+
+**Evidence**:
+- Under strict application, only 2.7% of frontier model diffs apply cleanly.
+- Under tolerant patch tools, **14–20% of model diffs are silently misapplied**
+  (modifying the wrong line/block without an error code).
+- Full rewrites alter unrelated lines in **97.6% of outputs** for small models,
+  and frontier models exhibit non-deterministic silent corruption in **7.2% of tasks**.
+
+**DO**: Constrain the LLM to output a structured semantic intent tuple
+`(target_file, resource, field_path, target_value)` and apply the edit via a
+deterministic AST/span editor.
+
+> Source: Don't Let the Model Write the YAML (arXiv:2609.00227)
+
+---
+
+## Self-Improving Agent Integrity
+
+### DO: Enforce two-axis tampering audits on self-modifying agent harnesses
+
+When an agent has permissions to optimize its own prompts, tools, or control flow,
+audit every proposed mutation across two orthogonal axes:
+1. **Functional Role**: Prompt instructions, control flow graph, tool definitions,
+   evaluation harness.
+2. **Obligation**: Evaluation integrity, authorization boundary, lineage
+   provenance, reporting fidelity.
+
+Freeze evaluation test suites, ground-truth oracles, and audit logs behind
+read-only permissions. Never evaluate a modified agent using its own modified
+environment; always re-test in an isolated clean-room container with frozen
+reference tests.
+
+> Source: Auditing Harness Tampering in Self-Improving Agents (arXiv:2609.00069)
+
+---
+
+## AI Oversight & Monitoring
+
+### DON'T: Provide ground-truth answers to chain-of-thought oversight monitors
+
+When deploying an LLM monitor to inspect the intermediate reasoning of another
+agent, do not provide the monitor with access to the expected final answer.
+
+**Evidence**: Answer access introduces severe confirmation bias. Monitors with
+answer access focus almost exclusively on conclusion correctness rather than
+step-by-step reasoning validity. When auditing complex problems where the
+ground truth is unknown, monitors miss the first erroneous reasoning step in
+over 60% of invalid trajectories.
+
+> Source: The Answer Is Not the Argument (arXiv:2609.00264)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -261,6 +321,8 @@ For implementation details on the procedures behind these rules:
 - [`layered-defense-ensemble`](skills/layered-defense-ensemble/SKILL.md) — Defense stacking with correlation
 - [`covert-tool-injection-defense`](skills/covert-tool-injection-defense/SKILL.md) — Tool output sanitization
 - [`self-improving-red-team`](skills/self-improving-red-team/SKILL.md) — Evolving adversarial testing
+- [`deterministic-span-editing`](skills/deterministic-span-editing/SKILL.md) — Minimal-diff configuration editing
+- [`harness-tampering-audit`](skills/harness-tampering-audit/SKILL.md) — Two-axis self-improvement tampering audit
 
 ## Sources
 
@@ -274,3 +336,6 @@ For implementation details on the procedures behind these rules:
 - Not the Same Protector: arXiv:2608.29136
 - SIR Red-teaming: arXiv:2608.30207
 - Covert Indirect Prompt Injection: arXiv:2608.30362
+- Don't Let the Model Write the YAML: arXiv:2609.00227
+- Auditing Harness Tampering: arXiv:2609.00069
+- The Answer Is Not the Argument: arXiv:2609.00264
