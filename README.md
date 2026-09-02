@@ -152,4 +152,4 @@ Found a paper that should be here? Open an issue with the arXiv link and a brief
 
 ## License
 
-This work is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). You're free to use, share, and adapt everything here -- just give credit.
+This work is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
