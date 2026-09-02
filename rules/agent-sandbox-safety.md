@@ -188,6 +188,69 @@ not just per-layer rates.
 
 ---
 
+## Checkpoint & Resume Safety
+
+### DON'T: Trust checkpoint state without integrity verification
+
+Agent checkpoint/resume mechanisms are an attack surface.  An adversary
+can manipulate the saved state so that a resumed agent re-executes
+harmful actions or skips safety checks it already performed.  Before
+resuming from a checkpoint, verify: (1) the checkpoint hasn't been
+tampered with (cryptographic hash), (2) the safety checks recorded in
+the checkpoint actually ran (re-validate, don't trust the log), and
+(3) the environment state matches what the checkpoint expects.
+
+> Source: Safe to Resume? Breaking Execution Continuity (arXiv:2608.29381)
+
+---
+
+## Deployment Context
+
+### DON'T: Assume safety transfers across deployment contexts
+
+A model that behaves safely in one deployment context (API, chat,
+agent loop) may not in another.  Safety interventions are
+**deployment-dependent** — the same model with the same safety
+training can exhibit different protective behaviors depending on how
+it's invoked, what system prompt it receives, and what tools are
+available.  Always re-evaluate safety in the specific deployment
+configuration, not just in the training/evaluation context.
+
+> Source: Not the Same Protector (arXiv:2608.29136)
+
+---
+
+## Adversarial Testing
+
+### DO: Test with evolving adversaries, not static attack sets
+
+Static red-team test suites become stale as agents improve.  Use
+self-improving red-teaming where the attacker analyzes why previous
+attacks failed, distills new principles, and composes novel attacks.
+Strategies discovered against one model often transfer to others,
+indicating they exploit general agent weaknesses rather than
+model-specific bugs.
+
+> Source: SIR: Self-improving Red-teaming (arXiv:2608.30207)
+
+---
+
+## Tool Output Safety
+
+### DO: Sanitize all tool outputs before injecting into agent context
+
+Tool outputs (search results, API responses, web content) are a vector
+for covert indirect prompt injection.  An adversary can embed
+instructions in tool output that (1) hijack agent behavior AND (2)
+produce a normal-looking response so the user never notices.  Treat
+tool outputs as untrusted data: quarantine them in a marked section,
+never present them in the "user" role, and scan for instruction-like
+patterns (return anchors, user-framing attacks) before injection.
+
+> Source: Will the User Ever Know? Covert Indirect Prompt Injection (arXiv:2608.30362)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -196,6 +259,8 @@ For implementation details on the procedures behind these rules:
 - [`transactional-coding-sandbox`](skills/transactional-coding-sandbox/SKILL.md) — Snapshot/rollback implementation
 - [`unified-capability-gateway`](skills/unified-capability-gateway/SKILL.md) — 5-stage kernel interface
 - [`layered-defense-ensemble`](skills/layered-defense-ensemble/SKILL.md) — Defense stacking with correlation
+- [`covert-tool-injection-defense`](skills/covert-tool-injection-defense/SKILL.md) — Tool output sanitization
+- [`self-improving-red-team`](skills/self-improving-red-team/SKILL.md) — Evolving adversarial testing
 
 ## Sources
 
@@ -205,3 +270,7 @@ For implementation details on the procedures behind these rules:
 - AI Agency Typology: arXiv:2608.20041
 - CrabOS: arXiv:2608.28165
 - Layered LLM Defenses: arXiv:2608.28327
+- Safe to Resume?: arXiv:2608.29381
+- Not the Same Protector: arXiv:2608.29136
+- SIR Red-teaming: arXiv:2608.30207
+- Covert Indirect Prompt Injection: arXiv:2608.30362
