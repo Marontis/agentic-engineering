@@ -309,6 +309,30 @@ over 60% of invalid trajectories.
 
 > Source: The Answer Is Not the Argument (arXiv:2609.00264)
 
+### DO: Cryptographically pin and sandbox all lifecycle hook configurations
+
+Modern agent harnesses expose lifecycle hooks that execute shell commands on runtime events (e.g., session start, tool calls, file edits). These commands run with host privileges outside the LLM's direct observation context. Under a supply-chain threat model, a benign plugin update can trojanize the harness by silently binding attacker-chosen shell commands to benign runtime triggers.
+
+**Evidence**: Across 25 harness-backend combinations (1,000 end-to-end runs), HookPry compromised all 7 evaluated harnesses with per-harness success reaching **92.5%**. Traditional endpoint defenses failed completely: Microsoft Defender exhibited **0% recall**, and the union of three commercial static analyzers missed **47.5%** of malicious hook scripts. All lifecycle hooks must be pinned to cryptographic hashes, run inside unprivileged containers, and require human confirmation on configuration updates.
+
+> Source: A Blind Trust, the Bloody Thrust (arXiv:2609.03884)
+
+### DON'T: Assume uniform safety refusal behavior across model families in multi-turn dialogues
+
+Multi-turn interaction history alters safety refusal thresholds asymmetrically across model providers: sequential retreat techniques (refusing an extreme request then receiving a smaller request) double compliance on Claude Opus 5 (65.8% vs 29.3%), while backfiring on GPT and Gemini models (-15.5 to -23.0 points).
+
+**Evidence**: Across 9 production frontier models, the "door-in-the-face" influence pattern succeeds or backfires strictly by model family. Furthermore, reframing actionable operational requests into conceptual explanations bypasses safety refusals in **99.2% of cases** (263/265). Safety guardrails must evaluate multi-turn intent trajectories rather than treating requests as isolated, stateless turns.
+
+> Source: Door-in-the-Face Requests and Refusal Behaviour in Large Language Models (arXiv:2609.02707)
+
+### DO: Gate tool actions with dependency-scoped lineage checks rather than trusting state freshness
+
+In distributed or multi-agent workflows with shared memory, state freshness does not establish plan authorization. A planner deriving actions from an outdated requirement leads to stale-plan execution: an executor receives the latest state updates but continues executing an action derived from superseded requirements.
+
+**Evidence**: Across 30 live workflows with post-plan revisions, freshness-only executors executed obsolete plans in **100% of tasks**, while dependency-scoped lineage validation (PlanFence) completed all tasks with **0% invalid actions** and near-zero coordination stall by verifying only action-relevant records.
+
+> Source: Fresh Memory, Stale Plans: Dependency-Scoped Validation for Distributed LLM-Agent Memory (arXiv:2609.03340)
+
 ---
 
 ## Related Skills
@@ -323,6 +347,8 @@ For implementation details on the procedures behind these rules:
 - [`self-improving-red-team`](skills/self-improving-red-team/SKILL.md) — Evolving adversarial testing
 - [`deterministic-span-editing`](skills/deterministic-span-editing/SKILL.md) — Minimal-diff configuration editing
 - [`harness-tampering-audit`](skills/harness-tampering-audit/SKILL.md) — Two-axis self-improvement tampering audit
+- [`dependency-scoped-plan-validation`](skills/dependency-scoped-plan-validation/SKILL.md) — Dependency-scoped plan and action lineage verification
+- [`black-box-trajectory-risk-monitoring`](skills/black-box-trajectory-risk-monitoring/SKILL.md) — Prefix-level trajectory risk and failure monitoring
 
 ## Sources
 
@@ -339,3 +365,6 @@ For implementation details on the procedures behind these rules:
 - Don't Let the Model Write the YAML: arXiv:2609.00227
 - Auditing Harness Tampering: arXiv:2609.00069
 - The Answer Is Not the Argument: arXiv:2609.00264
+- HookPry: arXiv:2609.03884
+- Door-in-the-Face Refusal Behaviour: arXiv:2609.02707
+- PlanFence: arXiv:2609.03340

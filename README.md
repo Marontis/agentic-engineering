@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 81 arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 105 arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -30,9 +30,9 @@ Concise, evidence-backed guardrails. Load these so your agent applies them autom
 
 | Rules File | Domain |
 |:-----------|:-------|
-| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring |
-| [`skill-system-design`](rules/skill-system-design.md) | Skill authoring, selection, library management, skill evolution, training data quality, evidence triage, library integrity, hallucination detection, prefix-preserving context assembly, persistent agent architecture |
-| [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification, multi-day autonomous loops, joint harness-weight optimization, reference trajectory evolution |
+| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring, hook security, multi-turn refusal variance, dependency-scoped plan lineage |
+| [`skill-system-design`](rules/skill-system-design.md) | Skill authoring, selection, library management, skill evolution, training data quality, evidence triage, library integrity, hallucination detection, prefix-preserving context assembly, persistent agent architecture, procedural families, operational know-how distillation, speculative macro commit |
+| [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification, multi-day autonomous loops, joint harness-weight optimization, reference trajectory evolution, error-structured prompt optimization (ESPO), counterexample-guided repair, rubric artifact bias, neural invariant diagnosis, belief-calibrated scaffold optimization |
 
 ### Skills (On-Demand)
 
@@ -52,6 +52,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`self-improving-red-team`](skills/self-improving-red-team/SKILL.md) | SIR Red-teaming (arXiv:2608.30207) |
 | [`deterministic-span-editing`](skills/deterministic-span-editing/SKILL.md) | Minimal-Diff GitOps Remediation (arXiv:2609.00227) |
 | [`harness-tampering-audit`](skills/harness-tampering-audit/SKILL.md) | Auditing Harness Tampering (arXiv:2609.00069) |
+| [`dependency-scoped-plan-validation`](skills/dependency-scoped-plan-validation/SKILL.md) | PlanFence (arXiv:2609.03340) |
+| [`black-box-trajectory-risk-monitoring`](skills/black-box-trajectory-risk-monitoring/SKILL.md) | Web Agent Key-Step Monitoring (arXiv:2609.02057) |
 
 #### Self-Improvement & Evaluation
 
@@ -64,6 +66,10 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`agent-working-memory-eval`](skills/agent-working-memory-eval/SKILL.md) | Measure Before You Manage (arXiv:2608.31057) |
 | [`reference-trajectory-harness-evolution`](skills/reference-trajectory-harness-evolution/SKILL.md) | HarnessEvolve (arXiv:2609.00829) |
 | [`trajectory-aware-eval-pruning`](skills/trajectory-aware-eval-pruning/SKILL.md) | PTA-IRT Benchmarking (arXiv:2609.01603) |
+| [`error-structured-prompt-optimization`](skills/error-structured-prompt-optimization/SKILL.md) | ESPO (arXiv:2609.04197) |
+| [`counterexample-guided-repair`](skills/counterexample-guided-repair/SKILL.md) | A-CEGIS (arXiv:2609.02892) |
+| [`neural-invariant-failure-diagnosis`](skills/neural-invariant-failure-diagnosis/SKILL.md) | AgentScope (arXiv:2609.02371) |
+| [`belief-calibrated-scaffold-optimization`](skills/belief-calibrated-scaffold-optimization/SKILL.md) | BCO (arXiv:2609.01861) |
 
 #### Skill Evolution & Knowledge
 
@@ -79,6 +85,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`prefix-preserving-context-assembly`](skills/prefix-preserving-context-assembly/SKILL.md) | ContextPipe (arXiv:2609.00749) |
 | [`persistent-agent-migration`](skills/persistent-agent-migration/SKILL.md) | Enoch Persistent Agents (arXiv:2609.00546) |
 | [`requirements-driven-code-generation`](skills/requirements-driven-code-generation/SKILL.md) | WiseSpec (arXiv:2609.00568) |
+| [`procedural-family-skill-consolidation`](skills/procedural-family-skill-consolidation/SKILL.md) | SkillGLoW (arXiv:2609.02217) |
+| [`speculative-macro-commit`](skills/speculative-macro-commit/SKILL.md) | Speculative Macro Commit (arXiv:2609.03236) |
 
 #### Retrieval & Evidence
 
@@ -150,6 +158,23 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`joint-harness-weight-optimization`](research-briefs/joint-harness-weight-optimization.md) | Alternating harness search and weight updates (WHALE) |
 | [`workload-aware-column-imprint-joins`](research-briefs/workload-aware-column-imprint-joins.md) | Real-time edge query processing with workload-aware column imprints |
 | [`attention-sensitivity-dissociation`](research-briefs/attention-sensitivity-dissociation.md) | Dissociating attention proxies from behavioral in-context learning |
+| [`hookpry-lifecycle-hook-vulnerabilities`](research-briefs/hookpry-lifecycle-hook-vulnerabilities.md) | Exploiting and sandboxing agent lifecycle hook update vectors |
+| [`repo-to-skill-distillation`](research-briefs/repo-to-skill-distillation.md) | Distilling GitHub repos into operational skills for autonomous agents |
+| [`rubric-artifact-bias-in-llm-judges`](research-briefs/rubric-artifact-bias-in-llm-judges.md) | Demonstrating rubric-only prediction and counterfactual judge failures |
+| [`door-in-the-face-model-refusals`](research-briefs/door-in-the-face-model-refusals.md) | Sequential request retreat effects across model provider families |
+| [`reliable-enterprise-agent-deployment`](research-briefs/reliable-enterprise-agent-deployment.md) | Scale AI framework for enterprise agent reliability and guardrails |
+| [`flowbalance-verifier-grounded-self-improvement`](research-briefs/flowbalance-verifier-grounded-self-improvement.md) | Verifier-grounded trajectory balance preventing mode collapse |
+| [`potential-guided-policy-optimization`](research-briefs/potential-guided-policy-optimization.md) | Anchor-state potential differences for multi-turn agent credit |
+| [`conflict-driven-model-merging`](research-briefs/conflict-driven-model-merging.md) | Resolving parameter conflicts via preference optimization on merge defects |
+| [`evaluability-aware-assistance`](research-briefs/evaluability-aware-assistance.md) | Balancing proposal acceptance against latent preference learning |
+| [`apex-procedural-experience-distillation`](research-briefs/apex-procedural-experience-distillation.md) | Hierarchical experience and test-time RL for deep research agents |
+| [`post-training-ternarization-qwen3`](research-briefs/post-training-ternarization-qwen3.md) | Capability retention and kernel overheads of 1.58-bit model conversion |
+| [`growpage-dynamic-kv-budgeting`](research-briefs/growpage-dynamic-kv-budgeting.md) | On-demand dynamic page budgeting for long-output reasoning serving |
+| [`paper-code-discrepancy-detection`](research-briefs/paper-code-discrepancy-detection.md) | Dual-detection multi-agent verification for paper-code discrepancies |
+| [`hybrid-micro-level-agent-personalization`](research-briefs/hybrid-micro-level-agent-personalization.md) | Prompt conditioning on Bloom cognitive complexity and learner profiles |
+| [`civilization-framework-sovereign-agent-communication`](research-briefs/civilization-framework-sovereign-agent-communication.md) | Sovereign-anchored asynchronous store-and-forward agent collaboration |
+| [`reflect-sql-multi-stage-reflection`](research-briefs/reflect-sql-multi-stage-reflection.md) | Multi-stage decoupled reflection loops for enterprise text-to-SQL |
+
 
 ---
 
