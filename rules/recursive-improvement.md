@@ -296,6 +296,44 @@ and ensures updates generalize across held-out benchmark tasks.
 
 > Source: HarnessEvolve (arXiv:2609.00829)
 
+### DO: Cluster full-split failure patterns and use bootstrap stability selection to prevent prompt bloat
+
+Evolutionary prompt optimizers reflecting on small random error batches accumulate redundant caveats, inflating prompt length by up to $3\times$ without improving accuracy. Decomposing optimization into full-error clustering (3–7 structural patterns), multi-strategy candidate proposals (diagnostic revision, consolidation, ablation, factual injection), and bootstrap stability selection ($B=20$ resamples) achieves **+3.76 pp higher accuracy** while producing prompts **47% shorter** (1,004 vs 1,878 chars).
+
+**Evidence**: Adding proposal diversity *without* bootstrap stability selection decreases performance by **-1.20%** due to noisy winner selection on small validation sets. Both structural diagnosis and stability selection must be paired.
+
+> Source: ESPO: Error-Structured Prompt Optimization (arXiv:2609.04197)
+
+### DO: Guide iterative repair with minimal counterexample witnesses and targeted boundary probing
+
+Generic self-correction ("reflect on your mistake and try again") solves only 26.7% of code and formal artifact synthesis tasks, and error-only feedback reaches only 23.3%. Presenting compact false-positive and false-negative witness instances evaluated by a deterministic oracle lifts task resolution to **90.0% within 4 turns** (mean 2.7 turns to success).
+
+**Evidence**: Passing finite held-out test suites does not prove semantic equivalence. Always apply post-repair targeted robustness probes (synthesizing boundary mutations from positive and negative seeds): 23.3% of solutions passing finite test suites fail targeted robustness checks.
+
+> Source: A-CEGIS: Counterexamples as Feedback for Agent Self-Correction (arXiv:2609.02892)
+
+### DON'T: Rely on unperturbed rubric evaluators without counterfactual verification
+
+Classifiers trained solely on rubric text without access to candidate responses achieve non-trivial accuracy in predicting LLM-as-a-judge scores, proving that rubrics convey latent evaluative priors independent of candidate quality. Furthermore, LLM judges systematically fail to invert decisions when candidate responses or rubric criteria are counterfactually negated.
+
+**Evidence**: Evaluators used in recursive improvement loops must be audited with counterfactual perturbation tests (reversing criteria and candidate assertions) to confirm that judge scores reflect candidate reasoning rather than rubric lexical bias.
+
+> Source: Judging LLM-as-a-Judge: Concerning Rubric Artifacts in LLM-based Automated Text Generation Evaluation (arXiv:2609.02942)
+
+### DO: Abstract long trajectories into structured state graphs and verify neural invariants
+
+Unstructured LLM reflection on long agent trajectories misattributes root causes due to recency bias, hallucinated causality, and symptom-blaming. Projecting raw logs into structured behavioral state transitions $(s_t, a_t, o_t)$ and checking formal neural invariants (precondition satisfaction, monotonic progress, loop non-oscillation, observation grounding) reliably isolates the first decisive uncorrected error step.
+
+> Source: Diagnosing with Insights: Structured Analysis of Agent Failures via Behavioral Abstractions (arXiv:2609.02371)
+
+### DO: Maintain explicit, persistent world models of causal hypotheses during scaffold optimization
+
+When using coding agents to iteratively optimize agent scaffolds, prompts, or tools, implicit beliefs in transient reasoning lead to hypothesis amnesia and repeated exploration of refuted strategies. Maintain an explicit, persistent world-model scratchpad logging active hypotheses, predicted outcomes, and falsification criteria before executing benchmarks.
+
+**Evidence**: Calibrating explicit causal beliefs against rollout outcomes prevents revisiting refuted mechanisms and accelerates scaffold optimization across consecutive rounds.
+
+> Source: Belief-Calibrated Optimization: An Explicit World Model for Agentic Optimization (arXiv:2609.01861)
+
 ---
 
 ## Related Skills
@@ -309,6 +347,10 @@ For implementation details on the procedures behind these rules:
 - [`behavior-aware-verification`](skills/behavior-aware-verification/SKILL.md) — HarnessLens targeted verification
 - [`reference-trajectory-harness-evolution`](skills/reference-trajectory-harness-evolution/SKILL.md) — Trace-aligned harness evolution
 - [`requirements-driven-code-generation`](skills/requirements-driven-code-generation/SKILL.md) — Pre-implementation specification quality assessment
+- [`error-structured-prompt-optimization`](skills/error-structured-prompt-optimization/SKILL.md) — Diagnose-Propose-Select prompt optimization without bloat
+- [`counterexample-guided-repair`](skills/counterexample-guided-repair/SKILL.md) — Multi-turn artifact repair with oracle witnesses
+- [`neural-invariant-failure-diagnosis`](skills/neural-invariant-failure-diagnosis/SKILL.md) — Behavioral state abstraction and invariant checking
+- [`belief-calibrated-scaffold-optimization`](skills/belief-calibrated-scaffold-optimization/SKILL.md) — Persistent causal world model for scaffold optimization
 
 ## Sources
 
@@ -321,3 +363,8 @@ For implementation details on the procedures behind these rules:
 - WHALE: arXiv:2609.00196
 - HarnessEvolve: arXiv:2609.00829
 - Recursive Criticality: arXiv:2609.00137
+- ESPO: arXiv:2609.04197
+- A-CEGIS: arXiv:2609.02892
+- Rubric Artifacts in LLM Judges: arXiv:2609.02942
+- AgentScope: arXiv:2609.02371
+- Belief-Calibrated Optimization: arXiv:2609.01861

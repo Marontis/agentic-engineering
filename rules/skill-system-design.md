@@ -274,6 +274,32 @@ lineage across transitions.
 
 ---
 
+## Procedural Skill Organization & Life Cycle
+
+### DO: Consolidate skills into procedural families with frozen global priors and locally regenerated instance details
+
+On heterogeneous long-horizon tasks, single-document prompts collapse into generic platitudes, while flat per-task skill pools inflate and suffer from instance coupling. Organize skills into **procedural families**: clusters of tasks sharing an underlying solving procedure.
+
+**Evidence**: Splitting skills into a frozen de-instantiated global prior and an ephemeral locally regenerated instance layer maintains a library **$3.6\times$ more compact** than flat pools, yields **+17.2 points** across diverse benchmarks, and improves unseen task resolution by +10.0%. Enforce execution-gated commit boundaries before admitting candidate prior updates.
+
+> Source: SkillGLoW: Procedural-Family Skill Consolidation (arXiv:2609.02217)
+
+### DO: Distill operational know-how rather than high-level method descriptions
+
+Knowing a theoretical method does not make it work in execution. Distilling open-source repositories into compact, verified operational skills (environment setup, dependency quirks, error recovery, parameter heuristics) provides the missing operational context for autonomous agents.
+
+**Evidence**: Equipping an agent with verified operational skills distilled across repositories boosts end-to-end autonomous research benchmarks by **+134.3% on MLE-bench**, **+34.4% on PaperBench**, and **+14.0% on PassNet** under identical model and downstream execution budgets.
+
+> Source: Repo-To-Skill: Distilling GitHub Repositories Into AI4AI Skills (arXiv:2609.02749)
+
+### DO: Speculate multi-step action skeletons in isolated sandboxes to reduce sequential turn latency
+
+Sequential tool agent turns spend up to 61% of wall-clock time waiting on tool execution and serial observation parsing. Drafting recurring multi-step action macros on isolated environment snapshots and committing cached steps upon actor prefix verification cuts wall time by **up to 44.9%** with zero accuracy penalty.
+
+> Source: Speculative Macro Commit for Faster Tool-Using Agents (arXiv:2609.03236)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -287,6 +313,8 @@ For implementation details on the procedures behind these rules:
 - [`prefix-preserving-context-assembly`](skills/prefix-preserving-context-assembly/SKILL.md) — Database-style context assembly
 - [`persistent-agent-migration`](skills/persistent-agent-migration/SKILL.md) — Runtime-independent agent migration
 - [`trajectory-aware-eval-pruning`](skills/trajectory-aware-eval-pruning/SKILL.md) — Trajectory-aware benchmark item selection
+- [`procedural-family-skill-consolidation`](skills/procedural-family-skill-consolidation/SKILL.md) — Hierarchical global/local skill consolidation
+- [`speculative-macro-commit`](skills/speculative-macro-commit/SKILL.md) — Pre-executing multi-step tool action skeletons
 
 ## Sources
 
@@ -301,3 +329,6 @@ For implementation details on the procedures behind these rules:
 - ContextPipe: arXiv:2609.00749
 - Runtime-Independent Persistent Agents: arXiv:2609.00546
 - Efficient SWE Agent Benchmarking: arXiv:2609.01603
+- SkillGLoW: arXiv:2609.02217
+- Repo-To-Skill: arXiv:2609.02749
+- Speculative Macro Commit: arXiv:2609.03236
