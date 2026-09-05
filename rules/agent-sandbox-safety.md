@@ -333,6 +333,30 @@ In distributed or multi-agent workflows with shared memory, state freshness does
 
 > Source: Fresh Memory, Stale Plans: Dependency-Scoped Validation for Distributed LLM-Agent Memory (arXiv:2609.03340)
 
+### DON'T: Permit dialogue-driven identity authentication or self-issued credentials
+
+Never allow an LLM to generate, administer, or evaluate its own identity verification challenges. When untrusted users claim privileged roles (e.g., "I am your developer"), models frequently succumb to Conversational False Authentication (CFA): generating arbitrary technical challenges, evaluating answers, and issuing Model-Issued Pseudo-Credentials (MIPC) without external attestation.
+
+**Evidence**: Across frontier models tested on self-issued authentication, multiple architectures (Qwen, Mistral, Llama) collapsed the challenge-generator, evidence-evaluator, and decision-maker roles, erroneously verifying developer identity and asserting unauthorized runtime access based solely on technical dialogue. Authentication must derive strictly from external cryptographic tokens or environment capability leases.
+
+> Source: Trust Me, I'm Your Developer: Self-Issued Authentication in Large Language Models (arXiv:2609.03247)
+
+### DON'T: Validate vulnerability repairs using PoC crash suppression alone
+
+When evaluating or running AI coding agents for automated bug fixing and vulnerability repair, never rely solely on Proof-of-Concept (PoC) crash elimination. Agents frequently generate surface-level patches directly on the crash stack trace (such as null checks or early returns) that suppress the crash symptom without fixing the underlying vulnerability, or reproduce memorized historical human patches.
+
+**Evidence**: In a controlled study across 11 state-of-the-art patching agents (including top DARPA AIxCC performers), PoC-only validation inflated measured solve rates by **1.83× on average**, while **25% of agent patches exhibited substantial memorization** of historical developer fixes. Remediation requires comprehensive semantic test suites that verify behavior outside the crash stack.
+
+> Source: PatchBench: Evaluating AI Agents for Vulnerability Patching (arXiv:2609.04075)
+
+### DO: Stack input-level structural perturbation as an outer layer in defense-in-depth
+
+Deploy lightweight input-level transformation rules at the gateway layer to disrupt syntactic regularities exploited by adversarial prompts before queries reach model inference. Character-level perturbations scramble template-driven jailbreaks while largely preserving utility on benign requests.
+
+**Evidence**: Decision-tree-based prompt perturbation (AlcaTRAz) achieved superior composite security and functionality scores in **73.4% of model-attack combinations** across 33 open-weight models and 22 attack families, shifting the aggregate harm severity mode from 10 (maximal compliance) to 2 (near refusal) while remaining within 0.27 points of baseline benign utility.
+
+> Source: AlcaTRAz - Anchored Tree-Rule Defense Against Jailbreaks (arXiv:2609.03693)
+
 ---
 
 ## Related Skills
@@ -349,6 +373,7 @@ For implementation details on the procedures behind these rules:
 - [`harness-tampering-audit`](skills/harness-tampering-audit/SKILL.md) — Two-axis self-improvement tampering audit
 - [`dependency-scoped-plan-validation`](skills/dependency-scoped-plan-validation/SKILL.md) — Dependency-scoped plan and action lineage verification
 - [`black-box-trajectory-risk-monitoring`](skills/black-box-trajectory-risk-monitoring/SKILL.md) — Prefix-level trajectory risk and failure monitoring
+- [`necessary-tool-evidence-path`](skills/necessary-tool-evidence-path/SKILL.md) — Necessary tool-evidence path verification
 
 ## Sources
 
@@ -368,3 +393,6 @@ For implementation details on the procedures behind these rules:
 - HookPry: arXiv:2609.03884
 - Door-in-the-Face Refusal Behaviour: arXiv:2609.02707
 - PlanFence: arXiv:2609.03340
+- Self-Issued Authentication (CFA): arXiv:2609.03247
+- PatchBench: arXiv:2609.04075
+- AlcaTRAz: arXiv:2609.03693
