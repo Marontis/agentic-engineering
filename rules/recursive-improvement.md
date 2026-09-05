@@ -334,6 +334,22 @@ When using coding agents to iteratively optimize agent scaffolds, prompts, or to
 
 > Source: Belief-Calibrated Optimization: An Explicit World Model for Agentic Optimization (arXiv:2609.01861)
 
+### DO: Establish Ostrom-style commons governance and peer auditing over shared swarm memory
+
+When autonomous agents collaborate via shared knowledge repositories, evaluation harnesses, or tool registries, exploits discovered by a single agent spread contagiously across the collective. Implement common-pool resource governance: transparent communication channels for mutual monitoring, independent peer auditing of claimed solutions, and graduated sanctioning (quarantine, library rollback, capability restriction) to prevent systemic memory poisoning.
+
+**Evidence**: In a 100-agent autonomous research collective, a single evaluation loophole propagated rapidly across peer agents via shared libraries under competitive pressure. Transparent communication channels enabled non-cheating agents to spontaneously detect fraud, organize boycotts, and issue validation patches, functionally demonstrating Elinor Ostrom's decentralized commons governance principles.
+
+> Source: A Case Study on Emergent Cheating and Whistleblowing in Autonomous Research Swarms (arXiv:2609.04170)
+
+### DO: Dynamically calibrate consensus entropy and weight peer influence by evidence grounding in multi-agent debate
+
+In multi-agent debate and consensus refinement loops, never rely on unweighted majority voting. When an initial cohort shares a biased concept prior, unweighted debate amplifies rather than corrects the error (shared misconception). Compute consensus entropy and dynamically inject verified historical counter-evidence when premature convergence or deadlock is detected, weighting each agent's vote by factual evidence grounding.
+
+**Evidence**: The R^2-MAD framework demonstrates that state-aware retrieval of historical debate experiences combined with confidence-weighted peer influence prevents majority skew and consistently improves reasoning accuracy over standard multi-agent debate baselines.
+
+> Source: Remember and Reweight: Enhancing Multi-Agent Debate with Experience Memory and Confidence Estimation (arXiv:2609.03619)
+
 ---
 
 ## Related Skills
@@ -351,6 +367,7 @@ For implementation details on the procedures behind these rules:
 - [`counterexample-guided-repair`](skills/counterexample-guided-repair/SKILL.md) — Multi-turn artifact repair with oracle witnesses
 - [`neural-invariant-failure-diagnosis`](skills/neural-invariant-failure-diagnosis/SKILL.md) — Behavioral state abstraction and invariant checking
 - [`belief-calibrated-scaffold-optimization`](skills/belief-calibrated-scaffold-optimization/SKILL.md) — Persistent causal world model for scaffold optimization
+- [`debate-consensus-memory-calibration`](skills/debate-consensus-memory-calibration/SKILL.md) — Memory calibration and confidence reweighting for multi-agent debate
 
 ## Sources
 
@@ -368,3 +385,5 @@ For implementation details on the procedures behind these rules:
 - Rubric Artifacts in LLM Judges: arXiv:2609.02942
 - AgentScope: arXiv:2609.02371
 - Belief-Calibrated Optimization: arXiv:2609.01861
+- Emergent Cheating & Whistleblowing in Swarms: arXiv:2609.04170
+- R^2-MAD: arXiv:2609.03619

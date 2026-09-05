@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 105 arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 112 arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -30,9 +30,9 @@ Concise, evidence-backed guardrails. Load these so your agent applies them autom
 
 | Rules File | Domain |
 |:-----------|:-------|
-| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring, hook security, multi-turn refusal variance, dependency-scoped plan lineage |
+| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring, hook security, multi-turn refusal variance, dependency-scoped plan lineage, dialogue authentication decoupling, semantic patch validation, input tree perturbation |
 | [`skill-system-design`](rules/skill-system-design.md) | Skill authoring, selection, library management, skill evolution, training data quality, evidence triage, library integrity, hallucination detection, prefix-preserving context assembly, persistent agent architecture, procedural families, operational know-how distillation, speculative macro commit |
-| [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification, multi-day autonomous loops, joint harness-weight optimization, reference trajectory evolution, error-structured prompt optimization (ESPO), counterexample-guided repair, rubric artifact bias, neural invariant diagnosis, belief-calibrated scaffold optimization |
+| [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification, multi-day autonomous loops, joint harness-weight optimization, reference trajectory evolution, error-structured prompt optimization (ESPO), counterexample-guided repair, rubric artifact bias, neural invariant diagnosis, belief-calibrated scaffold optimization, swarm commons governance, debate consensus calibration |
 
 ### Skills (On-Demand)
 
@@ -70,6 +70,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`counterexample-guided-repair`](skills/counterexample-guided-repair/SKILL.md) | A-CEGIS (arXiv:2609.02892) |
 | [`neural-invariant-failure-diagnosis`](skills/neural-invariant-failure-diagnosis/SKILL.md) | AgentScope (arXiv:2609.02371) |
 | [`belief-calibrated-scaffold-optimization`](skills/belief-calibrated-scaffold-optimization/SKILL.md) | BCO (arXiv:2609.01861) |
+| [`debate-consensus-memory-calibration`](skills/debate-consensus-memory-calibration/SKILL.md) | R^2-MAD (arXiv:2609.03619) |
 
 #### Skill Evolution & Knowledge
 
@@ -96,6 +97,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`hallucination-mean-shift-probe`](skills/hallucination-mean-shift-probe/SKILL.md) | Hallucination Mean Shift (arXiv:2608.28930) |
 | [`rag-hallucination-repair`](skills/rag-hallucination-repair/SKILL.md) | RAG Hallucination Repair (arXiv:2608.29307) |
 | [`cost-effective-repo-exploration`](skills/cost-effective-repo-exploration/SKILL.md) | Cost-Effective Repo Exploration (arXiv:2608.29675) |
+| [`necessary-tool-evidence-path`](skills/necessary-tool-evidence-path/SKILL.md) | NTEP (arXiv:2609.03493) |
 
 ### Spec Templates (Project Kickoff)
 
@@ -174,7 +176,11 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`hybrid-micro-level-agent-personalization`](research-briefs/hybrid-micro-level-agent-personalization.md) | Prompt conditioning on Bloom cognitive complexity and learner profiles |
 | [`civilization-framework-sovereign-agent-communication`](research-briefs/civilization-framework-sovereign-agent-communication.md) | Sovereign-anchored asynchronous store-and-forward agent collaboration |
 | [`reflect-sql-multi-stage-reflection`](research-briefs/reflect-sql-multi-stage-reflection.md) | Multi-stage decoupled reflection loops for enterprise text-to-SQL |
-
+| [`patchbench-vulnerability-patching-evaluation`](research-briefs/patchbench-vulnerability-patching-evaluation.md) | Diagnostic benchmark revealing 1.83× inflation in PoC-only vulnerability repair evals |
+| [`swarm-emergent-cheating-and-whistleblowing`](research-briefs/swarm-emergent-cheating-and-whistleblowing.md) | Ostrom commons governance and spontaneous whistleblowing in 100-agent research swarms |
+| [`conversational-false-authentication`](research-briefs/conversational-false-authentication.md) | Identifying model-issued pseudo-credentials (MIPC) and conversational false authentication |
+| [`alcatraz-anchored-tree-rule-defense`](research-briefs/alcatraz-anchored-tree-rule-defense.md) | Rule-tree input perturbation achieving superior security across 33 open-weight models |
+| [`environment-evolution-terminal-agents`](research-briefs/environment-evolution-terminal-agents.md) | Off-policy difficulty scaling along three axes yielding +14.4 to +18.0 pts on Terminal-Bench 2.1 |
 
 ---
 
