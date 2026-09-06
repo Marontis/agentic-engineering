@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 112 arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 120 arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -30,8 +30,8 @@ Concise, evidence-backed guardrails. Load these so your agent applies them autom
 
 | Rules File | Domain |
 |:-----------|:-------|
-| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring, hook security, multi-turn refusal variance, dependency-scoped plan lineage, dialogue authentication decoupling, semantic patch validation, input tree perturbation |
-| [`skill-system-design`](rules/skill-system-design.md) | Skill authoring, selection, library management, skill evolution, training data quality, evidence triage, library integrity, hallucination detection, prefix-preserving context assembly, persistent agent architecture, procedural families, operational know-how distillation, speculative macro commit |
+| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring, hook security, multi-turn refusal variance, dependency-scoped plan lineage, dialogue authentication decoupling, semantic patch validation, input tree perturbation, constructive agent host obligations, guard-agent topologies, deterministic safety constraint gates |
+| [`skill-system-design`](rules/skill-system-design.md) | Skill authoring, selection, library management, skill evolution, training data quality, evidence triage, library integrity, hallucination detection, prefix-preserving context assembly, persistent agent architecture, procedural families, operational know-how distillation, speculative macro commit, code embedding functional retrieval gap, standardized semantic envelopes |
 | [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification, multi-day autonomous loops, joint harness-weight optimization, reference trajectory evolution, error-structured prompt optimization (ESPO), counterexample-guided repair, rubric artifact bias, neural invariant diagnosis, belief-calibrated scaffold optimization, swarm commons governance, debate consensus calibration |
 
 ### Skills (On-Demand)
@@ -54,6 +54,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`harness-tampering-audit`](skills/harness-tampering-audit/SKILL.md) | Auditing Harness Tampering (arXiv:2609.00069) |
 | [`dependency-scoped-plan-validation`](skills/dependency-scoped-plan-validation/SKILL.md) | PlanFence (arXiv:2609.03340) |
 | [`black-box-trajectory-risk-monitoring`](skills/black-box-trajectory-risk-monitoring/SKILL.md) | Web Agent Key-Step Monitoring (arXiv:2609.02057) |
+| [`nlip-agent-message-envelope`](skills/nlip-agent-message-envelope/SKILL.md) | NLIP Agent Protocol Standard (arXiv:2609.04135) |
 
 #### Self-Improvement & Evaluation
 
@@ -181,6 +182,13 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`conversational-false-authentication`](research-briefs/conversational-false-authentication.md) | Identifying model-issued pseudo-credentials (MIPC) and conversational false authentication |
 | [`alcatraz-anchored-tree-rule-defense`](research-briefs/alcatraz-anchored-tree-rule-defense.md) | Rule-tree input perturbation achieving superior security across 33 open-weight models |
 | [`environment-evolution-terminal-agents`](research-briefs/environment-evolution-terminal-agents.md) | Off-policy difficulty scaling along three axes yielding +14.4 to +18.0 pts on Terminal-Bench 2.1 |
+| [`dalek-constructive-agent-machine`](research-briefs/dalek-constructive-agent-machine.md) | Von Neumann constructive machine architecture and host contracts for self-evolving agents |
+| [`value-preserving-agentic-architectures`](research-briefs/value-preserving-agentic-architectures.md) | Architectural topologies and dedicated guard-agent patterns for value-preserving MAS |
+| [`safety-constrained-evaluation-protocol`](research-briefs/safety-constrained-evaluation-protocol.md) | FLY-EVAL++ protocol revealing 28-point safety divergence under identical prediction accuracy |
+| [`multilingual-persuasive-jailbreak-evaluation`](research-briefs/multilingual-persuasive-jailbreak-evaluation.md) | IndicSafeEval benchmark examining multilingual transfer and persuasive framing vulnerabilities |
+| [`creative-ai-model-governance`](research-briefs/creative-ai-model-governance.md) | Closing the governance gap between data storage, circulation, and federated learning |
+| [`execretrieval-code-embedding-functional-gap`](research-briefs/execretrieval-code-embedding-functional-gap.md) | Diagnostic benchmark revealing dense code retrievers prefer near-clone buggy code 91.5–99.4% of the time |
+| [`collective-preference-inference-evaluation`](research-briefs/collective-preference-inference-evaluation.md) | Collective-centric evaluation of preference inference preserving consensus and minority voice |
 
 ---
 
