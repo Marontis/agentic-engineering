@@ -298,6 +298,22 @@ Sequential tool agent turns spend up to 61% of wall-clock time waiting on tool e
 
 > Source: Speculative Macro Commit for Faster Tool-Using Agents (arXiv:2609.03236)
 
+### DON'T: Rely on dense semantic embeddings alone for retrieving code or executable skills without execution verification
+
+Dense vector embeddings (e.g., text-embedding-3, Cohere embed-v3, Voyage, BGE) measure semantic and topical similarity, not functional correctness. When near-clone counterfactual variants (such as buggy code containing single-line mutations) exist in the search pool, dense retrievers suffer catastrophic rank-1 functional failure. Always gate retrieved code snippets through an execution oracle, differential test suite, or counterexample repair loop before executing or adopting them into memory.
+
+**Evidence**: Across 23 dense embedding configurations and 939 tasks in ExecRetrieval, top-10 retrieval reached 100% (`exec@10 = 1.00`), but top-1 retrieval plunged to `exec@1 = 0.331`. When rank-1 misses occurred, **91.5% to 99.4% were paired buggy distractors**, and canonical correct implementations scored below buggy distractors in **67% to 78% of queries**.
+
+> Source: ExecRetrieval: Measuring the Functional-Correctness Gap in Code-Embedding Retrieval (arXiv:2609.01865)
+
+### DO: Encapsulate inter-agent tool calls and skill invocations in standardized semantic envelopes
+
+Avoid defining bespoke, ad-hoc JSON payloads for inter-agent communication and tool execution across heterogeneous runtimes. Use a standardized application-layer semantic envelope (such as the NLIP standard) that decouples semantic intent, conversation threading, and context referencing from the underlying transport protocol (HTTP, WebSocket, AMQP).
+
+**Evidence**: Standardized semantic envelopes provide uniform auditability, context URI referencing, and least-privilege capability claims, bridging tool protocols (like MCP) and agent orchestration frameworks (like A2A) across enterprise boundaries without tight transport coupling.
+
+> Source: The Natural Language Interaction Protocol and Standard for AI Agents (arXiv:2609.04135)
+
 ---
 
 ## Related Skills
@@ -315,6 +331,8 @@ For implementation details on the procedures behind these rules:
 - [`trajectory-aware-eval-pruning`](skills/trajectory-aware-eval-pruning/SKILL.md) — Trajectory-aware benchmark item selection
 - [`procedural-family-skill-consolidation`](skills/procedural-family-skill-consolidation/SKILL.md) — Hierarchical global/local skill consolidation
 - [`speculative-macro-commit`](skills/speculative-macro-commit/SKILL.md) — Pre-executing multi-step tool action skeletons
+- [`counterexample-guided-repair`](skills/counterexample-guided-repair/SKILL.md) — Multi-turn artifact refinement using counterexample witnesses
+- [`nlip-agent-message-envelope`](skills/nlip-agent-message-envelope/SKILL.md) — Standardized semantic message envelopes and gateway bridging
 
 ## Sources
 
@@ -332,3 +350,6 @@ For implementation details on the procedures behind these rules:
 - SkillGLoW: arXiv:2609.02217
 - Repo-To-Skill: arXiv:2609.02749
 - Speculative Macro Commit: arXiv:2609.03236
+- ExecRetrieval: arXiv:2609.01865
+- Natural Language Interaction Protocol (NLIP): arXiv:2609.04135
+
