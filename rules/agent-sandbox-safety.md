@@ -357,6 +357,32 @@ Deploy lightweight input-level transformation rules at the gateway layer to disr
 
 > Source: AlcaTRAz - Anchored Tree-Rule Defense Against Jailbreaks (arXiv:2609.03693)
 
+### DO: Enforce the four structural host obligations for constructive self-modifying agents
+
+When designing runtimes for self-evolving, self-reproducing, or recursively modifying agents, ensure the host substrate enforces four inviolable structural obligations:
+1. **Host Boundary**: Strict containerized perimeter preventing unmediated access to host OS internals.
+2. **Construction Language**: A formalized capability language and compiler pipeline for newly synthesized tools or organs.
+3. **Admissible Transitions**: A deterministic state machine defining permissible lifecycle transitions, forbidding undefined intermediate states.
+4. **Rule Heredity**: Descendant agents and mutated iterations must unconditionally inherit foundational safety rules and supervisory contracts; an agent cannot evolve away its own supervisory gates.
+
+> Source: Dalek: A Constructive Agent Machine (arXiv:2609.03546)
+
+### DO: Decouple safety and fairness monitoring into dedicated guard-agent topologies
+
+Do not rely solely on worker agents to self-police safety, privacy, or fairness constraints during execution. Worker agents suffer from context saturation, goal fixation, and prompt injection vulnerability. Introduce dedicated, out-of-band **Guard Agents** in a supervisory topology to inspect intermediate messages, tool invocations, and proposed actions before changes are committed.
+
+**Evidence**: Dedicated architectural separation preserves core human-centered values (privacy, pluralism, fairness) across heterogeneous multi-agent systems where uniform internal alignment across all workers is impossible to guarantee.
+
+> Source: Value-Preserving Architectures for Agentic AI Systems (arXiv:2609.03920)
+
+### DON'T: Evaluate safety-critical agent predictions by numeric accuracy alone
+
+In physics-governed, operational, or safety-critical domains, accuracy and loss metrics (MAE, MSE, cosine similarity) present a dangerous blind spot: predictions numerically close to ground truth frequently violate hard operational limits, physical feasibility constraints, or structured syntax contracts. Gate candidate actions behind deterministic verification of protocol compliance and invariant safety boundaries before scoring accuracy.
+
+**Evidence**: Across 66 evaluated models on flight trajectory prediction, safety compliance was the single most discriminative dimension: models with comparable predictive accuracy differed by more than **28 points in safety compliance score**, exhibiting fatal boundary violations while producing superficially plausible predictions.
+
+> Source: FLY-EVAL++: An Evidence-Driven Evaluation Protocol for Safety-Constrained Flight Prediction (arXiv:2609.04021)
+
 ---
 
 ## Related Skills
@@ -374,6 +400,7 @@ For implementation details on the procedures behind these rules:
 - [`dependency-scoped-plan-validation`](skills/dependency-scoped-plan-validation/SKILL.md) — Dependency-scoped plan and action lineage verification
 - [`black-box-trajectory-risk-monitoring`](skills/black-box-trajectory-risk-monitoring/SKILL.md) — Prefix-level trajectory risk and failure monitoring
 - [`necessary-tool-evidence-path`](skills/necessary-tool-evidence-path/SKILL.md) — Necessary tool-evidence path verification
+- [`nlip-agent-message-envelope`](skills/nlip-agent-message-envelope/SKILL.md) — Semantic message envelope and gateway authorization
 
 ## Sources
 
@@ -396,3 +423,7 @@ For implementation details on the procedures behind these rules:
 - Self-Issued Authentication (CFA): arXiv:2609.03247
 - PatchBench: arXiv:2609.04075
 - AlcaTRAz: arXiv:2609.03693
+- Dalek: A Constructive Agent Machine: arXiv:2609.03546
+- Value-Preserving MAS Architectures: arXiv:2609.03920
+- FLY-EVAL++: arXiv:2609.04021
+
