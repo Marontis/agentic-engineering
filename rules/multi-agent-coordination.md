@@ -201,6 +201,44 @@ only when explicitly required by the task.
 
 ---
 
+## Supervision Efficiency
+
+### DO: Use deterministic scripts for supervision polling, not LLM calls
+
+When supervising a fleet of agents, the supervision loop itself should
+be a deterministic process (script, daemon, cron) — not an LLM call.
+The supervisor script sleeps on the fleet, classifies events using
+cheap deterministic logic (file changes, process status, status log
+parsing), and wakes the LLM supervisor only when something genuinely
+requires judgment.
+
+This yields zero-token supervision: the cost of monitoring N agents
+between actionable events is zero LLM tokens, regardless of fleet
+size or monitoring frequency.
+
+**Implementation principles:**
+- **Status files are append-only event logs, not current-state fields.**
+  A single read of the latest line can bury earlier unresolved
+  decisions under subsequent appends. Maintain a separate current-state
+  reconciliation function that folds the full log.
+- **Classify wakes before invoking the LLM.** Distinguish benign
+  wakes (heartbeats, no-op status updates, routine completions) from
+  actionable wakes (failures, decisions needed, wedged processes).
+  Only actionable wakes consume LLM tokens.
+- **Use durable wake queues.** Write actionable events to a
+  persistent queue before invoking the LLM. If the supervisor crashes
+  or the session is killed, the next session reconciles from the queue
+  without losing events.
+- **Detect wedged workers with escalation ladders.** A worker that
+  hasn't produced output in N minutes gets a soft check; after 2N
+  minutes, a deeper inspection; after 3N, a demand for human
+  attention. Each escalation level is deterministic and scripted.
+
+> Source: FirstMate agent distro (github.com/kunchenguid/firstmate),
+> zero-token event-driven supervision architecture
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -224,3 +262,4 @@ For implementation details on the procedures behind these rules:
 - AgentScope: arXiv:2609.02371
 - Emergent Cheating in Swarms: arXiv:2609.04170
 - Value-Preserving MAS Architectures: arXiv:2609.03920
+- FirstMate agent distro: https://github.com/kunchenguid/firstmate

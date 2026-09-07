@@ -109,6 +109,28 @@ triggers:
 
 > Source: The AI-Native SDLC Playbook (Claude Academy)
 
+### DON'T: Treat agent output as implicit authorization
+
+A diagnosis, a report, or a recommendation authorizes nothing by
+itself. An agent that identifies a bug is not authorized to fix it.
+An agent that finds a security vulnerability is not authorized to
+patch it. An agent that recommends a merge is not authorized to merge
+it. Evidence and authorization are separate concerns — conflating
+them lets agents quietly widen their own scope by framing actions as
+"obvious next steps" from their own findings.
+
+This applies at every level:
+- **Diagnosis ≠ permission to remediate**: the agent must explicitly
+  request authorization before acting on its own findings
+- **Recommendation ≠ approval**: a proposal that passes all automated
+  checks still requires the explicit human gate before execution
+- **Standing autonomy never quietly widens**: an agent authorized to
+  fix lint errors is not authorized to refactor the surrounding code,
+  even if the refactor would "obviously" improve it
+
+> Source: FirstMate agent distro (github.com/kunchenguid/firstmate),
+> VISION.md: "Evidence is never authorization"
+
 ### DON'T: Let the human become the transport layer between agents
 
 When multiple agents need to collaborate, humans should not serve as
@@ -220,3 +242,4 @@ For implementation details on the procedures behind these rules:
 - Not the Same Protector: arXiv:2608.29136
 - Conversational False Authentication: arXiv:2609.03247
 - The AI-Native SDLC Playbook: https://academy.claude.com/courses/ai-native-sdlc-playbook
+- FirstMate agent distro: https://github.com/kunchenguid/firstmate
