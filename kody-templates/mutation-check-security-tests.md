@@ -43,3 +43,30 @@ func TestAuthzControl(t *testing.T) {
 }
 ```
 *(Passes: The developer has explicitly attested to mutation checking the test.)*
+
+## When mutation is not applicable
+
+Not every load-bearing property is expressible as a single-process source
+mutation. Two classes recur:
+
+- **Concurrency invariants** — e.g. "concurrent writers serialize; no update is
+  lost." The guarantee emerges from a lock serializing threads, not from any one
+  function body; the mutants a scoped run leaves alive are orchestration glue an
+  outcome assertion cannot see.
+- **Isolation invariants** — e.g. "the sandbox guest has no network interface"
+  or "each run restores pristine state." The property is an *absent* config line
+  or an emergent boundary; there is nothing in a function to mutate.
+
+For these, do **two** things — never just one:
+
+1. **Do not fake a mutation pass.** Labeling an unmutatable property "verified"
+   (via a `construction`/skip stamp) converts an unproven invariant into false
+   assurance — the exact failure this rule exists to stop.
+2. **Do not silently drop it either.** Discharge it on a *behavioral basis*: run
+   the bound test as a baseline (pass = discharged), record a written rationale
+   for why mutation does not apply, and **count it separately** from
+   mutation-verified claims. Same name, different *kind* of assurance — say which.
+
+> Origin: attorn-retrospective — concurrency and microVM-isolation claims that no
+> function-scope mutation could indict, discharged behaviorally and counted apart
+> rather than mislabeled as verified.
