@@ -385,56 +385,6 @@ In physics-governed, operational, or safety-critical domains, accuracy and loss 
 
 ---
 
-## Operational Governance
-
-### DO: Enforce environment-tiered autonomy for agent deployments
-
-Agent autonomy should inversely correlate with environment criticality.
-Development environments permit full autonomous operation with
-post-hoc review. Staging environments require pre-deployment approval.
-Production environments require human approval before AND monitoring
-after every deployment action.
-
-This is not a guideline — it should be enforced at the infrastructure
-level (CI/CD gates, deployment permissions, hook configurations) so
-that an agent cannot bypass the tier restrictions.
-
-> Source: The AI-Native SDLC Playbook (Claude Academy, Anthropic Applied AI)
-
-### DO: Define control bands with graduated response tiers
-
-Establish operational control bands (1σ, 2σ, 3σ) for key production
-metrics (error rate, latency, deployment health). Each band triggers
-a graduated response:
-
-| Band | Agent Authority | Human Involvement |
-|:-----|:----------------|:------------------|
-| **1σ** (normal variance) | Log only | None |
-| **2σ** (elevated) | Read-only diagnosis | Notified |
-| **3σ** (critical) | Propose action, no execute | Approves/rejects |
-
-Never allow an agent to autonomously remediate production issues at
-2σ or above without human approval. The agent's role at elevated
-bands is diagnosis and proposal, not execution.
-
-> Source: The AI-Native SDLC Playbook (Claude Academy, Anthropic Applied AI)
-
-### DO: Close the incident-to-intent feedback loop
-
-When a production incident breaches a control band, the resolution
-should generate a structured planning artifact (`intent.md` or
-equivalent) that enters the normal SDLC planning pipeline. This
-ensures that incident fixes go through the same planning → design →
-implement → review stages as feature work, preventing ad-hoc hotfixes
-that bypass quality gates.
-
-The agent can draft the planning artifact from incident context, but
-a human must review and merge it to authorize the fix.
-
-> Source: The AI-Native SDLC Playbook (Claude Academy, Anthropic Applied AI)
-
----
-
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -451,8 +401,6 @@ For implementation details on the procedures behind these rules:
 - [`black-box-trajectory-risk-monitoring`](skills/black-box-trajectory-risk-monitoring/SKILL.md) — Prefix-level trajectory risk and failure monitoring
 - [`necessary-tool-evidence-path`](skills/necessary-tool-evidence-path/SKILL.md) — Necessary tool-evidence path verification
 - [`nlip-agent-message-envelope`](skills/nlip-agent-message-envelope/SKILL.md) — Semantic message envelope and gateway authorization
-- [`intent-driven-sdlc-planning`](skills/intent-driven-sdlc-planning/SKILL.md) — Upstream intent → spec → plan pipeline
-- [`agentic-review-deploy-loop`](skills/agentic-review-deploy-loop/SKILL.md) — Layered review, hooks-as-gates, and control-band monitoring
 
 ## Sources
 
@@ -478,5 +426,4 @@ For implementation details on the procedures behind these rules:
 - Dalek: A Constructive Agent Machine: arXiv:2609.03546
 - Value-Preserving MAS Architectures: arXiv:2609.03920
 - FLY-EVAL++: arXiv:2609.04021
-- The AI-Native SDLC Playbook: https://academy.claude.com/courses/ai-native-sdlc-playbook
 
