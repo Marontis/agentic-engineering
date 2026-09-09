@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 120 arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 128+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -30,12 +30,9 @@ Concise, evidence-backed guardrails. Load these so your agent applies them autom
 
 | Rules File | Domain |
 |:-----------|:-------|
-| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring, hook security, multi-turn refusal variance, dependency-scoped plan lineage, dialogue authentication decoupling, semantic patch validation, input tree perturbation, constructive agent host obligations, guard-agent topologies, deterministic safety constraint gates, operational governance (environment-tiered autonomy, control-band monitoring, incident-to-intent feedback) |
+| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring, hook security, multi-turn refusal variance, dependency-scoped plan lineage, dialogue authentication decoupling, semantic patch validation, input tree perturbation, constructive agent host obligations, guard-agent topologies, deterministic safety constraint gates |
 | [`skill-system-design`](rules/skill-system-design.md) | Skill authoring, selection, library management, skill evolution, training data quality, evidence triage, library integrity, hallucination detection, prefix-preserving context assembly, persistent agent architecture, procedural families, operational know-how distillation, speculative macro commit, code embedding functional retrieval gap, standardized semantic envelopes |
 | [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification, multi-day autonomous loops, joint harness-weight optimization, reference trajectory evolution, error-structured prompt optimization (ESPO), counterexample-guided repair, rubric artifact bias, neural invariant diagnosis, belief-calibrated scaffold optimization, swarm commons governance, debate consensus calibration |
-| [`multi-agent-coordination`](rules/multi-agent-coordination.md) | Topology selection, joint topology-model optimization, natural-language inter-agent interfaces, standardized message envelopes, persistent ledger communication, consensus minority preservation, failure attribution scoping, behavioral state diagnosis, Ostrom commons governance, guard-agent topologies, privacy-partitioned architectures |
-| [`agent-evaluation-quality`](rules/agent-evaluation-quality.md) | LLM-as-judge checklist decomposition, rubric artifact bias, blind oversight monitoring, behavior-aware test selection, trajectory-based benchmark pruning, PoC suppression detection, harness tampering prevention, counterfactual evaluator testing, safety-accuracy decoupling, verification tier planning |
-| [`agent-human-interaction`](rules/agent-human-interaction.md) | Evaluability-optimized proposals, structured approval gates, progressive disclosure, cognitive load management, complexity-adaptive responses, explicit escalation triggers, auditable reasoning, layered review allocation, multi-turn safety variance, conversational authentication prevention |
 
 ### Skills (On-Demand)
 
@@ -58,7 +55,6 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`dependency-scoped-plan-validation`](skills/dependency-scoped-plan-validation/SKILL.md) | PlanFence (arXiv:2609.03340) |
 | [`black-box-trajectory-risk-monitoring`](skills/black-box-trajectory-risk-monitoring/SKILL.md) | Web Agent Key-Step Monitoring (arXiv:2609.02057) |
 | [`nlip-agent-message-envelope`](skills/nlip-agent-message-envelope/SKILL.md) | NLIP Agent Protocol Standard (arXiv:2609.04135) |
-| [`agentic-review-deploy-loop`](skills/agentic-review-deploy-loop/SKILL.md) | AI-Native SDLC Playbook (Claude Academy) |
 
 #### Self-Improvement & Evaluation
 
@@ -76,6 +72,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`neural-invariant-failure-diagnosis`](skills/neural-invariant-failure-diagnosis/SKILL.md) | AgentScope (arXiv:2609.02371) |
 | [`belief-calibrated-scaffold-optimization`](skills/belief-calibrated-scaffold-optimization/SKILL.md) | BCO (arXiv:2609.01861) |
 | [`debate-consensus-memory-calibration`](skills/debate-consensus-memory-calibration/SKILL.md) | R^2-MAD (arXiv:2609.03619) |
+| [`reward-hacking-immunization`](skills/reward-hacking-immunization/SKILL.md) | HackProbe (arXiv:2609.04665) |
 
 #### Skill Evolution & Knowledge
 
@@ -93,7 +90,6 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`requirements-driven-code-generation`](skills/requirements-driven-code-generation/SKILL.md) | WiseSpec (arXiv:2609.00568) |
 | [`procedural-family-skill-consolidation`](skills/procedural-family-skill-consolidation/SKILL.md) | SkillGLoW (arXiv:2609.02217) |
 | [`speculative-macro-commit`](skills/speculative-macro-commit/SKILL.md) | Speculative Macro Commit (arXiv:2609.03236) |
-| [`intent-driven-sdlc-planning`](skills/intent-driven-sdlc-planning/SKILL.md) | AI-Native SDLC Playbook (Claude Academy) |
 
 #### Retrieval & Evidence
 
@@ -194,6 +190,13 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`creative-ai-model-governance`](research-briefs/creative-ai-model-governance.md) | Closing the governance gap between data storage, circulation, and federated learning |
 | [`execretrieval-code-embedding-functional-gap`](research-briefs/execretrieval-code-embedding-functional-gap.md) | Diagnostic benchmark revealing dense code retrievers prefer near-clone buggy code 91.5–99.4% of the time |
 | [`collective-preference-inference-evaluation`](research-briefs/collective-preference-inference-evaluation.md) | Collective-centric evaluation of preference inference preserving consensus and minority voice |
+| [`when-llm-decompilers-recompile-more-and-prese`](research-briefs/when-llm-decompilers-recompile-more-and-prese.md) | Behavioral divergence in LLM decompilers despite high recompilability |
+| [`refuse-without-refusal-a-structural-analysis`](research-briefs/refuse-without-refusal-a-structural-analysis.md) | Rationale-only safety tuning reduces false refusals without harming safety |
+| [`repeat-after-me-black-box-adaptive-visual-pro`](research-briefs/repeat-after-me-black-box-adaptive-visual-pro.md) | Black-box visual prompt injection achieving 80%+ ASR on open-weight VLMs |
+| [`dcfa-dual-view-causal-inspired-attribution-fo`](research-briefs/dcfa-dual-view-causal-inspired-attribution-fo.md) | Dual-view causal dependency graphs for multi-agent failure attribution |
+| [`how-a-chatbots-response-style-shapes-a-classr`](research-briefs/how-a-chatbots-response-style-shapes-a-classr.md) | Multi-agent classroom simulation of chatbot response style effects |
+| [`mabpd-multi-agent-bias-probing-detection-via`](research-briefs/mabpd-multi-agent-bias-probing-detection-via.md) | Training-free multi-agent bias detection via structured argument debate |
+| [`building-a-research-software-catalog-with-a-c`](research-briefs/building-a-research-software-catalog-with-a-c.md) | Silent failures in coding-agent-built research software catalogs |
 
 ---
 
