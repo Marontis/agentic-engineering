@@ -316,6 +316,21 @@ Avoid defining bespoke, ad-hoc JSON payloads for inter-agent communication and t
 
 ---
 
+## Harness Self-Evolution
+
+### DO: Bound the search space of harness self-evolution
+
+Agent harness evolution (automatically improving scaffolding, prompts,
+and tools) diverges if the search space is unconstrained.  Limit which
+components can evolve simultaneously, bound mutation magnitude per
+round, and require monotonic improvement on a held-out evaluation set.
+Unconstrained harness evolution is empirically worse than no evolution
+at all — the search space is too large and the agent regresses.
+
+> Source: Safe Harness Self-Evolution (arXiv:2609.08175)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -333,6 +348,8 @@ For implementation details on the procedures behind these rules:
 - [`speculative-macro-commit`](skills/speculative-macro-commit/SKILL.md) — Pre-executing multi-step tool action skeletons
 - [`counterexample-guided-repair`](skills/counterexample-guided-repair/SKILL.md) — Multi-turn artifact refinement using counterexample witnesses
 - [`nlip-agent-message-envelope`](skills/nlip-agent-message-envelope/SKILL.md) — Standardized semantic message envelopes and gateway bridging
+- [`stable-skill-evolution`](skills/stable-skill-evolution/SKILL.md) — Adam-style stabilization for skill evolution
+- [`graph-of-skills-scaling`](skills/graph-of-skills-scaling/SKILL.md) — Typed graph structure for skill library scaling
 
 ## Sources
 
@@ -352,4 +369,4 @@ For implementation details on the procedures behind these rules:
 - Speculative Macro Commit: arXiv:2609.03236
 - ExecRetrieval: arXiv:2609.01865
 - Natural Language Interaction Protocol (NLIP): arXiv:2609.04135
-
+- Safe Harness Self-Evolution: arXiv:2609.08175
