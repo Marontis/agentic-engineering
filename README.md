@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 128+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 150+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -55,6 +55,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`dependency-scoped-plan-validation`](skills/dependency-scoped-plan-validation/SKILL.md) | PlanFence (arXiv:2609.03340) |
 | [`black-box-trajectory-risk-monitoring`](skills/black-box-trajectory-risk-monitoring/SKILL.md) | Web Agent Key-Step Monitoring (arXiv:2609.02057) |
 | [`nlip-agent-message-envelope`](skills/nlip-agent-message-envelope/SKILL.md) | NLIP Agent Protocol Standard (arXiv:2609.04135) |
+| [`residual-auth-state-preservation`](skills/residual-auth-state-preservation/SKILL.md) | ResidualAuth (arXiv:2609.08062) |
+| [`prime-power-federation-governance`](skills/prime-power-federation-governance/SKILL.md) | PRIMUS (arXiv:2609.07910) |
 
 #### Self-Improvement & Evaluation
 
@@ -73,6 +75,9 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`belief-calibrated-scaffold-optimization`](skills/belief-calibrated-scaffold-optimization/SKILL.md) | BCO (arXiv:2609.01861) |
 | [`debate-consensus-memory-calibration`](skills/debate-consensus-memory-calibration/SKILL.md) | R^2-MAD (arXiv:2609.03619) |
 | [`reward-hacking-immunization`](skills/reward-hacking-immunization/SKILL.md) | HackProbe (arXiv:2609.04665) |
+| [`intervention-guided-mas-prompt-optimization`](skills/intervention-guided-mas-prompt-optimization/SKILL.md) | AgentGrad (arXiv:2609.08572) |
+| [`temporal-workflow-graph-compilation`](skills/temporal-workflow-graph-compilation/SKILL.md) | ReActNet (arXiv:2609.05774) |
+| [`offline-trajectory-tool-use-learning`](skills/offline-trajectory-tool-use-learning/SKILL.md) | AgentBrew (arXiv:2609.05837) |
 
 #### Skill Evolution & Knowledge
 
@@ -197,6 +202,13 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`how-a-chatbots-response-style-shapes-a-classr`](research-briefs/how-a-chatbots-response-style-shapes-a-classr.md) | Multi-agent classroom simulation of chatbot response style effects |
 | [`mabpd-multi-agent-bias-probing-detection-via`](research-briefs/mabpd-multi-agent-bias-probing-detection-via.md) | Training-free multi-agent bias detection via structured argument debate |
 | [`building-a-research-software-catalog-with-a-c`](research-briefs/building-a-research-software-catalog-with-a-c.md) | Silent failures in coding-agent-built research software catalogs |
+| [`simulated-deliberation-representation-challen`](research-briefs/simulated-deliberation-representation-challen.md) | Challenges in AI-simulated democratic deliberation representation |
+| [`style-over-substance-safety-judge-wrappers`](research-briefs/style-over-substance-safety-judge-wrappers.md) | Content-invariant wrappers flipping LLM safety-judge verdicts |
+| [`multimodal-resource-exhaustion-vlm-attacks`](research-briefs/multimodal-resource-exhaustion-vlm-attacks.md) | Cross-modal resource-exhaustion attacks on vision-language models |
+| [`pipeline-dependent-cybersecurity-benchmarks`](research-briefs/pipeline-dependent-cybersecurity-benchmarks.md) | Pipeline choices swinging cybersecurity benchmark scores by 80+ points |
+| [`autofyn-non-parametric-expert-iteration`](research-briefs/autofyn-non-parametric-expert-iteration.md) | Non-parametric expert iteration updating persistent state, not weights |
+| [`ai-paper-review-arms-race`](research-briefs/ai-paper-review-arms-race.md) | Adversarial co-evolution dynamics in AI scholarly publishing |
+| [`threat-model-coverage-gap-safety-eval`](research-briefs/threat-model-coverage-gap-safety-eval.md) | Threat-model coverage gap in automated vs human safety evaluation |
 
 ---
 
