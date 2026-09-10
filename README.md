@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 128+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 155+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -55,6 +55,10 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`dependency-scoped-plan-validation`](skills/dependency-scoped-plan-validation/SKILL.md) | PlanFence (arXiv:2609.03340) |
 | [`black-box-trajectory-risk-monitoring`](skills/black-box-trajectory-risk-monitoring/SKILL.md) | Web Agent Key-Step Monitoring (arXiv:2609.02057) |
 | [`nlip-agent-message-envelope`](skills/nlip-agent-message-envelope/SKILL.md) | NLIP Agent Protocol Standard (arXiv:2609.04135) |
+| [`residual-auth-state-preservation`](skills/residual-auth-state-preservation/SKILL.md) | ResidualAuth (arXiv:2609.08062) |
+| [`prime-power-federation-governance`](skills/prime-power-federation-governance/SKILL.md) | PRIMUS (arXiv:2609.07910) |
+| [`taxonomy-driven-red-teaming`](skills/taxonomy-driven-red-teaming/SKILL.md) | Black-Box Red Teaming of Agentic AI (arXiv:2609.09647) |
+| [`multi-agent-federation-governance`](skills/multi-agent-federation-governance/SKILL.md) | PRIMUS Federation Identity (arXiv:2609.07910) |
 
 #### Self-Improvement & Evaluation
 
@@ -73,6 +77,11 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`belief-calibrated-scaffold-optimization`](skills/belief-calibrated-scaffold-optimization/SKILL.md) | BCO (arXiv:2609.01861) |
 | [`debate-consensus-memory-calibration`](skills/debate-consensus-memory-calibration/SKILL.md) | R^2-MAD (arXiv:2609.03619) |
 | [`reward-hacking-immunization`](skills/reward-hacking-immunization/SKILL.md) | HackProbe (arXiv:2609.04665) |
+| [`intervention-guided-mas-prompt-optimization`](skills/intervention-guided-mas-prompt-optimization/SKILL.md) | AgentGrad (arXiv:2609.08572) |
+| [`temporal-workflow-graph-compilation`](skills/temporal-workflow-graph-compilation/SKILL.md) | ReActNet (arXiv:2609.05774) |
+| [`offline-trajectory-tool-use-learning`](skills/offline-trajectory-tool-use-learning/SKILL.md) | AgentBrew (arXiv:2609.05837) |
+| [`debate-layer-disagreement-analysis`](skills/debate-layer-disagreement-analysis/SKILL.md) | Layered Disagreement Analysis (arXiv:2609.08016) |
+| [`self-verification-elicitation`](skills/self-verification-elicitation/SKILL.md) | Self-Verification via RL (arXiv:2609.08025) |
 
 #### Skill Evolution & Knowledge
 
@@ -90,6 +99,9 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`requirements-driven-code-generation`](skills/requirements-driven-code-generation/SKILL.md) | WiseSpec (arXiv:2609.00568) |
 | [`procedural-family-skill-consolidation`](skills/procedural-family-skill-consolidation/SKILL.md) | SkillGLoW (arXiv:2609.02217) |
 | [`speculative-macro-commit`](skills/speculative-macro-commit/SKILL.md) | Speculative Macro Commit (arXiv:2609.03236) |
+| [`procedural-graph-evolution`](skills/procedural-graph-evolution/SKILL.md) | Procedural Graphs (arXiv:2609.09153) |
+| [`graph-of-skills-scaling`](skills/graph-of-skills-scaling/SKILL.md) | SE-GoS (arXiv:2609.08228) |
+| [`stable-skill-evolution`](skills/stable-skill-evolution/SKILL.md) | SkillAdam (arXiv:2609.08944) |
 
 #### Retrieval & Evidence
 
@@ -197,6 +209,27 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`how-a-chatbots-response-style-shapes-a-classr`](research-briefs/how-a-chatbots-response-style-shapes-a-classr.md) | Multi-agent classroom simulation of chatbot response style effects |
 | [`mabpd-multi-agent-bias-probing-detection-via`](research-briefs/mabpd-multi-agent-bias-probing-detection-via.md) | Training-free multi-agent bias detection via structured argument debate |
 | [`building-a-research-software-catalog-with-a-c`](research-briefs/building-a-research-software-catalog-with-a-c.md) | Silent failures in coding-agent-built research software catalogs |
+| [`simulated-deliberation-representation-challen`](research-briefs/simulated-deliberation-representation-challen.md) | Challenges in AI-simulated democratic deliberation representation |
+| [`style-over-substance-safety-judge-wrappers`](research-briefs/style-over-substance-safety-judge-wrappers.md) | Content-invariant wrappers flipping LLM safety-judge verdicts |
+| [`multimodal-resource-exhaustion-vlm-attacks`](research-briefs/multimodal-resource-exhaustion-vlm-attacks.md) | Cross-modal resource-exhaustion attacks on vision-language models |
+| [`pipeline-dependent-cybersecurity-benchmarks`](research-briefs/pipeline-dependent-cybersecurity-benchmarks.md) | Pipeline choices swinging cybersecurity benchmark scores by 80+ points |
+| [`autofyn-non-parametric-expert-iteration`](research-briefs/autofyn-non-parametric-expert-iteration.md) | Non-parametric expert iteration updating persistent state, not weights |
+| [`ai-paper-review-arms-race`](research-briefs/ai-paper-review-arms-race.md) | Adversarial co-evolution dynamics in AI scholarly publishing |
+| [`threat-model-coverage-gap-safety-eval`](research-briefs/threat-model-coverage-gap-safety-eval.md) | Threat-model coverage gap in automated vs human safety evaluation |
+| [`cs-guard-guardrail-benchmark`](research-briefs/cs-guard-guardrail-benchmark.md) | Guardrail weakness for code generation security |
+| [`watermarks-without-verification`](research-briefs/watermarks-without-verification.md) | AI text watermarking gap under EU AI Act |
+| [`active-adaptation-preventative-steering`](research-briefs/active-adaptation-preventative-steering.md) | Temporal dynamics of active safety adaptation |
+| [`residual-auth-revocable-delegation`](research-briefs/residual-auth-revocable-delegation.md) | Authorization state preservation under delegation revocation |
+| [`proof-carrying-cognition`](research-briefs/proof-carrying-cognition.md) | Reality-settled verification gap framework |
+| [`arbitrary-cipher-attacks`](research-briefs/arbitrary-cipher-attacks.md) | Cipher-encoded jailbreaks without fine-tuning |
+| [`multimodal-prompt-injection-eval`](research-briefs/multimodal-prompt-injection-eval.md) | Cross-modal prompt injection on agentic frameworks |
+| [`self-evolving-consistency-gap`](research-briefs/self-evolving-consistency-gap.md) | Goal drift in long-horizon self-evolving agents |
+| [`robust-sgpo-harness-evolution`](research-briefs/robust-sgpo-harness-evolution.md) | Search-space control for agent harness evolution |
+| [`verifier-survey-no-free-checker`](research-briefs/verifier-survey-no-free-checker.md) | Coverage-cost-soundness trade-offs in policy verifiers |
+| [`agent-audit-lifecycle-trust`](research-briefs/agent-audit-lifecycle-trust.md) | Full-lifecycle trust evaluation framework |
+| [`inference-time-governance-taxonomy`](research-briefs/inference-time-governance-taxonomy.md) | Feasibility taxonomy for inference-time AI governance |
+| [`sae-scientist-bench`](research-briefs/sae-scientist-bench.md) | Autonomous SAE interpretability research benchmark |
+| [`trace-causal-exploration`](research-briefs/trace-causal-exploration.md) | Synthesized rewards for causal reasoning agents |
 
 ---
 
