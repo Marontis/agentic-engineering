@@ -331,6 +331,21 @@ at all — the search space is too large and the agent regresses.
 
 ---
 
+## Recursive Self-Improvement Feasibility
+
+### DON'T: Assume recursive self-improvement is unbounded
+
+Recursive self-improvement has theoretical feasibility limits.
+An agent cannot improve itself beyond the ceiling imposed by its
+optimization substrate, evaluation capability, and the complexity
+of the improvement search space.  Design skill evolution loops with
+explicit convergence criteria and diminishing-returns detection
+rather than assuming open-ended improvement.
+
+> Source: The Last AI Built by Humans (arXiv:2609.11873)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -350,6 +365,8 @@ For implementation details on the procedures behind these rules:
 - [`nlip-agent-message-envelope`](skills/nlip-agent-message-envelope/SKILL.md) — Standardized semantic message envelopes and gateway bridging
 - [`stable-skill-evolution`](skills/stable-skill-evolution/SKILL.md) — Adam-style stabilization for skill evolution
 - [`graph-of-skills-scaling`](skills/graph-of-skills-scaling/SKILL.md) — Typed graph structure for skill library scaling
+- [`static-dynamic-verification-gap-measurement`](skills/static-dynamic-verification-gap-measurement/SKILL.md) — Measuring static-pass dynamic-fail gaps
+- [`bayesian-backward-disagreement-anchor`](skills/bayesian-backward-disagreement-anchor/SKILL.md) — Label-free multi-agent disagreement resolution
 
 ## Sources
 
@@ -370,3 +387,4 @@ For implementation details on the procedures behind these rules:
 - ExecRetrieval: arXiv:2609.01865
 - Natural Language Interaction Protocol (NLIP): arXiv:2609.04135
 - Safe Harness Self-Evolution: arXiv:2609.08175
+- The Last AI Built by Humans: arXiv:2609.11873

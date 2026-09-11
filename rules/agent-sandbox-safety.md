@@ -416,6 +416,22 @@ validate safety at the specific scale and architecture of deployment.
 
 ---
 
+## Neurosymbolic Security Validation
+
+### DO: Layer symbolic rules with neural detection in security-critical pipelines
+
+Purely neural security detectors (LLM-based classifiers) miss structured
+attacks that violate known-good patterns.  Purely symbolic rules miss
+novel attacks outside the rule set.  Layer both: symbolic rules as hard
+constraints (known-bad patterns, policy violations, schema mismatches)
+with neural detectors as soft classifiers (anomaly detection, intent
+classification).  The symbolic layer acts as a deterministic backstop;
+the neural layer catches what rules can't express.
+
+> Source: Architecting the Secure AI-SOC (arXiv:2609.10707)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -433,6 +449,8 @@ For implementation details on the procedures behind these rules:
 - [`necessary-tool-evidence-path`](skills/necessary-tool-evidence-path/SKILL.md) — Necessary tool-evidence path verification
 - [`nlip-agent-message-envelope`](skills/nlip-agent-message-envelope/SKILL.md) — Semantic message envelope and gateway authorization
 - [`taxonomy-driven-red-teaming`](skills/taxonomy-driven-red-teaming/SKILL.md) — Taxonomy-driven systematic red teaming
+- [`description-only-injection-detection`](skills/description-only-injection-detection/SKILL.md) — Pre-deployment tool injection risk assessment
+- [`high-fanout-sandbox-memory-compression`](skills/high-fanout-sandbox-memory-compression/SKILL.md) — Memory compression for parallel sandboxes
 
 ## Sources
 
@@ -460,4 +478,4 @@ For implementation details on the procedures behind these rules:
 - FLY-EVAL++: arXiv:2609.04021
 - Style Over Substance: arXiv:2609.08236
 - Single-Direction Attack on 320B MoE: arXiv:2609.09793
-
+- Secure AI-SOC Neurosymbolic Framework: arXiv:2609.10707

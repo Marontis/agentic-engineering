@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 155+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 170+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -59,6 +59,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`prime-power-federation-governance`](skills/prime-power-federation-governance/SKILL.md) | PRIMUS (arXiv:2609.07910) |
 | [`taxonomy-driven-red-teaming`](skills/taxonomy-driven-red-teaming/SKILL.md) | Black-Box Red Teaming of Agentic AI (arXiv:2609.09647) |
 | [`multi-agent-federation-governance`](skills/multi-agent-federation-governance/SKILL.md) | PRIMUS Federation Identity (arXiv:2609.07910) |
+| [`description-only-injection-detection`](skills/description-only-injection-detection/SKILL.md) | No-Box Vulnerability Analysis (arXiv:2609.10854) |
+| [`high-fanout-sandbox-memory-compression`](skills/high-fanout-sandbox-memory-compression/SKILL.md) | High-Fanout Sandbox Memory (arXiv:2609.11294) |
 
 #### Self-Improvement & Evaluation
 
@@ -82,6 +84,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`offline-trajectory-tool-use-learning`](skills/offline-trajectory-tool-use-learning/SKILL.md) | AgentBrew (arXiv:2609.05837) |
 | [`debate-layer-disagreement-analysis`](skills/debate-layer-disagreement-analysis/SKILL.md) | Layered Disagreement Analysis (arXiv:2609.08016) |
 | [`self-verification-elicitation`](skills/self-verification-elicitation/SKILL.md) | Self-Verification via RL (arXiv:2609.08025) |
+| [`static-dynamic-verification-gap-measurement`](skills/static-dynamic-verification-gap-measurement/SKILL.md) | Beyond Static Guarantees (arXiv:2609.10762) |
+| [`bayesian-backward-disagreement-anchor`](skills/bayesian-backward-disagreement-anchor/SKILL.md) | Bayesian Backward Reasoning (arXiv:2609.11709) |
 
 #### Skill Evolution & Knowledge
 
@@ -230,6 +234,14 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`inference-time-governance-taxonomy`](research-briefs/inference-time-governance-taxonomy.md) | Feasibility taxonomy for inference-time AI governance |
 | [`sae-scientist-bench`](research-briefs/sae-scientist-bench.md) | Autonomous SAE interpretability research benchmark |
 | [`trace-causal-exploration`](research-briefs/trace-causal-exploration.md) | Synthesized rewards for causal reasoning agents |
+| [`driftnet-prompt-injection-detection`](research-briefs/driftnet-prompt-injection-detection.md) | Dual-head trajectory transformer for injection detection |
+| [`terminal-agent-rl-long-horizon`](research-briefs/terminal-agent-rl-long-horizon.md) | RL for terminal agents on long-horizon tasks |
+| [`scaffolding-mas-clinical-training`](research-briefs/scaffolding-mas-clinical-training.md) | Multi-agent scaffolding for clinical interview training |
+| [`debate-to-skill-process-supervision`](research-briefs/debate-to-skill-process-supervision.md) | Capability-bound process supervision via debate |
+| [`semverbench-version-constraint`](research-briefs/semverbench-version-constraint.md) | LLM semantic versioning comprehension benchmark |
+| [`orch-collective-intelligence`](research-briefs/orch-collective-intelligence.md) | Organizational principles for embodied AI collective intelligence |
+| [`opendiscoverytrace-ai-scientist`](research-briefs/opendiscoverytrace-ai-scientist.md) | Process traces for evaluating AI scientist workflows |
+| [`data-efficient-language-modeling`](research-briefs/data-efficient-language-modeling.md) | Survey of data efficiency techniques for LM training |
 
 ---
 
