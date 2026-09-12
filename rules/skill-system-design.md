@@ -346,6 +346,18 @@ rather than assuming open-ended improvement.
 
 ---
 
+## Context Decoupling & Reasoning Anti-Looping
+
+### DO: Decouple agent context into file ledgers to prevent runaway reasoning loops
+
+When deploying mid-sized models (14B–35B) or long-horizon reasoning agents on complex problems, unconstrained single-call generation often degrades into degenerative self-verification loops (e.g., repeating edge-case interrogations thousands of times until hitting token limits). Decouple agent state into a shared filesystem ledger (`plan.md`, `notes.md`, `tasks.json`, `solution.py`), invoke subagents in fresh zero-shot contexts with bounded payloads, and actively prune working notes (<800 words).
+
+**Evidence**: On the 100 latest Hard LiveCodeBench problems, single-call Qwen3.8-27B suffered 35 empty-output failures from runaway deliberation loops (e.g. repeating a verification check 7,743 times). A zero-shot ledger scaffold rescued 25 of these (+5.0 points) and lifted overall Pass@1 from 63.0% to 86.4% (+23.4 points), matching Claude Fable 5.
+
+> Source: Zero-Shot Self-Orchestration with Ledger-Based Control (arXiv:2608.26480)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -367,6 +379,7 @@ For implementation details on the procedures behind these rules:
 - [`graph-of-skills-scaling`](skills/graph-of-skills-scaling/SKILL.md) — Typed graph structure for skill library scaling
 - [`static-dynamic-verification-gap-measurement`](skills/static-dynamic-verification-gap-measurement/SKILL.md) — Measuring static-pass dynamic-fail gaps
 - [`bayesian-backward-disagreement-anchor`](skills/bayesian-backward-disagreement-anchor/SKILL.md) — Label-free multi-agent disagreement resolution
+- [`ledger-orchestrated-coding-loop`](skills/ledger-orchestrated-coding-loop/SKILL.md) — File-ledger multi-turn loop with test veto
 
 ## Sources
 
@@ -388,3 +401,4 @@ For implementation details on the procedures behind these rules:
 - Natural Language Interaction Protocol (NLIP): arXiv:2609.04135
 - Safe Harness Self-Evolution: arXiv:2609.08175
 - The Last AI Built by Humans: arXiv:2609.11873
+- Zero-Shot Self-Orchestration: arXiv:2608.26480
