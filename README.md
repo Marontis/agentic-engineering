@@ -106,6 +106,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`procedural-graph-evolution`](skills/procedural-graph-evolution/SKILL.md) | Procedural Graphs (arXiv:2609.09153) |
 | [`graph-of-skills-scaling`](skills/graph-of-skills-scaling/SKILL.md) | SE-GoS (arXiv:2609.08228) |
 | [`stable-skill-evolution`](skills/stable-skill-evolution/SKILL.md) | SkillAdam (arXiv:2609.08944) |
+| [`ledger-orchestrated-coding-loop`](skills/ledger-orchestrated-coding-loop/SKILL.md) | Zero-Shot Self-Orchestration (arXiv:2608.26480) |
 
 #### Retrieval & Evidence
 
@@ -218,6 +219,7 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`multimodal-resource-exhaustion-vlm-attacks`](research-briefs/multimodal-resource-exhaustion-vlm-attacks.md) | Cross-modal resource-exhaustion attacks on vision-language models |
 | [`pipeline-dependent-cybersecurity-benchmarks`](research-briefs/pipeline-dependent-cybersecurity-benchmarks.md) | Pipeline choices swinging cybersecurity benchmark scores by 80+ points |
 | [`autofyn-non-parametric-expert-iteration`](research-briefs/autofyn-non-parametric-expert-iteration.md) | Non-parametric expert iteration updating persistent state, not weights |
+| [`gvs5h-zero-shot-self-orchestration`](research-briefs/gvs5h-zero-shot-self-orchestration.md) | Zero-shot ledger scaffold matching frontier models via test execution |
 | [`ai-paper-review-arms-race`](research-briefs/ai-paper-review-arms-race.md) | Adversarial co-evolution dynamics in AI scholarly publishing |
 | [`threat-model-coverage-gap-safety-eval`](research-briefs/threat-model-coverage-gap-safety-eval.md) | Threat-model coverage gap in automated vs human safety evaluation |
 | [`cs-guard-guardrail-benchmark`](research-briefs/cs-guard-guardrail-benchmark.md) | Guardrail weakness for code generation security |

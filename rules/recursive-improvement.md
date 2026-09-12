@@ -350,6 +350,14 @@ In multi-agent debate and consensus refinement loops, never rely on unweighted m
 
 > Source: Remember and Reweight: Enhancing Multi-Agent Debate with Experience Memory and Confidence Estimation (arXiv:2609.03619)
 
+### DON'T: Assume multi-agent scaffolding is universally monotonic across model architectures
+
+Scaffolding, multi-turn ideation, and problem decomposition do not benefit all models equally and can cause severe negative transfer on models with uncalibrated reasoning priors or sparse Mixture-of-Experts (MoE) architectures with low active parameter counts. In uncalibrated models, multi-turn deliberation frequently talks the agent out of optimal solutions into flawed, over-engineered approximations.
+
+**Evidence**: While a manager-worker ledger scaffold improved Qwen3.8-27B by +23.4 points and GPT-5.6-Luna by +10.6 points on LiveCodeBench Hard, it degraded Qwen3.6-35B-A3B (3B active parameters) by -1.2 points (16k) and -9.0 points (128k with reasoning off). Its ideation stage actively rejected optimal algorithms (such as Convex Hull Trick DP) as "too complex for Python" and implemented slower, buggy fallbacks. Always benchmark scaffold interventions per model family before deployment.
+
+> Source: Zero-Shot Self-Orchestration with Ledger-Based Control (arXiv:2608.26480)
+
 ---
 
 ## Related Skills
@@ -368,6 +376,7 @@ For implementation details on the procedures behind these rules:
 - [`neural-invariant-failure-diagnosis`](skills/neural-invariant-failure-diagnosis/SKILL.md) — Behavioral state abstraction and invariant checking
 - [`belief-calibrated-scaffold-optimization`](skills/belief-calibrated-scaffold-optimization/SKILL.md) — Persistent causal world model for scaffold optimization
 - [`debate-consensus-memory-calibration`](skills/debate-consensus-memory-calibration/SKILL.md) — Memory calibration and confidence reweighting for multi-agent debate
+- [`ledger-orchestrated-coding-loop`](skills/ledger-orchestrated-coding-loop/SKILL.md) — File-ledger multi-turn loop with test veto
 
 ## Sources
 
@@ -387,3 +396,4 @@ For implementation details on the procedures behind these rules:
 - Belief-Calibrated Optimization: arXiv:2609.01861
 - Emergent Cheating & Whistleblowing in Swarms: arXiv:2609.04170
 - R^2-MAD: arXiv:2609.03619
+- Zero-Shot Self-Orchestration: arXiv:2608.26480
