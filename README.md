@@ -107,6 +107,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`graph-of-skills-scaling`](skills/graph-of-skills-scaling/SKILL.md) | SE-GoS (arXiv:2609.08228) |
 | [`stable-skill-evolution`](skills/stable-skill-evolution/SKILL.md) | SkillAdam (arXiv:2609.08944) |
 | [`ledger-orchestrated-coding-loop`](skills/ledger-orchestrated-coding-loop/SKILL.md) | Zero-Shot Self-Orchestration (arXiv:2608.26480) |
+| [`adk2-agent-orchestration-patterns`](skills/adk2-agent-orchestration-patterns/SKILL.md) | Google Cloud Tech / ADK 2 Orchestration |
 
 #### Retrieval & Evidence
 
@@ -244,6 +245,7 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`orch-collective-intelligence`](research-briefs/orch-collective-intelligence.md) | Organizational principles for embodied AI collective intelligence |
 | [`opendiscoverytrace-ai-scientist`](research-briefs/opendiscoverytrace-ai-scientist.md) | Process traces for evaluating AI scientist workflows |
 | [`data-efficient-language-modeling`](research-briefs/data-efficient-language-modeling.md) | Survey of data efficiency techniques for LM training |
+| [`adk2-orchestration-three-pillars`](research-briefs/adk2-orchestration-three-pillars.md) | Architectural pillars and decision matrix for ADK 2 graph, collaborative, and dynamic workflows |
 
 ---
 
