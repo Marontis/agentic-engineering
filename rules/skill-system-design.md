@@ -358,6 +358,21 @@ When deploying mid-sized models (14B–35B) or long-horizon reasoning agents on 
 
 ---
 
+## Orchestration Boundaries: Graph vs. Collaborative vs. Dynamic
+
+### DO: Keep deterministic steps in code and explicit graph edges; delegate to LLMs only for reasoning
+
+In multi-agent systems, never use prompt-based LLM routing or LLM nodes for tasks that can be modeled as deterministic functions or explicit directed edges.
+1. **Pillar 1 (Graph Workflow)**: When execution order is known prior to input arrival, use static workflow graphs with explicit dictionary edges (`edges={router_func: {"key": target_node}}`) and join nodes (`JoinNode(branches=[...])`). Pure function nodes are peer graph nodes that execute with $0$ LLM calls, zero cost, and zero hallucination risk.
+2. **Pillar 2 (Collaborative Agents)**: When a known team of specialists exists and the input determines the subset, use a coordinator with `mode="single_turn"` for parallel tool dispatch and synthesis, or `mode="task"` with explicit typed termination schemas (`finish_task(schema)`) for conversational subroutines.
+3. **Pillar 3 (Dynamic Workflows)**: When runtime width or depth cannot be predicted statically, bound fan-out via worker nodes (`@node(parallel_worker=True)`) and recursive descent via strict recursion depth checks (`MAX_DEPTH`).
+
+**Evidence**: In ADK 2 benchmarked workflows, replacing prompt-based sequential LLM dispatch with an explicit graph router and pure function nodes dropped LLM API calls from 4 to 1 per request while eliminating routing drift and schema translation errors.
+
+> Source: Google Cloud Tech & ADK 2 Orchestration Codelab (ADK 2: Graph, Collaborative & Dynamic Workflows)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -380,6 +395,7 @@ For implementation details on the procedures behind these rules:
 - [`static-dynamic-verification-gap-measurement`](skills/static-dynamic-verification-gap-measurement/SKILL.md) — Measuring static-pass dynamic-fail gaps
 - [`bayesian-backward-disagreement-anchor`](skills/bayesian-backward-disagreement-anchor/SKILL.md) — Label-free multi-agent disagreement resolution
 - [`ledger-orchestrated-coding-loop`](skills/ledger-orchestrated-coding-loop/SKILL.md) — File-ledger multi-turn loop with test veto
+- [`adk2-agent-orchestration-patterns`](skills/adk2-agent-orchestration-patterns/SKILL.md) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
 
 ## Sources
 
@@ -402,3 +418,5 @@ For implementation details on the procedures behind these rules:
 - Safe Harness Self-Evolution: arXiv:2609.08175
 - The Last AI Built by Humans: arXiv:2609.11873
 - Zero-Shot Self-Orchestration: arXiv:2608.26480
+- Google Cloud Tech / ADK 2 Orchestration: Graph, Collaborative & Dynamic Workflows
+

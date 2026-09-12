@@ -360,6 +360,21 @@ Scaffolding, multi-turn ideation, and problem decomposition do not benefit all m
 
 ---
 
+## Dynamic Runtime Recursion Bounding
+
+### DO: Enforce hard depth boundaries and typed terminal schemas on recursive agent invocations
+
+When agents decompose complex problems dynamically or self-recurse at runtime (e.g. multi-hop deep research, recursive subtask spawning), never allow unconstrained depth or untyped exits.
+1. **Depth Ceiling**: Pass an explicit `depth` parameter into recursive execution contexts (e.g., `ctx.run_node(sub_node, depth=depth + 1)`) and enforce a hard limit (`if depth >= MAX_DEPTH: return leaf_execution`).
+2. **Typed Finish Schema**: When conversational or recursive subroutines handle subtasks, require explicit structured terminal schemas (e.g. `finish_task(schema)`) so the parent orchestrator receives validated data rather than unbounded natural language turns.
+3. **Framework Trace Integration**: Run dynamic recursive nodes inside framework context (`ctx.run_node`) rather than uninstrumented raw Python loops to preserve state checkpointing, distributed tracing, and execution replayability.
+
+**Evidence**: In recursive deep research benchmarks, unconstrained recursive query expansion frequently suffered exponential fan-out explosion and context saturation. Enforcing `MAX_DEPTH=2` with `parallel_worker=True` bounded fan-out to 4 parallel workers and maintained 100% trajectory completion without runaway token consumption.
+
+> Source: Google Cloud Tech & ADK 2 Orchestration Codelab (ADK 2: Graph, Collaborative & Dynamic Workflows)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -377,6 +392,7 @@ For implementation details on the procedures behind these rules:
 - [`belief-calibrated-scaffold-optimization`](skills/belief-calibrated-scaffold-optimization/SKILL.md) — Persistent causal world model for scaffold optimization
 - [`debate-consensus-memory-calibration`](skills/debate-consensus-memory-calibration/SKILL.md) — Memory calibration and confidence reweighting for multi-agent debate
 - [`ledger-orchestrated-coding-loop`](skills/ledger-orchestrated-coding-loop/SKILL.md) — File-ledger multi-turn loop with test veto
+- [`adk2-agent-orchestration-patterns`](skills/adk2-agent-orchestration-patterns/SKILL.md) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
 
 ## Sources
 
@@ -397,3 +413,5 @@ For implementation details on the procedures behind these rules:
 - Emergent Cheating & Whistleblowing in Swarms: arXiv:2609.04170
 - R^2-MAD: arXiv:2609.03619
 - Zero-Shot Self-Orchestration: arXiv:2608.26480
+- Google Cloud Tech / ADK 2 Orchestration: Graph, Collaborative & Dynamic Workflows
+
