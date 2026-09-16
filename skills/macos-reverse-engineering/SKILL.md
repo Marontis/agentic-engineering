@@ -9,6 +9,7 @@ description: >
   code signing / entitlement boundary validation.
   Derived from Jonathan Levin's "Mac OS X and iOS Internals: To the
   Apple's Core, Volume 1: User Mode" (2nd Edition, OS Internals series).
+source: http://newosxbook.com/
 ---
 
 # macOS Reverse Engineering & User-Mode Binary Analysis
@@ -28,7 +29,7 @@ Use this skill when analyzing, auditing, debugging, or reverse-engineering macOS
 
 ---
 
-## Core Architecture & Mental Model
+## Core Insight
 
 Darwin's user-mode architecture departs fundamentally from standard Linux/ELF environments:
 
