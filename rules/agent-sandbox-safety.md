@@ -432,6 +432,64 @@ the neural layer catches what rules can't express.
 
 ---
 
+## Guardrail Repetition Instability
+
+### DON'T: Rely on compact guardrail classifiers without repetition compression or entropy monitoring
+
+Compact guardrail models (e.g., DeBERTa-based safety classifiers) exhibit severe representation
+collapse under verbatim or semantic token repetition. Malicious instructions repeated across
+longer contexts (2.6k–9.4k tokens) induce uniform self-attention weights and reduce softmax margin
+by over 40%, causing label flips from MALICIOUS to BENIGN in 8% to 92% of evaluated testbeds while
+preserving harmful intent for downstream generative models. Always run pre-inference deduplication/run-length
+compression or token-frequency normalization before invoking compact classification guardrails.
+
+> Source: Overflip: Repetition-Induced Label Flips in Guardrail Models (arXiv:2609.15013)
+
+---
+
+## Dynamic Resource Acquisition Bounds
+
+### DO: Intercept dynamic agent resource acquisition with quarantine and single-use effect permits
+
+Never grant autonomous agents unrestricted ambient authority over tools, APIs, or container
+credentials dynamically acquired at runtime. Separate resource procurement from resource consumption
+by holding newly discovered endpoints in a quarantined staging area until static schema verification
+passes. Enforce capability-bound invocation through cryptographically signed, single-use effect permits
+specifying permitted parameter bounds and expiration timeouts to eliminate the post-fulfillment
+activation gap.
+
+> Source: AcquireBound: Runtime Authorization for Resources Acquired by AI Agents (arXiv:2609.14744)
+
+---
+
+## Pre-execution Action Auditing
+
+### DO: Audit agent tool invocations against localized evidence spans before dispatch
+
+Do not rely exclusively on passive document sanitization or generative self-critique to prevent
+indirect prompt injection. Inspect pending tool calls with a pre-execution auditor that bounds
+each tool parameter to explicit evidence spans in the agent's observation history. If a parameter
+derives from untrusted external text rather than verified task requirements, compute parameter-intent
+divergence and mask or abort the untrusted payload before execution reaches live side-effects.
+
+> Source: ActGuard: Pre-execution Action Auditing against Indirect Prompt Injection (arXiv:2609.14987)
+
+---
+
+## Agent-Tool Boundary Contract Reliability
+
+### DON'T: Treat HTTP 200 / success tool return codes as workflow success without state verification
+
+A successful tool return code does not guarantee intended workflow execution. Public agent tools
+overwhelmingly lack formal idempotency, transaction boundaries, or state-change receipts, leading
+to silent state drift, phantom completions, and downstream workflow failures. Implement post-call
+verification assertions that query observable state changes, enforce caller-generated idempotency
+keys on mutative tools, and maintain inverse compensation actions for transactional failure recovery.
+
+> Source: When Tool Calls Succeed but Workflows Fail: Anomalies at the Agent-Tool Boundary (arXiv:2609.15397)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -451,6 +509,8 @@ For implementation details on the procedures behind these rules:
 - [`taxonomy-driven-red-teaming`](skills/taxonomy-driven-red-teaming/SKILL.md) — Taxonomy-driven systematic red teaming
 - [`description-only-injection-detection`](skills/description-only-injection-detection/SKILL.md) — Pre-deployment tool injection risk assessment
 - [`high-fanout-sandbox-memory-compression`](skills/high-fanout-sandbox-memory-compression/SKILL.md) — Memory compression for parallel sandboxes
+- [`runtime-resource-authorization-bounds`](skills/runtime-resource-authorization-bounds/SKILL.md) — Dynamic resource acquisition quarantine and effect permits
+- [`pre-execution-action-auditing`](skills/pre-execution-action-auditing/SKILL.md) — Pre-execution parameter evidence audit against indirect injection
 
 ## Sources
 
@@ -479,3 +539,8 @@ For implementation details on the procedures behind these rules:
 - Style Over Substance: arXiv:2609.08236
 - Single-Direction Attack on 320B MoE: arXiv:2609.09793
 - Secure AI-SOC Neurosymbolic Framework: arXiv:2609.10707
+- Overflip: arXiv:2609.15013
+- AcquireBound: arXiv:2609.14744
+- ActGuard: arXiv:2609.14987
+- Agent-Tool Boundary Anomalies: arXiv:2609.15397
+

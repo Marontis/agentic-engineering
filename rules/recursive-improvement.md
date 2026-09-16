@@ -375,6 +375,26 @@ When agents decompose complex problems dynamically or self-recurse at runtime (e
 
 ---
 
+## Surrogate-Guided Skill Optimization
+
+### DO: Use bilevel surrogate rubrics with rank-correlation calibration for prompt and skill evolution
+
+When iteratively improving prompts, skills, or agent scaffolds, do not evaluate every intermediate
+candidate rollout with an expensive task oracle or downstream end-to-end benchmark. Decouple candidate
+search from oracle verification via bilevel optimization:
+1. **Inner Search Loop**: Score prompt/skill candidate variants against a frozen, multi-dimensional
+   dense rubric (instruction fidelity, constraint adherence, reasoning transparency) with zero oracle
+   rollout costs.
+2. **Outer Alignment Loop**: Periodically calibrate rubric criterion weights against ground-truth
+   oracle outcomes using rank correlation (Spearman $\rho$). If surrogate ranking drifts below
+   threshold ($\rho < 0.65$), recalibrate criterion weights using validation trajectories.
+3. **Token Efficiency**: Bilevel rubric surrogate optimization reduces total optimization token
+   costs by 40% to 70% while avoiding overfitting to sparse binary pass/fail signals.
+
+> Source: SkillLift: Learning Dense Rubrics from Sparse Oracles for Efficient Skill Evolution (arXiv:2609.15396)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -393,6 +413,7 @@ For implementation details on the procedures behind these rules:
 - [`debate-consensus-memory-calibration`](skills/debate-consensus-memory-calibration/SKILL.md) — Memory calibration and confidence reweighting for multi-agent debate
 - [`ledger-orchestrated-coding-loop`](skills/ledger-orchestrated-coding-loop/SKILL.md) — File-ledger multi-turn loop with test veto
 - [`adk2-agent-orchestration-patterns`](skills/adk2-agent-orchestration-patterns/SKILL.md) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
+- [`dense-rubric-skill-evolution`](skills/dense-rubric-skill-evolution/SKILL.md) — Bilevel dense rubric surrogate optimization for skill evolution
 
 ## Sources
 
@@ -414,4 +435,6 @@ For implementation details on the procedures behind these rules:
 - R^2-MAD: arXiv:2609.03619
 - Zero-Shot Self-Orchestration: arXiv:2608.26480
 - Google Cloud Tech / ADK 2 Orchestration: Graph, Collaborative & Dynamic Workflows
+- SkillLift: arXiv:2609.15396
+
 

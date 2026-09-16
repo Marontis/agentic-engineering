@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 170+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 185+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -30,9 +30,14 @@ Concise, evidence-backed guardrails. Load these so your agent applies them autom
 
 | Rules File | Domain |
 |:-----------|:-------|
-| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring, hook security, multi-turn refusal variance, dependency-scoped plan lineage, dialogue authentication decoupling, semantic patch validation, input tree perturbation, constructive agent host obligations, guard-agent topologies, deterministic safety constraint gates |
+| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring, hook security, multi-turn refusal variance, dependency-scoped plan lineage, dialogue authentication decoupling, semantic patch validation, input tree perturbation, constructive agent host obligations, guard-agent topologies, deterministic safety constraint gates, guardrail repetition instability, dynamic resource acquisition bounds, pre-execution action auditing, agent-tool boundary contracts |
 | [`skill-system-design`](rules/skill-system-design.md) | Skill authoring, selection, library management, skill evolution, training data quality, evidence triage, library integrity, hallucination detection, prefix-preserving context assembly, persistent agent architecture, procedural families, operational know-how distillation, speculative macro commit, code embedding functional retrieval gap, standardized semantic envelopes |
-| [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification, multi-day autonomous loops, joint harness-weight optimization, reference trajectory evolution, error-structured prompt optimization (ESPO), counterexample-guided repair, rubric artifact bias, neural invariant diagnosis, belief-calibrated scaffold optimization, swarm commons governance, debate consensus calibration |
+| [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification, multi-day autonomous loops, joint harness-weight optimization, reference trajectory evolution, error-structured prompt optimization (ESPO), counterexample-guided repair, rubric artifact bias, neural invariant diagnosis, belief-calibrated scaffold optimization, swarm commons governance, debate consensus calibration, surrogate-guided bilevel rubric evolution |
+| [`adk-workflow-architecture`](rules/adk-workflow-architecture.md) | Graph DAG orchestration, deterministic runtime gates, zero-token policy routing, default fallback edges, lifecycle callback interceptors, Memory Bank vs RAG separation, long-running tool receipts, universal resumption |
+| [`adk-security-and-evaluation`](rules/adk-security-and-evaluation.md) | Model Armor prompt injection guards, Sensitive Data Protection (SDP) PII de-identification, A2A mutual agent authentication & Agent Card verification, AP2/UCP cryptographic commerce tokens, CI/CD golden dataset trajectory validation, multi-criteria LLM-as-a-Judge rubrics |
+| [`agent-evaluation-quality`](rules/agent-evaluation-quality.md) | Output evaluation, benchmarking, quality gates, pass/fail rubrics, trajectory verification |
+| [`agent-human-interaction`](rules/agent-human-interaction.md) | Work presentation, feedback solicitation, cognitive load management, structured reviews |
+| [`multi-agent-coordination`](rules/multi-agent-coordination.md) | Multi-agent topology, role delegation, communication protocols, coordination failure recovery |
 
 ### Skills (On-Demand)
 
@@ -61,6 +66,12 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`multi-agent-federation-governance`](skills/multi-agent-federation-governance/SKILL.md) | PRIMUS Federation Identity (arXiv:2609.07910) |
 | [`description-only-injection-detection`](skills/description-only-injection-detection/SKILL.md) | No-Box Vulnerability Analysis (arXiv:2609.10854) |
 | [`high-fanout-sandbox-memory-compression`](skills/high-fanout-sandbox-memory-compression/SKILL.md) | High-Fanout Sandbox Memory (arXiv:2609.11294) |
+| [`adk-model-armor-interceptor`](skills/adk-model-armor-interceptor/SKILL.md) | Google Cloud Model Armor & SDP Interceptors |
+| [`runtime-resource-authorization-bounds`](skills/runtime-resource-authorization-bounds/SKILL.md) | AcquireBound (arXiv:2609.14744) |
+| [`pre-execution-action-auditing`](skills/pre-execution-action-auditing/SKILL.md) | ActGuard (arXiv:2609.14987) |
+| [`agentic-prompt-injection-search`](skills/agentic-prompt-injection-search/SKILL.md) | Test-Time Injection Search (arXiv:2609.04495) |
+| [`security-context-composition`](skills/security-context-composition/SKILL.md) | CONTINUITY Security-Context Contracts (arXiv:2609.05269) |
+| [`cve-history-executable-detection`](skills/cve-history-executable-detection/SKILL.md) | The History Is the Detector (arXiv:2609.05335) |
 
 #### Self-Improvement & Evaluation
 
@@ -86,6 +97,10 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`self-verification-elicitation`](skills/self-verification-elicitation/SKILL.md) | Self-Verification via RL (arXiv:2609.08025) |
 | [`static-dynamic-verification-gap-measurement`](skills/static-dynamic-verification-gap-measurement/SKILL.md) | Beyond Static Guarantees (arXiv:2609.10762) |
 | [`bayesian-backward-disagreement-anchor`](skills/bayesian-backward-disagreement-anchor/SKILL.md) | Bayesian Backward Reasoning (arXiv:2609.11709) |
+| [`adk-eval-golden-dataset-ci`](skills/adk-eval-golden-dataset-ci/SKILL.md) | Google ADK Golden Dataset & Trajectory CI/CD |
+| [`dense-rubric-skill-evolution`](skills/dense-rubric-skill-evolution/SKILL.md) | SkillLift (arXiv:2609.15396) |
+| [`agentic-review-deploy-loop`](skills/agentic-review-deploy-loop/SKILL.md) | AI-Native SDLC Playbook (Review, deploy, and maintain stages) |
+| [`autonomous-research-to-launch-harness`](skills/autonomous-research-to-launch-harness/SKILL.md) | AutoLR Research-to-Launch Harness (arXiv:2609.04871) |
 
 #### Skill Evolution & Knowledge
 
@@ -108,6 +123,14 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`stable-skill-evolution`](skills/stable-skill-evolution/SKILL.md) | SkillAdam (arXiv:2609.08944) |
 | [`ledger-orchestrated-coding-loop`](skills/ledger-orchestrated-coding-loop/SKILL.md) | Zero-Shot Self-Orchestration (arXiv:2608.26480) |
 | [`adk2-agent-orchestration-patterns`](skills/adk2-agent-orchestration-patterns/SKILL.md) | Google Cloud Tech / ADK 2 Orchestration |
+| [`adk-async-long-running-tool-resumption`](skills/adk-async-long-running-tool-resumption/SKILL.md) | Google ADK VibeStudio (Async Tool Resumption & Call ID Matching) |
+| [`adk-lifecycle-callback-interceptors`](skills/adk-lifecycle-callback-interceptors/SKILL.md) | Google ADK VibeStudio (Lifecycle Callbacks & Interceptors) |
+| [`adk-a2a-agent-federation`](skills/adk-a2a-agent-federation/SKILL.md) | Google ADK & Agent Runtime (A2A Protocol & Agent Cards) |
+| [`adk-a2ui-dynamic-widgets`](skills/adk-a2ui-dynamic-widgets/SKILL.md) | Google ADK & A2UI (Declarative Widgets & Action Dispatch) |
+| [`adk-eventarc-reactive-trigger`](skills/adk-eventarc-reactive-trigger/SKILL.md) | Google Cloud Eventarc & ADK (Event-Driven Reactive Pipelines) |
+| [`adk-mcp-multimodal-tool-interception`](skills/adk-mcp-multimodal-tool-interception/SKILL.md) | Google ADK & MCP (Multimodal Tool Interceptors & Callbacks) |
+| [`intent-driven-sdlc-planning`](skills/intent-driven-sdlc-planning/SKILL.md) | AI-Native SDLC Playbook (Intent → Spec → Plan upstream pipeline) |
+| [`mcp-server-design`](skills/mcp-server-design/SKILL.md) | MCP Server Best Practices & Progressive Discovery |
 
 #### Retrieval & Evidence
 
@@ -118,6 +141,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`rag-hallucination-repair`](skills/rag-hallucination-repair/SKILL.md) | RAG Hallucination Repair (arXiv:2608.29307) |
 | [`cost-effective-repo-exploration`](skills/cost-effective-repo-exploration/SKILL.md) | Cost-Effective Repo Exploration (arXiv:2608.29675) |
 | [`necessary-tool-evidence-path`](skills/necessary-tool-evidence-path/SKILL.md) | NTEP (arXiv:2609.03493) |
+| [`cost-aware-hierarchical-analysis`](skills/cost-aware-hierarchical-analysis/SKILL.md) | Cost-Aware Hierarchical Analysis (arXiv:2609.04820) |
 
 ### Spec Templates (Project Kickoff)
 
@@ -128,6 +152,11 @@ Structured decision frameworks to fill in when starting a new project. Each temp
 | [`agent-sandbox.spec`](specs/agent-sandbox.spec.md) | Designing agent execution sandboxes |
 | [`skill-library.spec`](specs/skill-library.spec.md) | Designing skill memory systems for LLM agents |
 | [`self-improving-agent.spec`](specs/self-improving-agent.spec.md) | Designing self-modifying agent systems |
+| [`adk-agentic-workflow.spec`](specs/adk-agentic-workflow.spec.md) | Designing multi-agent graph workflows with Google ADK 2 |
+| [`adk-multi-agent-a2a.spec`](specs/adk-multi-agent-a2a.spec.md) | Designing distributed multi-agent systems with A2A Protocol |
+| [`adk-enterprise-deployment-gke.spec`](specs/adk-enterprise-deployment-gke.spec.md) | Production containerized ADK deployment on GKE & Eventarc |
+| [`adk-eval-quality-gate.spec`](specs/adk-eval-quality-gate.spec.md) | Designing golden datasets, trajectory assertions & CI/CD gates |
+| [`adk-a2ui-declarative-interface.spec`](specs/adk-a2ui-declarative-interface.spec.md) | Designing rich agentic interfaces with A2UI dynamic widgets |
 
 ### Research Briefs
 
@@ -246,6 +275,14 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`opendiscoverytrace-ai-scientist`](research-briefs/opendiscoverytrace-ai-scientist.md) | Process traces for evaluating AI scientist workflows |
 | [`data-efficient-language-modeling`](research-briefs/data-efficient-language-modeling.md) | Survey of data efficiency techniques for LM training |
 | [`adk2-orchestration-three-pillars`](research-briefs/adk2-orchestration-three-pillars.md) | Architectural pillars and decision matrix for ADK 2 graph, collaborative, and dynamic workflows |
+| [`overflip-guardrail-repetition-instability`](research-briefs/overflip-guardrail-repetition-instability.md) | Repetition-induced label flips in guardrail models |
+| [`agent-tool-boundary-anomalies`](research-briefs/agent-tool-boundary-anomalies.md) | Structural failures and semantic divergence when tool calls succeed |
+| [`a-structured-debate-mixture-of-agents-framewo`](research-briefs/a-structured-debate-mixture-of-agents-framewo.md) | Structured debate MoA framework for clinical diagnostic support |
+| [`a-verifier-guided-explainable-reasoning-frame`](research-briefs/a-verifier-guided-explainable-reasoning-frame.md) | Verifier-guided explainable reasoning with gold-anchored QLoRA and RLVR |
+| [`aria---an-agentic-framework-for-autonomous-te`](research-briefs/aria---an-agentic-framework-for-autonomous-te.md) | Autonomous agentic testing framework for infotainment systems |
+| [`cabal-multi-agent-simulacra-for-tracing-the-e`](research-briefs/cabal-multi-agent-simulacra-for-tracing-the-e.md) | Multi-agent simulacra modeling collusive bidding cartels in peer review |
+| [`from-language-models-to-world-acting-systems`](research-briefs/from-language-models-to-world-acting-systems.md) | Progress and boundary limits of world-acting agentic AI |
+| [`rise-recursive-improvement-via-self-extrapola`](research-briefs/rise-recursive-improvement-via-self-extrapola.md) | Recursive improvement via self-extrapolating policy distillation |
 
 ---
 
