@@ -3,25 +3,28 @@ name: macos-reverse-engineering
 description: >
   Systematic reverse engineering and binary analysis of macOS and iOS
   user-mode binaries. Covers Mach-O structural dissection, universal fat
-  binary peeling, dynamic loader (dyld) mechanics and chained fixups,
-  Objective-C/Swift runtime metadata reconstruction, Mach messaging and
-  XPC service auditing, LLDB and DTrace dynamic instrumentation, and
-  code signing / entitlement boundary validation.
+  binary peeling, package/installer triage (.pkg, .dmg), dynamic loader (dyld)
+  mechanics and chained fixups, Objective-C/Swift runtime metadata reconstruction,
+  Mach messaging and XPC service auditing, LLDB and DTrace dynamic instrumentation,
+  persistence vector auditing, and code signing / entitlement validation.
   Derived from Jonathan Levin's "Mac OS X and iOS Internals: To the
-  Apple's Core, Volume 1: User Mode" (2nd Edition, OS Internals series).
-source: http://newosxbook.com/
+  Apple's Core, Volume 1: User Mode" (2nd Edition, OS Internals series)
+  and Patrick Wardle's "The Art of Mac Malware" (Volume 1: Analysis).
+source: http://newosxbook.com/ ; https://taomm.org/
 ---
 
 # macOS Reverse Engineering & User-Mode Binary Analysis
 
-Use this skill when analyzing, auditing, debugging, or reverse-engineering macOS and iOS user-mode executables, dynamic libraries (`.dylib`), application bundles (`.app`), and system services.
+Use this skill when analyzing, auditing, debugging, or reverse-engineering macOS and iOS user-mode executables, dynamic libraries (`.dylib`), application bundles (`.app`), installer packages, and system services.
 
 ---
 
 ## When to Use
 
 - Inspecting unknown or third-party macOS/iOS Mach-O binaries to understand functionality, control flow, and external dependencies
+- Extracting and inspecting installer packages (`.pkg`), disk images (`.dmg`), and AppleScript droplets for dropped payloads and pre/post-install scripts
 - Auditing daemon and client communication over Mach messaging, MIG RPC, or XPC protocols
+- Auditing macOS persistence mechanisms (LaunchDaemons, LaunchAgents, BTM background items, dylib hijacking)
 - Reconstructing Objective-C class hierarchies, protocols, and Swift mangled types from stripped or unstripped binaries
 - Debugging or instrumenting running user-mode processes with LLDB and DTrace across ASLR randomized address spaces
 - Auditing application security controls: CodeDirectory hashes (`cdhash`), Hardened Runtime flags, entitlements, and sandbox profiles
@@ -44,7 +47,7 @@ Darwin's user-mode architecture departs fundamentally from standard Linux/ELF en
 ## Procedure
 
 ```
-Binary Triage (lipo, file)
+Packaging & Binary Triage (pkgutil, lipo, file) ──► References: persistence-and-behavioral-monitoring.md
        │
        ▼
 Mach-O Dissection (otool, size) ──► References: macho-binary-anatomy.md
@@ -62,24 +65,41 @@ IPC / XPC Protocol Analysis (launchctl, log stream) ──► References: mach-i
 Dynamic Tracing & LLDB Debugging (dtruss, lldb) ──► References: dynamic-tracing-and-debugging.md
        │
        ▼
+Persistence & Behavioral Auditing (fs_usage, sfltool) ──► References: persistence-and-behavioral-monitoring.md
+       │
+       ▼
 Security Posture & Entitlement Audit (codesign)
 ```
 
 ---
 
-### Step 1: Binary Triage & Architecture Peeling
+### Step 1: Distribution Packaging & Binary Triage
 
-Inspect the binary container to identify CPU targets and extract the target architecture slice:
+Extract payloads from distribution containers, identify target CPU slices, and peel architecture binaries:
 
-```bash
-# 1. Identify file container format and embedded slices
-file <binary_path>
-lipo -info <binary_path>
+1. **Unpack Installer Containers**:
+   ```bash
+   # Extract flat PKG packages and inspect pre/post-install scripts
+   pkgutil --expand <installer.pkg> ./expanded_pkg/
+   cat ./expanded_pkg/Distribution
+   cat ./expanded_pkg/*.pkg/Payload | cpio -idmv
 
-# 2. Extract specific architecture slice for clean disassembler loading
-# Modern Apple Silicon: arm64 or arm64e; Intel: x86_64
-lipo <binary_path> -thin arm64 -output <binary_path>_arm64
-```
+   # Mount DMG read-only without executing auto-run helpers
+   hdiutil attach -nobrowse -readonly <installer.dmg>
+
+   # Decompile compiled AppleScript droplets
+   osadecompile <script.scpt>
+   ```
+
+2. **Peel Architecture Slices**:
+   ```bash
+   # Identify file container format and embedded slices
+   file <binary_path>
+   lipo -info <binary_path>
+
+   # Extract target architecture slice (arm64, arm64e, or x86_64)
+   lipo <binary_path> -thin arm64 -output <binary_path>_arm64
+   ```
 
 ---
 
@@ -285,6 +305,37 @@ Verify the cryptographic identity, signature validity, and runtime permission bo
 
 ---
 
+### Step 8: Persistence Auditing & Behavioral Monitoring
+
+Identify launch hooks, autorun persistence, and monitor live process/filesystem activity:
+
+1. **Audit LaunchDaemons and Agents**:
+   ```bash
+   # Enumerate persistent background services
+   ls -la /Library/LaunchDaemons/ /Library/LaunchAgents/ ~/Library/LaunchAgents/
+   sfltool dump-btm
+   ```
+
+2. **Audit Dynamic Library Hijacking Vulnerabilities**:
+   ```bash
+   # Inspect binary runpaths and weak dynamic libraries
+   otool -l <binary_path> | grep -A 2 LC_RPATH
+   otool -L <binary_path>
+   ```
+
+3. **Trace Live Filesystem and Network Activity**:
+   ```bash
+   # Monitor real-time filesystem modifications by target binary
+   sudo fs_usage -w -f filesys <process_name>
+
+   # Monitor open network connections and sockets
+   sudo lsof -i -n -P | grep ESTABLISHED
+   ```
+
+*Deep reference*: See [persistence-and-behavioral-monitoring.md](references/persistence-and-behavioral-monitoring.md) for flat package unpacking, launch item schemas, dylib hijacking mechanics, and Endpoint Security Framework (ESF) monitoring.
+
+---
+
 ## Common Pitfalls & Failure Modes
 
 | Symptom | Root Cause | Remediation |
@@ -306,3 +357,5 @@ For exhaustive architectural specifications, structs, and code templates:
 - [Mach IPC, MIG & XPC Architecture](references/mach-ipc-and-xpc.md) — Mach ports, message headers, MIG IDL routing, and XPC dictionary protocols.
 - [Objective-C & Swift Runtime Metadata](references/objc-and-swift-metadata.md) — Runtime class layouts, method type encodings, and Swift metadata demangling.
 - [Dynamic Tracing, Debugging & Memory Inspection](references/dynamic-tracing-and-debugging.md) — DTrace one-liners, LLDB scripting recipes, memory tools (`vmmap`, `heap`), and anti-debug bypasses.
+- [Persistence Mechanisms, Packaging Triage & Behavioral Monitoring](references/persistence-and-behavioral-monitoring.md) — Apple disk images (.dmg), flat packages (.pkg), LaunchDaemons/Agents, BTM background items, dylib hijacking, and fs_usage/ESF monitoring.
+
