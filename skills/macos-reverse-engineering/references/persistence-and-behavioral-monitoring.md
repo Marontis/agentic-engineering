@@ -160,3 +160,99 @@ Malware employs anti-analysis checks to detect virtual machines, sandboxes, and 
    (lldb) memory read --format s $x0
    (lldb) memory read --size 1 --format c --count 64 $x0
    ```
+
+---
+
+## 5. Gatekeeper, Quarantine Attributes & Notarization
+
+Gatekeeper enforces runtime validation on binaries downloaded from external networks.
+
+### The Quarantine Extended Attribute (`com.apple.quarantine`)
+When a file is saved via web browsers, email clients, or AirDrop, the downloading application attaches `com.apple.quarantine`:
+```bash
+# Display extended attributes
+xattr -l <file_path>
+
+# Raw quarantine string format:
+# flag;timestamp;agent_bundle_id;UUID
+# e.g.: 0081;5f5b2c7e;Safari;E7B82C05-64AC-4A3C-901B-39E0A243F6E1
+
+# Manually strip quarantine (administrative / analysis override)
+xattr -d com.apple.quarantine <file_path>
+```
+
+### Gatekeeper Policy & Notarization Verification
+Gatekeeper requires that quarantined binaries possess a valid Developer ID signature and an **Apple Notarization ticket**:
+```bash
+# Assess whether Gatekeeper will permit execution
+spctl -a -vv -t execute <binary_path>
+
+# Validate embedded or stapled notarization ticket
+stapler validate <binary_path>
+```
+
+### Quarantine Blindspots & Evasion Vectors
+1. **Non-Browser Tools**: Terminal tools (`curl`, `wget`, `git clone`, `scp`, `rsync`) do **not** route downloads through LaunchServices and do **not** apply `com.apple.quarantine`. Binaries fetched via command-line bypass Gatekeeper entirely.
+2. **AppleScript Droplets**: Launching unquarantined secondary helper scripts or droplets embedded in resource directories.
+3. **Notarized Malicious Binaries**: Attackers occasionally pass automated notary checks by obfuscating malicious intent behind delayed logic or secondary payload staging.
+
+---
+
+## 6. TCC (Transparency, Consent, and Control) Auditing
+
+TCC restricts application access to sensitive user data, peripherals, and system folders (Microphone, Camera, Screen Recording, `~/Library/Safari`, `~/Library/Mail`, `~/Library/Messages`).
+
+### TCC SQLite Database Layout
+TCC policy entries are stored in SQLite databases:
+- **User Scope**: `~/Library/Application Support/com.apple.TCC/TCC.db`
+- **System Scope**: `/Library/Application Support/com.apple.TCC/TCC.db` (SIP-protected)
+
+```bash
+# Query TCC access grants for target client bundle (requires Full Disk Access)
+sqlite3 ~/Library/Application\ Support/com.apple.TCC/TCC.db \
+  "SELECT service, client, auth_value FROM access WHERE client LIKE '%target%';"
+```
+
+### Full Disk Access (FDA) Probing
+Binaries probe for FDA silently without prompting the user by attempting non-blocking reads on TCC-protected paths:
+```bash
+# If exit status is non-zero (Operation not permitted), FDA is absent
+ls ~/Library/Safari > /dev/null 2>&1
+```
+
+### TCC Privilege Inheritance & Evasion
+1. **Remote Login / SSH Privilege Inheritance**: Historically, the system `sshd` daemon held Full Disk Access. Local loopback operations (`scp user@localhost:~/Library/Safari/Cookies.binarycookies .`) inherited SSHD's disk access without triggering user authorization prompts.
+2. **Entitlement Hijacking via DYLD**: Injecting dynamic libraries (`DYLD_INSERT_LIBRARIES`, `DYLD_FRAMEWORK_PATH`) into unhardened developer tools or utilities (e.g. `SafariForWebKitDevelopment`) lacking library validation (`disable-library-validation`) inherits the donor process's TCC rights.
+
+---
+
+## 7. Developer Supply-Chain: Xcode Project Subversion
+
+Targeting developers by weaponizing source project files (`OSX.XCSSET` pattern):
+
+### Project File Structure (`project.pbxproj`)
+Xcode stores build configuration in `<App>.xcodeproj/project.pbxproj`. It supports script build phases:
+- **`PBXShellScriptBuildPhase`**: Arbitrary shell scripts executed whenever the developer builds the project.
+- **Hidden Invocations**: Attackers insert background script runs:
+  ```
+  shellScript = "nohup python3 -c '...' > /dev/null 2>&1 &";
+  ```
+- **Auditing Projects for Supply-Chain Backdoors**:
+  ```bash
+  grep -E "(PBXShellScriptBuildPhase|shellScript)" <App>.xcodeproj/project.pbxproj
+  ```
+
+---
+
+## 8. Packed Binaries & UPX on macOS
+
+Cross-platform malware (e.g. `OSX.IPStorm`) frequently leverages UPX (Ultimate Packer for eXecutables) to compress Mach-O binaries and obscure static disassembly:
+
+```bash
+# Inspect whether binary has UPX signature
+strings <binary_path> | grep -E "(UPX!|\$Info: This file is packed under the help of the UPX)"
+
+# Decompress standard UPX Mach-O binary
+upx -d <binary_path> -o <unpacked_binary>
+```
+If the UPX header magic or section names were stripped/altered, set an LLDB breakpoint on the trailing jump instruction (`jmp` or `br`) at the end of the decompression stub to dump memory after reaching the Original Entry Point (OEP).
