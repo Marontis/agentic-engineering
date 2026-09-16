@@ -6,11 +6,12 @@ description: >
   binary peeling, package/installer triage (.pkg, .dmg), dynamic loader (dyld)
   mechanics and chained fixups, Objective-C/Swift runtime metadata reconstruction,
   Mach messaging and XPC service auditing, LLDB and DTrace dynamic instrumentation,
-  persistence vector auditing, and code signing / entitlement validation.
+  persistence vector auditing, Gatekeeper/Notarization checks, and code signing /
+  entitlement boundary validation.
   Derived from Jonathan Levin's "Mac OS X and iOS Internals: To the
   Apple's Core, Volume 1: User Mode" (2nd Edition, OS Internals series)
-  and Patrick Wardle's "The Art of Mac Malware" (Volume 1: Analysis).
-source: http://newosxbook.com/ ; https://taomm.org/
+  and Patrick Wardle's "The Art of Mac Malware" & annual retrospective research.
+source: http://newosxbook.com/ ; https://taomm.org/ ; https://objective-see.org/
 ---
 
 # macOS Reverse Engineering & User-Mode Binary Analysis
@@ -297,7 +298,19 @@ Verify the cryptographic identity, signature validity, and runtime permission bo
    - `com.apple.security.cs.disable-library-validation`: Allows loading third-party or unsigned dylibs.
    - `com.apple.security.app-sandbox`: Enforces App Sandbox confinement.
 
-3. **Inspect Runtime Sandboxing (Seatbelt)**:
+3. **Audit Gatekeeper & Notarization Tickets**:
+   ```bash
+   # Check quarantine attribute attached by LaunchServices/browsers
+   xattr -l <binary_path>
+
+   # Evaluate Gatekeeper execution policy assessment
+   spctl -a -vv -t execute <binary_path>
+
+   # Validate Apple Notarization ticket
+   stapler validate <binary_path>
+   ```
+
+4. **Inspect Runtime Sandboxing (Seatbelt)**:
    ```bash
    # Check if running process is sandboxed
    sandbox-exec -f /path/to/profile.sb <binary_path>
@@ -323,7 +336,13 @@ Identify launch hooks, autorun persistence, and monitor live process/filesystem 
    otool -L <binary_path>
    ```
 
-3. **Trace Live Filesystem and Network Activity**:
+3. **Audit TCC Full Disk Access Probing**:
+   ```bash
+   # Detect if target checks for FDA without prompt by probing protected directory
+   ls ~/Library/Safari > /dev/null 2>&1
+   ```
+
+4. **Trace Live Filesystem and Network Activity**:
    ```bash
    # Monitor real-time filesystem modifications by target binary
    sudo fs_usage -w -f filesys <process_name>
@@ -332,7 +351,7 @@ Identify launch hooks, autorun persistence, and monitor live process/filesystem 
    sudo lsof -i -n -P | grep ESTABLISHED
    ```
 
-*Deep reference*: See [persistence-and-behavioral-monitoring.md](references/persistence-and-behavioral-monitoring.md) for flat package unpacking, launch item schemas, dylib hijacking mechanics, and Endpoint Security Framework (ESF) monitoring.
+*Deep reference*: See [persistence-and-behavioral-monitoring.md](references/persistence-and-behavioral-monitoring.md) for flat package unpacking, launch item schemas, dylib hijacking mechanics, TCC databases, Gatekeeper quarantine flags, and Endpoint Security Framework (ESF) monitoring.
 
 ---
 
@@ -346,6 +365,8 @@ Identify launch hooks, autorun persistence, and monitor live process/filesystem 
 | Dynamic libraries missing from `/System/Library` on disk | **Dyld Shared Cache**: macOS 11+ caches all system frameworks in a single monolithic archive. | Extract frameworks using `jtool2 -extract` or `dyld_info -shared_cache_dylibs`. |
 | Process terminates immediately upon debugger attach | **Anti-Debug `PT_DENY_ATTACH`**: Binary calls `ptrace(31, 0, 0, 0)`. | Intercept `ptrace` in LLDB and force early return with value `0`, or use dynamic interposing. |
 | Stripped binary shows no symbols in `nm` | **Stripped Symbol Table**: `LC_SYMTAB` was stripped with `strip`. | Look up exported symbols in `LC_DYLD_INFO_ONLY` export trie or `LC_DYLD_EXPORTS_TRIE`, and reconstruct class/method names from `__objc_methname`. |
+| Gatekeeper blocks execution: `"App is damaged and can't be opened"` | **Quarantine Flag**: Binary was downloaded from the web and lacks Developer ID / Notarization ticket. | For security research in isolated test environments, remove attribute with `xattr -d com.apple.quarantine <path>`. |
+
 
 ---
 

@@ -167,3 +167,41 @@ nm -m -p <binary>
 # View shared library dependencies
 otool -L <binary>
 ```
+
+---
+
+## 6. Binary Overlay & Tampering Detection
+
+In a well-formed Mach-O executable, the entire file content on disk is accounted for by the segment commands. The final segment on disk is almost universally `__LINKEDIT`:
+$$\text{Expected End Offset} = \text{fileoff}(\text{\_\_LINKEDIT}) + \text{filesize}(\text{\_\_LINKEDIT})$$
+
+### Detecting Viral Prependers & Append Overlays
+Malicious implants and viral file infectors (e.g. OSX.EvilQuest/ThiefQuest) inject code by either:
+1. **Appending Overlay Data**: Appending raw encrypted payloads or metadata markers beyond `__LINKEDIT`. If `ActualFileSize > ExpectedEndOffset`, trailing overlay data exists.
+2. **Prepending Executable Stubs**: Writing an initial loader Mach-O at offset 0, concatenating the host binary at a fixed offset, and appending a 32-byte trailer containing the original host size and infection magic.
+
+```bash
+# Automated verification of Mach-O boundary integrity
+python3 -c '
+import sys, struct
+with open(sys.argv[1], "rb") as f:
+    data = f.read()
+# Parse mach_header_64
+magic, cputype, cpusubtype, filetype, ncmds, sizeofcmds, flags, res = struct.unpack_from("<IIIIIIII", data, 0)
+offset = 32
+max_end = 0
+for _ in range(ncmds):
+    cmd, cmdsize = struct.unpack_from("<II", data, offset)
+    if cmd == 0x19: # LC_SEGMENT_64
+        segname = data[offset+8:offset+24].split(b"\x00")[0].decode()
+        vmaddr, vmsize, fileoff, filesize = struct.unpack_from("<QQQQ", data, offset+24)
+        if fileoff + filesize > max_end:
+            max_end = fileoff + filesize
+    offset += cmdsize
+overlay_bytes = len(data) - max_end
+print(f"File size: {len(data)}, Segment bound: {max_end}, Overlay: {overlay_bytes} bytes")
+if overlay_bytes > 0:
+    print(f"[!] Warning: {overlay_bytes} bytes of trailing overlay detected!")
+' <binary_path>
+```
+
