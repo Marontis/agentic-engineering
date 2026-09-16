@@ -72,7 +72,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`agentic-prompt-injection-search`](skills/agentic-prompt-injection-search/SKILL.md) | Test-Time Injection Search (arXiv:2609.04495) |
 | [`security-context-composition`](skills/security-context-composition/SKILL.md) | CONTINUITY Security-Context Contracts (arXiv:2609.05269) |
 | [`cve-history-executable-detection`](skills/cve-history-executable-detection/SKILL.md) | The History Is the Detector (arXiv:2609.05335) |
-| [`macos-reverse-engineering`](skills/macos-reverse-engineering/SKILL.md) | Jonathan Levin (*OS Internals, Vol. 1: User Mode*) |
+| [`macos-reverse-engineering`](skills/macos-reverse-engineering/SKILL.md) | Jonathan Levin (*OS Internals*) & Patrick Wardle (*TAOMM*) |
 
 #### Self-Improvement & Evaluation
 
