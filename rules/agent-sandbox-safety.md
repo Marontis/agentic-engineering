@@ -490,6 +490,22 @@ keys on mutative tools, and maintain inverse compensation actions for transactio
 
 ---
 
+## Universal Tool Defense & Multi-Turn Trajectory Safety
+
+### DO: Filter dynamic tool registries with anomaly scoring and restore canonical schemas
+
+Protect tool-integrated agents against direct injection, indirect prompt injection, memory poisoning, and backdoor tools using a modular two-tier tool defense. Apply Attacker Tool Filtering (Isolation Forest anomaly scoring over tool names, parameter schemas, and documentation embeddings) to detect and quarantine injected or rogue tools before planning. Concurrently, execute Normal Tool Recalling to deterministically restore authoritative, white-box canonical tool definitions prior to model prompt construction, preventing runtime tools from shadowing or hijacking core system operations.
+
+> Source: Universal Defenses for Tool-Integrated LLM Agents Against Adversarial Attacks (arXiv:2609.16098)
+
+### DON'T: Rely on single-turn refusal or initial benign turns to evaluate long-horizon safety
+
+Safety failures in autonomous tool-using agents routinely do not emerge on the first interaction turn. In long-horizon multi-turn environments, adversaries establish benign context and state across multiple turns (average 14.7 turns) before injecting adversarial pivots, leading to delayed unsafe tool execution or severe over-refusal. Evaluate and calibrate agent safety as a continuous trajectory-level property across complete user-agent-environment traces rather than relying on static prompt-response refusal metrics.
+
+> Source: BLINDSPOT: A Benchmark for Safety and Refusal Calibration in Long-Horizon Tool-Using Agents (arXiv:2609.16305)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -511,6 +527,7 @@ For implementation details on the procedures behind these rules:
 - [`high-fanout-sandbox-memory-compression`](skills/high-fanout-sandbox-memory-compression/SKILL.md) — Memory compression for parallel sandboxes
 - [`runtime-resource-authorization-bounds`](skills/runtime-resource-authorization-bounds/SKILL.md) — Dynamic resource acquisition quarantine and effect permits
 - [`pre-execution-action-auditing`](skills/pre-execution-action-auditing/SKILL.md) — Pre-execution parameter evidence audit against indirect injection
+- [`universal-tool-defense`](skills/universal-tool-defense/SKILL.md) — Anomaly-based tool filtering, canonical schema recalling, and reflection
 
 ## Sources
 
@@ -543,4 +560,6 @@ For implementation details on the procedures behind these rules:
 - AcquireBound: arXiv:2609.14744
 - ActGuard: arXiv:2609.14987
 - Agent-Tool Boundary Anomalies: arXiv:2609.15397
+- Universal Defenses for Tool-Integrated LLM Agents: arXiv:2609.16098
+- BLINDSPOT Long-Horizon Benchmark: arXiv:2609.16305
 

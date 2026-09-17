@@ -395,6 +395,21 @@ search from oracle verification via bilevel optimization:
 
 ---
 
+## Autonomous Environment Adaptation & Causal Memory Construction
+
+### DO: Use broad-then-deep exploration with decoupled verifiers to construct frozen causal memory in new environments
+
+When deploying agents to unfamiliar operating systems, CLI tools, or external APIs, do not rely on trial-and-error reasoning during live user tasks or expensive supervised fine-tuning. Coordinate a Curriculum Agent, Actor Agent, and Verifier Agent through a two-phase exploration loop:
+1. **Broad Self-Exploration**: Parallel shallow probing across top-level tool discovery commands (`--help`, man pages, listing subcommands) to map environment topology and affordance boundaries.
+2. **Deep Self-Exploration**: Targeted exploration of synthetic boundary tasks, hidden constraints, and deliberate fault-injections to capture ground-truth error codes and failure behaviors.
+3. **Frozen Causal Memory**: Distill verified observations into reusable `(Condition, Action, Consequence)` causal triplets and freeze the resulting playbook for zero-shot reuse by downstream task-solving agents without updating model weights.
+
+**Evidence**: On OSWorld-v2 and Agent's Last Exam, autonomous causal memory construction enabled open-source models (Kimi-K3, GLM-5.3) to outperform frontier closed-source models including GPT-6 without any parameter fine-tuning.
+
+> Source: RSIAgent: Autonomous Exploration for Recursive Self-improvement in New Environments (arXiv:2609.15364)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -414,6 +429,7 @@ For implementation details on the procedures behind these rules:
 - [`ledger-orchestrated-coding-loop`](skills/ledger-orchestrated-coding-loop/SKILL.md) — File-ledger multi-turn loop with test veto
 - [`adk2-agent-orchestration-patterns`](skills/adk2-agent-orchestration-patterns/SKILL.md) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
 - [`dense-rubric-skill-evolution`](skills/dense-rubric-skill-evolution/SKILL.md) — Bilevel dense rubric surrogate optimization for skill evolution
+- [`autonomous-environment-exploration`](skills/autonomous-environment-exploration/SKILL.md) — Curriculum-guided broad-then-deep environment exploration and causal memory
 
 ## Sources
 
@@ -436,5 +452,6 @@ For implementation details on the procedures behind these rules:
 - Zero-Shot Self-Orchestration: arXiv:2608.26480
 - Google Cloud Tech / ADK 2 Orchestration: Graph, Collaborative & Dynamic Workflows
 - SkillLift: arXiv:2609.15396
+- RSIAgent: arXiv:2609.15364
 
 

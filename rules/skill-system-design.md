@@ -373,6 +373,18 @@ In multi-agent systems, never use prompt-based LLM routing or LLM nodes for task
 
 ---
 
+## Context Management & Protocol Preservation
+
+### DO: Enforce protocol-aware context trimming with adaptive budget guardrails
+
+When reducing context in long-horizon agentic workflows, prioritize preserving protocol-critical state (tool schemas, unresolved request/response pairs, causal state mutations, active invariant constraints) over maximizing raw token removal. Avoid uniform aggressive context trimming ($\le 25\%$ retained tokens), which inflates task failure odds by 10.92-fold ($p < 0.001$). Dynamically adapt budget guardrails to workflow complexity classes: retain $\ge 35\%$ for linear tasks, $\ge 50\%$ for branching trees, and $\ge 60\%$ for iterative/cyclic debugging.
+
+**Evidence**: Naive recency, relevance, or summarization trimming drops task success to 66.6%–77.3% and protocol adherence to 85.5%–88.6%. Protocol-aware trimming lifts task success to 92.2% (5.24× odds improvement under aggressive budgets); adaptive guardrails achieve 96.0% task success, 96.3% protocol adherence, and reduce cascading failures to 1.0% with 56.0% mean token savings.
+
+> Source: Protocol-Preserving Context Trimming for Agentic Workflows: Benefits, Failure Regimes, and Budget Guardrails (arXiv:2609.16461)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -384,6 +396,7 @@ For implementation details on the procedures behind these rules:
 - [`skill-evolution-defense`](skills/skill-evolution-defense/SKILL.md) — Hardening skill evolution loops
 - [`hallucination-mean-shift-probe`](skills/hallucination-mean-shift-probe/SKILL.md) — Linear probe hallucination detection
 - [`prefix-preserving-context-assembly`](skills/prefix-preserving-context-assembly/SKILL.md) — Database-style context assembly
+- [`protocol-preserving-context-trimming`](skills/protocol-preserving-context-trimming/SKILL.md) — Protocol-aware context trimming and budget guardrails
 - [`persistent-agent-migration`](skills/persistent-agent-migration/SKILL.md) — Runtime-independent agent migration
 - [`trajectory-aware-eval-pruning`](skills/trajectory-aware-eval-pruning/SKILL.md) — Trajectory-aware benchmark item selection
 - [`procedural-family-skill-consolidation`](skills/procedural-family-skill-consolidation/SKILL.md) — Hierarchical global/local skill consolidation
@@ -419,4 +432,5 @@ For implementation details on the procedures behind these rules:
 - The Last AI Built by Humans: arXiv:2609.11873
 - Zero-Shot Self-Orchestration: arXiv:2608.26480
 - Google Cloud Tech / ADK 2 Orchestration: Graph, Collaborative & Dynamic Workflows
+- Protocol-Preserving Context Trimming: arXiv:2609.16461
 

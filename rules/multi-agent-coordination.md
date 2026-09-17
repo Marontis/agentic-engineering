@@ -239,6 +239,26 @@ size or monitoring frequency.
 
 ---
 
+## Multi-Agent Communication & Model Pool Selection
+
+### DO: Structure inter-agent communication around typed intents and bus substrates
+
+Replace rigid hierarchical manager-worker trees (which block peer consultation) and central router message-passing (which propagates router hallucination cascades) with a shared communication bus. Enforce that every inter-agent message explicitly specifies one of four structured communicative intents: `discussion` (hypothesis generation), `challenge` (adversarial critique/falsification), `guidance` (directional steering), or `request for explanation` (data provenance and derivation requests). Use a specialized Chair agent observing shared memory to arbitrate convergence.
+
+**Evidence**: Across 13 benchmarks spanning visual reasoning, mathematics, and multi-hop retrieval, intent-regularized bus communication consistently outperforms hierarchical and router architectures while reducing unproductive chatter turns by >40%.
+
+> Source: BusMA: A Bus Communication Substrate for Multi-Agent Systems (arXiv:2609.15054)
+
+### DON'T: Expand candidate model pools with arbitrary heterogeneous architectures
+
+Do not assume that adding more diverse models to a multi-agent routing or voting pool improves aggregate system capability. Expanding candidate pools beyond 3–5 models frequently degrades performance below that of the single top-performing standalone base model due to format friction, divergent tokenization biases, and uncalibrated confidence scores. When constructing multi-agent model teams, restrict candidate selection to **within a single model family** (e.g. varying parameter tiers of the same architecture), which consistently yields the highest relative performance gain over standalone baselines.
+
+**Evidence**: Systematically evaluated across 8 selection strategies on competitive scientific reasoning benchmarks; intra-family model selection captured the highest relative lift over base models, whereas heterogeneous pools introduced severe noise into voting aggregators and LLM judges.
+
+> Source: Mo' Models, Mo' Problems: How to Best Select Model Pools when Designing Multi-Agent Systems (arXiv:2609.17306)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -263,3 +283,5 @@ For implementation details on the procedures behind these rules:
 - Emergent Cheating in Swarms: arXiv:2609.04170
 - Value-Preserving MAS Architectures: arXiv:2609.03920
 - FirstMate agent distro: https://github.com/kunchenguid/firstmate
+- BusMA: arXiv:2609.15054
+- Mo' Models, Mo' Problems: arXiv:2609.17306
