@@ -12,3 +12,10 @@ desktop.ini
 # Misc
 *.bak
 *.tmp
+*.log
+
+# Scripts & temporary pipeline scratch files (keep pipeline in tools/praxis)
+*.py
+*.ps1
+candidates*.json
+__pycache__/
