@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 185+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 195+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -30,14 +30,14 @@ Concise, evidence-backed guardrails. Load these so your agent applies them autom
 
 | Rules File | Domain |
 |:-----------|:-------|
-| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring, hook security, multi-turn refusal variance, dependency-scoped plan lineage, dialogue authentication decoupling, semantic patch validation, input tree perturbation, constructive agent host obligations, guard-agent topologies, deterministic safety constraint gates, guardrail repetition instability, dynamic resource acquisition bounds, pre-execution action auditing, agent-tool boundary contracts |
-| [`skill-system-design`](rules/skill-system-design.md) | Skill authoring, selection, library management, skill evolution, training data quality, evidence triage, library integrity, hallucination detection, prefix-preserving context assembly, persistent agent architecture, procedural families, operational know-how distillation, speculative macro commit, code embedding functional retrieval gap, standardized semantic envelopes |
-| [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification, multi-day autonomous loops, joint harness-weight optimization, reference trajectory evolution, error-structured prompt optimization (ESPO), counterexample-guided repair, rubric artifact bias, neural invariant diagnosis, belief-calibrated scaffold optimization, swarm commons governance, debate consensus calibration, surrogate-guided bilevel rubric evolution |
+| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring, hook security, multi-turn refusal variance, dependency-scoped plan lineage, dialogue authentication decoupling, semantic patch validation, input tree perturbation, constructive agent host obligations, guard-agent topologies, deterministic safety constraint gates, guardrail repetition instability, dynamic resource acquisition bounds, pre-execution action auditing, agent-tool boundary contracts, universal tool anomaly filtering, trajectory-level multi-turn safety |
+| [`skill-system-design`](rules/skill-system-design.md) | Skill authoring, selection, library management, skill evolution, training data quality, evidence triage, library integrity, hallucination detection, prefix-preserving context assembly, protocol-aware context trimming, persistent agent architecture, procedural families, operational know-how distillation, speculative macro commit, code embedding functional retrieval gap, standardized semantic envelopes |
+| [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification, multi-day autonomous loops, joint harness-weight optimization, reference trajectory evolution, error-structured prompt optimization (ESPO), counterexample-guided repair, rubric artifact bias, neural invariant diagnosis, belief-calibrated scaffold optimization, swarm commons governance, debate consensus calibration, surrogate-guided bilevel rubric evolution, autonomous environment exploration and frozen causal memory |
 | [`adk-workflow-architecture`](rules/adk-workflow-architecture.md) | Graph DAG orchestration, deterministic runtime gates, zero-token policy routing, default fallback edges, lifecycle callback interceptors, Memory Bank vs RAG separation, long-running tool receipts, universal resumption |
 | [`adk-security-and-evaluation`](rules/adk-security-and-evaluation.md) | Model Armor prompt injection guards, Sensitive Data Protection (SDP) PII de-identification, A2A mutual agent authentication & Agent Card verification, AP2/UCP cryptographic commerce tokens, CI/CD golden dataset trajectory validation, multi-criteria LLM-as-a-Judge rubrics |
 | [`agent-evaluation-quality`](rules/agent-evaluation-quality.md) | Output evaluation, benchmarking, quality gates, pass/fail rubrics, trajectory verification |
 | [`agent-human-interaction`](rules/agent-human-interaction.md) | Work presentation, feedback solicitation, cognitive load management, structured reviews |
-| [`multi-agent-coordination`](rules/multi-agent-coordination.md) | Multi-agent topology, role delegation, communication protocols, coordination failure recovery |
+| [`multi-agent-coordination`](rules/multi-agent-coordination.md) | Multi-agent topology, role delegation, communication protocols, coordination failure recovery, intent-regularized bus communication, intra-family model candidate selection |
 
 ### Skills (On-Demand)
 
@@ -73,6 +73,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`security-context-composition`](skills/security-context-composition/SKILL.md) | CONTINUITY Security-Context Contracts (arXiv:2609.05269) |
 | [`cve-history-executable-detection`](skills/cve-history-executable-detection/SKILL.md) | The History Is the Detector (arXiv:2609.05335) |
 | [`macos-reverse-engineering`](skills/macos-reverse-engineering/SKILL.md) | Jonathan Levin (*OS Internals*) & Patrick Wardle (*TAOMM*) |
+| [`universal-tool-defense`](skills/universal-tool-defense/SKILL.md) | Universal Tool Defenses (arXiv:2609.16098) |
 
 #### Self-Improvement & Evaluation
 
@@ -102,6 +103,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`dense-rubric-skill-evolution`](skills/dense-rubric-skill-evolution/SKILL.md) | SkillLift (arXiv:2609.15396) |
 | [`agentic-review-deploy-loop`](skills/agentic-review-deploy-loop/SKILL.md) | AI-Native SDLC Playbook (Review, deploy, and maintain stages) |
 | [`autonomous-research-to-launch-harness`](skills/autonomous-research-to-launch-harness/SKILL.md) | AutoLR Research-to-Launch Harness (arXiv:2609.04871) |
+| [`autonomous-environment-exploration`](skills/autonomous-environment-exploration/SKILL.md) | RSIAgent (arXiv:2609.15364) |
 
 #### Skill Evolution & Knowledge
 
@@ -115,6 +117,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`governed-knowledge-graph`](skills/governed-knowledge-graph/SKILL.md) | MAGG Governed KGs (arXiv:2608.28642) |
 | [`agentic-data-cracking`](skills/agentic-data-cracking/SKILL.md) | Token-Efficient Data Reasoning (arXiv:2608.31082) |
 | [`prefix-preserving-context-assembly`](skills/prefix-preserving-context-assembly/SKILL.md) | ContextPipe (arXiv:2609.00749) |
+| [`protocol-preserving-context-trimming`](skills/protocol-preserving-context-trimming/SKILL.md) | Protocol-Preserving Context Trimming (arXiv:2609.16461) |
 | [`persistent-agent-migration`](skills/persistent-agent-migration/SKILL.md) | Enoch Persistent Agents (arXiv:2609.00546) |
 | [`requirements-driven-code-generation`](skills/requirements-driven-code-generation/SKILL.md) | WiseSpec (arXiv:2609.00568) |
 | [`procedural-family-skill-consolidation`](skills/procedural-family-skill-consolidation/SKILL.md) | SkillGLoW (arXiv:2609.02217) |
@@ -284,6 +287,15 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`cabal-multi-agent-simulacra-for-tracing-the-e`](research-briefs/cabal-multi-agent-simulacra-for-tracing-the-e.md) | Multi-agent simulacra modeling collusive bidding cartels in peer review |
 | [`from-language-models-to-world-acting-systems`](research-briefs/from-language-models-to-world-acting-systems.md) | Progress and boundary limits of world-acting agentic AI |
 | [`rise-recursive-improvement-via-self-extrapola`](research-briefs/rise-recursive-improvement-via-self-extrapola.md) | Recursive improvement via self-extrapolating policy distillation |
+| [`blindspot-long-horizon-agent-safety`](research-briefs/blindspot-long-horizon-agent-safety.md) | Trajectory-level safety benchmark evaluating delayed emergence of failures across 2,500+ multi-turn runs |
+| [`sciencebuddy-recursive-harness-evolution`](research-briefs/sciencebuddy-recursive-harness-evolution.md) | Recursive-in-recursive self-improvement coupling inner harness evolution with outer model RL |
+| [`algoevo-agentic-algorithm-discovery`](research-briefs/algoevo-agentic-algorithm-discovery.md) | Self-evolving agentic search with design skill hubs and hierarchical experience trees |
+| [`busma-multi-agent-bus-substrate`](research-briefs/busma-multi-agent-bus-substrate.md) | Shared bus communication substrate with 4 explicit communicative intents and chair convergence |
+| [`stellar-colosseum-agent-harness`](research-briefs/stellar-colosseum-agent-harness.md) | Many-agent harness for long-horizon mathematical proofs integrated into Antigravity Teamwork |
+| [`evoontology-self-evolving-ontology`](research-briefs/evoontology-self-evolving-ontology.md) | MCP-encapsulated ontology layer with attribution-guided typed edits for data agents |
+| [`world-model-science-metastable-dynamics`](research-briefs/world-model-science-metastable-dynamics.md) | Dynamical diagnostics, error avalanches, and metastable belief basins in long-horizon agents |
+| [`mas-model-pool-selection`](research-briefs/mas-model-pool-selection.md) | Empirical model pool selection showing intra-family candidate pools outperform heterogeneous mixes |
+| [`thinkflow-latent-conversational-memory`](research-briefs/thinkflow-latent-conversational-memory.md) | Self-evolving probabilistic continuous latent memory overcoming explicit text bottlenecks |
 
 ---
 
