@@ -259,6 +259,16 @@ Do not assume that adding more diverse models to a multi-agent routing or voting
 
 ---
 
+## Adversarial Contagion Damping & Swarm Perception Gating
+
+### DON'T: Allow perception agents to directly feed strategic coordinators without adversarial shock damping
+
+In multi-agent systems where front-line agents ingest unstructured external feeds (social media, web search, market data), black-box poisoning attacks by budget-constrained adversaries cause cascading belief shifts that propagate unimpeded across flat or broadcast topologies, catastrophically degrading decision quality (e.g., crashing Sharpe ratios in autonomous trading swarms). Implement hierarchical coordinator topologies where coordinators cross-check evidence across disjoint modalities and enforce confidence-calibrated shock dampening before updating global strategic state.
+
+> Source: Contagion on the Trading Floor: How Adversarial Signals Spread in Multi-Agent Trading Systems (ECML PKDD 2026, arXiv:2609.19789)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -285,3 +295,4 @@ For implementation details on the procedures behind these rules:
 - FirstMate agent distro: https://github.com/kunchenguid/firstmate
 - BusMA: arXiv:2609.15054
 - Mo' Models, Mo' Problems: arXiv:2609.17306
+- Contagion on the Trading Floor: arXiv:2609.19789
