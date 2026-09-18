@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 195+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 225+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -296,6 +296,9 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`world-model-science-metastable-dynamics`](research-briefs/world-model-science-metastable-dynamics.md) | Dynamical diagnostics, error avalanches, and metastable belief basins in long-horizon agents |
 | [`mas-model-pool-selection`](research-briefs/mas-model-pool-selection.md) | Empirical model pool selection showing intra-family candidate pools outperform heterogeneous mixes |
 | [`thinkflow-latent-conversational-memory`](research-briefs/thinkflow-latent-conversational-memory.md) | Self-evolving probabilistic continuous latent memory overcoming explicit text bottlenecks |
+| [`pentestchain-cost-aware-mcp-pentesting`](research-briefs/pentestchain-cost-aware-mcp-pentesting.md) | Cost-aware, MCP-orchestrated penetration testing cascade with local SLM and MCP threat model |
+| [`mist-mid-training-cybersecurity-llms`](research-briefs/mist-mid-training-cybersecurity-llms.md) | Domain adaptation via synthetic mid-training flows preserving general reasoning |
+| [`trusting-trust-revisited-poisoned-benchmarks`](research-briefs/trusting-trust-revisited-poisoned-benchmarks.md) | Thompson's "Trusting Trust" applied to self-modifying coding agents via poisoned benchmarks |
 
 ---
 
