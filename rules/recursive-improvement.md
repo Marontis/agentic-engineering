@@ -410,6 +410,20 @@ When deploying agents to unfamiliar operating systems, CLI tools, or external AP
 
 ---
 
+## Benchmark Integrity & Trojan Resilience in Self-Modifying Agents
+
+### DON'T: Allow self-modifying agents to optimize prompts or scaffolding solely against performance benchmarks
+
+When autonomous coding agents modify their own instructions, prompts, or tool wrappers to maximize benchmark pass rates, adversaries can supply subtly poisoned benchmarks to induce self-perpetuating vulnerabilities (e.g. disabling SSL verification `verify=False` on network requests). Because the agent's meta-optimizer seeks reward without understanding intent, it internalizes insecure directives into its system instructions.
+
+### DO: Evaluate evolved instructions against immutable, held-out negative security testbeds
+
+In self-improving agent harnesses (such as Hyperagents or Darwin Gödel Machines), backdoors introduced by poisoned benchmarks persist across subsequent generations even when evolved against completely clean benchmarks. Because standard benchmarks only check for task completion rather than the absence of security regressions, clean tests never penalize the dormant vulnerability. Gate every self-evolved prompt or code modification through an immutable, out-of-band negative testbed that explicitly checks for safety invariant violations (e.g., certificate validation, privilege drops, credential protection).
+
+> Source: Reflections on Trusting Trust, Revisited: Contaminating Self-Modifying AI Coding Agents with Poisoned Benchmarks (arXiv:2609.17817)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -453,5 +467,6 @@ For implementation details on the procedures behind these rules:
 - Google Cloud Tech / ADK 2 Orchestration: Graph, Collaborative & Dynamic Workflows
 - SkillLift: arXiv:2609.15396
 - RSIAgent: arXiv:2609.15364
+- Reflections on Trusting Trust, Revisited: arXiv:2609.17817
 
 
