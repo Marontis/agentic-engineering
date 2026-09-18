@@ -506,6 +506,16 @@ Safety failures in autonomous tool-using agents routinely do not emerge on the f
 
 ---
 
+## Model Context Protocol (MCP) Tool Exposure & Execution Security
+
+### DO: Pin MCP tool descriptors and isolate offensive execution boundaries
+
+When exposing offensive, infrastructure, or high-privilege tool engines through Model Context Protocol (MCP) servers, pin tool schemas and cryptographic hashes at handshake initialization. Grounded in real-world incidents (CVE-2025-6514 remote execution in `mcp-remote`, `postmark-mcp` supply-chain backdoors, and tool line-jumping rug-pulls), dynamic descriptor updates must be blocked to prevent malicious tool shadowing. Additionally, keep generative LLMs off the critical execution path by coupling a deterministic exploit/validation backbone with a cost-aware cascade (local SLM $\rightarrow$ free-tier API $\rightarrow$ rule fallback) to sustain continuous operation at zero paid-API cost.
+
+> Source: PentestChain: A Cost-Aware, MCP-Orchestrated Framework for Automated Penetration Testing with Free-Tier LLMs (arXiv:2609.18120)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -562,4 +572,5 @@ For implementation details on the procedures behind these rules:
 - Agent-Tool Boundary Anomalies: arXiv:2609.15397
 - Universal Defenses for Tool-Integrated LLM Agents: arXiv:2609.16098
 - BLINDSPOT Long-Horizon Benchmark: arXiv:2609.16305
+- PentestChain: arXiv:2609.18120
 
