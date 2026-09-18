@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 225+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 265+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -299,6 +299,9 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`pentestchain-cost-aware-mcp-pentesting`](research-briefs/pentestchain-cost-aware-mcp-pentesting.md) | Cost-aware, MCP-orchestrated penetration testing cascade with local SLM and MCP threat model |
 | [`mist-mid-training-cybersecurity-llms`](research-briefs/mist-mid-training-cybersecurity-llms.md) | Domain adaptation via synthetic mid-training flows preserving general reasoning |
 | [`trusting-trust-revisited-poisoned-benchmarks`](research-briefs/trusting-trust-revisited-poisoned-benchmarks.md) | Thompson's "Trusting Trust" applied to self-modifying coding agents via poisoned benchmarks |
+| [`red-teaming-auto-mode-blocking-monitors`](research-briefs/red-teaming-auto-mode-blocking-monitors.md) | Red-teaming production pre-execution action blocking monitors (Auto Mode in Claude Code, Codex Guardian) |
+| [`inference-engine-fingerprinting-and-escape`](research-briefs/inference-engine-fingerprinting-and-escape.md) | Practical inference engine fingerprinting and to-the-bare-metal sandbox escapes via output tokens |
+| [`contagion-multi-agent-trading-systems`](research-briefs/contagion-multi-agent-trading-systems.md) | Adversarial signal propagation and topology damping across multi-agent financial stacks |
 
 ---
 
