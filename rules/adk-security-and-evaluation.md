@@ -133,24 +133,3 @@ Decompose evaluation into orthogonal, rubric-based scoring dimensions:
 Each dimension must evaluate independently with explicit grading criteria and counterexample probe checks.
 
 > Source: Google Codelab: Advanced ADK Evaluation with LLM-as-a-Judge Method
-
----
-
-## Related Skills
-
-For implementation details on the procedures behind these rules:
-- [`adk-model-armor-interceptor`](skills/adk-model-armor-interceptor/SKILL.md) — Google Cloud Model Armor and SDP interceptor integration
-- [`adk-eval-golden-dataset-ci`](skills/adk-eval-golden-dataset-ci/SKILL.md) — Golden dataset trajectory assertions and CI/CD quality gates
-- [`adk-a2a-agent-federation`](skills/adk-a2a-agent-federation/SKILL.md) — Agent-to-Agent (A2A) protocol, Agent Cards, and federated coordination
-- [`layered-defense-ensemble`](skills/layered-defense-ensemble/SKILL.md) — Layered defense ensemble and correlation modeling
-
-## Sources
-
-- Google Codelab: Build a Secure Agent with Model Armor and Identity
-- Google Codelab: Securing a Multi-Agent System
-- Google Codelab: Deploying Secure AI Agents on GKE
-- Google Codelab: Create multi agent system with ADK, deploy in Agent Runtime and get started with A2A protocol
-- Google Codelab: Secure Agent Commerce with AP2 and UCP
-- Google Codelab: Evaluating Agents with ADK
-- Google Codelab: Advanced ADK Evaluation with LLM-as-a-Judge Method
-
