@@ -186,6 +186,19 @@ not just per-layer rates.
 
 > Source: arXiv:2608.28327
 
+### DON'T: Assume encrypted inference inherently prevents guardrail enforcement
+
+Homomorphic encryption (HE) does not prevent jailbreak defense.
+HE-Guardrail demonstrates that guardrail classifiers (content policy,
+jailbreak detection, gradient-based safety) can reproduce plaintext
+decisions entirely over encrypted data. However, HE-based inference
+creates a distinct threat: malicious clients submitting adversarial
+prompts are shielded by the same encryption that protects benign
+clients, so server-side guardrails become a mandatory, not optional,
+defense layer.
+
+> Source: Min et al., HE-Guardrail (arXiv:2609.21484)
+
 ---
 
 ## Checkpoint & Resume Safety
@@ -323,7 +336,7 @@ Multi-turn interaction history alters safety refusal thresholds asymmetrically a
 
 **Evidence**: Across 9 production frontier models, the "door-in-the-face" influence pattern succeeds or backfires strictly by model family. Furthermore, reframing actionable operational requests into conceptual explanations bypasses safety refusals in **99.2% of cases** (263/265). Safety guardrails must evaluate multi-turn intent trajectories rather than treating requests as isolated, stateless turns.
 
-> Source: Door-in-the-Face Requests and Refusal Behaviour in Large Language Models (arXiv:2609.02707)
+> Source: Door-in-the-Face Refusal Behaviour in Large Language Models (arXiv:2609.02707)
 
 ### DO: Gate tool actions with dependency-scoped lineage checks rather than trusting state freshness
 
@@ -534,6 +547,32 @@ AI sandboxing must extend beyond external tool runners and bash containers to th
 
 > Source: Inference-Engine Fingerprinting Attacks are Practical: Exploring Model-Driven Environmental Discovery, Exploitation, and Escape (arXiv:2609.20614)
 
+### DON'T: Rely on structured LLM authorization decisions as the sole safety gate
+
+Even frontier API models (83–89% decision alignment) produce 2–3
+False Executes per 161 non-execution scenarios in safety-critical
+authorization tasks. Structured authorization policies improve weaker
+models but do NOT eliminate false executes at any scale. Any
+safety-critical action authorization system MUST include an
+**independent enforcement layer** that verifies tool permissions and
+environment-state constraints separately from the LLM's decision.
+
+> Source: Afroze et al., Vehicle Voice Command Authorization
+> (arXiv:2609.19630)
+
+### DO: Resolve tool existence before any selection or authorization gate
+
+Tool-augmented agents can call tools that don't exist and pass
+arguments no schema declares. Model scale does not help: 675B models
+match 7–8B models on hallucination rate. A **closed-world resolver**
+(registry membership check + schema validation) MUST run BEFORE any
+tool selection, authorization, or causal gate. For MCP multi-server
+deployments, namespace-aware resolution is required — merging multiple
+MCP servers creates structural hallucination surfaces (namespace
+collisions, shadowing) that single-registry checks cannot express.
+
+> Source: Iyer, Closed-World Tool Hallucination (arXiv:2609.19425)
+
 ---
 
 ## Related Skills
@@ -595,4 +634,7 @@ For implementation details on the procedures behind these rules:
 - PentestChain: arXiv:2609.18120
 - Red-Teaming Auto Mode: arXiv:2609.19587
 - Inference-Engine Fingerprinting Attacks are Practical: arXiv:2609.20614
+- HE-Guardrail: arXiv:2609.21484
+- Vehicle Voice Command Authorization: arXiv:2609.19630
+- Closed-World Tool Hallucination: arXiv:2609.19425
 

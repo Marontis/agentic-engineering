@@ -237,6 +237,18 @@ accepting.
 
 > Source: arXiv:2608.27311
 
+### DO: Invest in standalone verifiers before planning components
+
+A standalone verifier captures nearly all the false-pass benefit of
+full planning+verification at a fraction of the cost (<$0.01 per
+episode). Planning improves oracle-verified success by 7.17pp but gains
+are concentrated in high-complexity tasks. Decision rule: if the cost
+of a false acceptance is high, invest in verification first; if
+performance on complex tasks matters more, invest in planning. Planning
+value diminishes for stronger models but converts to cost savings.
+
+> Source: Zhang et al., Harness Value Study (arXiv:2609.20474)
+
 ---
 
 ## Multi-Day Autonomous Development Loops
@@ -444,6 +456,7 @@ For implementation details on the procedures behind these rules:
 - [`adk2-agent-orchestration-patterns`](skills/adk2-agent-orchestration-patterns/SKILL.md) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
 - [`dense-rubric-skill-evolution`](skills/dense-rubric-skill-evolution/SKILL.md) — Bilevel dense rubric surrogate optimization for skill evolution
 - [`autonomous-environment-exploration`](skills/autonomous-environment-exploration/SKILL.md) — Curriculum-guided broad-then-deep environment exploration and causal memory
+- [`fast-tree-search-self-improvement`](skills/fast-tree-search-self-improvement/SKILL.md) — Budget-constrained self-improvement via LLM-judge-guided tree search
 
 ## Sources
 
@@ -468,5 +481,7 @@ For implementation details on the procedures behind these rules:
 - SkillLift: arXiv:2609.15396
 - RSIAgent: arXiv:2609.15364
 - Reflections on Trusting Trust, Revisited: arXiv:2609.17817
+- Harness Value Study: arXiv:2609.20474
+- SIFT: arXiv:2609.19526
 
 

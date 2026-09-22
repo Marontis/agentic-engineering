@@ -208,22 +208,3 @@ quarantine = Agent(
 ```
 
 > Source: Google ADK Codelab: Agentic Workflow with ADK (Step 5)
-
----
-
-## Related Skills
-
-For implementation details on the procedures behind these rules:
-- [`adk-async-long-running-tool-resumption`](skills/adk-async-long-running-tool-resumption/SKILL.md) — Asynchronous tool resumption and call ID matching
-- [`adk-lifecycle-callback-interceptors`](skills/adk-lifecycle-callback-interceptors/SKILL.md) — Lifecycle callback interceptors for policy and state
-- [`adk2-agent-orchestration-patterns`](skills/adk2-agent-orchestration-patterns/SKILL.md) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
-- [`adk-eventarc-reactive-trigger`](skills/adk-eventarc-reactive-trigger/SKILL.md) — Event-driven reactive pipeline integration
-- [`adk-mcp-multimodal-tool-interception`](skills/adk-mcp-multimodal-tool-interception/SKILL.md) — Multimodal tool interception and callback pipelines
-- [`adk-a2ui-dynamic-widgets`](skills/adk-a2ui-dynamic-widgets/SKILL.md) — Declarative widgets and action dispatch for rich interfaces
-
-## Sources
-
-- Google Cloud Tech: ADK 2 Orchestration: Graph, Collaborative & Dynamic Workflows
-- Google ADK Codelab: Agentic Workflow with ADK
-- Google ADK Codelab: VibeStudio & Async Long Running Tools
-

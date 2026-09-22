@@ -60,6 +60,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`dependency-scoped-plan-validation`](skills/dependency-scoped-plan-validation/SKILL.md) | PlanFence (arXiv:2609.03340) |
 | [`black-box-trajectory-risk-monitoring`](skills/black-box-trajectory-risk-monitoring/SKILL.md) | Web Agent Key-Step Monitoring (arXiv:2609.02057) |
 | [`nlip-agent-message-envelope`](skills/nlip-agent-message-envelope/SKILL.md) | NLIP Agent Protocol Standard (arXiv:2609.04135) |
+| [`auth-revocation-quiescence`](skills/auth-revocation-quiescence/SKILL.md) | Auth Revocation for Long-Running Agents (arXiv:2609.21284) |
+| [`auto-formalization-safety-guarantee`](skills/auto-formalization-safety-guarantee/SKILL.md) | MAGS Auto-Formalization Safety (arXiv:2609.19391) |
 | [`residual-auth-state-preservation`](skills/residual-auth-state-preservation/SKILL.md) | ResidualAuth (arXiv:2609.08062) |
 | [`prime-power-federation-governance`](skills/prime-power-federation-governance/SKILL.md) | PRIMUS (arXiv:2609.07910) |
 | [`taxonomy-driven-red-teaming`](skills/taxonomy-driven-red-teaming/SKILL.md) | Black-Box Red Teaming of Agentic AI (arXiv:2609.09647) |
@@ -104,6 +106,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`agentic-review-deploy-loop`](skills/agentic-review-deploy-loop/SKILL.md) | AI-Native SDLC Playbook (Review, deploy, and maintain stages) |
 | [`autonomous-research-to-launch-harness`](skills/autonomous-research-to-launch-harness/SKILL.md) | AutoLR Research-to-Launch Harness (arXiv:2609.04871) |
 | [`autonomous-environment-exploration`](skills/autonomous-environment-exploration/SKILL.md) | RSIAgent (arXiv:2609.15364) |
+| [`fast-tree-search-self-improvement`](skills/fast-tree-search-self-improvement/SKILL.md) | SIFT (arXiv:2609.19526) |
 
 #### Skill Evolution & Knowledge
 
@@ -116,6 +119,9 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`policy-centroid-routing`](skills/policy-centroid-routing/SKILL.md) | Policy-Centroid Routing (arXiv:2608.30757) |
 | [`governed-knowledge-graph`](skills/governed-knowledge-graph/SKILL.md) | MAGG Governed KGs (arXiv:2608.28642) |
 | [`agentic-data-cracking`](skills/agentic-data-cracking/SKILL.md) | Token-Efficient Data Reasoning (arXiv:2608.31082) |
+| [`attribution-guided-skill-graph-update`](skills/attribution-guided-skill-graph-update/SKILL.md) | SkillAA (arXiv:2609.20455) |
+| [`controlled-skill-lifecycle-management`](skills/controlled-skill-lifecycle-management/SKILL.md) | FINSKILLOPS (arXiv:2609.19680) |
+| [`semantic-aware-multi-agent-delegation`](skills/semantic-aware-multi-agent-delegation/SKILL.md) | SAIGE (arXiv:2609.19759) |
 | [`prefix-preserving-context-assembly`](skills/prefix-preserving-context-assembly/SKILL.md) | ContextPipe (arXiv:2609.00749) |
 | [`protocol-preserving-context-trimming`](skills/protocol-preserving-context-trimming/SKILL.md) | Protocol-Preserving Context Trimming (arXiv:2609.16461) |
 | [`persistent-agent-migration`](skills/persistent-agent-migration/SKILL.md) | Enoch Persistent Agents (arXiv:2609.00546) |
@@ -302,6 +308,15 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`red-teaming-auto-mode-blocking-monitors`](research-briefs/red-teaming-auto-mode-blocking-monitors.md) | Red-teaming production pre-execution action blocking monitors (Auto Mode in Claude Code, Codex Guardian) |
 | [`inference-engine-fingerprinting-and-escape`](research-briefs/inference-engine-fingerprinting-and-escape.md) | Practical inference engine fingerprinting and to-the-bare-metal sandbox escapes via output tokens |
 | [`contagion-multi-agent-trading-systems`](research-briefs/contagion-multi-agent-trading-systems.md) | Adversarial signal propagation and topology damping across multi-agent financial stacks |
+| [`he-guardrail-encrypted-jailbreak-defense`](research-briefs/he-guardrail-encrypted-jailbreak-defense.md) | HE-based guardrail feasibility for encrypted LLM inference |
+| [`sol-pi-recursive-harness-scaling`](research-briefs/sol-pi-recursive-harness-scaling.md) | Recursive self-improvement at the harness layer with 44-49% token reduction |
+| [`harness-value-planning-vs-verification`](research-briefs/harness-value-planning-vs-verification.md) | Quantifying planning vs verification value in agent harnesses |
+| [`vehicle-voice-command-authorization`](research-briefs/vehicle-voice-command-authorization.md) | Safety-critical LLM authorization benchmark with 2-3 False Executes per 161 scenarios |
+| [`foundation-model-operating-system`](research-briefs/foundation-model-operating-system.md) | Vision for FM virtualization analogous to VM abstraction |
+| [`closed-world-tool-hallucination`](research-briefs/closed-world-tool-hallucination.md) | 5-class tool hallucination taxonomy with MCP-specific attack surfaces |
+| [`micro-collaborative-rag-poisoning`](research-briefs/micro-collaborative-rag-poisoning.md) | Distributed false claims across multiple retrieved documents |
+| [`llm-group-consensus-overstatement`](research-briefs/llm-group-consensus-overstatement.md) | Agent groups 34-44pp more consensual than humans, mostly on wrong answers |
+| [`empirical-harness-design-study`](research-briefs/empirical-harness-design-study.md) | 176-setting component-level harness comparison across 4 models |
 
 ---
 
