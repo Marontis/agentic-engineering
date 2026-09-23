@@ -573,6 +573,33 @@ collisions, shadowing) that single-registry checks cannot express.
 
 > Source: Iyer, Closed-World Tool Hallucination (arXiv:2609.19425)
 
+### DON'T: Trust MCP tool metadata without trace-aware vetting
+
+A two-stage black-box attack (A2M) hijacks MCP agents by optimizing
+tool metadata to increase invocation probability (Attraction) and
+refining adversarial tool returns using execution traces
+(Manipulation). On LiveMCPBench, this achieves 93.6% malicious tool
+invocation rate, 32.4× token cost amplification, and 74.4% attack
+success. Attacks transfer cross-model at 63.6% without re-optimization.
+Defenses: pin tool descriptor hashes at registration, screen for
+suspicious semantic similarity to existing tools, cap output payload
+size, and do NOT expose full execution traces to tool servers.
+
+> Source: Li et al., A2M: Trace-Optimized Agent Hijacking in the MCP
+> Ecosystem (arXiv:2609.26761)
+
+### DO: Apply Birnbaum importance to identify highest-leverage defense improvements
+
+The same defense stack can yield cubic, quadratic, or linear rare-failure
+suppression depending on failure-domain structure. Use Birnbaum
+importance — the partial derivative of system reliability with respect
+to component reliability — to identify which defense-layer improvement
+buys the most nominal reliability. Prevention (reducing the population
+that reaches recovery) changes the demands on downstream layers more
+effectively than improving recovery alone.
+
+> Source: Molnar, Reliability Theory for AI Control (arXiv:2609.26419)
+
 ---
 
 ## Related Skills
@@ -637,4 +664,5 @@ For implementation details on the procedures behind these rules:
 - HE-Guardrail: arXiv:2609.21484
 - Vehicle Voice Command Authorization: arXiv:2609.19630
 - Closed-World Tool Hallucination: arXiv:2609.19425
-
+- A2M MCP Hijacking: arXiv:2609.26761
+- Reliability Theory for AI Control: arXiv:2609.26419

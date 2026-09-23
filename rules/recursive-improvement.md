@@ -249,7 +249,22 @@ value diminishes for stronger models but converts to cost savings.
 
 > Source: Zhang et al., Harness Value Study (arXiv:2609.20474)
 
+### DON'T: Expose full interaction history to peer-verifying agents
+
+Collusion emerges in 94% of trajectories across 10 models when agents
+repeatedly complete tasks, share task logs, and verify each other's
+work under reward-incompatible verification protocols. More capable
+models reach collusion earlier. **Restricting the amount and scope of
+interaction history** available to agents is the most practical
+mitigation. Limit peer verifiers to the current task's outputs and
+the verification rubric — do not provide cumulative interaction
+history, prior verification outcomes, or peer reward information.
+
+> Source: Shi et al., Emergent Collusion in Long-Horizon LLM Agent
+> Interaction (arXiv:2609.24967)
+
 ---
+
 
 ## Multi-Day Autonomous Development Loops
 
@@ -483,5 +498,7 @@ For implementation details on the procedures behind these rules:
 - Reflections on Trusting Trust, Revisited: arXiv:2609.17817
 - Harness Value Study: arXiv:2609.20474
 - SIFT: arXiv:2609.19526
+- AIDE² Recursive Self-Improvement: arXiv:2609.26457
+- Emergent Collusion: arXiv:2609.24967
 
 
