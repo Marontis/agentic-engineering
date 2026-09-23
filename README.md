@@ -133,6 +133,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`protocol-preserving-context-trimming`](skills/protocol-preserving-context-trimming/SKILL.md) | Protocol-Preserving Context Trimming (arXiv:2609.16461) |
 | [`persistent-agent-migration`](skills/persistent-agent-migration/SKILL.md) | Enoch Persistent Agents (arXiv:2609.00546) |
 | [`requirements-driven-code-generation`](skills/requirements-driven-code-generation/SKILL.md) | WiseSpec (arXiv:2609.00568) |
+| [`grill-spec`](skills/grill-spec/SKILL.md) | Multiple-choice interview → spec, ADRs, milestone roadmap, AGENTS.md for maintained projects; example by [alexziskind1](https://gist.github.com/alexziskind1/fe55f03892f3fe1d6d8cf6065c631bb8) + WiseSpec, ProSE |
 | [`procedural-family-skill-consolidation`](skills/procedural-family-skill-consolidation/SKILL.md) | SkillGLoW (arXiv:2609.02217) |
 | [`speculative-macro-commit`](skills/speculative-macro-commit/SKILL.md) | Speculative Macro Commit (arXiv:2609.03236) |
 | [`procedural-graph-evolution`](skills/procedural-graph-evolution/SKILL.md) | Procedural Graphs (arXiv:2609.09153) |
