@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 265+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 305+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -76,6 +76,9 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`cve-history-executable-detection`](skills/cve-history-executable-detection/SKILL.md) | The History Is the Detector (arXiv:2609.05335) |
 | [`macos-reverse-engineering`](skills/macos-reverse-engineering/SKILL.md) | Jonathan Levin (*OS Internals*) & Patrick Wardle (*TAOMM*) |
 | [`universal-tool-defense`](skills/universal-tool-defense/SKILL.md) | Universal Tool Defenses (arXiv:2609.16098) |
+| [`mcp-tool-hijacking-defense`](skills/mcp-tool-hijacking-defense/SKILL.md) | A2M MCP Hijacking (arXiv:2609.26761) |
+| [`selection-invariant-agent-communication`](skills/selection-invariant-agent-communication/SKILL.md) | SICC Privacy-Aware MAS Comms (arXiv:2609.26076) |
+| [`tainted-message-clean-room-recovery`](skills/tainted-message-clean-room-recovery/SKILL.md) | ESC-CR Tainted Message Recovery (arXiv:2609.26072) |
 
 #### Self-Improvement & Evaluation
 
@@ -107,6 +110,10 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`autonomous-research-to-launch-harness`](skills/autonomous-research-to-launch-harness/SKILL.md) | AutoLR Research-to-Launch Harness (arXiv:2609.04871) |
 | [`autonomous-environment-exploration`](skills/autonomous-environment-exploration/SKILL.md) | RSIAgent (arXiv:2609.15364) |
 | [`fast-tree-search-self-improvement`](skills/fast-tree-search-self-improvement/SKILL.md) | SIFT (arXiv:2609.19526) |
+| [`recursive-self-improvement-loop`](skills/recursive-self-improvement-loop/SKILL.md) | AIDE² (arXiv:2609.26457) |
+| [`corpus-scale-prompt-distillation`](skills/corpus-scale-prompt-distillation/SKILL.md) | CASD (arXiv:2609.26261) |
+| [`world-model-trust-gating`](skills/world-model-trust-gating/SKILL.md) | Dual-Frontier (arXiv:2609.26293) |
+| [`serving-stack-eval-checklist`](skills/serving-stack-eval-checklist/SKILL.md) | Serving Stack Confounds (arXiv:2609.26693) |
 
 #### Skill Evolution & Knowledge
 
@@ -317,6 +324,18 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`micro-collaborative-rag-poisoning`](research-briefs/micro-collaborative-rag-poisoning.md) | Distributed false claims across multiple retrieved documents |
 | [`llm-group-consensus-overstatement`](research-briefs/llm-group-consensus-overstatement.md) | Agent groups 34-44pp more consensual than humans, mostly on wrong answers |
 | [`empirical-harness-design-study`](research-briefs/empirical-harness-design-study.md) | 176-setting component-level harness comparison across 4 models |
+| [`ddpo-jailbreak-defense`](research-briefs/ddpo-jailbreak-defense.md) | Dynamic deep prompt optimization for input-adaptive jailbreak defense |
+| [`metrics-failure-vuln-repair`](research-briefs/metrics-failure-vuln-repair.md) | Standard metrics fail to capture repair quality in vulnerability repair |
+| [`coding-agents-kernel-exploits`](research-briefs/coding-agents-kernel-exploits.md) | Evaluating coding agent capability on kernel exploit generation |
+| [`emergent-collusion-long-horizon`](research-briefs/emergent-collusion-long-horizon.md) | 94% collusion rate in long-horizon multi-agent peer verification |
+| [`silent-sabotage-state-triggered-backdoors`](research-briefs/silent-sabotage-state-triggered-backdoors.md) | Internal state triggered backdoor attacks on LLM-powered robotic systems |
+| [`vacs-value-aligned-shielding`](research-briefs/vacs-value-aligned-shielding.md) | Four-layer value-aligned compositional shielding for multi-agent reasoning |
+| [`zerogate-trust-fast-paths`](research-briefs/zerogate-trust-fast-paths.md) | Trust-preserving fast paths with ActionPass revalidation contracts |
+| [`akasicmem-governed-enterprise-memory`](research-briefs/akasicmem-governed-enterprise-memory.md) | Authorization continuity via transitive lineage in enterprise agent memory |
+| [`harness-zero-distillation`](research-briefs/harness-zero-distillation.md) | Harness distillation via agent-as-harness into model weights |
+| [`growing-harness-specialist-agents`](research-briefs/growing-harness-specialist-agents.md) | Failure-guided harness growth reducing LLM calls by 76-92% |
+| [`indirect-tipping-social-attack`](research-briefs/indirect-tipping-social-attack.md) | Stepping-stone equilibria as social attack surface in agent populations |
+| [`contrastive-epistemic-decoding`](research-briefs/contrastive-epistemic-decoding.md) | Zero-shot sycophancy mitigation via dual forward-pass conformity isolation |
 
 ---
 
