@@ -72,6 +72,25 @@ WebSocket, AMQP) without custom integration per pair.
 
 > Source: NLIP Agent Protocol Standard (arXiv:2609.04135)
 
+### DO: Sign inter-agent messages and quarantine unsigned ones, in addition to boundary sanitization
+
+Sanitizing inputs and outputs at each agent boundary does not stop
+injection carried in messages between agents, and signing does not
+stop injection carried in tool outputs. Deploy both, below the prompt
+layer.
+
+**Scope:** one 6-agent financial pipeline on GPT-4o, Claude 3.5 Sonnet
+and Llama 3 70B; 50 fixed, non-adaptive payloads per vector. Static
+result: adaptive attacks are reported to exceed 85% against defenses.
+
+**Evidence**: signing cut inter-agent injection from 31% to 2.8% but
+left indirect injection at 43%; sanitization cut indirect injection
+from 43% to 9.5% but left inter-agent injection at 31%. All four layers
+together cut aggregate success from 31.2% to 4.2%, at +225 ms on a
+4.8 s workflow and a 2.3% classifier false-positive rate.
+
+> Source: Beyond Single-Model Injection: Prompt Injection in Multi-Agent Systems (arXiv:2609.22949)
+
 ### DO: Anchor communication to persistent ledgers, not ephemeral agents
 
 In long-running multi-agent workflows, treat the persistent ledger
@@ -102,6 +121,62 @@ reweighting is required to counteract shared misconceptions and
 majority skew in multi-agent debate systems.
 
 > Source: R²-MAD (arXiv:2609.03619)
+
+### DO: Use heterogeneous, cross-family rosters for deliberation and joint verification
+
+When agents deliberate to consensus or jointly verify, the gain comes
+from model diversity, not from running more copies of one model.
+Build deliberation and verification pools from different model
+families, and benchmark a team against a routing oracle (perfect
+per-problem pick from members' independent answers) and a homogeneous
+team running the same strategies. Beating the best single member does
+not show collaboration helped.
+
+**Scope:** interactive deliberation and verification with 3-model
+teams; small models (Haiku 4.5 / GPT-5-nano / Gemini 3.1 Flash Lite) on
+estimation, peer review, safety monitoring and forecasting
+(2609.22497); o3-mini / Claude Sonnet 4 / DeepSeek-V3 and similar
+teams on AIME, HMMT, TheoremQA, GPQA, MMLU-Pro, BBEH (2609.22682).
+
+**Evidence**:
+- Clone groups showed no deliberation benefit (Bayes factors
+  3.99–6.19 favouring the null), while heterogeneous groups did
+  (z=3.61, p=3.1e-4, d=0.48). Which single model was best varied by
+  domain and was not knowable in advance (2609.22497).
+- A heterogeneous team with learned strategies averaged 66.7% on 5
+  math/physics benchmarks, beating the best member (48.8%), the
+  routing oracle (59.0%) and a homogeneous o3-mini team with the same
+  strategies (56.0%). On BBEH the homogeneous team did better (58.7 vs
+  56.0) (2609.22682).
+
+Tension with "Expand candidate model pools with arbitrary heterogeneous
+architectures" (below): that rule's evidence is for routing and voting
+aggregation; this one is for interactive deliberation and verification.
+
+> Source: The Wisdom of Artificial Deliberative Crowds (arXiv:2609.22497); Self-Organizing Agent Teams Learn to Reason Together (arXiv:2609.22682)
+
+### DON'T: Rely on group size or majority vote to dilute adversarial agents
+
+How often honest agents abandon correct answers rises with the *share*
+of deceptive agents, and doesn't fall as the group grows at a fixed
+share. Cap the untrusted share of any deliberating group, verify
+disputed claims independently and early, and select members for low
+sycophancy.
+
+**Scope:** fully connected, anonymous deliberation among 2–21 agents
+with an honest majority on Humanity's Last Exam questions; four models;
+no defense or hierarchy tested.
+
+**Evidence**: defection slope b = 2.1–5.7 across the four models
+(p ≤ 0.004). A share-based model fit better than a count-based one, and
+adding group size did not help (χ² = 0.59, p = 0.44). 58–72% of first
+defections happened by round 2. A sycophantic honest model defected at
+37.7% versus 19.5% for Gemini.
+
+Tension with "Preserve minority viewpoints" (below): that rule covers
+aggregating preferences; this one covers an adversarial minority.
+
+> Source: How does Adversarial Influence Scale in Multi-Agent Systems? (arXiv:2609.30028)
 
 ### DO: Preserve minority viewpoints in agent voting and consensus
 
@@ -296,3 +371,7 @@ For implementation details on the procedures behind these rules:
 - BusMA: arXiv:2609.15054
 - Mo' Models, Mo' Problems: arXiv:2609.17306
 - Contagion on the Trading Floor: arXiv:2609.19789
+- Beyond Single-Model Injection: arXiv:2609.22949
+- The Wisdom of Artificial Deliberative Crowds: arXiv:2609.22497
+- Self-Organizing Agent Teams: arXiv:2609.22682
+- Adversarial Influence Scaling in MAS: arXiv:2609.30028

@@ -25,6 +25,23 @@ decisions.
 
 > Source: Rubric Artifacts in LLM Judges (arXiv:2609.02942)
 
+### DON'T: Report red-team failure rates scored by a single judge model
+
+The judge is part of the measurement. Use at least two judges from
+different model families, quote a failure rate only where their
+verdicts agree, and report severity per judge.
+
+**Scope:** CART with Kimi as the target, the Frontier suite (76 seed
+cases from MITRE ATLAS and OWASP), 1,000 rounds, a 7 × 7 grid of
+attacker and judge models.
+
+**Evidence**: the same GPT attacker produced failure rates from 27.70%
+to 77.00% depending on the judge; pairs using the same model as
+attacker and judge ranged from 12.30% to 51.00%. Replaying the
+unchanged seed cases scored 0.00–5.50% under every judge.
+
+> Source: CART: Closed-Loop Adaptive Red Teaming for LLMs (arXiv:2609.27336)
+
 ### DO: Decompose evaluations into atomic checklist items
 
 Replace holistic quality scoring with fine-grained, objective
@@ -190,3 +207,4 @@ For implementation details on the procedures behind these rules:
 - Auditing Harness Tampering: arXiv:2609.00069
 - FLY-EVAL++: arXiv:2609.04021
 - Scaling LRMs Beyond Supervision: arXiv:2608.31075
+- CART: arXiv:2609.27336

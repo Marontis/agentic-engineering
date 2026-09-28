@@ -43,6 +43,20 @@ API has 100+ endpoints. Putting every one in `tools/list` means:
 - **Unnecessary round-trips**: Multi-step operations require the model to
   chain tool calls, with full intermediate results flowing through context
 
+### ❌ Monolithic Single Tool (the opposite extreme)
+
+Don't overcorrect by collapsing a server into one "do everything" tool
+whose operation is chosen by an argument. Tool selection becomes trivial,
+but argument construction becomes the failure point. In a controlled study
+where only the tool schemas varied (MCP-GRANITE, arXiv:2609.24161; 9 small
+local models, 8,748 runs), the single-tool level had the lowest task
+completion (0.36 vs 0.49 for ~4 task-class tools). In 28.2% of its runs the
+model made no tool call at all (vs 10.7% for ~4 tools). Argument accuracy,
+not selection F1, tracked completion. Aim for task-class grouping (roughly
+one tool per status / action / configuration / analysis class) with simple
+arguments, and re-benchmark on each target model. See
+[`mcp-granite-tool-granularity`](../../research-briefs/mcp-granite-tool-granularity.md).
+
 ### ❌ Tools Without Output Schemas
 
 Without `outputSchema`, code-mode sandboxes cannot generate typed stubs.
@@ -245,6 +259,10 @@ Use this before shipping a new MCP server or adding tools to an existing one:
       outcome, not just a raw API call?
 - [ ] **Workflow bundles**: Are multi-step operations that are almost always
       done together bundled into workflow tools?
+- [ ] **Not monolithic**: Is functionality split into task-class tools
+      with simple arguments, rather than one tool with an `operation`
+      argument? (Single-tool interfaces had a 28.2% zero-tool-call rate
+      in MCP-GRANITE, arXiv:2609.24161)
 - [ ] **`outputSchema` on every tool**: Can a code-mode sandbox generate
       typed stubs from every tool's output schema?
 - [ ] **Categories**: Are tools tagged with coarse-grained categories for

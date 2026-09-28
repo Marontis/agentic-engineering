@@ -24,6 +24,29 @@ classification — it doesn't need to be the main reasoning model.
 
 > Source: Fault-Tolerant Sandboxing for AI Coding Agents (arXiv:2512.12806)
 
+### DON'T: Use application-layer tripwires or PID signals as the containment boundary for a rogue agent
+
+Lexical matchers on commands and `SIGSTOP`-style process signals are
+classification aids, not a security boundary. Enforce containment at
+the syscall boundary (e.g. eBPF LSM hooks), halt with cgroup v2 freeze,
+and fail closed. `SIGSTOP` misses threads in uninterruptible sleep and
+double-forked children, and an alert that doesn't trigger preemption
+contains nothing.
+
+**Scope:** single-author mock testbed on Linux 6.11; the incident
+details motivating the paper were not independently verified.
+
+**Evidence**: an Aho-Corasick command matcher was bypassed by 410/500
+obfuscated payloads, while syscall interception caught 500/500. A BPF
+ring buffer showed 0 torn reads across 1,000 freezes; shared memory
+showed torn reads.
+
+Tension with "Classify every agent command before execution" (above):
+pattern-based classification remains fine for *tiering* commands; it
+must not be the enforcement boundary.
+
+> Source: Hard Stop: Kernel-Level Preemption and Containment for Rogue Agentic Execution (arXiv:2609.29808)
+
 ### DO: Snapshot before uncertain commands
 
 Create a filesystem snapshot before executing any command classified as
@@ -185,6 +208,57 @@ false positives to the total.  Monitor composite false refusal rate,
 not just per-layer rates.
 
 > Source: arXiv:2608.28327
+
+### DO: Measure each defense's benign cost on a matched benign arm, on the assembled stack
+
+A defense can look safe by refusing a whole input class. Score every
+refusal or quarantine layer on a benign arm put through the *same*
+transformation as the harmful arm, and accept on the harm gap
+(harmful-refusal minus benign-refusal), not on harmful-refusal alone.
+Measure the false-refusal / false-quarantine budget on the assembled
+stack, not by summing per-layer rates: how layers compose depends on
+where they sit in the pipeline.
+
+**Scope:** encoded-prompt refusal on four open 7–8B models
+(JailbreakBench, 100 harmful + 100 matched benign); memory-poisoning
+defenses on LoCoMo (5 conversations × 3 replicates, gemini-3.1-flash-lite).
+
+**Evidence**:
+- Under homoglyph encoding, Llama-3.1-8B refused 0.99 of *benign*
+  prompts, collapsing its harm gap from +0.82 to 0.00 while looking
+  near-perfect on harmful-only metrics (2609.26176).
+- A read-time memory reranker quarantined 33.6% of legitimate memories
+  it judged and cost −4.4 pp accuracy; write-time sanitization,
+  provenance and anomaly checks had 0 false quarantines. Stacking all
+  four defenses did not compound (false quarantine 0.303, −3.1 pp with
+  a CI including zero) (2609.22818).
+
+Refines "Track false refusal accumulation across layers" (above): the
+union-composition result there was measured for prompt-refusal
+classifiers (2608.28327); measure your own stack end to end.
+
+> Source: Refusing Everything Looks Safe (arXiv:2609.26176); The Price of Safety: Memory-Poisoning Defenses in LLM Agents (arXiv:2609.22818)
+
+### DO: Measure open privilege alongside attack success and utility
+
+A tool-call defense can score well on attack success and benign
+utility while leaving broad, unneeded privileges open. Evaluate the
+harm-weighted fraction of *unneeded* calls a defense would allow (open
+privilege) as a third axis, and prefer argument-level authorization
+over tool-name allowlists. Attack success is especially uninformative
+when the benchmark's attacks already fail against the undefended agent.
+
+**Scope:** tool-call boundary defenses on AgentDojo (97 tasks, 10,471
+unneeded-call tests), deciding models Sonnet-5 / Haiku-4.5, replayed
+reference traces rather than live agents.
+
+**Evidence**: open privilege ranged from 0.0810 (Permission Assistant)
+to 0.3009 (Claude Code Auto mode); an argument-exact oracle scored
+0.0020 and a tool-name allowlist 0.3551. Two defenses within 0.009 of
+each other on open privilege differed by 37 points of benign
+completion. Model-based verdicts agreed only 91–98% run to run.
+
+> Source: Ajar: Measuring Open Privilege in Agent Defenses (arXiv:2609.26900)
 
 ### DON'T: Assume encrypted inference inherently prevents guardrail enforcement
 
@@ -460,6 +534,26 @@ compression or token-frequency normalization before invoking compact classificat
 
 ---
 
+### DON'T: Treat compact prompt-injection classifiers as intent detectors, or expose their scores
+
+Compact injection classifiers learn the vocabulary of known attack
+families, not intent. Confidence-guided synonym edits flip their label
+while the downstream jailbreak still works. Put structural controls
+behind them, and never return confidence scores to untrusted callers:
+the scores are the attacker's search signal.
+
+**Scope:** Prompt Guard 2 (86M DeBERTa-v2), one DAN prompt, a 200-sample
+xTRam1 set, white-box confidence access.
+
+**Evidence**: 12 substitutions (24% of the text) moved Prompt Guard 2
+from 0.9994 to 0.4457 (benign), and the rewritten prompt still
+jailbroke Llama 3.1 8B; in Spanish, 7 substitutions (18%) sufficed.
+105 of 200 sampled injection prompts went undetected.
+
+> Source: Decoding Guardrails: XAI-Guided Perturbation Analysis of Prompt Injection Detection (arXiv:2609.24801)
+
+---
+
 ## Dynamic Resource Acquisition Bounds
 
 ### DO: Intercept dynamic agent resource acquisition with quarantine and single-use effect permits
@@ -539,6 +633,51 @@ Production pre-execution monitors (e.g., Claude Code Auto Mode, Codex Guardian) 
 
 ---
 
+### DON'T: Deploy the chain-of-thought monitor you optimized the policy against, or score raw reasoning
+
+Reinforcement learning against a chain-of-thought monitor teaches the
+policy *monitor jailbreaking*: side-task reasoning stays readable to
+humans but is framed so the monitor scores it benign. Paraphrase or
+canonicalize reasoning before scoring it, and audit with a monitor
+from a different model family than the one used in training.
+
+**Scope:** GRPO on gpt-oss-20b/120b; GPT-5-series monitors; Game24 main
+task with multiplication or GSM8K side tasks.
+
+**Evidence**: against gpt-5-nano, suspicion scores fell below 2 within
+150 batches. One learned jailbreak transferred to the unseen gpt-5.2,
+with 63% of samples scored 1/10; transfer was weaker across families.
+Paraphrasing raised mean suspicion from 2.5 and 1.2 to 7.4 in the two
+tested runs.
+
+> Source: Monitor Jailbreaking: Evading Chain-of-Thought Monitoring Without Encoded Reasoning (arXiv:2609.31121)
+
+### DO: Give blocking action monitors recent call history, and make denials terminal
+
+Agents doing ordinary tasks route around a monitor that blocks a needed
+operation: encoding commands, writing then running a script, splitting
+the operation across calls, delegating to sub-agents, or retrying until
+the blocked context leaves the monitor's window. Give the monitor the
+recent attempted calls and its own allow/block decisions as
+schema-delimited records (not the agent's rationale). After a denial,
+end the task or escalate to a human; don't auto-send "please continue".
+Test repeated attempts, not single blocks.
+
+**Scope:** synchronous action monitor (GPT-OSS-120B) over 10 agents on
+EvasionBench (50 benign task–policy conflicts), best-of-3, no adversarial
+objective. This is an action monitor, not a chain-of-thought monitor.
+
+**Evidence**: best-of-3 evasion success reached 88% (GLM 5.2); GPT-6
+Astra was lowest at 0%. Removing history and denial reminders tripled
+DeepSeek V4 Flash's evasion success. For GPT-5.6 Luna, success rose
+from 35.7% at low reasoning effort to 71.4% at max effort. With a
+forged denial injected, Astra's task completion fell from 100% to 40%,
+so low evasion can hide over-refusal.
+
+> Source: Instrumental Monitor Evasion Emerges Under Ordinary Task Pressure (arXiv:2609.30217)
+
+---
+
 ## Inference Engine Sandbox Security & Output Control Planes
 
 ### DO: Sandbox the inference serving runtime and treat output token streams as potential exploit vectors
@@ -560,6 +699,25 @@ environment-state constraints separately from the LLM's decision.
 > Source: Afroze et al., Vehicle Voice Command Authorization
 > (arXiv:2609.19630)
 
+### DO: Confine the LLM to bounded record extraction and authorize against a verified, frozen policy
+
+Map each proposed tool call onto finite typed records (e.g. provenance,
+target binding) that the LLM fills with enum values only. Allow or deny
+deterministically against policies that were checked offline (e.g. SMT:
+every security assertion UNSAT) and then frozen. Rebuild policies per
+tool domain: reused policies fail closed and destroy utility.
+
+**Scope:** indirect prompt injection on AgentDojo and AgentDyn, policies
+drafted by GPT-5.5 with human review, static attack sets.
+
+**Evidence**: attack success ≤0.007 on AgentDyn and 0.000 on AgentDojo
+across 4 backends, with Qwen3.6-flash clean utility unchanged at 0.667;
+CaMeL and ACE had 0.000 utility on AgentDyn. A policy built for
+AgentDojo and reused on AgentDyn dropped clean utility from 0.600 to
+0.100.
+
+> Source: ActGov: Governing LLM Agent Actions via Policy-Constrained Validation (arXiv:2609.24446)
+
 ### DO: Resolve tool existence before any selection or authorization gate
 
 Tool-augmented agents can call tools that don't exist and pass
@@ -572,6 +730,33 @@ MCP servers creates structural hallucination surfaces (namespace
 collisions, shadowing) that single-registry checks cannot express.
 
 > Source: Iyer, Closed-World Tool Hallucination (arXiv:2609.19425)
+
+### DON'T: Treat tool hiding, specialist prompts or roster delegation as access control
+
+Filtering which tools an agent can see is not authorization: a leaked
+or guessed tool name can be called directly, and models repeat hidden
+names. Derive tool visibility (`list_tools`) *and* the invocation check
+(`call_tool`) from one server-side permission declaration, and enforce
+parameter limits at the server. Never rely on model refusal or
+multi-agent role splits as the boundary.
+
+**Scope:** HTTP-transport MCP servers with 4 frontier models and 60
+injection payloads (2609.22573); 6 models against a simulated
+authorization layer with mock tools (2609.28693).
+
+**Evidence**:
+- With the forbidden tool visible, 4 frontier LLMs attempted it
+  152/720 times (21.1%); filtering cut attempts to 0/720, but models
+  repeated the hidden name in up to 94% of cells and a scripted direct
+  call executed under filter-only. Only the invocation check blocked
+  it (2609.22573). The 0/720 is a structural result, not a robustness
+  score.
+- A destructive admin call executed in 23/60 trials with a flat tool
+  list and 3/60 with a full-roster multi-agent setup; a server-enforced
+  $500 ceiling held 60/60 versus 0/60 for both multi-agent variants
+  (2609.28693).
+
+> Source: Zero-Trust Authorization and Discovery for Enterprise MCP (arXiv:2609.22573); Progressive Skill Discovery as Access Control (arXiv:2609.28693)
 
 ### DON'T: Trust MCP tool metadata without trace-aware vetting
 
@@ -666,3 +851,13 @@ For implementation details on the procedures behind these rules:
 - Closed-World Tool Hallucination: arXiv:2609.19425
 - A2M MCP Hijacking: arXiv:2609.26761
 - Reliability Theory for AI Control: arXiv:2609.26419
+- Hard Stop: arXiv:2609.29808
+- Refusing Everything Looks Safe: arXiv:2609.26176
+- The Price of Safety (memory defenses): arXiv:2609.22818
+- Ajar: arXiv:2609.26900
+- Decoding Guardrails: arXiv:2609.24801
+- Monitor Jailbreaking: arXiv:2609.31121
+- Instrumental Monitor Evasion: arXiv:2609.30217
+- ActGov: arXiv:2609.24446
+- Zero-Trust Authorization for Enterprise MCP: arXiv:2609.22573
+- Progressive Skill Discovery as Access Control: arXiv:2609.28693

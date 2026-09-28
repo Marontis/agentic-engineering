@@ -237,6 +237,43 @@ accepting.
 
 > Source: arXiv:2608.27311
 
+### DON'T: Register self-generated capabilities on their discovery gain
+
+Explore freely, but add a self-generated tool or skill to the
+persistent registry only if its mean gain exceeds a margin across K
+fresh cohorts and its consequence-weighted error cost does not rise.
+A capability registered too early changes the traces later reflection
+learns from, so the damage compounds.
+
+**Scope:** medical-diagnosis agent (GPT-4o on OpenHands), only the tool
+registry editable, K=3, margin 0.5 pp balanced accuracy.
+
+**Evidence**: immediate registration peaked at 89.6% and fell to 76.9%
+by round 30 (57 tools); staged registration held 94.4% with 18 tools.
+29 of the 43 tools the gate rejected had negative trial gain.
+
+> Source: MedRSI: Recursive Self-Improvement for Medical Agents (arXiv:2609.24838)
+
+### DO: Measure acceptance-gate errors in both directions
+
+No single acceptance gate suits every setting. Strict no-regression
+gates halve harmful commits but reject real improvements and block
+needed revisions when the task relation has changed. Report harmful and
+missed-improvement rates plus worst-10% (CVaR) retention loss, not only
+the mean. Use strict no-regression gates for stationary tasks; security
+invariants stay strict unconditionally (see "Evaluate evolved
+instructions against immutable, held-out negative security testbeds").
+
+**Scope:** artifact-level skill and memory evolution on EvoPathBench
+trading streams, Qwen3.8-Max and Kimi-K3.
+
+**Evidence**: moving from open to safeguarded acceptance changed
+harmful commits 12.4%→6.2%, missed improvements 0%→16.5%, and capture
+69.0%→47.2%. Validation agreed with held-out outcomes only ~56% of the
+time under both gates (56.9% vs 55.8%).
+
+> Source: Beyond Endpoint Performance: Process-Level Evaluation of Self-Evolving Agents (arXiv:2609.24663)
+
 ### DO: Invest in standalone verifiers before planning components
 
 A standalone verifier captures nearly all the false-pass benefit of
@@ -500,5 +537,5 @@ For implementation details on the procedures behind these rules:
 - SIFT: arXiv:2609.19526
 - AIDE² Recursive Self-Improvement: arXiv:2609.26457
 - Emergent Collusion: arXiv:2609.24967
-
-
+- MedRSI: arXiv:2609.24838
+- EvoPathBench (Process-Level Evaluation of Self-Evolving Agents): arXiv:2609.24663
