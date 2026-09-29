@@ -180,3 +180,6 @@ To stop this recurring as more papers come in:
 1. Every rule gets a one-line **Scope:** (setting, model class, benchmark) under its heading.
 2. The ingest skill gains a deconfliction step: before adding a DO/DON'T, grep existing headings for the same subject and an opposing verb, then either scope both or add a "Tension with" cross-reference.
 3. Rerun this audit after each weekly batch.
+
+Steps 1 and 2 are implemented in the praxis batch-ingest skill (Step 7b) and the
+`scrape_arxiv.py check-rule` command: Marontis/bo-praxis#1.
