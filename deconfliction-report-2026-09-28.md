@@ -4,6 +4,43 @@ Scope: all 8 `rules/` files, all 96 skills, all 155 research briefs. Read-only
 audit by three parallel reviewers; findings merged and de-duplicated. Items
 marked **(verified)** were spot-checked against the files.
 
+## Resolution status (2026-09-29)
+
+All High, Medium and Low items below were addressed on branch
+`feature/arxiv-batch-2026-09-28`, mostly by adding **Scope:** lines and
+"Tension with" notes rather than deleting guidance. New papers from the
+same week supplied the scope conditions for H1 (RRSI 2609.24972,
+2609.31186, MedRSI 2609.24838), H2 (2609.22497, 2609.22682), H4
+(2609.30028, 2609.22949), H7 (EvoPathBench 2609.24663), M6 (2609.26176,
+2609.22818) and M14 (Ajar 2609.26900). Other changes:
+
+- New entries: "Pass every self-modification through one acceptance gate"
+  (H7) and "Choose the prompt optimizer by data regime, then gate the
+  result" (H6) in `rules/recursive-improvement.md`.
+- Duplicates are cross-linked with "See also" lines; the
+  insufficient/conflicting-evidence pair in `skill-system-design.md` was
+  merged.
+- 81 root-relative links in `rules/` and 10 other broken links were fixed.
+
+Corrections to the data-integrity table after checking the papers:
+- **Luna vs Terra was not an error.** 2608.26480 v1 reports both
+  (Luna +10.6, Terra +8.0); the rule and brief each quoted one. Both now
+  list both, and note that v2 revised the figures.
+- **2609.08175 exists** ("A Theory of Reliable Self-Evolution for Agent
+  Harnesses"). The rule blended it with RobustSGPO (2609.09646) and made a
+  claim neither paper supports ("unconstrained evolution is worse than
+  none"); that claim was replaced with the verified comparisons.
+- **2608.19993's 23pp and 21%** measure different things (one controlled
+  example vs library growth). Both kept, labelled; v2 changes 23pp to 12pp.
+- **The 56.05% / 4.33% figures belong to 2609.04820.** The CVE skill
+  (2609.05335) now uses that paper's own numbers, and its verification
+  step was corrected to match the paper.
+
+Still open: one "7.5% of instances" figure in `skill-system-design.md`
+couldn't be verified (v1 says "fewer than a tenth"), so it's unchanged.
+
+---
+
 **Pattern.** Almost every conflict has the same cause: a paper's finding from
 one setting (one benchmark, one model family, one topology) was written into a
 rule as general guidance, and a later paper from a different setting was

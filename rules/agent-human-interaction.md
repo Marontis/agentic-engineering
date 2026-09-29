@@ -128,6 +128,21 @@ This applies at every level:
   fix lint errors is not authorized to refactor the surrounding code,
   even if the refactor would "obviously" improve it
 
+**Scope:** agents acting on their own findings in a human-supervised
+workflow (FirstMate design principle; no benchmark). A pre-granted,
+bounded scope counts as the explicit gate: an autonomous loop that
+fixes only what an operator authorized in advance (e.g. a `mode="task"`
+remediation node limited to its declared tools and output schema) is
+already authorized for that scope. Sanction or revocation powers over
+other agents need their own explicit grant.
+
+Tension with "Use `mode="task"` with typed `finish_task` for autonomous
+remediation loops" (adk-workflow-architecture.md) and "Apply commons
+governance principles to shared agent resources"
+(multi-agent-coordination.md): those loops act without a per-action
+human gate, and they stay consistent with this rule only while they
+act inside the scope they were granted up front.
+
 > Source: FirstMate agent distro (github.com/kunchenguid/firstmate),
 > VISION.md: "Evidence is never authorization"
 
@@ -203,6 +218,8 @@ model families (65.8% vs 29.3%) while backfiring on others (-15.5 to
 -23.0 points). Furthermore, reframing operational requests as
 conceptual explanations bypasses safety refusals in 99.2% of cases.
 
+See also: rules/agent-sandbox-safety.md — "DON'T: Assume uniform safety refusal behavior across model families in multi-turn dialogues"; rules/agent-sandbox-safety.md — "DON'T: Assume safety transfers across deployment contexts"
+
 > Source: Door-in-the-Face Refusal Behaviour (arXiv:2609.02707),
 > Not the Same Protector (arXiv:2608.29136)
 
@@ -220,6 +237,8 @@ erroneously verifying developer identity based solely on technical
 dialogue. Authentication must derive from external cryptographic
 tokens or environment capability leases.
 
+See also: rules/agent-sandbox-safety.md — "DON'T: Permit dialogue-driven identity authentication or self-issued credentials"
+
 > Source: Conversational False Authentication (arXiv:2609.03247)
 
 ---
@@ -227,10 +246,10 @@ tokens or environment capability leases.
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
-- [`intent-driven-sdlc-planning`](skills/intent-driven-sdlc-planning/SKILL.md) — Structured intent → spec → plan pipeline for human-agent planning
-- [`agentic-review-deploy-loop`](skills/agentic-review-deploy-loop/SKILL.md) — Layered review pipeline with escalation triggers
-- [`requirements-driven-code-generation`](skills/requirements-driven-code-generation/SKILL.md) — Requirement decomposition for evaluable specifications
-- [`persistent-agent-migration`](skills/persistent-agent-migration/SKILL.md) — Preserving agent identity across interaction sessions
+- [`intent-driven-sdlc-planning`](../skills/intent-driven-sdlc-planning/SKILL.md) — Structured intent → spec → plan pipeline for human-agent planning
+- [`agentic-review-deploy-loop`](../skills/agentic-review-deploy-loop/SKILL.md) — Layered review pipeline with escalation triggers
+- [`requirements-driven-code-generation`](../skills/requirements-driven-code-generation/SKILL.md) — Requirement decomposition for evaluable specifications
+- [`persistent-agent-migration`](../skills/persistent-agent-migration/SKILL.md) — Preserving agent identity across interaction sessions
 
 ## Sources
 

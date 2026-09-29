@@ -107,7 +107,7 @@ def evaluator():
 def test_tool_selection_accuracy(evaluator):
     """Assert agent invokes the exact expected sequence of tools."""
     results = evaluator.run()
-    assert results.tool_trajectory_match_rate >= 0.98, (
+    assert results.tool_trajectory_match_rate >= 0.95, (
         f"Tool trajectory degraded! Mismatches: {results.failed_trajectories}"
     )
 
@@ -164,7 +164,7 @@ jobs:
 
 - **Deterministic Sampling**: In test configurations, set model `temperature=0.0` or use model seed parameters where supported to minimize random generative variance during trajectory evaluation.
 - **Mocking External Databases**: Connect tools to mock databases or recorded fixtures during CI runs so tests do not incur third-party API costs or alter production records.
-- **Cost Management**: Golden datasets should contain between 30 and 100 high-leverage test cases. For extensive suites (>500 cases), run a tiered strategy: run the critical tier on every PR, and the comprehensive tier nightly.
+- **Cost Management**: Golden datasets should contain between 30 and 100 high-leverage test cases. For extensive suites (>500 cases), run a tiered strategy: run the critical tier on every PR, and the comprehensive tier nightly. Before any production deploy (and at final acceptance of a prompt, skill or model change), run the full frozen golden dataset plus the security and policy suites; a subset is for iteration only (see `rules/adk-security-and-evaluation.md` and `rules/agent-evaluation-quality.md`).
 
 ---
 

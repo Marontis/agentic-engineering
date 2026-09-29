@@ -52,7 +52,12 @@ heuristic algorithm engineering, and physics-based weather forecasting.
    be modified (harness logic, search policy, memory management,
    context compression)
 2. Define what is FROZEN: the base model weights, the evaluation
-   infrastructure, the task suite interface
+   infrastructure, the task suite interface, the graders, the
+   hidden/OOD splits, the negative security testbed, and the agent's
+   permissions. These stay outside the editable surface for the whole
+   run; widening the editable surface needs an external authority, not
+   the loop (see rules/recursive-improvement.md — "DO: Make the
+   improvement mechanism part of the agent's editable source")
 3. Establish safety boundaries: what kinds of modifications are
    permitted vs. prohibited
 
@@ -75,8 +80,18 @@ For each iteration:
 1. **Propose**: the current agent analyzes its own code and proposes
    modifications (code patches)
 2. **Benchmark**: run the modified agent on the selection task suite
-3. **Select**: keep modifications that improve performance on the
-   selection tasks
+3. **Select**: keep a modification only if it (a) improves
+   performance on the selection tasks, (b) passes the
+   **security-invariant probes** (immutable negative security
+   testbed: e.g. certificate validation, credential handling, sandbox
+   and privilege boundaries — a poisoned selection task can otherwise
+   plant a `verify=False`-style backdoor that survives later clean
+   generations, arXiv:2609.17817), and (c) shows **behavioural
+   evidence** in the trajectories that the targeted behaviour changed,
+   not just a higher aggregate score. Selection-score gains are
+   search-time signals; the keep decision defers to
+   rules/recursive-improvement.md — "DO: Pass every self-modification
+   through one acceptance gate"
 4. **Commit**: the accepted modification becomes the new agent —
    the next round of proposals starts from this version
 5. Each accepted rewrite compounds: improvement N+1 builds on
@@ -112,8 +127,12 @@ Monitor for similar emergent effects — both positive and negative.
 | Selection suite overfitting | Improvements don't transfer to hidden evals | Diversify selection tasks; periodic hidden-eval checks |
 | Reward hacking increase | Agent games selection metrics | Include reward-hacking detection in monitoring |
 | Compounding regression | Bad edit accepted, subsequent edits build on it | Checkpoint and rollback infrastructure; periodic full re-eval |
-| Stagnation | No further improvements discovered | Diversify proposal strategy; expand editable surface |
-| Unsafe self-modification | Agent modifies safety boundaries or eval infrastructure | Freeze safety boundaries; hash-verify eval infrastructure |
+| Stagnation | No further improvements discovered | Diversify proposal strategy; explore component types not yet edited *within the fixed editable set* (do not widen it; see [`regularized-harness-evolution`](../regularized-harness-evolution/SKILL.md) step 3) |
+| Unsafe self-modification | Agent modifies safety boundaries or eval infrastructure | Freeze safety boundaries; hash-verify eval infrastructure; run the negative security testbed on every candidate |
+| Evolve-set overfit | Unregularized evolution wins in-distribution but loses OOD (RRSI: 92.8 vs 90.5 evolve, 40.3 vs 43.6 OOD) | Use the edit budget, leakage screen and noise-adjusted acceptance in [`regularized-harness-evolution`](../regularized-harness-evolution/SKILL.md) |
+
+See also: [`regularized-harness-evolution`](../regularized-harness-evolution/SKILL.md)
+(RRSI, arXiv:2609.24972) for the bounded-envelope version of this loop.
 
 > Source: Srikanth et al., "Recursive Self-Improvement of AI Research
 > Agents" (arXiv:2609.26457), Sep 2026.

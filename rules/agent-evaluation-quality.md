@@ -23,6 +23,8 @@ candidate response or the rubric criterion is counterfactually
 flipped/reversed, LLM judges systematically fail to update their
 decisions.
 
+See also: rules/recursive-improvement.md — "DON'T: Rely on unperturbed rubric evaluators without counterfactual verification"
+
 > Source: Rubric Artifacts in LLM Judges (arXiv:2609.02942)
 
 ### DON'T: Report red-team failure rates scored by a single judge model
@@ -67,6 +69,8 @@ focus on conclusion correctness rather than reasoning step validity.
 reasoning step in over 60% of invalid trajectories when auditing
 complex problems.
 
+See also: rules/agent-sandbox-safety.md — "DON'T: Provide ground-truth answers to chain-of-thought oversight monitors"
+
 > Source: The Answer Is Not the Argument (arXiv:2609.00264)
 
 ---
@@ -83,6 +87,18 @@ modification. Unaffected tests waste compute and dilute signal.
 **Evidence**: behavior-aware test selection reduces wasted rollouts and
 improves modification-specific signal by matching tests to the
 behavioral scope of each change.
+
+**Scope:** the inner search loop: scoring candidate modifications
+while iterating (HarnessLens, agent-harness modification). At
+acceptance and deploy, run the full frozen regression suite and the
+security suites regardless of what the change touches.
+
+Tension with "Gate production deployment on golden dataset trajectory
+validation in CI/CD" (adk-security-and-evaluation.md): selected tests
+while searching, full frozen and security suites at the acceptance and
+deploy gates.
+
+See also: rules/recursive-improvement.md — "DO: Select verification tasks based on what each modification changes"
 
 > Source: HarnessLens (arXiv:2608.27311)
 
@@ -113,6 +129,8 @@ agent patches exhibited substantial memorization of historical
 developer fixes. Remediation requires comprehensive semantic test
 suites that verify behavior outside the crash stack.
 
+See also: rules/agent-sandbox-safety.md — "DON'T: Validate vulnerability repairs using PoC crash suppression alone"
+
 > Source: PatchBench (arXiv:2609.04075)
 
 ---
@@ -132,6 +150,8 @@ functional role (prompt, control flow, tools, harness) and obligation
 reporting fidelity). Never evaluate a modified agent using its own
 modified environment.
 
+See also: rules/agent-sandbox-safety.md — "DO: Enforce two-axis tampering audits on self-modifying agent harnesses"
+
 > Source: Auditing Harness Tampering (arXiv:2609.00069)
 
 ### DO: Test evaluators with counterfactual perturbations
@@ -142,6 +162,8 @@ by running counterfactual tests: flip the expected quality of the
 candidate and confirm the evaluator's score changes accordingly. An
 evaluator that produces the same score regardless of input quality is
 measuring rubric artifacts, not output quality.
+
+See also: rules/recursive-improvement.md — "DON'T: Rely on unperturbed rubric evaluators without counterfactual verification"
 
 > Source: arXiv:2609.02942
 
@@ -158,6 +180,8 @@ of invariant safety boundaries before scoring accuracy.
 models with comparable predictive accuracy differed by more than 28
 points in safety compliance score, exhibiting fatal boundary violations
 while producing superficially plausible predictions.
+
+See also: rules/agent-sandbox-safety.md — "DON'T: Evaluate safety-critical agent predictions by numeric accuracy alone"
 
 > Source: FLY-EVAL++ (arXiv:2609.04021)
 
@@ -188,13 +212,13 @@ At each tier, monitor for:
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
-- [`behavior-aware-verification`](skills/behavior-aware-verification/SKILL.md) — Modification-scoped test selection
-- [`trajectory-aware-eval-pruning`](skills/trajectory-aware-eval-pruning/SKILL.md) — Cost-effective benchmark subset selection
-- [`harness-tampering-audit`](skills/harness-tampering-audit/SKILL.md) — Two-axis tampering audit for self-modifying agents
-- [`error-structured-prompt-optimization`](skills/error-structured-prompt-optimization/SKILL.md) — Evaluation-driven prompt refinement
-- [`counterexample-guided-repair`](skills/counterexample-guided-repair/SKILL.md) — Oracle-based artifact refinement
-- [`neural-invariant-failure-diagnosis`](skills/neural-invariant-failure-diagnosis/SKILL.md) — Behavioral state invariant checking
-- [`agentic-review-deploy-loop`](skills/agentic-review-deploy-loop/SKILL.md) — Layered review with checklist-based agentic review
+- [`behavior-aware-verification`](../skills/behavior-aware-verification/SKILL.md) — Modification-scoped test selection
+- [`trajectory-aware-eval-pruning`](../skills/trajectory-aware-eval-pruning/SKILL.md) — Cost-effective benchmark subset selection
+- [`harness-tampering-audit`](../skills/harness-tampering-audit/SKILL.md) — Two-axis tampering audit for self-modifying agents
+- [`error-structured-prompt-optimization`](../skills/error-structured-prompt-optimization/SKILL.md) — Evaluation-driven prompt refinement
+- [`counterexample-guided-repair`](../skills/counterexample-guided-repair/SKILL.md) — Oracle-based artifact refinement
+- [`neural-invariant-failure-diagnosis`](../skills/neural-invariant-failure-diagnosis/SKILL.md) — Behavioral state invariant checking
+- [`agentic-review-deploy-loop`](../skills/agentic-review-deploy-loop/SKILL.md) — Layered review with checklist-based agentic review
 
 ## Sources
 

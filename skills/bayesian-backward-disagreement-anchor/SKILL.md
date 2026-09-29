@@ -34,6 +34,17 @@ than incorrect ones.
 
 ## Procedure
 
+### Step 0: Classify the disagreement first
+
+Before anchoring, classify each disagreement with
+[`debate-layer-disagreement-analysis`](../debate-layer-disagreement-analysis/SKILL.md)
+(factual / interpretive / strategic). Use this skill's anchor for
+**factual** disputes only, where one answer is right and one is wrong.
+For **interpretive** disputes, preserve both readings with their
+evidence. For **strategic** disputes, make the trade-off explicit.
+Don't pick a winner in either case, even with a posterior ratio above
+2×. If the classification is unclear, treat it as interpretive.
+
 ### Step 1: Collect the disagreement set
 
 For each agent, extract:
@@ -89,7 +100,8 @@ similar tasks if available; otherwise use uniform priors.
 The conclusion with the highest posterior becomes the **anchor**:
 
 - If the anchor's posterior is much higher than alternatives
-  (>2× ratio), adopt it with high confidence
+  (>2× ratio), adopt it with high confidence (factual disputes
+  only; see Step 0)
 - If posteriors are close (within 1.5×), flag as genuinely
   ambiguous and present both conclusions with confidence levels
 - If the anchor contradicts majority opinion, flag for human
@@ -124,8 +136,9 @@ The conclusion with the highest posterior becomes the **anchor**:
 ## Cross-References
 
 - [`debate-layer-disagreement-analysis`](../debate-layer-disagreement-analysis/SKILL.md) —
-  Layer analysis classifies disagreement types; Bayesian backward
-  reasoning resolves them
+  Layer analysis classifies disagreement types first; Bayesian backward
+  reasoning resolves only the factual ones (interpretive and strategic
+  disagreements are preserved or traded off, not anchored)
 - [`debate-consensus-memory-calibration`](../debate-consensus-memory-calibration/SKILL.md) —
   R²-MAD calibrates against shared misconceptions; backward
   reasoning provides a complementary label-free resolution

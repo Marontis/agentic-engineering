@@ -55,6 +55,22 @@ can be swapped without retraining others. The language interface is
 stable across model generations and enables asynchronous operation
 where fast agents act while slow agents reason.
 
+Carry the natural-language instruction as the *payload* inside a typed
+envelope (sender, intent, provenance) and end each exchange in a typed
+terminal schema; the NL layer is what makes components swappable, the
+envelope is what keeps routing, auditing and termination deterministic.
+
+**Scope:** decoupled planner→controller interfaces in embodied agents
+(the evidence below); not evidence against typed envelopes or typed
+terminal outputs for general agent-to-agent traffic.
+
+Tension with "Structure inter-agent communication around typed intents
+and bus substrates" (this file) and "Use `mode="task"` with typed
+`finish_task` for autonomous remediation loops"
+(adk-workflow-architecture.md): scope
+separates them. NL is the payload between a planner and a controller;
+typed envelopes and terminal schemas wrap it.
+
 **Evidence**: decoupled planner-controller architectures using language
 as the interface outperform tightly-coupled approaches on 6/7 benchmarks.
 Controllers achieve 92.8% instruction-following accuracy across diverse
@@ -69,6 +85,8 @@ provenance (sender identity, timestamp, context chain), semantic type
 (request, response, notification), and transport metadata. This enables
 heterogeneous agents to communicate across different transports (HTTP,
 WebSocket, AMQP) without custom integration per pair.
+
+See also: rules/skill-system-design.md — "DO: Encapsulate inter-agent tool calls and skill invocations in standardized semantic envelopes"
 
 > Source: NLIP Agent Protocol Standard (arXiv:2609.04135)
 
@@ -119,6 +137,15 @@ is not evidence of correctness.
 **Evidence**: experience-memory-augmented debate with dynamic confidence
 reweighting is required to counteract shared misconceptions and
 majority skew in multi-agent debate systems.
+
+**Scope:** multi-agent debate among debaters sharing training data,
+biases or retrieved context. Consistent with "Expand candidate model
+pools with arbitrary heterogeneous architectures" (below) once that
+rule is scoped to routing/voting aggregation: any same-family pool
+used for debate or verification needs a dissent or diversity
+mechanism (confidence reweighting, heterogeneous members).
+
+See also: rules/recursive-improvement.md — "DO: Dynamically calibrate consensus entropy and weight peer influence by evidence grounding in multi-agent debate"
 
 > Source: R²-MAD (arXiv:2609.03619)
 
@@ -192,6 +219,15 @@ systematically erase minority voices when collective-level metrics
 (consensus preservation, conflict preservation, minority retention) are
 not evaluated separately.
 
+**Scope:** preference-inference models aggregating human opinions in
+large public consultations; minorities here are good-faith voices, not
+adversaries.
+
+Tension with "Rely on group size or majority vote to dilute adversarial
+agents" (above): that rule covers an adversarial minority, where the
+untrusted share must be capped; this one covers aggregating
+good-faith preferences, where minority dissent must be kept.
+
 > Source: Collective-Centric Preference Inference Evaluation (arXiv:2609.02990)
 
 ---
@@ -209,6 +245,8 @@ feedback — it contaminates their working strategies.
 **Evidence**: targeted reflection outperforms broadcast reflection by
 avoiding memory contamination of correctly-performing agents.
 
+See also: rules/recursive-improvement.md — "DO: Reflect only on the decisive error agent, not all agents"
+
 > Source: DoCtOR (arXiv:2608.28264)
 
 ### DO: Diagnose failures using behavioral state abstraction, not raw logs
@@ -219,6 +257,8 @@ states (what the agent intended, what it observed, what it did), then
 check neural invariants against those states. This localizes the
 failure step and classifies the failure mode (wrong tool, wrong
 argument, wrong timing, wrong target).
+
+See also: rules/recursive-improvement.md — "DO: Abstract long trajectories into structured state graphs and verify neural invariants"
 
 > Source: AgentScope (arXiv:2609.02371)
 
@@ -246,6 +286,31 @@ audited suspect outputs, staged boycotts of compromised libraries, and
 developed validation patches — but only because the governance
 infrastructure permitted mutual monitoring.
 
+**Scope:** one 100-agent research collective sharing a knowledge
+commons (2609.04170); an emergent, observational result, not a
+controlled comparison of monitoring designs.
+
+**Separate auditors from verifiers.** "Mutual monitoring" here means
+an *auditor* role: read-only, out-of-band access to shared resources
+and contribution logs, with no reward coupling to the agents it
+audits. Peer *verifiers* that check each other's task outputs get
+task-scoped context only (current outputs and the rubric), never
+cumulative interaction history, prior verification outcomes or peer
+rewards: collusion emerged in 94% of trajectories when peers shared
+task logs and verified each other (2609.24967; see
+rules/recursive-improvement.md — "DON'T: Expose full interaction
+history to peer-verifying agents").
+
+**Sanctions need an explicit grant.** Warnings and flags can be
+automatic. Isolation and capability revocation (step 3) run
+autonomously only within a scope an operator pre-granted in writing
+(which agents, which capabilities, which triggers); outside it they
+escalate. Tension with "Treat agent output as implicit authorization"
+(agent-human-interaction.md): an audit finding is evidence, not
+authorization; the pre-granted, bounded sanction scope is the gate.
+
+See also: rules/recursive-improvement.md — "DO: Establish Ostrom-style commons governance and peer auditing over shared swarm memory"
+
 > Source: Emergent Cheating and Whistleblowing in Research Swarms (arXiv:2609.04170)
 
 ### DO: Separate task execution from safety monitoring via guard-agent topologies
@@ -255,12 +320,19 @@ fairness constraints. Worker agents suffer from context saturation,
 goal fixation, and prompt injection vulnerability. Introduce dedicated,
 out-of-band guard agents in a supervisory topology to inspect
 intermediate messages, tool invocations, and proposed actions before
-changes are committed.
+changes are committed. Guards consume schema-delimited records of
+actions and decisions, not workers' raw rationale, which a worker can
+use to inject the guard (see "Evaluate privileged agent actions using
+unescaped raw transcripts in blocking monitors" and "Give blocking
+action monitors recent call history, and make denials terminal" in
+rules/agent-sandbox-safety.md).
 
 **Evidence**: three architectural topologies preserve distinct values:
 federated (privacy), distributed (pluralism), and guard-agent
 (fairness/safety). Uniform internal alignment across all workers is
 impossible to guarantee in heterogeneous multi-agent systems.
+
+See also: rules/agent-sandbox-safety.md — "DO: Decouple safety and fairness monitoring into dedicated guard-agent topologies"
 
 > Source: Value-Preserving Architectures for Agentic AI (arXiv:2609.03920)
 
@@ -271,6 +343,13 @@ private user data never leaves local boundaries. Use localized agent
 instances that extract minimal semantic summaries before communicating
 with orchestrator agents. Default to minimal disclosure; expand scope
 only when explicitly required by the task.
+
+**Scope:** privacy-partitioned architectures handling private user
+data (2609.03920). The same default applies to peer verifiers, which
+get task-scoped context only (2609.24967). Auditors are the one role
+that sees more: read-only, out-of-band, with no reward coupling (see
+"Apply commons governance principles to shared agent resources",
+above).
 
 > Source: arXiv:2609.03920
 
@@ -322,6 +401,24 @@ Replace rigid hierarchical manager-worker trees (which block peer consultation) 
 
 **Evidence**: Across 13 benchmarks spanning visual reasoning, mathematics, and multi-hop retrieval, intent-regularized bus communication consistently outperforms hierarchical and router architectures while reducing unproductive chatter turns by >40%.
 
+**Scope:** trusted inputs only: 13 visual-reasoning, mathematics and
+multi-hop retrieval benchmarks with no adversarial agents or poisoned
+feeds. Before any untrusted external feed (web, social, market data,
+third-party agents) reaches the bus, pass it through a damping /
+cross-check layer (hierarchical coordinator or equivalent), and run a
+read-only traffic monitor over the bus.
+
+Tension with "Allow perception agents to directly feed strategic
+coordinators without adversarial shock damping" (below) and "Default
+to a fixed multi-agent topology" (above): flat and broadcast channels
+spread poisoned signals. In a fully connected channel, the harm honest
+agents suffer grows with the untrusted share and is not diluted by
+group size (2609.30028). In one 6-agent pipeline, a read-only
+communication anomaly monitor cut cascading attacks from 28% to 4.5%
+(2609.22949; research-briefs/multi-agent-prompt-injection-defense-architecture.md).
+Scope separates them: the bus for trusted collaboration, damping in
+front of it for untrusted inputs.
+
 > Source: BusMA: A Bus Communication Substrate for Multi-Agent Systems (arXiv:2609.15054)
 
 ### DON'T: Expand candidate model pools with arbitrary heterogeneous architectures
@@ -329,6 +426,21 @@ Replace rigid hierarchical manager-worker trees (which block peer consultation) 
 Do not assume that adding more diverse models to a multi-agent routing or voting pool improves aggregate system capability. Expanding candidate pools beyond 3–5 models frequently degrades performance below that of the single top-performing standalone base model due to format friction, divergent tokenization biases, and uncalibrated confidence scores. When constructing multi-agent model teams, restrict candidate selection to **within a single model family** (e.g. varying parameter tiers of the same architecture), which consistently yields the highest relative performance gain over standalone baselines.
 
 **Evidence**: Systematically evaluated across 8 selection strategies on competitive scientific reasoning benchmarks; intra-family model selection captured the highest relative lift over base models, whereas heterogeneous pools introduced severe noise into voting aggregators and LLM judges.
+
+**Scope:** routing and voting aggregation accuracy (pool selection for
+voting aggregators and LLM judges) on competitive scientific reasoning
+benchmarks. Not evidence about interactive deliberation or joint
+verification. Any same-family pool used for debate or verification
+still needs a dissent or diversity mechanism. With this scope,
+"Assume multi-agent debate eliminates shared misconceptions" (R²-MAD)
+and "Optimize topology and model assignment jointly" (AgentFactory),
+both above, are consistent with this rule.
+
+Tension with "Use heterogeneous, cross-family rosters for deliberation
+and joint verification" (above): that rule's evidence is interactive
+deliberation and verification, where clone groups showed no benefit;
+this one is non-interactive routing/voting, where heterogeneity added
+aggregation noise.
 
 > Source: Mo' Models, Mo' Problems: How to Best Select Model Pools when Designing Multi-Agent Systems (arXiv:2609.17306)
 
@@ -340,6 +452,13 @@ Do not assume that adding more diverse models to a multi-agent routing or voting
 
 In multi-agent systems where front-line agents ingest unstructured external feeds (social media, web search, market data), black-box poisoning attacks by budget-constrained adversaries cause cascading belief shifts that propagate unimpeded across flat or broadcast topologies, catastrophically degrading decision quality (e.g., crashing Sharpe ratios in autonomous trading swarms). Implement hierarchical coordinator topologies where coordinators cross-check evidence across disjoint modalities and enforce confidence-calibrated shock dampening before updating global strategic state.
 
+**Scope:** autonomous trading swarms whose perception agents ingest
+untrusted external feeds; black-box, budget-constrained poisoning.
+
+Tension with "Structure inter-agent communication around typed intents
+and bus substrates" (above): the bus is for trusted inputs; untrusted
+feeds pass through this damping layer before reaching it.
+
 > Source: Contagion on the Trading Floor: How Adversarial Signals Spread in Multi-Agent Trading Systems (ECML PKDD 2026, arXiv:2609.19789)
 
 ---
@@ -347,12 +466,12 @@ In multi-agent systems where front-line agents ingest unstructured external feed
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
-- [`targeted-failure-attribution`](skills/targeted-failure-attribution/SKILL.md) — Identifying decisive error agents in multi-agent failures
-- [`debate-consensus-memory-calibration`](skills/debate-consensus-memory-calibration/SKILL.md) — Experience-memory-augmented debate with confidence reweighting
-- [`neural-invariant-failure-diagnosis`](skills/neural-invariant-failure-diagnosis/SKILL.md) — Behavioral state abstraction for failure localization
-- [`nlip-agent-message-envelope`](skills/nlip-agent-message-envelope/SKILL.md) — Standardized semantic message envelopes
-- [`persistent-agent-migration`](skills/persistent-agent-migration/SKILL.md) — Migrating agents while preserving identity and memory
-- [`unified-capability-gateway`](skills/unified-capability-gateway/SKILL.md) — Shared multi-stage capability pipeline
+- [`targeted-failure-attribution`](../skills/targeted-failure-attribution/SKILL.md) — Identifying decisive error agents in multi-agent failures
+- [`debate-consensus-memory-calibration`](../skills/debate-consensus-memory-calibration/SKILL.md) — Experience-memory-augmented debate with confidence reweighting
+- [`neural-invariant-failure-diagnosis`](../skills/neural-invariant-failure-diagnosis/SKILL.md) — Behavioral state abstraction for failure localization
+- [`nlip-agent-message-envelope`](../skills/nlip-agent-message-envelope/SKILL.md) — Standardized semantic message envelopes
+- [`persistent-agent-migration`](../skills/persistent-agent-migration/SKILL.md) — Migrating agents while preserving identity and memory
+- [`unified-capability-gateway`](../skills/unified-capability-gateway/SKILL.md) — Shared multi-stage capability pipeline
 
 ## Sources
 
@@ -375,3 +494,4 @@ For implementation details on the procedures behind these rules:
 - The Wisdom of Artificial Deliberative Crowds: arXiv:2609.22497
 - Self-Organizing Agent Teams: arXiv:2609.22682
 - Adversarial Influence Scaling in MAS: arXiv:2609.30028
+- Emergent Collusion (cited from recursive-improvement.md): arXiv:2609.24967

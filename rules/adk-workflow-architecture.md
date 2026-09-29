@@ -49,6 +49,8 @@ def policy_check(node_input):
     return Event(output=node_input, route="BLOCK" if has_violation else "OK")
 ```
 
+See also: rules/skill-system-design.md — "DO: Keep deterministic steps in code and explicit graph edges; delegate to LLMs only for reasoning"
+
 > Source: Google ADK Codelab: Agentic Workflow with ADK (Step 5)
 
 ### DO: Always provide a default fallback route (`DEFAULT_ROUTE`) on conditional routers
@@ -206,5 +208,19 @@ quarantine = Agent(
     output_schema=CleanedDirection,  # finish_task takes CleanedDirection arguments
 )
 ```
+
+**Scope:** ADK 2 graph workflows, single-agent remediation nodes whose
+tools and output schema are fixed at graph-build time (ADK codelab; no
+benchmark).
+
+The graph author wiring the node (its tools, its schema, its place
+behind the policy router) is the pre-granted, bounded authorization.
+The loop may act only through those tools. Anything outside them,
+including sanctioning or revoking other agents, needs an explicit
+grant or a `RequestInput` gate. Tension with "Treat agent output as
+implicit authorization" (agent-human-interaction.md): consistent
+within the pre-granted scope, a violation outside it.
+
+See also: rules/recursive-improvement.md — "DO: Enforce hard depth boundaries and typed terminal schemas on recursive agent invocations"; rules/skill-system-design.md — "DO: Keep deterministic steps in code and explicit graph edges; delegate to LLMs only for reasoning"
 
 > Source: Google ADK Codelab: Agentic Workflow with ADK (Step 5)

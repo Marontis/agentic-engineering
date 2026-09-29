@@ -68,7 +68,12 @@ skills waste tokens.
 
 **Evidence**: adding a redundant skill costs 225 tokens for +1pp gain.
 Adding an irrelevant but semantically similar skill **drops** success
-by 23pp.
+by 23pp (paper v1; the revised v2 of 28 Sep 2026 reports 12pp). This is
+one controlled single-task example in absolute points; the "up to 21%"
+in "DON'T: Assume more skills always helps" is a different measurement
+(pass-rate loss as libraries grow).
+
+**Scope:** controlled BigCodeBench-based skill-selection testbed.
 
 > Source: Optimal Skill Selection (arXiv:2608.19993)
 
@@ -114,6 +119,10 @@ grow. On 13/87 benchmark tasks, curated skills pushed success below
 the no-skill baseline. A larger library requires better selection, not
 just more retrieval.
 
+**Scope:** BigCodeBench-based testbed (87 tasks), paper v1. The 21%
+figure measures library growth; the 23pp figure in "DO: Score skill
+SETS" is a single controlled example. They are not in conflict.
+
 > Source: arXiv:2608.19993
 
 ### DO: Measure transfer density, not just skill count
@@ -155,6 +164,14 @@ for complex search.
 increases with stronger teacher models. Rich rollout feedback is the key
 ingredient, not the search strategy.
 
+**Scope:** IFBench/HotpotQA with a Qwen3-8B student, prompt-only
+(frozen weights). For when to prefer NPO over ESPO or CASD, see
+recursive-improvement.md — "DO: Choose the prompt optimizer by data
+regime, then gate the result"; the chosen prompt still passes the
+acceptance gate there.
+
+See also: recursive-improvement.md — "DO: Use rich rollout feedback for instruction revision, not just scores".
+
 > Source: Naive Prompt Optimization (arXiv:2608.27266)
 
 ### DO: Evolve skills with stronger models, deploy to weaker ones
@@ -167,6 +184,14 @@ resulting skills to cheaper models.
 **Evidence**: Qwen-27B-evolved skills improve Qwen-9B by +26.2pp on
 SpreadSheet, vs. +9.3pp from self-evolved skills. Transfer works across
 model families.
+
+**Scope:** WikiSkill benchmarks (e.g. SpreadSheet), Qwen 27B to 9B. Test
+on each deployment target before reuse: SelfOp found transfer within one
+family (GPT-5.4 and GPT-5.4-mini, both directions) but did not test
+across families (research-briefs/selfop-security-skill-optimization.md),
+and scaffolds can reverse sign on sparse-MoE models
+(recursive-improvement.md — "DON'T: Assume multi-agent scaffolding is
+universally monotonic across model architectures").
 
 > Source: arXiv:2608.27454
 
@@ -191,18 +216,30 @@ When generating agent training or evaluation data, apply the ACE lens:
 
 ### DO: Distinguish insufficient from conflicting evidence — they need different responses
 
-When a retrieval system returns evidence, classify it as sufficient,
-insufficient, or conflicting before generating.  Insufficient evidence
-means "I don't have enough info" — retry retrieval or acknowledge the
-gap.  Conflicting evidence means "my sources disagree" — surface the
-contradiction.  Collapsing both into "don't answer" loses information
+When a retrieval system returns evidence (or an agent meets an
+unsupported claim), classify it as sufficient, insufficient, or
+conflicting before generating. Insufficient evidence means "I don't have
+enough info" — retry retrieval or acknowledge the gap. Conflicting
+evidence means "my sources disagree" — surface the contradiction
+explicitly. Collapsing both into a single refusal loses information
 critical for downstream handling and trust.
+
+**Scope:** RAG question answering; hidden-state probes need open-weight
+access.
 
 **Evidence**: A lightweight linear probe on hidden activations from a
 single middle layer achieves 0.91 accuracy for 3-way triage across 16
 models, reducing false answer rates by 75% over prompt-based baselines.
+The hallucination signal in LLM hidden states is a linearly detectable
+mean shift, so simple probes suffice for detection without collapsing
+the distinction (arXiv:2608.28930).
 
-> Source: Knowing Before Answering (arXiv:2608.27661)
+(Merged: this entry formerly also appeared as "DON'T: Collapse 'missing
+evidence' and 'conflicting evidence' into a single refusal" under
+Hallucination Detection.)
+
+> Source: Knowing Before Answering (arXiv:2608.27661); The Hallucination
+> Signal Is a Mean Shift (arXiv:2608.28930)
 
 ---
 
@@ -218,23 +255,6 @@ insert malicious skills that persist across evolution rounds and propagate
 to unrelated tasks.  An unprovenanced skill is the primary attack vector.
 
 > Source: EvoSkill Injection (arXiv:2608.30429)
-
----
-
-## Hallucination Detection
-
-### DON'T: Collapse "missing evidence" and "conflicting evidence" into a single refusal
-
-When an agent encounters unsupported claims, distinguish between
-*insufficient* evidence (not enough information) and *conflicting*
-evidence (contradictory sources).  These require different downstream
-actions: insufficient evidence should trigger additional retrieval,
-while conflicting evidence should surface the contradiction explicitly.
-The hallucination signal in LLM hidden states is a linearly detectable
-mean shift — simple probes suffice for detection without collapsing
-the distinction.
-
-> Source: The Hallucination Signal Is a Mean Shift (arXiv:2608.28930)
 
 ---
 
@@ -312,6 +332,8 @@ Avoid defining bespoke, ad-hoc JSON payloads for inter-agent communication and t
 
 **Evidence**: Standardized semantic envelopes provide uniform auditability, context URI referencing, and least-privilege capability claims, bridging tool protocols (like MCP) and agent orchestration frameworks (like A2A) across enterprise boundaries without tight transport coupling.
 
+See also: multi-agent-coordination.md — NLIP semantic envelope entry.
+
 > Source: The Natural Language Interaction Protocol and Standard for AI Agents (arXiv:2609.04135)
 
 ---
@@ -324,10 +346,34 @@ Agent harness evolution (automatically improving scaffolding, prompts,
 and tools) diverges if the search space is unconstrained.  Limit which
 components can evolve simultaneously, bound mutation magnitude per
 round, and require monotonic improvement on a held-out evaluation set.
-Unconstrained harness evolution is empirically worse than no evolution
-at all — the search space is too large and the agent regresses.
+Keep rubrics, verifiers, the model and the evaluator fixed. Unconstrained
+harness evolution performs worse than scoped evolution: RobustSGPO's
+one-agent edit scope reached 4.34 vs 4.06 with unrestricted edit
+permission, and RRSI's unregularized run scored higher in-distribution
+(92.8 vs 90.5) but lower out of distribution (40.3 vs 43.6). (An earlier
+version of this entry said unconstrained evolution is worse than *no*
+evolution; the cited papers do not show that.)
 
-> Source: Safe Harness Self-Evolution (arXiv:2609.08175)
+Adopt an evolved harness only if it does not degrade previously solved
+tasks beyond a controlled margin (Two-Gate validation, arXiv:2609.08175).
+Change-specific test selection may be used during search; at acceptance
+and deploy, run the full frozen and security suites (see
+recursive-improvement.md — "DO: Pass every self-modification through one
+acceptance gate").
+
+**Scope:** harness evolution around a frozen model (RobustSGPO: edits
+capped at 120 changed lines per proposal; RRSI: agentic-workspace,
+coding and design benchmarks); 2609.08175 is theoretical with one
+DS-1000 illustration.
+
+Tension with "DO: Make the improvement mechanism part of the agent's
+editable source" (recursive-improvement.md): resolved by scope — the
+improvement logic may be editable, but only inside a fixed, declared
+editable set with bounded per-round change; evaluator, graders, security
+tests and permissions stay outside.
+
+> Source: RobustSGPO (arXiv:2609.09646); RRSI (arXiv:2609.24972);
+> A Theory of Reliable Self-Evolution for Agent Harnesses (arXiv:2609.08175)
 
 ---
 
@@ -342,6 +388,16 @@ of the improvement search space.  Design skill evolution loops with
 explicit convergence criteria and diminishing-returns detection
 rather than assuming open-ended improvement.
 
+**Scope:** a feasibility argument about evaluator, substrate and
+search-space limits, not a measured capability ceiling. Evolutionary
+Safety of RSI (arXiv:2609.31186) takes no position on ceilings; RRSI
+(arXiv:2609.24972) notes gains depend on feedback-signal quality.
+
+Tension with "DO: Distinguish systems, data, and algorithmic changes"
+(recursive-improvement.md), which says algorithmic change is bounded by
+"nothing fundamental": that table refers to hardware/data ceilings; this
+entry refers to evaluator quality and diminishing returns. Both hold.
+
 > Source: The Last AI Built by Humans (arXiv:2609.11873)
 
 ---
@@ -350,9 +406,15 @@ rather than assuming open-ended improvement.
 
 ### DO: Decouple agent context into file ledgers to prevent runaway reasoning loops
 
-When deploying mid-sized models (14B–35B) or long-horizon reasoning agents on complex problems, unconstrained single-call generation often degrades into degenerative self-verification loops (e.g., repeating edge-case interrogations thousands of times until hitting token limits). Decouple agent state into a shared filesystem ledger (`plan.md`, `notes.md`, `tasks.json`, `solution.py`), invoke subagents in fresh zero-shot contexts with bounded payloads, and actively prune working notes (<800 words).
+When deploying mid-sized dense models (14B–35B) or long-horizon reasoning agents on complex problems, unconstrained single-call generation often degrades into degenerative self-verification loops (e.g., repeating edge-case interrogations thousands of times until hitting token limits). Decouple agent state into a shared filesystem ledger (`plan.md`, `notes.md`, `tasks.json`, `solution.py`), invoke subagents in fresh zero-shot contexts with bounded payloads, and actively prune working notes (<800 words).
 
-**Evidence**: On the 100 latest Hard LiveCodeBench problems, single-call Qwen3.8-27B suffered 35 empty-output failures from runaway deliberation loops (e.g. repeating a verification check 7,743 times). A zero-shot ledger scaffold rescued 25 of these (+5.0 points) and lifted overall Pass@1 from 63.0% to 86.4% (+23.4 points), matching Claude Fable 5.
+**Evidence**: On the 100 latest Hard LiveCodeBench problems, single-call Qwen3.8-27B suffered 35 empty-output failures from runaway deliberation loops (e.g. repeating a verification check 7,743 times). A zero-shot ledger scaffold rescued 25 of these (+5.0 points) and lifted overall Pass@1 from 63.0% to 86.4% (+23.4 points), matching Claude Fable 5 (87.4%). The comparison is asymmetric: Fable 5 was run single-call with no tools and no code execution, while the scaffolded Qwen got up to 10 manager-to-worker rounds with subprocess test execution.
+
+**Exception — sparse MoE / low active parameters**: the same paper found the scaffold hurt Qwen3.6-35B-A3B (3B active): −1.2 points at 16k and −9.0 points at 128k with reasoning off. Benchmark the scaffold per model family before deploying it.
+
+**Scope:** LiveCodeBench Hard (100 latest problems), 128k cap, paper v1 numbers (v2 of 21 Sep 2026 revised them).
+
+See also: recursive-improvement.md — "DON'T: Assume multi-agent scaffolding is universally monotonic across model architectures" (same paper).
 
 > Source: Zero-Shot Self-Orchestration with Ledger-Based Control (arXiv:2608.26480)
 
@@ -368,6 +430,8 @@ In multi-agent systems, never use prompt-based LLM routing or LLM nodes for task
 3. **Pillar 3 (Dynamic Workflows)**: When runtime width or depth cannot be predicted statically, bound fan-out via worker nodes (`@node(parallel_worker=True)`) and recursive descent via strict recursion depth checks (`MAX_DEPTH`).
 
 **Evidence**: In ADK 2 benchmarked workflows, replacing prompt-based sequential LLM dispatch with an explicit graph router and pure function nodes dropped LLM API calls from 4 to 1 per request while eliminating routing drift and schema translation errors.
+
+See also: adk-workflow-architecture.md — deterministic-steps-first and typed `finish_task` entries; recursive-improvement.md — "DO: Enforce hard depth boundaries and typed terminal schemas on recursive agent invocations".
 
 > Source: Google Cloud Tech & ADK 2 Orchestration Codelab (ADK 2: Graph, Collaborative & Dynamic Workflows)
 
@@ -388,27 +452,27 @@ When reducing context in long-horizon agentic workflows, prioritize preserving p
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
-- [`skill-design-methodology`](skills/skill-design-methodology/SKILL.md) — Full skill authoring methodology
-- [`capability-aware-skill-selection`](skills/capability-aware-skill-selection/SKILL.md) — BPS algorithm and capability model
-- [`knowledge-compounding-loop`](skills/knowledge-compounding-loop/SKILL.md) — Persistent knowledge accumulation
-- [`iterative-instruction-refinement`](skills/iterative-instruction-refinement/SKILL.md) — NPO-style revision loop
-- [`rag-evidence-triage`](skills/rag-evidence-triage/SKILL.md) — Three-way evidence classification
-- [`skill-evolution-defense`](skills/skill-evolution-defense/SKILL.md) — Hardening skill evolution loops
-- [`hallucination-mean-shift-probe`](skills/hallucination-mean-shift-probe/SKILL.md) — Linear probe hallucination detection
-- [`prefix-preserving-context-assembly`](skills/prefix-preserving-context-assembly/SKILL.md) — Database-style context assembly
-- [`protocol-preserving-context-trimming`](skills/protocol-preserving-context-trimming/SKILL.md) — Protocol-aware context trimming and budget guardrails
-- [`persistent-agent-migration`](skills/persistent-agent-migration/SKILL.md) — Runtime-independent agent migration
-- [`trajectory-aware-eval-pruning`](skills/trajectory-aware-eval-pruning/SKILL.md) — Trajectory-aware benchmark item selection
-- [`procedural-family-skill-consolidation`](skills/procedural-family-skill-consolidation/SKILL.md) — Hierarchical global/local skill consolidation
-- [`speculative-macro-commit`](skills/speculative-macro-commit/SKILL.md) — Pre-executing multi-step tool action skeletons
-- [`counterexample-guided-repair`](skills/counterexample-guided-repair/SKILL.md) — Multi-turn artifact refinement using counterexample witnesses
-- [`nlip-agent-message-envelope`](skills/nlip-agent-message-envelope/SKILL.md) — Standardized semantic message envelopes and gateway bridging
-- [`stable-skill-evolution`](skills/stable-skill-evolution/SKILL.md) — Adam-style stabilization for skill evolution
-- [`graph-of-skills-scaling`](skills/graph-of-skills-scaling/SKILL.md) — Typed graph structure for skill library scaling
-- [`static-dynamic-verification-gap-measurement`](skills/static-dynamic-verification-gap-measurement/SKILL.md) — Measuring static-pass dynamic-fail gaps
-- [`bayesian-backward-disagreement-anchor`](skills/bayesian-backward-disagreement-anchor/SKILL.md) — Label-free multi-agent disagreement resolution
-- [`ledger-orchestrated-coding-loop`](skills/ledger-orchestrated-coding-loop/SKILL.md) — File-ledger multi-turn loop with test veto
-- [`adk2-agent-orchestration-patterns`](skills/adk2-agent-orchestration-patterns/SKILL.md) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
+- [`skill-design-methodology`](../skills/skill-design-methodology/SKILL.md) — Full skill authoring methodology
+- [`capability-aware-skill-selection`](../skills/capability-aware-skill-selection/SKILL.md) — BPS algorithm and capability model
+- [`knowledge-compounding-loop`](../skills/knowledge-compounding-loop/SKILL.md) — Persistent knowledge accumulation
+- [`iterative-instruction-refinement`](../skills/iterative-instruction-refinement/SKILL.md) — NPO-style revision loop
+- [`rag-evidence-triage`](../skills/rag-evidence-triage/SKILL.md) — Three-way evidence classification
+- [`skill-evolution-defense`](../skills/skill-evolution-defense/SKILL.md) — Hardening skill evolution loops
+- [`hallucination-mean-shift-probe`](../skills/hallucination-mean-shift-probe/SKILL.md) — Linear probe hallucination detection
+- [`prefix-preserving-context-assembly`](../skills/prefix-preserving-context-assembly/SKILL.md) — Database-style context assembly
+- [`protocol-preserving-context-trimming`](../skills/protocol-preserving-context-trimming/SKILL.md) — Protocol-aware context trimming and budget guardrails
+- [`persistent-agent-migration`](../skills/persistent-agent-migration/SKILL.md) — Runtime-independent agent migration
+- [`trajectory-aware-eval-pruning`](../skills/trajectory-aware-eval-pruning/SKILL.md) — Trajectory-aware benchmark item selection
+- [`procedural-family-skill-consolidation`](../skills/procedural-family-skill-consolidation/SKILL.md) — Hierarchical global/local skill consolidation
+- [`speculative-macro-commit`](../skills/speculative-macro-commit/SKILL.md) — Pre-executing multi-step tool action skeletons
+- [`counterexample-guided-repair`](../skills/counterexample-guided-repair/SKILL.md) — Multi-turn artifact refinement using counterexample witnesses
+- [`nlip-agent-message-envelope`](../skills/nlip-agent-message-envelope/SKILL.md) — Standardized semantic message envelopes and gateway bridging
+- [`stable-skill-evolution`](../skills/stable-skill-evolution/SKILL.md) — Adam-style stabilization for skill evolution
+- [`graph-of-skills-scaling`](../skills/graph-of-skills-scaling/SKILL.md) — Typed graph structure for skill library scaling
+- [`static-dynamic-verification-gap-measurement`](../skills/static-dynamic-verification-gap-measurement/SKILL.md) — Measuring static-pass dynamic-fail gaps
+- [`bayesian-backward-disagreement-anchor`](../skills/bayesian-backward-disagreement-anchor/SKILL.md) — Label-free multi-agent disagreement resolution
+- [`ledger-orchestrated-coding-loop`](../skills/ledger-orchestrated-coding-loop/SKILL.md) — File-ledger multi-turn loop with test veto
+- [`adk2-agent-orchestration-patterns`](../skills/adk2-agent-orchestration-patterns/SKILL.md) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
 
 ## Sources
 
@@ -428,7 +492,10 @@ For implementation details on the procedures behind these rules:
 - Speculative Macro Commit: arXiv:2609.03236
 - ExecRetrieval: arXiv:2609.01865
 - Natural Language Interaction Protocol (NLIP): arXiv:2609.04135
-- Safe Harness Self-Evolution: arXiv:2609.08175
+- A Theory of Reliable Self-Evolution for Agent Harnesses: arXiv:2609.08175
+- RobustSGPO: arXiv:2609.09646
+- RRSI: arXiv:2609.24972
+- Evolutionary Safety of Recursive Self-Improving AI: arXiv:2609.31186
 - The Last AI Built by Humans: arXiv:2609.11873
 - Zero-Shot Self-Orchestration: arXiv:2608.26480
 - Google Cloud Tech / ADK 2 Orchestration: Graph, Collaborative & Dynamic Workflows

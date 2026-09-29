@@ -4,7 +4,8 @@ description: >
   Multi-layered defense framework protecting tool-integrated LLM agents against direct
   prompt injection, indirect prompt injection, memory poisoning, and backdoor tools.
   Combines Attacker Tool Filtering (Isolation Forest anomaly scoring), Normal Tool
-  Recalling, and reflection-anchored planning to reduce attack success rates to 0%.
+  Recalling, and reflection-anchored planning; reported 0% attack success in many
+  static-benchmark settings (not tested against adaptive, defense-aware attackers).
   Derived from Li & Wang (arXiv:2609.16098).
 source: https://arxiv.org/abs/2609.16098
 ---
@@ -33,7 +34,11 @@ Conventional single-layer defenses (prompt guardrails alone or output regex filt
 - **Normal Tool Recalling** (deterministic white-box restoration of authorized baseline tool schemas)
 - **Execution Reflection & Task Paraphrasing** (CoT verification of intent before dispatch)
 
-reduces Attack Success Rate (ASR) to **0%** across benchmark evaluations on open models (Gemma2-9B, Qwen2-7B, LLaMA3-8B/3.1) and frontier closed models (GPT-4, GPT-5) while preserving or improving benign task completion.
+reduced Attack Success Rate (ASR) to **0% in many settings** (the paper's wording) on open models (Gemma2-9B, Qwen2-7B, LLaMA3-8B/3.1) and closed models (GPT-3.5, GPT-4, GPT-5) while preserving or improving benign task completion.
+
+**Scope:** fixed benchmark attack sets for the four attack classes; the paper does not report adaptive or defense-aware attackers. Treat the 0% as a static-benchmark result, not a robustness guarantee.
+
+**Before relying on this stack**, (1) red-team it with an adaptive attacker that sees the defense's refusals and iterates — see [`closed-loop-adaptive-red-teaming`](../closed-loop-adaptive-red-teaming/SKILL.md); monitor-evasion work reports up to 79% evasion against production blocking classifiers (arXiv:2609.19587); and (2) measure **open privilege** (harm-weighted fraction of unneeded tool calls the stack would still allow) alongside ASR and utility — see "Measure open privilege alongside attack success and utility" in `rules/agent-sandbox-safety.md`. Ajar (arXiv:2609.26900) shows low attack success can coexist with high open privilege, especially when benchmark attacks already fail against the undefended agent. Also check the benign-cost budget on the assembled stack ("Measure each defense's benign cost on a matched benign arm, on the assembled stack").
 
 ---
 
@@ -134,3 +139,4 @@ Before executing any state-altering tool call:
 - [`covert-tool-injection-defense`](../covert-tool-injection-defense/SKILL.md) — Defending against covert indirect injections through tool outputs.
 - [`unified-capability-gateway`](../unified-capability-gateway/SKILL.md) — Enforcing policy checks and subject binding at runtime.
 - [`layered-defense-ensemble`](../layered-defense-ensemble/SKILL.md) — Measuring defense correlation across layered LLM defenses.
+- [`closed-loop-adaptive-red-teaming`](../closed-loop-adaptive-red-teaming/SKILL.md) — Required adaptive red-teaming before trusting the static-benchmark ASR.

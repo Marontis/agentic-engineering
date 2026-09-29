@@ -81,6 +81,9 @@ For each iteration i = 0 to Y-1:
 Return: the instruction version with the best validation score
 ```
 
+Validation is optional *inside* the loop, not at acceptance: the
+returned instruction must pass rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate" before deployment.
+
 ### Key Design Choices
 
 **Single lineage, not population**: only one active instruction at a time.
@@ -142,7 +145,10 @@ Instructions optimized for one model transfer to others:
 **Implication**: you don't need to re-run optimization for every model
 you deploy to. Optimize once on a representative student, then apply
 the resulting instructions verbatim to other models. Monitor for
-regressions but expect gains.
+regressions but expect gains. Still **test on each deployment target
+before reuse**: evidence is Qwen3/Llama-3.x dense models; SelfOp
+(research-briefs/selfop-security-skill-optimization.md) confirmed
+transfer only within one family.
 
 ---
 
@@ -181,6 +187,16 @@ rather than to environmental noise or formatting artifacts.
 - You can run the agent on a sample of tasks and measure success
 - You have access to a teacher model (can be the same model or stronger)
 - You want to avoid the complexity of population-based optimization
+
+### When to choose this vs ESPO or CASD
+
+NPO fits when you have a strong teacher and a large task pool to draw
+fresh minibatches from. With a small validation set or an already
+bloated prompt, use ESPO
+([`error-structured-prompt-optimization`](../error-structured-prompt-optimization/SKILL.md));
+with only a static trajectory corpus, CASD
+([`corpus-scale-prompt-distillation`](../corpus-scale-prompt-distillation/SKILL.md))
+gives a first draft. Decision rule: rules/recursive-improvement.md — "DO: Choose the prompt optimizer by data regime, then gate the result".
 
 ### Use more complex approaches when:
 

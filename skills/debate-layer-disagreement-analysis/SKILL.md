@@ -55,11 +55,16 @@ For each debate round:
 - Retrieve the source material cited by each agent
 - Verify which claim is supported
 - The unsupported claim is a hallucination — correct it
+- If no source settles it, use
+  [`bayesian-backward-disagreement-anchor`](../bayesian-backward-disagreement-anchor/SKILL.md)
+  to pick the better-explaining answer (factual layer only)
 
 **Interpretive disagreements** → Preserve as perspectives:
 - Both interpretations may be valid
 - Present them as alternative perspectives with supporting evidence
 - Let the downstream consumer (human or system) decide
+- Do not run the Bayesian winner-picking anchor here; it is for
+  factual disputes only
 
 **Strategic disagreements** → Evaluate trade-offs:
 - Make the trade-off explicit: what does each strategy optimize for?
@@ -118,6 +123,9 @@ Flag and intervene on:
   R²-MAD calibrates against shared misconceptions; this skill
   provides the layer decomposition for understanding why calibration
   is needed
+- [`bayesian-backward-disagreement-anchor`](../bayesian-backward-disagreement-anchor/SKILL.md) —
+  Run this skill's classification first; hand only factual
+  disagreements to the Bayesian anchor, which picks a winner
 
 ## Sources
 

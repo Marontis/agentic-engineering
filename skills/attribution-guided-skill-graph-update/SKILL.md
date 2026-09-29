@@ -104,7 +104,8 @@ Before committing the patch to the graph:
 2. **Re-execute** all tasks that used the same graph object in the
    current epoch — none must regress
 3. Use **paired execution** with decision stability checks (run twice,
-   confirm same outcome)
+   confirm same outcome). Two runs is the paper's setting; for noisy
+   tasks follow the shared guideline: Repeat-run guideline (one for all optimizer skills): at least 3 runs per gate evaluation, or a noise band δ estimated by re-running the unchanged baseline, with the gain required to exceed δ — see rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate", item 5.
 4. If the Local Gate fails → **rollback** the patch and try a
    different repair or attribution
 

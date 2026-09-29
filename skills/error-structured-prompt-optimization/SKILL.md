@@ -24,6 +24,17 @@ or validation overfitting.
   candidates due to validation noise
 - Cross-model prompt transfer where bloated prompts fail to generalize to smaller models
 
+### When to choose this vs NPO or CASD
+
+ESPO fits small validation sets and bloated prompts. With a strong
+teacher and a large task pool, NPO
+([`iterative-instruction-refinement`](../iterative-instruction-refinement/SKILL.md))
+is simpler; with only a static corpus and no prompt yet, CASD
+([`corpus-scale-prompt-distillation`](../corpus-scale-prompt-distillation/SKILL.md))
+gives a first draft that ESPO can refine. Decision rule: rules/recursive-improvement.md — "DO: Choose the prompt optimizer by data regime, then gate the result".
+Bootstrap stability selection picks the candidate; keeping it still
+requires rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate".
+
 ## Core Insight
 
 Evolutionary prompt optimizers typically sample 3–8 random error traces per iteration,

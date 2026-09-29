@@ -88,6 +88,9 @@ Calibrate the rubric against the true oracle using minimal rollouts:
 Commit the revised skill into the persistent repository only when:
 - The inner-loop dense rubric score increases by $\ge 15\%$.
 - The outer-loop sparse oracle confirmation verifies that the top-ranked candidate strictly improves or matches the baseline pass rate.
+- The rubric judge passes counterfactual perturbation checks (negated criteria and negated candidate assertions must invert the score; see rules/recursive-improvement.md — "DON'T: Rely on unperturbed rubric evaluators without counterfactual verification").
+
+**Acceptance gate:** this step selects a candidate; keeping it defers to rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate" (see also "DO: Measure acceptance-gate errors in both directions"). Security invariants (negative security testbed) are always strict, even where the task gate is looser.
 
 ---
 

@@ -33,6 +33,9 @@ Instead of accumulating multi-turn conversation logs inside a single expanding c
 * **Qwen3.8-27B (Single Call, 128k Cap-Matched)**: $63.0\% \pm 4.1\%$ — Cost: **$20.44** / 100 problems.
 * **Qwen3.8-27B + GVS5H Scaffold**: **$86.4\% \pm 2.7\%$** ($+23.4$ pts, $p = 0.73$ vs Fable 5) — Cost: **$51.75** / 100 problems (or free on local GPU).
 * **GPT-5.6-Terra + GVS5H Scaffold**: **$85.0\% \pm 0.0\%$** ($+8.0$ pts vs single call) — Cost: **$11.71$** / 100 problems (**19% of Fable 5 cost**).
+* **GPT-5.6-Luna + GVS5H Scaffold**: $67.2\% \to 77.8\%$ ($+10.6$ pts vs single call).
+* *Comparison caveat*: the Fable 5 arm is one call with no tools and no execution loop, while the scaffold arms get up to 10 manager→worker rounds with test execution, so "matches Fable 5" is not a like-for-like comparison.
+* *Version note*: figures above are from v1. v2 (21 Sep 2026) revises them (Luna $+10.8$, Terra $+7.2$, Qwen3.8-27B $66.8\% \to 92.4\%$, Fable 5 $90.4\%$).
 * **Claude Opus-5 + GVS5H Scaffold (Single Pass)**: **$91.0\%$** (Highest absolute score observed).
 
 ### 2. The Context Collapse & Runaway Deliberation Trap

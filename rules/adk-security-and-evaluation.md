@@ -118,6 +118,14 @@ def test_golden_dataset_eval():
     assert results.overall_pass_rate >= 0.95, f"Regression detected: {results.summary}"
 ```
 
+**Scope:** acceptance and deploy gates for ADK 2 agents (ADK codelabs;
+no benchmark). At these gates, run the full frozen golden dataset plus
+the security suites, never a change-specific subset. Behavior-aware
+test selection is for the inner search loop only. Tension with "Select
+verification tasks based on what each modification changes"
+(agent-evaluation-quality.md): selected tests while searching, full
+frozen and security suites at acceptance and deploy.
+
 > Source: Google Codelab: Evaluating Agents with ADK; Advanced ADK Evaluation with LLM-as-a-Judge Method
 
 ### DO: Use multi-criteria rubrics for LLM-as-a-Judge rather than single scalar scores

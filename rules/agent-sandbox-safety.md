@@ -63,6 +63,11 @@ service, filesystem rollback won't undo it. Design **compensating
 transactions** for every external API call — a corresponding undo
 operation that reverses the effect at the application layer.
 
+**Scope:** coding-agent sandbox with filesystem snapshot/rollback
+(arXiv:2512.12806); applies to any side effect that leaves the sandbox.
+
+See also: rules/agent-sandbox-safety.md — "Treat HTTP 200 / success tool return codes as workflow success without state verification" (inverse compensation actions, idempotency keys)
+
 > Source: arXiv:2512.12806
 
 ---
@@ -107,6 +112,17 @@ speculatively prepare sandbox environments for the most likely branches.
 Kill unused sandboxes when the agent commits to a branch. This trades
 compute for latency — the critical path no longer includes sandbox
 startup.
+
+Speculate only on side-effect-free steps, or steps whose effects stay
+inside a disposable sandbox. Any step classified Unsafe (network,
+external API, process management) is a speculation barrier: it runs
+only after the agent commits to the branch, because killing the
+sandbox does not undo an external effect (see "Assume external API
+calls can be rolled back", above). The `speculative-macro-commit`
+skill applies the same restriction.
+
+**Scope:** sandbox preforking/scheduling latency (SpecBox); the paper
+measures latency and compute, not safety of speculated actions.
 
 > Source: SpecBox (arXiv:2607.23933)
 
@@ -206,6 +222,10 @@ by access tier (A0–A4) and match defense tier accordingly.
 False refusals compose as a union — each additional layer adds its
 false positives to the total.  Monitor composite false refusal rate,
 not just per-layer rates.
+
+**Scope:** prompt-refusal classifiers stacked in front of an LLM
+(arXiv:2608.28327). Memory-poisoning defenses in 2609.22818 did not
+compound this way; the next entry covers how to measure your own stack.
 
 > Source: arXiv:2608.28327
 
@@ -377,6 +397,11 @@ read-only permissions. Never evaluate a modified agent using its own modified
 environment; always re-test in an isolated clean-room container with frozen
 reference tests.
 
+**Scope:** agents with write access to their own prompts, tools, control flow
+or evaluation harness (arXiv:2609.00069).
+
+See also: rules/agent-evaluation-quality.md — "Let agents modify their own evaluation harness"
+
 > Source: Auditing Harness Tampering in Self-Improving Agents (arXiv:2609.00069)
 
 ---
@@ -394,6 +419,11 @@ step-by-step reasoning validity. When auditing complex problems where the
 ground truth is unknown, monitors miss the first erroneous reasoning step in
 over 60% of invalid trajectories.
 
+**Scope:** LLM monitors auditing step-by-step reasoning trajectories for
+reasoning validity (arXiv:2609.00264), not action or safety monitors.
+
+See also: rules/agent-evaluation-quality.md — "Provide ground-truth answers to oversight monitors"
+
 > Source: The Answer Is Not the Argument (arXiv:2609.00264)
 
 ### DO: Cryptographically pin and sandbox all lifecycle hook configurations
@@ -409,6 +439,10 @@ Modern agent harnesses expose lifecycle hooks that execute shell commands on run
 Multi-turn interaction history alters safety refusal thresholds asymmetrically across model providers: sequential retreat techniques (refusing an extreme request then receiving a smaller request) double compliance on Claude Opus 5 (65.8% vs 29.3%), while backfiring on GPT and Gemini models (-15.5 to -23.0 points).
 
 **Evidence**: Across 9 production frontier models, the "door-in-the-face" influence pattern succeeds or backfires strictly by model family. Furthermore, reframing actionable operational requests into conceptual explanations bypasses safety refusals in **99.2% of cases** (263/265). Safety guardrails must evaluate multi-turn intent trajectories rather than treating requests as isolated, stateless turns.
+
+**Scope:** 9 production frontier chat models, multi-turn text dialogue (arXiv:2609.02707); per-family effects, not agentic tool use.
+
+See also: rules/agent-human-interaction.md — "Assume stable safety behavior across interaction modes"
 
 > Source: Door-in-the-Face Refusal Behaviour in Large Language Models (arXiv:2609.02707)
 
@@ -426,6 +460,10 @@ Never allow an LLM to generate, administer, or evaluate its own identity verific
 
 **Evidence**: Across frontier models tested on self-issued authentication, multiple architectures (Qwen, Mistral, Llama) collapsed the challenge-generator, evidence-evaluator, and decision-maker roles, erroneously verifying developer identity and asserting unauthorized runtime access based solely on technical dialogue. Authentication must derive strictly from external cryptographic tokens or environment capability leases.
 
+**Scope:** open-weight chat models (Qwen, Mistral, Llama families) under role-claim dialogues (arXiv:2609.03247).
+
+See also: rules/agent-human-interaction.md — "Let users authenticate to agents via conversation"
+
 > Source: Trust Me, I'm Your Developer: Self-Issued Authentication in Large Language Models (arXiv:2609.03247)
 
 ### DON'T: Validate vulnerability repairs using PoC crash suppression alone
@@ -434,6 +472,10 @@ When evaluating or running AI coding agents for automated bug fixing and vulnera
 
 **Evidence**: In a controlled study across 11 state-of-the-art patching agents (including top DARPA AIxCC performers), PoC-only validation inflated measured solve rates by **1.83× on average**, while **25% of agent patches exhibited substantial memorization** of historical developer fixes. Remediation requires comprehensive semantic test suites that verify behavior outside the crash stack.
 
+**Scope:** 11 automated vulnerability-patching agents on PatchBench (arXiv:2609.04075), memory-safety crashes with PoCs.
+
+See also: rules/agent-evaluation-quality.md — "Validate repairs using crash suppression alone"
+
 > Source: PatchBench: Evaluating AI Agents for Vulnerability Patching (arXiv:2609.04075)
 
 ### DO: Stack input-level structural perturbation as an outer layer in defense-in-depth
@@ -441,6 +483,12 @@ When evaluating or running AI coding agents for automated bug fixing and vulnera
 Deploy lightweight input-level transformation rules at the gateway layer to disrupt syntactic regularities exploited by adversarial prompts before queries reach model inference. Character-level perturbations scramble template-driven jailbreaks while largely preserving utility on benign requests.
 
 **Evidence**: Decision-tree-based prompt perturbation (AlcaTRAz) achieved superior composite security and functionality scores in **73.4% of model-attack combinations** across 33 open-weight models and 22 attack families, shifting the aggregate harm severity mode from 10 (maximal compliance) to 2 (near refusal) while remaining within 0.27 points of baseline benign utility.
+
+**Scope:** 33 open-weight models, 22 template-style jailbreak families, per-model benign-utility score (arXiv:2609.03693); not measured stacked with other layers or against adaptive attackers.
+
+Before adding it, the assembled stack must pass the end-to-end benign-cost budget in "Measure each defense's benign cost on a matched benign arm, on the assembled stack" (Defense Composition, above).
+
+Tension with "Measure each defense's benign cost on a matched benign arm, on the assembled stack" (this file): 2609.26176 shows character-level encodings (homoglyphs) can push 7–8B models to refuse 0.99 of benign prompts. AlcaTRAz's utility result is per-layer on its own benchmark; perturbation is acceptable only if the harm gap on a matched benign arm holds for your models on the full stack.
 
 > Source: AlcaTRAz - Anchored Tree-Rule Defense Against Jailbreaks (arXiv:2609.03693)
 
@@ -460,6 +508,12 @@ Do not rely solely on worker agents to self-police safety, privacy, or fairness 
 
 **Evidence**: Dedicated architectural separation preserves core human-centered values (privacy, pluralism, fairness) across heterogeneous multi-agent systems where uniform internal alignment across all workers is impossible to guarantee.
 
+Guard agents consume schema-delimited records (action/tool-call history and their own prior decisions), not the workers' raw rationale or free-text messages, which workers or injected content can use to steer the guard. See "Give blocking action monitors recent call history, and make denials terminal" and "Evaluate privileged agent actions using unescaped raw transcripts in blocking monitors" (this file). Each guard is a defense layer and must pass the end-to-end benign-cost budget in "Measure each defense's benign cost on a matched benign arm, on the assembled stack".
+
+**Scope:** architectural position paper on heterogeneous multi-agent systems (arXiv:2609.03920); no quantitative attack or benign-cost evaluation.
+
+See also: rules/multi-agent-coordination.md — "Separate task execution from safety monitoring via guard-agent topologies"
+
 > Source: Value-Preserving Architectures for Agentic AI Systems (arXiv:2609.03920)
 
 ### DON'T: Evaluate safety-critical agent predictions by numeric accuracy alone
@@ -467,6 +521,10 @@ Do not rely solely on worker agents to self-police safety, privacy, or fairness 
 In physics-governed, operational, or safety-critical domains, accuracy and loss metrics (MAE, MSE, cosine similarity) present a dangerous blind spot: predictions numerically close to ground truth frequently violate hard operational limits, physical feasibility constraints, or structured syntax contracts. Gate candidate actions behind deterministic verification of protocol compliance and invariant safety boundaries before scoring accuracy.
 
 **Evidence**: Across 66 evaluated models on flight trajectory prediction, safety compliance was the single most discriminative dimension: models with comparable predictive accuracy differed by more than **28 points in safety compliance score**, exhibiting fatal boundary violations while producing superficially plausible predictions.
+
+**Scope:** 66 models on flight-trajectory prediction (arXiv:2609.04021); generalizes to domains with hard operational limits.
+
+See also: rules/agent-evaluation-quality.md — "Measure safety compliance separately from accuracy"
 
 > Source: FLY-EVAL++: An Evidence-Driven Evaluation Protocol for Safety-Constrained Flight Prediction (arXiv:2609.04021)
 
@@ -514,6 +572,10 @@ constraints (known-bad patterns, policy violations, schema mismatches)
 with neural detectors as soft classifiers (anomaly detection, intent
 classification).  The symbolic layer acts as a deterministic backstop;
 the neural layer catches what rules can't express.
+
+The combined symbolic + neural stack must pass the end-to-end benign-cost budget in "Measure each defense's benign cost on a matched benign arm, on the assembled stack" (Defense Composition, above); false positives from the two layers can add up.
+
+**Scope:** security-operations-center (AI-SOC) architecture (arXiv:2609.10707); design guidance, no measured benign-cost or attack-success figures.
 
 > Source: Architecting the Secure AI-SOC (arXiv:2609.10707)
 
@@ -592,6 +654,10 @@ overwhelmingly lack formal idempotency, transaction boundaries, or state-change 
 to silent state drift, phantom completions, and downstream workflow failures. Implement post-call
 verification assertions that query observable state changes, enforce caller-generated idempotency
 keys on mutative tools, and maintain inverse compensation actions for transactional failure recovery.
+
+**Scope:** public agent tools at the agent-tool boundary (arXiv:2609.15397); anomaly study, not a defense evaluation.
+
+See also: rules/agent-sandbox-safety.md — "Assume external API calls can be rolled back" (compensating transactions)
 
 > Source: When Tool Calls Succeed but Workflows Fail: Anomalies at the Agent-Tool Boundary (arXiv:2609.15397)
 
@@ -790,25 +856,25 @@ effectively than improving recovery alone.
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
-- [`browser-agent-http-sandbox`](skills/browser-agent-http-sandbox/SKILL.md) — HTTP interception architecture
-- [`speculative-sandbox-scheduler`](skills/speculative-sandbox-scheduler/SKILL.md) — Prefork scheduling algorithm
-- [`transactional-coding-sandbox`](skills/transactional-coding-sandbox/SKILL.md) — Snapshot/rollback implementation
-- [`unified-capability-gateway`](skills/unified-capability-gateway/SKILL.md) — 5-stage kernel interface
-- [`layered-defense-ensemble`](skills/layered-defense-ensemble/SKILL.md) — Defense stacking with correlation
-- [`covert-tool-injection-defense`](skills/covert-tool-injection-defense/SKILL.md) — Tool output sanitization
-- [`self-improving-red-team`](skills/self-improving-red-team/SKILL.md) — Evolving adversarial testing
-- [`deterministic-span-editing`](skills/deterministic-span-editing/SKILL.md) — Minimal-diff configuration editing
-- [`harness-tampering-audit`](skills/harness-tampering-audit/SKILL.md) — Two-axis self-improvement tampering audit
-- [`dependency-scoped-plan-validation`](skills/dependency-scoped-plan-validation/SKILL.md) — Dependency-scoped plan and action lineage verification
-- [`black-box-trajectory-risk-monitoring`](skills/black-box-trajectory-risk-monitoring/SKILL.md) — Prefix-level trajectory risk and failure monitoring
-- [`necessary-tool-evidence-path`](skills/necessary-tool-evidence-path/SKILL.md) — Necessary tool-evidence path verification
-- [`nlip-agent-message-envelope`](skills/nlip-agent-message-envelope/SKILL.md) — Semantic message envelope and gateway authorization
-- [`taxonomy-driven-red-teaming`](skills/taxonomy-driven-red-teaming/SKILL.md) — Taxonomy-driven systematic red teaming
-- [`description-only-injection-detection`](skills/description-only-injection-detection/SKILL.md) — Pre-deployment tool injection risk assessment
-- [`high-fanout-sandbox-memory-compression`](skills/high-fanout-sandbox-memory-compression/SKILL.md) — Memory compression for parallel sandboxes
-- [`runtime-resource-authorization-bounds`](skills/runtime-resource-authorization-bounds/SKILL.md) — Dynamic resource acquisition quarantine and effect permits
-- [`pre-execution-action-auditing`](skills/pre-execution-action-auditing/SKILL.md) — Pre-execution parameter evidence audit against indirect injection
-- [`universal-tool-defense`](skills/universal-tool-defense/SKILL.md) — Anomaly-based tool filtering, canonical schema recalling, and reflection
+- [`browser-agent-http-sandbox`](../skills/browser-agent-http-sandbox/SKILL.md) — HTTP interception architecture
+- [`speculative-sandbox-scheduler`](../skills/speculative-sandbox-scheduler/SKILL.md) — Prefork scheduling algorithm
+- [`transactional-coding-sandbox`](../skills/transactional-coding-sandbox/SKILL.md) — Snapshot/rollback implementation
+- [`unified-capability-gateway`](../skills/unified-capability-gateway/SKILL.md) — 5-stage kernel interface
+- [`layered-defense-ensemble`](../skills/layered-defense-ensemble/SKILL.md) — Defense stacking with correlation
+- [`covert-tool-injection-defense`](../skills/covert-tool-injection-defense/SKILL.md) — Tool output sanitization
+- [`self-improving-red-team`](../skills/self-improving-red-team/SKILL.md) — Evolving adversarial testing
+- [`deterministic-span-editing`](../skills/deterministic-span-editing/SKILL.md) — Minimal-diff configuration editing
+- [`harness-tampering-audit`](../skills/harness-tampering-audit/SKILL.md) — Two-axis self-improvement tampering audit
+- [`dependency-scoped-plan-validation`](../skills/dependency-scoped-plan-validation/SKILL.md) — Dependency-scoped plan and action lineage verification
+- [`black-box-trajectory-risk-monitoring`](../skills/black-box-trajectory-risk-monitoring/SKILL.md) — Prefix-level trajectory risk and failure monitoring
+- [`necessary-tool-evidence-path`](../skills/necessary-tool-evidence-path/SKILL.md) — Necessary tool-evidence path verification
+- [`nlip-agent-message-envelope`](../skills/nlip-agent-message-envelope/SKILL.md) — Semantic message envelope and gateway authorization
+- [`taxonomy-driven-red-teaming`](../skills/taxonomy-driven-red-teaming/SKILL.md) — Taxonomy-driven systematic red teaming
+- [`description-only-injection-detection`](../skills/description-only-injection-detection/SKILL.md) — Pre-deployment tool injection risk assessment
+- [`high-fanout-sandbox-memory-compression`](../skills/high-fanout-sandbox-memory-compression/SKILL.md) — Memory compression for parallel sandboxes
+- [`runtime-resource-authorization-bounds`](../skills/runtime-resource-authorization-bounds/SKILL.md) — Dynamic resource acquisition quarantine and effect permits
+- [`pre-execution-action-auditing`](../skills/pre-execution-action-auditing/SKILL.md) — Pre-execution parameter evidence audit against indirect injection
+- [`universal-tool-defense`](../skills/universal-tool-defense/SKILL.md) — Anomaly-based tool filtering, canonical schema recalling, and reflection
 
 ## Sources
 

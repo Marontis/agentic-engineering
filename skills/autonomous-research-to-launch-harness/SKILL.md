@@ -163,11 +163,11 @@ creating a compounding knowledge loop.
 
 ## Cross-References
 
-- [`knowledge-compounding-loop`](../../../../.gemini/config/skills/knowledge-compounding-loop/SKILL.md) —
+- [`knowledge-compounding-loop`](../knowledge-compounding-loop/SKILL.md) —
   Three-layer workspace pattern for consolidating raw traces into persistent knowledge
-- [`belief-calibrated-scaffold-optimization`](../../../../.gemini/config/skills/belief-calibrated-scaffold-optimization/SKILL.md) —
+- [`belief-calibrated-scaffold-optimization`](../belief-calibrated-scaffold-optimization/SKILL.md) —
   Calibrate beliefs against rollout outcomes to prevent repeating refuted hypotheses
-- [`reference-trajectory-harness-evolution`](../../../../.gemini/config/skills/reference-trajectory-harness-evolution/SKILL.md) —
+- [`reference-trajectory-harness-evolution`](../reference-trajectory-harness-evolution/SKILL.md) —
   Evolve agent harness using reference trajectories
 
 ## Sources

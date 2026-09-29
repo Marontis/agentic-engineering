@@ -28,6 +28,15 @@ environment access, or validation data.
   error fixes
 - Budget constraint: need prompt optimization at ~$1.60, not ~$35
 
+### When to choose this vs NPO or ESPO
+
+Use CASD to produce a **first draft** from a static corpus. Use ESPO
+([`error-structured-prompt-optimization`](../error-structured-prompt-optimization/SKILL.md))
+for small validation sets or bloated prompts, and NPO
+([`iterative-instruction-refinement`](../iterative-instruction-refinement/SKILL.md))
+when you have a strong teacher and a large task pool. Decision rule:
+rules/recursive-improvement.md — "DO: Choose the prompt optimizer by data regime, then gate the result". A CASD draft is a candidate, not a deployment.
+
 ## Core Insight
 
 Search-based prompt optimizers (GEPA, SkillOpt) iterate: propose
@@ -94,13 +103,18 @@ From the analysis, produce:
 4. **Concise format**: the final prompt should be a manageable set
    of rules, not a dump of all observations
 
-### 5. Validate (Optional)
+### 5. Validate (Required before deployment)
 
 1. If validation data is available, test the optimized prompt on
    held-out tasks
 2. Compare against the original unoptimized prompt
-3. If no validation data: the single-pass result is already
-   competitive with iterative search in most cases
+3. If no validation data: the single-pass result is competitive with
+   iterative search in the paper's benchmarks, but that makes it a
+   good **first draft**, not an accepted prompt. Before deployment it
+   must pass rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate" (no regressions on previously-correct cases,
+   behavioural evidence, negative security testbed — always strict).
+   Build a small held-out set if you have none; the draft can also
+   seed ESPO or NPO.
 
 ---
 

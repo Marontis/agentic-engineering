@@ -183,7 +183,7 @@ If `run_sample_tests` returns `passed: False`, the harness **programmatically ov
 ### 1. Context Accumulation (Chat History Bloat)
 * **Anti-Pattern**: Appending every manager turn, worker thought, and execution error into an ongoing multi-turn chat transcript.
 * **Why It Fails**: Attention dilution causes the model to fixate on earlier buggy code structures and repeat hallucinated proofs.
-* **Fix**: Reset context every turn. Workers receive only the curated `notes.md` (<800 words) and current `solution.py`.
+* **Fix**: Reset context every turn. Workers receive only the curated `notes.md` (<800 words) and current `solution.py`. Resetting the transcript does not mean dropping evidence: keep a compact list of previously failing test cases (counterexample witnesses: input, expected, got) in `notes.md` so they survive the reset and the worker does not oscillate between fixes (see [`counterexample-guided-repair`](../counterexample-guided-repair/SKILL.md)).
 
 ### 2. Runaway Deliberation Loops
 * **Anti-Pattern**: Setting generation caps to 128k–250k on smaller reasoning models without turn limits.

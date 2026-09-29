@@ -208,8 +208,9 @@ means overfitting, not progress.
   complementary credit assignment via first divergent step. Use it for
   proposal targeting and RRSI for acceptance.
 - [`recursive-self-improvement-loop`](../recursive-self-improvement-loop/SKILL.md)
-  (AIDE²): its stagnation response "expand editable surface" conflicts
-  with step 3 here (see H1 in the deconfliction report).
+  (AIDE²): its stagnation response now matches step 3 here (explore
+  unused component types within the fixed editable set) after the H1
+  fix in the 2026-09-28 deconfliction report.
 - [`harness-tampering-audit`](../harness-tampering-audit/SKILL.md),
   [`stable-skill-evolution`](../stable-skill-evolution/SKILL.md).
 - Briefs: [`robust-sgpo-harness-evolution`](../../research-briefs/robust-sgpo-harness-evolution.md),

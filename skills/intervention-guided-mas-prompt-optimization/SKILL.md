@@ -93,7 +93,11 @@ For each abstracted gradient:
 1. Update the target agent's prompt to incorporate the correction
 2. Validate on the failing cases — did they resolve?
 3. Validate on passing cases — did anything regress?
-4. Accept the update only if net improvement is positive
+4. Accept the update only if net improvement is positive **and** no
+   previously passing case regresses (for stationary tasks), plus the
+   negative security testbed passes
+
+**Acceptance gate:** this step selects a candidate; keeping it defers to rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate" (see also "DO: Measure acceptance-gate errors in both directions"). Security invariants (negative security testbed) are always strict, even where the task gate is looser.
 
 ### Step 6: Iterate
 
