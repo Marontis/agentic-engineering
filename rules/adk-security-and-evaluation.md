@@ -17,6 +17,10 @@ Implement Google Cloud Model Armor inspection in `before_agent_callback` or `bef
 - Blocks or sanitizes suspicious payloads before they reach the model's inference context.
 - Returns a sanitized fallback `Content` or raises a security exception without consuming generative model tokens.
 
+Treat the classifier as one layer, not the boundary: never return its confidence scores to callers, and keep structural controls (tool authorization, argument-level policy) behind it.
+
+Tension with "DON'T: Treat compact prompt-injection classifiers as intent detectors, or expose their scores" (agent-sandbox-safety.md): confidence-guided paraphrases flipped Prompt Guard 2 while the jailbreak still worked. Interceptor-layer filtering is still the right *placement*; the tension is only about treating its verdict as sufficient.
+
 ```python
 from google.genai.types import Content, Part
 from google.cloud import modelarmor_v1
