@@ -3,8 +3,9 @@ name: recursive-self-improvement-loop
 description: >
   Implement a recursive self-improvement loop where an AI research
   agent proposes changes to its own code, benchmarks modified versions
-  on a task suite, and keeps changes that perform best on hidden
-  evaluations. Covers the propose-benchmark-select loop, emergent
+  on a task suite, and keeps changes that score best on the selection
+  tasks' hidden evaluations (hidden from the proposing agent), then
+  checks transfer on held-out benchmarks the loop never uses. Covers the propose-benchmark-select loop, emergent
   capability discovery, and reward hacking reduction.
   Derived from "Recursive Self-Improvement of AI Research Agents"
   (AIDE², arXiv:2609.26457).
@@ -31,7 +32,10 @@ with changes validated against a benchmark suite before acceptance.
 When an AI research agent's own code is the optimization target, each
 accepted rewrite becomes the agent that performs the next round of
 edits. AIDE² implements this loop: propose changes → benchmark
-modified versions → keep best performers on hidden evaluations. In an
+modified versions → keep best performers on the selection tasks' hidden
+evaluations (scored by the loop, never shown to the proposing agent).
+Separate held-out benchmarks, never used for selection, measure
+transfer. In an
 8-day autonomous run, AIDE² discovered seven successive improvements
 (new search policy, memory compression, context management) that
 generalized to four held-out benchmarks including out-of-distribution
@@ -63,13 +67,15 @@ heuristic algorithm engineering, and physics-based weather forecasting.
 
 ### 2. Build the Benchmark Suite
 
-1. **Selection tasks**: a diverse suite of tasks the agent benchmarks
-   against to evaluate proposed changes
-2. **Hidden evaluation tasks**: held-out tasks the agent does NOT
-   see during the propose-benchmark loop — used to validate that
-   improvements genuinely generalize
-3. **Out-of-distribution tasks**: tasks from domains different from
-   the selection suite — the strongest test of transferability
+1. **Selection tasks with hidden evaluations**: a diverse suite of
+   tasks the loop benchmarks proposed changes on. Their scoring data
+   are hidden from the proposing agent (it sees tasks, not graders or
+   answers), but the loop uses the scores to select
+2. **Held-out benchmarks**: tasks never used for selection, run only to
+   validate that improvements generalize. These are the acceptance
+   gate's held-out tasks
+3. **Out-of-distribution tasks**: held-out tasks from domains different
+   from the selection suite — the strongest test of transferability
 4. Include a reward-hacking detection mechanism to measure whether
    the agent is gaming metrics vs. genuinely improving
 
@@ -81,7 +87,8 @@ For each iteration:
    modifications (code patches)
 2. **Benchmark**: run the modified agent on the selection task suite
 3. **Select**: keep a modification only if it (a) improves
-   performance on the selection tasks, (b) passes the
+   performance on the selection tasks' hidden evaluations by more than
+   the noise margin δ, (b) passes the
    **security-invariant probes** (immutable negative security
    testbed: e.g. certificate validation, credential handling, sandbox
    and privilege boundaries — a poisoned selection task can otherwise
@@ -91,22 +98,25 @@ For each iteration:
    not just a higher aggregate score. Selection-score gains are
    search-time signals; the keep decision defers to
    rules/recursive-improvement.md — "DO: Pass every self-modification
-   through one acceptance gate"
+   through one acceptance gate" (no regression beyond a noise margin δ
+   on previously-correct cases and held-out tasks, δ estimated from
+   repeated runs of the unchanged baseline; security testbed strict)
 4. **Commit**: the accepted modification becomes the new agent —
    the next round of proposals starts from this version
 5. Each accepted rewrite compounds: improvement N+1 builds on
    improvement N
 
-### 4. Validate on Hidden Evaluations
+### 4. Validate on Held-Out Benchmarks
 
-Periodically (not every iteration):
+Periodically, and always before a kept agent is deployed:
 
-1. Run the current best agent on the hidden evaluation tasks
+1. Run the current best agent on the held-out benchmarks (never used
+   for selection)
 2. Check whether selection-task improvements transfer
 3. Check whether reward hacking rate is stable or decreasing
-4. If hidden-eval performance degrades while selection performance
-   improves → the loop is overfitting; consider diversifying the
-   selection suite
+4. If held-out performance degrades beyond δ while selection
+   performance improves → the loop is overfitting; roll back and
+   diversify the selection suite
 
 ### 5. Monitor for Emergent Properties
 
@@ -124,7 +134,7 @@ Monitor for similar emergent effects — both positive and negative.
 
 | Failure Mode | Trigger | Mitigation |
 |:-------------|:--------|:-----------|
-| Selection suite overfitting | Improvements don't transfer to hidden evals | Diversify selection tasks; periodic hidden-eval checks |
+| Selection suite overfitting | Improvements don't transfer to held-out benchmarks | Diversify selection tasks; periodic held-out checks |
 | Reward hacking increase | Agent games selection metrics | Include reward-hacking detection in monitoring |
 | Compounding regression | Bad edit accepted, subsequent edits build on it | Checkpoint and rollback infrastructure; periodic full re-eval |
 | Stagnation | No further improvements discovered | Diversify proposal strategy; explore component types not yet edited *within the fixed editable set* (do not widen it; see [`regularized-harness-evolution`](../regularized-harness-evolution/SKILL.md) step 3) |

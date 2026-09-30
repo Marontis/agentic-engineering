@@ -20,7 +20,17 @@ uncertain or unsafe commands without a safety mechanism in place.
 | **Unsafe** | Network calls, process management, privilege escalation | Require explicit policy approval or block |
 
 Use a lightweight classifier (SLM or pattern-matching) for the
-classification — it doesn't need to be the main reasoning model.
+classification — it doesn't need to be the main reasoning model. The
+classifier only assigns tiers; it is not the enforcement boundary (see
+"DON'T: Use application-layer tripwires or PID signals as the containment
+boundary for a rogue agent", below). Package installs and image pulls
+(`pip`/`npm`/`apt install`, `docker run`/`pull`) are network calls and
+belong in the Unsafe tier.
+
+**Scope:** coding-agent prototype (arXiv:2512.12806)
+tested on 20 blacklisted commands and 20 corrupted states; a tiering
+scheme, not an adversarial robustness result (2609.29808 shows lexical
+matching bypassed by 410/500 obfuscated payloads).
 
 > Source: Fault-Tolerant Sandboxing for AI Coding Agents (arXiv:2512.12806)
 
@@ -66,7 +76,11 @@ operation that reverses the effect at the application layer.
 **Scope:** coding-agent sandbox with filesystem snapshot/rollback
 (arXiv:2512.12806); applies to any side effect that leaves the sandbox.
 
-See also: rules/agent-sandbox-safety.md — "Treat HTTP 200 / success tool return codes as workflow success without state verification" (inverse compensation actions, idempotency keys)
+Some effects have no compensating transaction: a sent email or message
+cannot be recalled. Gate those before execution (human confirmation)
+instead of planning an undo.
+
+See also: "Treat HTTP 200 / success tool return codes as workflow success without state verification" (this file, below): inverse compensation actions, idempotency keys.
 
 > Source: arXiv:2512.12806
 
@@ -201,6 +215,10 @@ correlation across defense pairs shows φ from 0.30 to 0.75 (all positive),
 and joint residual exceeds multiplicative prediction by up to 0.172.
 Always measure the assembled stack end-to-end rather than multiplying
 individual success rates.
+
+**Scope:** 15 defense pairs and a seven-layer stack of prompt-refusal defenses wrapping the same model (arXiv:2608.28327); not memory write/read filters (see 2609.22818).
+
+Tension with "Stack input-level structural perturbation as an outer layer in defense-in-depth" (agent-sandbox-safety.md): its gains are per layer (33 open-weight models, not measured stacked); this entry's evidence is on assembled stacks. Keep a perturbation layer only if the assembled stack, measured end-to-end, beats its strongest single layer on attack success.
 
 **Evidence**: A seven-layer stack refuses 4 in 5 benign prompts while
 remaining statistically indistinguishable from its strongest single
@@ -436,11 +454,11 @@ Modern agent harnesses expose lifecycle hooks that execute shell commands on run
 
 ### DON'T: Assume uniform safety refusal behavior across model families in multi-turn dialogues
 
-Multi-turn interaction history alters safety refusal thresholds asymmetrically across model providers: sequential retreat techniques (refusing an extreme request then receiving a smaller request) double compliance on Claude Opus 5 (65.8% vs 29.3%), while backfiring on GPT and Gemini models (-15.5 to -23.0 points).
+Multi-turn interaction history shifts refusal thresholds, and the direction differs per model, even within one family: a sequential-retreat request (an extreme request is refused, then a smaller one follows) doubled compliance on Claude Opus 5 (65.8% vs 29.3%) but backfired on Claude Haiku 4.5 (−16.0 points). Test each deployed model and version separately; do not infer one model's behavior from its family or provider. Safety guardrails must evaluate multi-turn intent trajectories rather than treating requests as isolated, stateless turns.
 
-**Evidence**: Across 9 production frontier models, the "door-in-the-face" influence pattern succeeds or backfires strictly by model family. Furthermore, reframing actionable operational requests into conceptual explanations bypasses safety refusals in **99.2% of cases** (263/265). Safety guardrails must evaluate multi-turn intent trajectories rather than treating requests as isolated, stateless turns.
+**Evidence**: Across 9 production models, door-in-the-face raised compliance on four Anthropic models (Opus 5 +36.5, Opus 4.5 +25.8, Sonnet 5 +16.7, Opus 4.8 +13.7 points) and lowered it on Claude Haiku 4.5 (−16.0), GPT-5.6 sol (−15.5) and Gemini 3.1 Pro (−23.0); GPT-5 mini (+5.2) and Gemini 3 Flash (−2.2) were not significant. The authors describe the split as organized by lab, but Haiku 4.5 reverses within Anthropic. Separately, reframing actionable requests as requests for conceptual explanations removed refusals in **99.2% of cases** (263/265).
 
-**Scope:** 9 production frontier chat models, multi-turn text dialogue (arXiv:2609.02707); per-family effects, not agentic tool use.
+**Scope:** 9 production chat models, multi-turn text dialogue (arXiv:2609.02707); per-model effects, not agentic tool use.
 
 See also: rules/agent-human-interaction.md — "Assume stable safety behavior across interaction modes"
 
@@ -486,9 +504,9 @@ Deploy lightweight input-level transformation rules at the gateway layer to disr
 
 **Scope:** 33 open-weight models, 22 template-style jailbreak families, per-model benign-utility score (arXiv:2609.03693); not measured stacked with other layers or against adaptive attackers.
 
-Before adding it, the assembled stack must pass the end-to-end benign-cost budget in "Measure each defense's benign cost on a matched benign arm, on the assembled stack" (Defense Composition, above).
+Tension with "Assume stacked defense layers fail independently" (agent-sandbox-safety.md): AlcaTRAz was measured as a single layer per model, while 2608.28327 measured assembled stacks, where layers correlated through the wrapped model and a seven-layer stack matched its strongest single layer on attack success. Add this layer only if end-to-end measurement shows the assembled stack's attack success drops below its strongest single layer, within the benign-cost budget.
 
-Tension with "Measure each defense's benign cost on a matched benign arm, on the assembled stack" (this file): 2609.26176 shows character-level encodings (homoglyphs) can push 7–8B models to refuse 0.99 of benign prompts. AlcaTRAz's utility result is per-layer on its own benchmark; perturbation is acceptable only if the harm gap on a matched benign arm holds for your models on the full stack.
+Tension with "Measure each defense's benign cost on a matched benign arm, on the assembled stack" (Defense Composition, above): before adding this layer, the assembled stack must pass that end-to-end benign-cost budget. 2609.26176 shows character-level encodings (homoglyphs) can push 7–8B models to refuse 0.99 of benign prompts. AlcaTRAz's utility result is per-layer on its own benchmark; perturbation is acceptable only if the harm gap on a matched benign arm holds for your models on the full stack.
 
 > Source: AlcaTRAz - Anchored Tree-Rule Defense Against Jailbreaks (arXiv:2609.03693)
 
@@ -585,12 +603,18 @@ The combined symbolic + neural stack must pass the end-to-end benign-cost budget
 
 ### DON'T: Rely on compact guardrail classifiers without repetition compression or entropy monitoring
 
-Compact guardrail models (e.g., DeBERTa-based safety classifiers) exhibit severe representation
-collapse under verbatim or semantic token repetition. Malicious instructions repeated across
-longer contexts (2.6k–9.4k tokens) induce uniform self-attention weights and reduce softmax margin
-by over 40%, causing label flips from MALICIOUS to BENIGN in 8% to 92% of evaluated testbeds while
-preserving harmful intent for downstream generative models. Always run pre-inference deduplication/run-length
-compression or token-frequency normalization before invoking compact classification guardrails.
+Some compact guardrail models (e.g., DeBERTa-based safety classifiers) destabilize when a
+malicious prompt is repeated verbatim: self-attention homogenizes, confidence margins shrink
+steadily with repetition, and the label flips from MALICIOUS to BENIGN while the payload stays
+intact for the downstream generative model. Test each guardrail you deploy with repeated-payload
+probes, and run pre-inference deduplication/run-length compression or token-frequency
+normalization before invoking compact classification guardrails.
+
+**Scope:** 9 lightweight guardrail classifiers, 100 malicious prompts, verbatim repetition
+(arXiv:2609.15013). The paper reports margin shrinkage qualitatively, with no percentage.
+
+**Evidence**: 5 of the 9 classifiers showed at least one MAL→BEN flip; among those 5, flip
+rates ranged from 8% to 92%, with first flips at roughly 2.6k–9.4k tokens. The other 4 did not flip.
 
 > Source: Overflip: Repetition-Induced Label Flips in Guardrail Models (arXiv:2609.15013)
 
@@ -657,7 +681,7 @@ keys on mutative tools, and maintain inverse compensation actions for transactio
 
 **Scope:** public agent tools at the agent-tool boundary (arXiv:2609.15397); anomaly study, not a defense evaluation.
 
-See also: rules/agent-sandbox-safety.md — "Assume external API calls can be rolled back" (compensating transactions)
+See also: "Assume external API calls can be rolled back" (this file, Command Execution): compensating transactions.
 
 > Source: When Tool Calls Succeed but Workflows Fail: Anomalies at the Agent-Tool Boundary (arXiv:2609.15397)
 
@@ -668,6 +692,10 @@ See also: rules/agent-sandbox-safety.md — "Assume external API calls can be ro
 ### DO: Filter dynamic tool registries with anomaly scoring and restore canonical schemas
 
 Protect tool-integrated agents against direct injection, indirect prompt injection, memory poisoning, and backdoor tools using a modular two-tier tool defense. Apply Attacker Tool Filtering (Isolation Forest anomaly scoring over tool names, parameter schemas, and documentation embeddings) to detect and quarantine injected or rogue tools before planning. Concurrently, execute Normal Tool Recalling to deterministically restore authoritative, white-box canonical tool definitions prior to model prompt construction, preventing runtime tools from shadowing or hijacking core system operations.
+
+Anomaly-based quarantine is a refusal layer: before deploying it, the assembled stack must pass the end-to-end benign-cost budget in "Measure each defense's benign cost on a matched benign arm, on the assembled stack" (Defense Composition, above), and the filter should be scored on open privilege ("Measure open privilege alongside attack success and utility").
+
+**Scope:** static benchmark attack sets for four attack classes on open and closed models (arXiv:2609.16098); no adaptive attackers and no benign-cost measurement on a matched benign arm.
 
 > Source: Universal Defenses for Tool-Integrated LLM Agents Against Adversarial Attacks (arXiv:2609.16098)
 
@@ -782,6 +810,8 @@ CaMeL and ACE had 0.000 utility on AgentDyn. A policy built for
 AgentDojo and reused on AgentDyn dropped clean utility from 0.600 to
 0.100.
 
+Tension with "Measure open privilege alongside attack success and utility" (Defense Composition, above): in Ajar (2609.26900), freezing Progent's initial policy (no runtime narrowing on tool results) raised open privilege 1.56× on Sonnet-5 and 1.24× on Haiku-4.5 with sufficiency almost unchanged, so utility and attack success did not reveal the loosening. A frozen policy must therefore be argument-level tight from the start, and must be scored on open privilege as well as attack success and utility before it is frozen.
+
 > Source: ActGov: Governing LLM Agent Actions via Policy-Constrained Validation (arXiv:2609.24446)
 
 ### DO: Resolve tool existence before any selection or authorization gate
@@ -803,12 +833,18 @@ Filtering which tools an agent can see is not authorization: a leaked
 or guessed tool name can be called directly, and models repeat hidden
 names. Derive tool visibility (`list_tools`) *and* the invocation check
 (`call_tool`) from one server-side permission declaration, and enforce
-parameter limits at the server. Never rely on model refusal or
-multi-agent role splits as the boundary.
+parameter limits at the server. Never rely on model refusal as the
+boundary. For multi-agent role splits, it depends on how the roster is
+set:
+- **Full-roster delegation** (the orchestrator may delegate to any
+  specialist) is not a boundary.
+- **A policy-enforced role-to-roster mapping** isolates *tools*, but not
+  *parameters*: amount limits, targets and similar arguments still need
+  a server-side check.
 
 **Scope:** HTTP-transport MCP servers with 4 frontier models and 60
 injection payloads (2609.22573); 6 models against a simulated
-authorization layer with mock tools (2609.28693).
+authorization layer with mock tools, vendor-authored (2609.28693).
 
 **Evidence**:
 - With the forbidden tool visible, 4 frontier LLMs attempted it
@@ -818,9 +854,15 @@ authorization layer with mock tools (2609.28693).
   it (2609.22573). The 0/720 is a structural result, not a robustness
   score.
 - A destructive admin call executed in 23/60 trials with a flat tool
-  list and 3/60 with a full-roster multi-agent setup; a server-enforced
-  $500 ceiling held 60/60 versus 0/60 for both multi-agent variants
-  (2609.28693).
+  list and 3/60 with a full-roster multi-agent setup (0% structural
+  isolation for both). Multi-agent with an explicit role-to-roster
+  policy, and the server-side role protocol (Skilder), both reached
+  100% structural isolation. A server-enforced $500 refund ceiling held
+  60/60 versus 0/60 for both multi-agent variants, because roster
+  filtering adds no amount check. Pooled governance scores: flat 31.3%,
+  multi-agent 96.7%, Skilder 90.4% (2609.28693).
+
+Tension with rules/multi-agent-coordination.md — "Share full context across all agents by default": role partitioning there reduces what each agent is exposed to, which is compatible with this entry; it just isn't the enforcement point. Enforcement of tools and parameters stays server-side.
 
 > Source: Zero-Trust Authorization and Discovery for Enterprise MCP (arXiv:2609.22573); Progressive Skill Discovery as Access Control (arXiv:2609.28693)
 

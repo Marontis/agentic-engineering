@@ -126,6 +126,8 @@ def test_policy_and_negative_constraints(evaluator):
     )
 ```
 
+The 0.95 floor is necessary but not sufficient to merge. Accept a change only with no regression beyond a noise margin δ on previously-correct cases and held-out tasks, where δ is estimated from repeated runs of the unchanged baseline; the negative security testbed is always strict (zero tolerance). See `rules/recursive-improvement.md` — "DO: Pass every self-modification through one acceptance gate".
+
 ### 4. Wire the CI/CD Pipeline Configuration
 
 Add the evaluation job to your GitHub Actions workflow (`.github/workflows/agent-eval.yml`):

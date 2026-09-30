@@ -86,6 +86,15 @@ provenance (sender identity, timestamp, context chain), semantic type
 heterogeneous agents to communicate across different transports (HTTP,
 WebSocket, AMQP) without custom integration per pair.
 
+Envelope fields describe the message; they do not authenticate or
+authorize it. Bind sender identity at the transport layer, require a
+signature (next entry), and authorize from a server-side permission
+declaration, never from sender-supplied capability claims.
+
+**Scope:** protocol standard (NLIP, Ecma); interoperability design, no
+benchmark. The security requirements above come from 2609.22949 and
+the agent-sandbox-safety access-control entries.
+
 See also: rules/skill-system-design.md — "DO: Encapsulate inter-agent tool calls and skill invocations in standardized semantic envelopes"
 
 > Source: NLIP Agent Protocol Standard (arXiv:2609.04135)
@@ -99,13 +108,17 @@ layer.
 
 **Scope:** one 6-agent financial pipeline on GPT-4o, Claude 3.5 Sonnet
 and Llama 3 70B; 50 fixed, non-adaptive payloads per vector. Static
-result: adaptive attacks are reported to exceed 85% against defenses.
+result: prior work reports adaptive attacks exceeding 85%; not tested
+here.
 
 **Evidence**: signing cut inter-agent injection from 31% to 2.8% but
 left indirect injection at 43%; sanitization cut indirect injection
 from 43% to 9.5% but left inter-agent injection at 31%. All four layers
 together cut aggregate success from 31.2% to 4.2%, at +225 ms on a
 4.8 s workflow and a 2.3% classifier false-positive rate.
+
+Procedure: [`nlip-agent-message-envelope`](../skills/nlip-agent-message-envelope/SKILL.md)
+Step 5 (mandatory signature, transport-bound identity, quarantine).
 
 > Source: Beyond Single-Model Injection: Prompt Injection in Multi-Agent Systems (arXiv:2609.22949)
 
@@ -242,6 +255,8 @@ and step, then restrict reflection and memory updates to that agent
 alone. Agents that performed correctly should not receive failure
 feedback — it contaminates their working strategies.
 
+**Scope:** DoCtOR's multi-agent benchmarks (HotPotQA, ChartQAPro, Mind2Web) against all-agent reflection baselines (Reflexion, Retroformer, COPPER) (arXiv:2608.28264).
+
 **Evidence**: targeted reflection outperforms broadcast reflection by
 avoiding memory contamination of correctly-performing agents.
 
@@ -259,6 +274,8 @@ failure step and classifies the failure mode (wrong tool, wrong
 argument, wrong timing, wrong target).
 
 See also: rules/recursive-improvement.md — "DO: Abstract long trajectories into structured state graphs and verify neural invariants"
+
+**Scope:** post-hoc diagnosis of long multi-turn agent trajectories (arXiv:2609.02371); no localization accuracy recorded in this repo.
 
 > Source: AgentScope (arXiv:2609.02371)
 
@@ -327,6 +344,8 @@ unescaped raw transcripts in blocking monitors" and "Give blocking
 action monitors recent call history, and make denials terminal" in
 rules/agent-sandbox-safety.md).
 
+**Scope:** architectural position paper on heterogeneous multi-agent systems (arXiv:2609.03920); no quantitative attack or benign-cost evaluation.
+
 **Evidence**: three architectural topologies preserve distinct values:
 federated (privacy), distributed (pluralism), and guard-agent
 (fairness/safety). Uniform internal alignment across all workers is
@@ -350,6 +369,13 @@ get task-scoped context only (2609.24967). Auditors are the one role
 that sees more: read-only, out-of-band, with no reward coupling (see
 "Apply commons governance principles to shared agent resources",
 above).
+
+Role partitioning reduces what each agent is exposed to; it does not
+enforce access. A role split, a specialist prompt or a restricted tool
+list is not a permission boundary: every read of private data must pass
+a server-side permission check keyed to the calling agent's identity
+(see rules/agent-sandbox-safety.md — "Treat tool hiding, specialist
+prompts or roster delegation as access control").
 
 > Source: arXiv:2609.03920
 
@@ -403,15 +429,18 @@ Replace rigid hierarchical manager-worker trees (which block peer consultation) 
 
 **Scope:** trusted inputs only: 13 visual-reasoning, mathematics and
 multi-hop retrieval benchmarks with no adversarial agents or poisoned
-feeds. Before any untrusted external feed (web, social, market data,
+feeds. Small teams: 4-agent configurations (Chair plus three
+specialists), with tasks that typically needed only 2–3 agents to
+coordinate; no scaling by agent count was tested. Before any
+untrusted external feed (web, social, market data,
 third-party agents) reaches the bus, pass it through a damping /
 cross-check layer (hierarchical coordinator or equivalent), and run a
 read-only traffic monitor over the bus.
 
 Tension with "Allow perception agents to directly feed strategic
-coordinators without adversarial shock damping" (below) and "Default
-to a fixed multi-agent topology" (above): flat and broadcast channels
-spread poisoned signals. In a fully connected channel, the harm honest
+coordinators without adversarial shock damping" (below): flat and
+broadcast channels spread poisoned signals. In a fully connected
+channel, the harm honest
 agents suffer grows with the untrusted share and is not diluted by
 group size (2609.30028). In one 6-agent pipeline, a read-only
 communication anomaly monitor cut cascading attacks from 28% to 4.5%
@@ -419,19 +448,36 @@ communication anomaly monitor cut cascading attacks from 28% to 4.5%
 Scope separates them: the bus for trusted collaboration, damping in
 front of it for untrusted inputs.
 
-> Source: BusMA: A Bus Communication Substrate for Multi-Agent Systems (arXiv:2609.15054)
+Tension with ORCH (2609.11737; research-briefs/orch-collective-intelligence.md)
+and "Default to a fixed multi-agent topology" (above): with fully
+cooperative agents and no adversarial inputs, explicit organizational
+hierarchy (specialized groups under managers, ordered phase
+transitions) beat decentralized and hybrid baselines on 25 embodied
+wildfire-response missions with teams of 3 to 50 heterogeneous agents
+(final score +63.97%, execution efficiency +74.29% on average for
+human-designed organizations). So trusted inputs alone do not make a
+flat bus the right choice. BusMA's evidence is reasoning and retrieval
+benchmarks; ORCH's is large, heterogeneous teams doing multi-phase
+physical tasks with prerequisites. Choose by team size and task type,
+and benchmark both for teams that are large or have phased,
+prerequisite-ordered work.
+
+> Source: BusMA: A Bus Communication Substrate for Multi-Agent Systems (arXiv:2609.15054); Organizational Principles Enable Collective Intelligence in Embodied AI (arXiv:2609.11737)
 
 ### DON'T: Expand candidate model pools with arbitrary heterogeneous architectures
 
 Do not assume that adding more diverse models to a multi-agent routing or voting pool improves aggregate system capability. Expanding candidate pools beyond 3–5 models frequently degrades performance below that of the single top-performing standalone base model due to format friction, divergent tokenization biases, and uncalibrated confidence scores. When constructing multi-agent model teams, restrict candidate selection to **within a single model family** (e.g. varying parameter tiers of the same architecture), which consistently yields the highest relative performance gain over standalone baselines.
 
-**Evidence**: Systematically evaluated across 8 selection strategies on competitive scientific reasoning benchmarks; intra-family model selection captured the highest relative lift over base models, whereas heterogeneous pools introduced severe noise into voting aggregators and LLM judges.
+**Evidence**: Systematically evaluated across 8 selection strategies on competitive scientific reasoning benchmarks; intra-family model selection captured the highest relative lift over base models, whereas heterogeneous pools introduced severe noise into the answer aggregators (routing, majority voting, and LLM-as-a-judge answer selection).
 
-**Scope:** routing and voting aggregation accuracy (pool selection for
-voting aggregators and LLM judges) on competitive scientific reasoning
-benchmarks. Not evidence about interactive deliberation or joint
-verification. Any same-family pool used for debate or verification
-still needs a dissent or diversity mechanism. With this scope,
+**Scope:** task accuracy of routing and voting aggregation on
+competitive scientific reasoning benchmarks. "LLM judge" here means an
+aggregator that picks one candidate answer, not an evaluator: this rule
+does not cover judges that score red-team or eval results, or monitors
+that audit a policy. Those stay cross-family (see Tension below). Not
+evidence about interactive deliberation or joint verification. Any
+same-family pool used for debate or verification still needs a dissent
+or diversity mechanism. With this scope,
 "Assume multi-agent debate eliminates shared misconceptions" (R²-MAD)
 and "Optimize topology and model assignment jointly" (AgentFactory),
 both above, are consistent with this rule.
@@ -441,6 +487,17 @@ and joint verification" (above): that rule's evidence is interactive
 deliberation and verification, where clone groups showed no benefit;
 this one is non-interactive routing/voting, where heterogeneity added
 aggregation noise.
+
+Tension with "Report red-team failure rates scored by a single judge
+model" (agent-evaluation-quality.md) and "Deploy the chain-of-thought
+monitor you optimized the policy against, or score raw reasoning"
+(agent-sandbox-safety.md): judges that *measure* failure rates and
+monitors that *audit* a policy must come from different model families,
+because the judge alone moved one attacker's measured failure rate
+from 27.70% to 77.00% (2609.27336), and a learned monitor jailbreak
+transferred to an unseen same-family monitor but more weakly across
+families (2609.31121). Same-family pools are for answer aggregation
+only.
 
 > Source: Mo' Models, Mo' Problems: How to Best Select Model Pools when Designing Multi-Agent Systems (arXiv:2609.17306)
 
@@ -488,6 +545,7 @@ For implementation details on the procedures behind these rules:
 - Value-Preserving MAS Architectures: arXiv:2609.03920
 - FirstMate agent distro: https://github.com/kunchenguid/firstmate
 - BusMA: arXiv:2609.15054
+- ORCH: Organizational Principles Enable Collective Intelligence in Embodied AI: arXiv:2609.11737
 - Mo' Models, Mo' Problems: arXiv:2609.17306
 - Contagion on the Trading Floor: arXiv:2609.19789
 - Beyond Single-Model Injection: arXiv:2609.22949
@@ -495,3 +553,5 @@ For implementation details on the procedures behind these rules:
 - Self-Organizing Agent Teams: arXiv:2609.22682
 - Adversarial Influence Scaling in MAS: arXiv:2609.30028
 - Emergent Collusion (cited from recursive-improvement.md): arXiv:2609.24967
+- CART: Closed-Loop Adaptive Red Teaming (cited from agent-evaluation-quality.md): arXiv:2609.27336
+- Monitor Jailbreaking (cited from agent-sandbox-safety.md): arXiv:2609.31121

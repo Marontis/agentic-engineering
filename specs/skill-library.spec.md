@@ -229,6 +229,21 @@ Run the skill utility score against your task corpus:
 - [ ] Every skill proposal's outcome (accepted/rejected, validation score,
   diff) is recorded in an impact tracker
 
+### Admission gate for new or evolved skills:
+
+Optimizer and evolution skills pick candidates; admission follows
+`rules/recursive-improvement.md` "DO: Pass every self-modification
+through one acceptance gate": accept a change only if it shows no
+regression beyond a noise margin δ on previously-correct cases and
+held-out tasks, where δ is estimated from repeated runs of the unchanged
+baseline; the negative security testbed is always strict (zero
+tolerance, no margin).
+
+- [ ] δ estimated from ___ runs of the unchanged library (at least 3; fewer only if deterministic)
+- [ ] Protected (previously-correct) cases and held-out tasks re-run on every admission
+- [ ] Negative security testbed run on every candidate; any failure rejects it
+- [ ] Provenance verified before admission (see [`skill-evolution-defense`](../skills/skill-evolution-defense/SKILL.md))
+
 > **Source**: knowledge-compounding-loop skill (arXiv:2608.27454)
 
 ---
@@ -244,6 +259,7 @@ Before deploying the skill library, verify:
 - [ ] Token budget is explicitly set and enforced
 - [ ] Deduplication prevents near-duplicate skills from entering the library
 - [ ] Monitoring is in place to detect skill degradation over time
+- [ ] Every admitted or updated skill passed the acceptance gate (δ margin; strict security testbed)
 - [ ] The system works correctly with zero skills (graceful degradation)
 
 ---

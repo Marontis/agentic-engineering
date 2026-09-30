@@ -15,7 +15,7 @@ A marshmallow-test framing for long-horizon behavior: at each of 20 steps an age
 
 - **Scale**: 19,200 agent trajectories in 64 cells, 6 agents per cell; 99.9% of runs valid. Single model: **Gemini 2.5 Flash-Lite**.
 - **Overall**: total eat rate ≈ 0.241; 75.9% of agents persisted to the end; median time-to-eat ≈ 14.8 steps.
-- **Peer visibility raises impulsivity**: broadcast vs isolated OR ≈ 0.78 (isolation lowers per-minute risk), 95% CI [0.73, 0.83], p < .001. Question-asking declined faster under broadcast.
+- **Peer visibility raises impulsivity**: isolated vs broadcast OR ≈ 0.78 (isolation lowers the per-minute hazard of giving in; equivalently, broadcast raises it), 95% CI [0.73, 0.83], p < .001. Question-asking declined faster under broadcast.
 - **Mandatory self-questioning backfired**: MUST vs MAY use of the reasoning tool OR ≈ 1.42, 95% CI [1.35, 1.50], p < .001. Forcing front-loaded deliberation *increased* giving in, opposite the hypothesis.
 - **Persona effects dominate everything else**: vs adult, child persona OR ≈ 66.3 and senior OR ≈ 7.55 (both p < .001). Removing both hedonic drive and age persona pushed completion toward ~1.0.
 - **Hedonic drive**: vs "crave", like OR ≈ 0.28, none OR ≈ 0.19, neutral OR ≈ 0.03 (all p < .001).
@@ -23,7 +23,7 @@ A marshmallow-test framing for long-horizon behavior: at each of 20 steps an age
 
 ## Relevance to Praxis
 
-- **Mandatory metacognitive scaffolding is not free.** Forcing a self-questioning tool every step measurably worsened self-control here. This is a documented pitfall for the "add a reasoning step" pattern and bears on the Low-severity item in the deconfliction report ("add reasoning budget" vs runaway loops). See proposed rule below.
+- **Mandatory metacognitive scaffolding is not free.** Forcing a self-questioning tool every step measurably worsened self-control here. This is a documented pitfall for the "add a reasoning step" pattern and bears on the Low-severity item in the deconfliction report ("add reasoning budget" vs runaway loops). Single model (Gemini 2.5 Flash-Lite), so treat it as a warning to test, not a general rule.
 - **Peer visibility is a risk channel** in multi-agent long-horizon settings, consistent with contagion findings in `rules/multi-agent-coordination.md` and `rules/agent-sandbox-safety.md` guard-agent topologies.
 - **Persona choice is a first-order behavioral variable**: evocative personas (child, "crave") sharply change long-horizon behavior independent of the task. Relevant to any deployment that sets a persona for style.
 - Related briefs: [`blindspot-long-horizon-agent-safety`](blindspot-long-horizon-agent-safety.md); related skill [`black-box-trajectory-risk-monitoring`](../skills/black-box-trajectory-risk-monitoring/SKILL.md).

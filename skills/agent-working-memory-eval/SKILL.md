@@ -83,6 +83,17 @@ For objects too large to keep in context:
 3. **Recall**: Retrieve evicted objects when they become relevant
    again (triggered by tool calls, errors, or explicit requests)
 
+Treat recall machinery as a hypothesis to test, not a default. In a
+study of coding-agent harnesses (176 settings, 4 models, SWE-Bench
+Verified and Terminal-Bench 2.1), making elided content recoverable
+added machinery the models rarely used and gave no accuracy gain; the
+benefit of context management came from preventing context overflow,
+and staging rule-based elision before LLM-based summarization gave
+the strongest overall efficiency (arXiv:2609.20804; see
+`research-briefs/empirical-harness-design-study.md`). Log how often
+evicted objects are actually recalled, and keep the recall path only
+if it pays for its overhead in Step 5.
+
 ### Step 5: Evaluate management strategies
 
 When comparing memory management approaches:
@@ -127,3 +138,4 @@ When comparing memory management approaches:
 ## Sources
 
 - Measure Before You Manage: Evaluating Agent Working Memory in Coding Agents (arXiv:2608.31057)
+- An Empirical Study of Harness Design for Coding Agents (arXiv:2609.20804)

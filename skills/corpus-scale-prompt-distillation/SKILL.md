@@ -111,8 +111,10 @@ From the analysis, produce:
 3. If no validation data: the single-pass result is competitive with
    iterative search in the paper's benchmarks, but that makes it a
    good **first draft**, not an accepted prompt. Before deployment it
-   must pass rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate" (no regressions on previously-correct cases,
-   behavioural evidence, negative security testbed — always strict).
+   must pass rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate" (no regression beyond a noise
+   margin δ on previously-correct cases and held-out tasks, δ estimated
+   from repeated runs of the unchanged baseline; behavioural evidence;
+   negative security testbed always strict, zero tolerance).
    Build a small held-out set if you have none; the draft can also
    seed ESPO or NPO.
 

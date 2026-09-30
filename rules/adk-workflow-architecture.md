@@ -51,6 +51,8 @@ def policy_check(node_input):
 
 See also: rules/skill-system-design.md — "DO: Keep deterministic steps in code and explicit graph edges; delegate to LLMs only for reasoning"
 
+**Scope:** ADK 2 graph workflows with a keyword-list policy router (Google ADK codelab); vendor guidance, no measured comparison.
+
 > Source: Google ADK Codelab: Agentic Workflow with ADK (Step 5)
 
 ### DO: Always provide a default fallback route (`DEFAULT_ROUTE`) on conditional routers

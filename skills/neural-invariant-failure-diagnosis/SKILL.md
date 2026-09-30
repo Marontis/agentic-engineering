@@ -78,6 +78,16 @@ Scan the trajectory forward from $t=0$:
    - The *decisive failure step* is the first invariant violation that remains uncorrected
      and directly propagates error to terminal task failure.
 
+**Scope — two definitions of "decisive" in this library.** DoCtOR
+([`targeted-failure-attribution`](../targeted-failure-attribution/SKILL.md)) takes the *first* step whose
+correctness score falls below γ. AgentScope
+([`neural-invariant-failure-diagnosis`](SKILL.md)) takes the first invariant
+violation that is *not corrected later* and propagates to the failure.
+They agree when errors cascade without recovery. When a trajectory
+contains an early error the agent later fixed, use the first
+*uncorrected* error: reflecting on a recovered hiccup teaches the wrong
+lesson.
+
 ### 4. Synthesize Diagnostic Report
 
 Format the diagnostic findings into a machine-readable summary:

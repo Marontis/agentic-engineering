@@ -82,6 +82,17 @@ After each evolution round:
 - **Weight normalization**: Re-normalize edge weights so they sum
   to 1.0 for each source node
 
+### Step 5: Gate before keeping the evolved graph
+
+Steps 3–4 are search-time selection. Before an evolved graph replaces
+the one in use, it defers to rules/recursive-improvement.md — "DO: Pass
+every self-modification through one acceptance gate": accept a change only if it shows no regression beyond a noise margin δ
+on previously-correct cases and held-out tasks, where δ is estimated
+from repeated runs of the unchanged baseline; the negative security
+testbed is always strict (zero tolerance, no margin).
+Pruned edges that reduced failures on the evolve tasks can still break
+previously-correct held-out tasks, so run both.
+
 ## Environment Caveats
 
 - **Novel tasks**: On tasks unlike anything in the training

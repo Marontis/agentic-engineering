@@ -78,9 +78,11 @@ Do **not** apply a uniform fixed retention ratio across all tasks. Classify the 
 
 | Complexity Class | Structural Characteristics | Minimum Retained Budget Floor ($\theta$) |
 |:---|:---|:---|
-| **Class A (Linear)** | Single tool chain, depth $\le 3$, no branching | 30% - 35% |
-| **Class B (Tree / Branching)** | Subagents, parallel searches, depth 4–7 | 45% - 50% |
-| **Class C (Cyclic / Iterative)** | Debugging loops, refactoring, depth $\ge 8$, cross-module dependencies | 55% - 65% |
+| **Class A (Linear)** | Single tool chain, depth $\le 3$, no branching | 35% |
+| **Class B (Tree / Branching)** | Subagents, parallel searches, depth 4–7 | 50% |
+| **Class C (Cyclic / Iterative)** | Debugging loops, refactoring, depth $\ge 8$, cross-module dependencies | 60% |
+
+These floors match `rules/skill-system-design.md` ("DO: Enforce protocol-aware context trimming with adaptive budget guardrails"). They are a conservative library heuristic, not values from the paper. The paper stratified tasks by low/medium/high complexity and estimated critical retained-context thresholds of 20.8/25.4/38.2% for protocol-aware trimming and <15/21.1/29.5% for adaptive guardrails, versus 45.4/47.7/52.9% for recency trimming. The floors sit above the protocol-aware and guardrail thresholds in every class, leaving margin if protected-span detection is imperfect. They are not above the recency-trimming thresholds, so they are only safe together with protocol-aware trimming (Step 3).
 
 **Guardrail Invariant**: If projected context reduction would push retained tokens below threshold $\theta$, trigger **spill-over summarization** into an external persistent ledger rather than dropping tokens below the critical threshold.
 
@@ -116,7 +118,7 @@ Execute a post-trim validation pass prior to dispatching the next model prompt:
 
 | Failure Mode | Trigger | Quantitative Impact | Concrete Mitigation |
 |:-------------|:--------|:-------------------|:-------------------|
-| **Aggressive Budget Collapse** | Setting retained context $\le 25\%$ to minimize token costs | 10.92× increase in task failure odds ($p < 0.001$) | Enforce strict adaptive budget guardrail: never trim below 35% for linear and 55% for cyclic tasks. |
+| **Aggressive Budget Collapse** | Setting retained context $\le 25\%$ to minimize token costs | 10.92× increase in task failure odds ($p < 0.001$) | Enforce strict adaptive budget guardrail: never trim below 35% for linear, 50% for branching and 60% for cyclic tasks. |
 | **Dangling Tool-Call Violation** | Trimming assistant tool call while retaining tool output, or vice versa | Provider API 400 Bad Request error; session crash | Atomic pruning: treat `(tool_call, tool_result)` pairs as indivisible units. |
 | **Pruned Causal Prerequisite** | Dropping an early turn that modified working directory or installed dependencies | Cascading tool failure (missing file/command) | Pin state-mutating tool executions in a persistent scratchpad/ledger before trimming history. |
 | **Schema Amnesia** | Pruning capability descriptions during multi-turn exploration | Model generates hallucinated tool signatures | Keep capability schemas in an immutable Zone 2 prefix separate from message history. |

@@ -41,9 +41,14 @@ Before anchoring, classify each disagreement with
 (factual / interpretive / strategic). Use this skill's anchor for
 **factual** disputes only, where one answer is right and one is wrong.
 For **interpretive** disputes, preserve both readings with their
-evidence. For **strategic** disputes, make the trade-off explicit.
-Don't pick a winner in either case, even with a posterior ratio above
-2×. If the classification is unclear, treat it as interpretive.
+evidence. For **strategic** disputes, make the trade-off explicit and
+choose by the task's stated priority (speed vs. accuracy, etc.), as in
+`debate-layer-disagreement-analysis` Step 3; if no priority is stated,
+surface the trade-off to the decision-maker. In neither case use this
+skill's posterior to pick a winner, even with a ratio above 2×: a
+strategic choice follows the task's priority, not which agent argued
+more plausibly. If the classification is unclear, treat it as
+interpretive.
 
 ### Step 1: Collect the disagreement set
 

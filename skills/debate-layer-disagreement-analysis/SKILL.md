@@ -69,7 +69,11 @@ For each debate round:
 **Strategic disagreements** → Evaluate trade-offs:
 - Make the trade-off explicit: what does each strategy optimize for?
 - Estimate costs and risks of each strategy
-- Select based on the task's priority (speed vs. accuracy, etc.)
+- Select based on the task's stated priority (speed vs. accuracy,
+  etc.) as set by the task owner; if no priority is stated, surface
+  the trade-off to the decision-maker instead of choosing
+- Do not use the Bayesian anchor here: the choice follows the task's
+  priority, not which agent argued more plausibly
 
 ### Step 4: Quality-weighted aggregation
 

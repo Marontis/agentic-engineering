@@ -41,11 +41,11 @@ Data agents must fulfill natural language analytical instructions over heterogen
 
 - **MCP Standardization**: Encapsulating the ontology inside an MCP server enables seamless integration with standard agent harnesses without requiring custom API clients.
 - **Attribution-Guided Typed Edits**: When an agent query fails due to ambiguous column aliases, missing join paths, or semantic terminology mismatches, the builder agent applies typed edits (e.g., `AddSynonym`, `DefineJoinConstraint`, `AddDerivedMetric`).
-- **Backbone-Conditional Paired Evaluation**: Edits are tested against a validation set using the target LLM backbone. Proposed mutations are committed only if they provide a net positive delta, preventing regression.
-- **Benchmark Evaluation**: Across three standard data-agent benchmarks with four LLM backbones, EvoOntology consistently outperforms static semantic layers and zero-shot exploration.
+- **Backbone-Conditional Paired Evaluation**: Edits are tested against a validation set using the target LLM backbone, and accepted only after this paired evaluation. A net-positive delta on the validation set does not by itself rule out regressions on individual queries or on other backbones; an ontology evolved for one backbone should be re-evaluated before use with another.
+- **Benchmark Evaluation**: The paper reports that across three data-agent benchmarks with four LLM backbones, EvoOntology consistently outperforms strong baselines and existing semantic-layer approaches. Scope: data-agent querying over tables, files and databases; results are from the authors' own evaluation.
 
 ## Relevance to Praxis
 
 - Provides a clean reference model for building self-evolving MCP servers.
 - Connects directly to [`mcp-server-design`](../skills/mcp-server-design/SKILL.md) and [`governed-knowledge-graph`](../skills/governed-knowledge-graph/SKILL.md).
-- Demonstrates attribution-guided gated commit criteria for persistent knowledge layers.
+- Demonstrates attribution-guided gated commit criteria for persistent knowledge layers. Its paired evaluation is search-time selection; keeping an evolved ontology in this library's terms defers to `rules/recursive-improvement.md` "DO: Pass every self-modification through one acceptance gate" (no regression beyond a noise margin δ on previously-correct cases and held-out tasks; negative security testbed strict).

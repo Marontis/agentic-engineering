@@ -186,7 +186,12 @@ SpreadSheet, vs. +9.3pp from self-evolved skills. Transfer works across
 model families.
 
 **Scope:** WikiSkill benchmarks (e.g. SpreadSheet), Qwen 27B to 9B. Test
-on each deployment target before reuse: SelfOp found transfer within one
+on each deployment target before reuse: EvoPathBench found skills
+evolved by Qwen3.8-Max gave Qwen3.8-27B +1.96 CEG but same-family
+Qwen3.5-9B only +0.03 and Qwen3.5-4B +0.27, so stronger-to-weaker
+transfer is receiver-dependent even within a family
+(research-briefs/process-level-self-evolution-evaluation.md);
+SelfOp found transfer within one
 family (GPT-5.4 and GPT-5.4-mini, both directions) but did not test
 across families (research-briefs/selfop-security-skill-optimization.md),
 and scaffolds can reverse sign on sparse-MoE models
@@ -316,6 +321,12 @@ Knowing a theoretical method does not make it work in execution. Distilling open
 
 Sequential tool agent turns spend up to 61% of wall-clock time waiting on tool execution and serial observation parsing. Drafting recurring multi-step action macros on isolated environment snapshots and committing cached steps upon actor prefix verification cuts wall time by **up to 44.9%** with zero accuracy penalty.
 
+Speculate only on side-effect-free steps (reads, queries, computations inside the snapshot). Steps with external or irreversible effects (sends, payments, writes outside the sandbox, deployments) are never pre-executed; they run only after the actor confirms them.
+
+**Scope:** tool-using agent benchmarks with snapshot-able environments; the paper's zero-accuracy-penalty result assumes speculative steps can be discarded without external effects.
+
+See also: agent-sandbox-safety.md — "DO: Prefork sandbox environments on predicted execution branches" (same side-effect constraint).
+
 > Source: Speculative Macro Commit for Faster Tool-Using Agents (arXiv:2609.03236)
 
 ### DON'T: Rely on dense semantic embeddings alone for retrieving code or executable skills without execution verification
@@ -330,6 +341,8 @@ Dense vector embeddings (e.g., text-embedding-3, Cohere embed-v3, Voyage, BGE) m
 
 Avoid defining bespoke, ad-hoc JSON payloads for inter-agent communication and tool execution across heterogeneous runtimes. Use a standardized application-layer semantic envelope (such as the NLIP standard) that decouples semantic intent, conversation threading, and context referencing from the underlying transport protocol (HTTP, WebSocket, AMQP).
 
+**Scope:** protocol standard (NLIP, Ecma; arXiv:2609.04135); interoperability design, no benchmark.
+
 **Evidence**: Standardized semantic envelopes provide uniform auditability, context URI referencing, and least-privilege capability claims, bridging tool protocols (like MCP) and agent orchestration frameworks (like A2A) across enterprise boundaries without tight transport coupling.
 
 See also: multi-agent-coordination.md — NLIP semantic envelope entry.
@@ -343,26 +356,36 @@ See also: multi-agent-coordination.md — NLIP semantic envelope entry.
 ### DO: Bound the search space of harness self-evolution
 
 Agent harness evolution (automatically improving scaffolding, prompts,
-and tools) diverges if the search space is unconstrained.  Limit which
-components can evolve simultaneously, bound mutation magnitude per
-round, and require monotonic improvement on a held-out evaluation set.
-Keep rubrics, verifiers, the model and the evaluator fixed. Unconstrained
-harness evolution performs worse than scoped evolution: RobustSGPO's
-one-agent edit scope reached 4.34 vs 4.06 with unrestricted edit
-permission, and RRSI's unregularized run scored higher in-distribution
-(92.8 vs 90.5) but lower out of distribution (40.3 vs 43.6). (An earlier
-version of this entry said unconstrained evolution is worse than *no*
-evolution; the cited papers do not show that.)
+and tools) drifts or overfits if the search is uncontrolled. Limit which
+components can evolve simultaneously and bound mutation magnitude per
+round. Keep rubrics, verifiers, the model and the evaluator fixed.
+Controlled search beats less-controlled search: in RobustSGPO, a periodic
+edit-permission schedule (one agent, then existing agents, then
+structural edits, repeating) reached a held-out test score of 4.34 (0–5
+rubric-judged quality scale) vs 4.06 for fixed maximum permission (3.85
+for fixed one-agent scope), and the full controlled method scored 4.30
+vs 3.82 for less-controlled SGPO (every arm still had replay admission and safety checks). RRSI's unregularized run scored higher
+in-distribution (92.8 vs 90.5) but lower out of distribution (40.3 vs
+43.6). Broader permission alone did not help; neither paper shows
+unconstrained evolution is worse than *no* evolution.
 
-Adopt an evolved harness only if it does not degrade previously solved
-tasks beyond a controlled margin (Two-Gate validation, arXiv:2609.08175).
-Change-specific test selection may be used during search; at acceptance
-and deploy, run the full frozen and security suites (see
-recursive-improvement.md — "DO: Pass every self-modification through one
-acceptance gate").
+Acceptance defers to recursive-improvement.md — "DO: Pass every
+self-modification through one acceptance gate": accept a change only if
+it shows no regression beyond a noise margin δ on previously-correct
+cases and held-out tasks, where δ is estimated from repeated runs of the
+unchanged baseline; the negative security testbed is always strict
+(zero tolerance, no margin). Two-Gate validation (arXiv:2609.08175)
+formalizes the same idea: adopt only when the estimated failure-task
+gain clears a threshold, the estimated change on previously solved
+tasks stays within a limit, and the overall gain's lower bound after
+estimation error is positive
+(research-briefs/reliable-self-evolution-two-gate.md). Change-specific test selection may be
+used during search; at acceptance and deploy, run the full frozen and
+security suites.
 
-**Scope:** harness evolution around a frozen model (RobustSGPO: edits
-capped at 120 changed lines per proposal; RRSI: agentic-workspace,
+**Scope:** harness evolution around a frozen model (RobustSGPO: one
+AgentX brainstorming workflow, 120 tasks, proposals capped at 120
+changed lines and 6,000 added characters; RRSI: agentic-workspace,
 coding and design benchmarks); 2609.08175 is theoretical with one
 DS-1000 illustration.
 
@@ -390,15 +413,19 @@ rather than assuming open-ended improvement.
 
 **Scope:** a feasibility argument about evaluator, substrate and
 search-space limits, not a measured capability ceiling. Evolutionary
-Safety of RSI (arXiv:2609.31186) takes no position on ceilings; RRSI
-(arXiv:2609.24972) notes gains depend on feedback-signal quality.
+Safety of RSI (arXiv:2609.31186) takes no position on ceilings; RRSI's
+limitations section (arXiv:2609.24972) says its effectiveness may
+depend on the quality of the feedback signal. The Two-Gate theory
+(arXiv:2609.08175) derives a ceiling set by verification and evaluation
+cost for its validation rule, and shows a different rule can validate
+past it at higher evaluation cost.
 
 Tension with "DO: Distinguish systems, data, and algorithmic changes"
 (recursive-improvement.md), which says algorithmic change is bounded by
 "nothing fundamental": that table refers to hardware/data ceilings; this
 entry refers to evaluator quality and diminishing returns. Both hold.
 
-> Source: The Last AI Built by Humans (arXiv:2609.11873)
+> Source: The Last AI Built by Humans (arXiv:2609.11873); Evolutionary Safety of Recursive Self-Improving AI (arXiv:2609.31186); RRSI (arXiv:2609.24972); A Theory of Reliable Self-Evolution for Agent Harnesses (arXiv:2609.08175)
 
 ---
 
@@ -429,6 +456,8 @@ In multi-agent systems, never use prompt-based LLM routing or LLM nodes for task
 2. **Pillar 2 (Collaborative Agents)**: When a known team of specialists exists and the input determines the subset, use a coordinator with `mode="single_turn"` for parallel tool dispatch and synthesis, or `mode="task"` with explicit typed termination schemas (`finish_task(schema)`) for conversational subroutines.
 3. **Pillar 3 (Dynamic Workflows)**: When runtime width or depth cannot be predicted statically, bound fan-out via worker nodes (`@node(parallel_worker=True)`) and recursive descent via strict recursion depth checks (`MAX_DEPTH`).
 
+**Scope:** ADK 2 graph, collaborative and dynamic workflows (Google ADK codelab); the 4-to-1 LLM-call figure is a single codelab example, not a controlled benchmark.
+
 **Evidence**: In ADK 2 benchmarked workflows, replacing prompt-based sequential LLM dispatch with an explicit graph router and pure function nodes dropped LLM API calls from 4 to 1 per request while eliminating routing drift and schema translation errors.
 
 See also: adk-workflow-architecture.md — deterministic-steps-first and typed `finish_task` entries; recursive-improvement.md — "DO: Enforce hard depth boundaries and typed terminal schemas on recursive agent invocations".
@@ -444,6 +473,8 @@ See also: adk-workflow-architecture.md — deterministic-steps-first and typed `
 When reducing context in long-horizon agentic workflows, prioritize preserving protocol-critical state (tool schemas, unresolved request/response pairs, causal state mutations, active invariant constraints) over maximizing raw token removal. Avoid uniform aggressive context trimming ($\le 25\%$ retained tokens), which inflates task failure odds by 10.92-fold ($p < 0.001$). Dynamically adapt budget guardrails to workflow complexity classes: retain $\ge 35\%$ for linear tasks, $\ge 50\%$ for branching trees, and $\ge 60\%$ for iterative/cyclic debugging.
 
 **Evidence**: Naive recency, relevance, or summarization trimming drops task success to 66.6%–77.3% and protocol adherence to 85.5%–88.6%. Protocol-aware trimming lifts task success to 92.2% (5.24× odds improvement under aggressive budgets); adaptive guardrails achieve 96.0% task success, 96.3% protocol adherence, and reduce cascading failures to 1.0% with 56.0% mean token savings.
+
+**Scope:** one study of simulated tool-mediated workflows (AgentBench/τ-bench-style) stratified by low/medium/high complexity, not by linear/branching/cyclic shape. The 10.92× figure compares budgets ≤25% with ≥50%. The 35/50/60% floors are this library's conservative heuristic, not values from the paper: its estimated critical thresholds were 20.8/25.4/38.2% for protocol-aware trimming and <15/21.1/29.5% for adaptive guardrails (low/medium/high complexity), versus 45–53% for recency trimming. The floors clear the protocol-aware and guardrail thresholds but not the recency-trimming ones, so they assume protocol-aware trimming. The skill uses the same floors.
 
 > Source: Protocol-Preserving Context Trimming for Agentic Workflows: Benefits, Failure Regimes, and Budget Guardrails (arXiv:2609.16461)
 

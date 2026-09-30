@@ -28,7 +28,7 @@ Monolithic long-context chat histories poison multi-turn coding agents: models f
 The **Ledger-Orchestrated Coding Loop** decouples coordination from context:
 1. **Durable File Ledger**: State persists in a shared directory (`plan.md`, `notes.md`, `tasks.json`, `solution.py`). Every worker is invoked in a clean, zero-shot context containing only the current task, high-level plan, compact notes, and current code artifact.
 2. **Structural Code-Ban on Ideation**: The first worker is strictly forbidden from writing code, forcing pure algorithmic complexity analysis ($O(N \log N)$ vs $O(N^2)$) and mathematical reductions in prose.
-3. **Active Memory Compaction**: Workers are required to rewrite `notes.md` to under ~800 words, dropping disproven or obsolete hypotheses.
+3. **Active Memory Compaction**: Workers are required to rewrite `notes.md` to under ~800 words, compacting disproven hypotheses into one-line principles ("X fails because Y") instead of deleting them, and dropping only obsolete detail.
 4. **Programmatic Execution Veto**: Candidate solutions are executed in a subprocess against public sample tests. If tests fail, the harness programmatically overrides the manager's `done` signal and forces another repair iteration.
 
 ---
@@ -132,7 +132,7 @@ Spawn a fresh worker instance. The input payload contains *only*:
 
 Prompt the worker with an explicit output contract:
 - `### CODE`: Complete, self-contained Python program.
-- `### NOTES`: **Rewritten notes file under ~800 words.** Instruct the worker to fold in findings, keep what still matters, and delete anything superseded or disproven.
+- `### NOTES`: **Rewritten notes file under ~800 words.** Instruct the worker to fold in findings, keep what still matters, compress each disproven hypothesis into a one-line principle (what was tried, why it failed) so it is not retried, and delete only superseded detail.
 - `### NEXT`: Bullet list of remaining steps or checks.
 - `### STATUS`: `solved` or `continue`.
 

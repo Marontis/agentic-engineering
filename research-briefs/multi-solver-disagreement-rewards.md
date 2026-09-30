@@ -1,11 +1,11 @@
-﻿# Beyond Uncertainty: Multi-Solver Disagreement Rewards for Self-Evolving Reasoning Curricula
+# Beyond Uncertainty: Multi-Solver Disagreement Rewards for Self-Evolving Reasoning Curricula
 
 > **Paper**: [Beyond Uncertainty: Multi-Solver Disagreement Rewards for Self-Evolving Reasoning Curricula](https://arxiv.org/abs/2608.30035)
 > **Praxis source**: `src:2608-30035v1`
 
 ## Why Not a Skill?
 
-Training procedure â€” tied to RL curriculum generation with specific model training architecture. Not a transferable subtask for agent engineering.
+Training procedure — tied to RL curriculum generation with specific model training architecture. Not a transferable subtask for agent engineering.
 
 ---
 

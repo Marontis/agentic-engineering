@@ -39,6 +39,88 @@ Corrections to the data-integrity table after checking the papers:
 Still open: one "7.5% of instances" figure in `skill-system-design.md`
 couldn't be verified (v1 says "fewer than a tenth"), so it's unchanged.
 
+## Second fix pass (2026-09-29)
+
+All re-audit items below were fixed, then independently re-checked. The
+re-check found 13 residual problems (a strict zero-regression step in
+`reference-trajectory-harness-evolution`, a stale ResidualAuth brief, and
+wording issues); all were fixed. The acceptance gate now reads: no
+regression beyond a noise margin δ estimated from repeated baseline runs;
+the negative security testbed is always strict. Paper checks during this
+pass also removed claims the papers don't make (ORCH "flat breaks at 10+
+agents", MiST coding retention, Overflip ">40% margin", criticality
+"bug-complexity damper") and corrected a RobustSGPO score attribution.
+
+`scripts/kb_lint.py` now runs in CI; 0 errors. The remaining warnings are
+rules citing papers with no brief here (2609.09793, 2609.10707,
+2609.26419, 2609.11873). Unverified: 2609.03247's model list (brief and
+rule Scope disagree).
+
+## Independent re-audit (2026-09-29)
+
+Four read-only reviewers who did not write the fixes. Coverage this time:
+every entry changed by the fix commit; skills n–z, `specs/` and
+`kody-templates/` in full; all 177 briefs in full. The first audit had
+skimmed or skipped these.
+
+**Fix verification.** 11 of 21 H/M items fully resolved; H1, H6, H7 and M6
+partial, plus 4 partial Low items. Problems the fixes introduced:
+- **R1 (high).** The new acceptance gate demands strict no-regression, while
+  `skill-system-design` ("monotonic improvement", Two-Gate "controlled
+  margin") and RRSI (`S ≥ S* − δ`) allow a noise margin. It also calls
+  EvoPathBench's gate "strict" when the paper tested "require improvement
+  and limit regressions", and the stationary/non-stationary split is an
+  inference, not a finding.
+- **R2.** Model-pool rule still covers "LLM judges", contradicting the new
+  cross-family judge (CART) and monitor rules.
+- **R3.** RobustSGPO brief still carries the claim removed from the rule;
+  several figures (4.34 vs 4.06, Two-Gate details) exist only in the rule.
+- **R4.** "Never rely on role splits" vs privacy partitioning by role.
+- Minor: misattributed "85% adaptive attacks" line, garbled paragraphs in
+  two skills, duplicate self-references.
+
+**Areas the first audit missed (high/medium):**
+- **S1 (high).** `specs/self-improving-agent.spec.md` still prescribes a
+  fully editable meta-mechanism with no envelope, gate or security testbed,
+  and "unbounded" algorithmic change.
+- **S2 (high).** `skills/recursive-self-improvement/hyperagent-self-improvement`
+  still "everything editable… no artificial ceiling"; the H1 rule links it
+  as its procedure.
+- **S3.** `nlip-agent-message-envelope` authorizes on sender-supplied
+  identity and capability claims; signatures optional.
+- **S4.** `transactional-coding-sandbox` and `specs/agent-sandbox.spec.md`:
+  network installs tiered Uncertain; a lexical blacklist presented as the
+  enforcement boundary; the skill's refusal prompt tells the agent to route
+  around a denial (the behaviour 2609.30217 measures).
+- **S5.** `prime-power-federation-governance` duplicates PRIMUS without the
+  M10 fix; `residual-auth-state-preservation` contains copied PRIMUS text
+  (a second copy error like the 56.05% one).
+- **S6.** `kody-templates/audit-stale-scaffolding` (enabled) flags loop
+  guards, independent testers and terminal denials as stale.
+- **S7.** Keep-decisions in `stable-skill-evolution`,
+  `skill-evolution-defense`, `procedural-graph-evolution` and two kody
+  templates don't defer to the acceptance gate.
+- **S8.** `specs/adk-eval-quality-gate.spec.md`: 98% vs 0.95, refusal-only
+  metric with no benign arm, single same-family judge.
+- **B1.** Door-in-the-face rule says effects follow model family; its brief
+  shows Opus 5 and Haiku 4.5 reacting in opposite directions.
+- **B2.** Tool-hiding rule overstates: a policy-enforced roster reached 100%
+  isolation; only full-roster delegation leaked.
+- **B3.** ORCH (2609.11737): hierarchy beats flat even with trusted inputs;
+  not covered by the BusMA scope and uncited.
+- **B4.** String OS "addressable context outperforms full context" is
+  unsupported and contradicted by 2609.20804 (no gain from recoverable
+  elision).
+- **B5.** Harness-value rule cites 2609.20474 for a finding that is in
+  2609.20804, and omits the verifier's 17% false rejections.
+
+**Low:** ~25 more (stale wording in `algorithmic-design-evaluation`,
+trimming floors 30/45/55 vs 35/50/60, decisive-error definitions, red-team
+skills without cross-family judges, Overflip population, brief
+self-contradictions, uncross-linked brief pairs, kody INDEX "all 12
+enabled" vs 6). **Formatting:** 22 briefs have mojibake (`â€”`), and 6 have
+control characters that break links.
+
 ---
 
 **Pattern.** Almost every conflict has the same cause: a paper's finding from

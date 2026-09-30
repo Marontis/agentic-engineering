@@ -288,6 +288,7 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`arbitrary-cipher-attacks`](research-briefs/arbitrary-cipher-attacks.md) | Cipher-encoded jailbreaks without fine-tuning |
 | [`multimodal-prompt-injection-eval`](research-briefs/multimodal-prompt-injection-eval.md) | Cross-modal prompt injection on agentic frameworks |
 | [`self-evolving-consistency-gap`](research-briefs/self-evolving-consistency-gap.md) | Goal drift in long-horizon self-evolving agents |
+| [`reliable-self-evolution-two-gate`](research-briefs/reliable-self-evolution-two-gate.md) | Two-Gate theory of reliable harness self-evolution: allowed change on solved tasks, admission threshold |
 | [`robust-sgpo-harness-evolution`](research-briefs/robust-sgpo-harness-evolution.md) | Search-space control for agent harness evolution |
 | [`verifier-survey-no-free-checker`](research-briefs/verifier-survey-no-free-checker.md) | Coverage-cost-soundness trade-offs in policy verifiers |
 | [`agent-audit-lifecycle-trust`](research-briefs/agent-audit-lifecycle-trust.md) | Full-lifecycle trust evaluation framework |
@@ -389,6 +390,14 @@ The selection criteria: a paper produces a skill only if it describes a procedur
 ## Contributing
 
 Found a paper that should be here? Open an issue with the arXiv link and a brief note on what transferable procedure you see in it.
+
+Changes follow the standard in [`AGENTS.md`](AGENTS.md): numbers checked against the paper text, a **Scope:** line and a source on every rule entry, and linked `Tension with` notes where two entries point different ways. Before opening a PR:
+
+```bash
+python scripts/kb_lint.py --base origin/master
+```
+
+CI runs the same check on every pull request. It catches broken links, encoding damage, leftover template text, rule entries without a Scope or Source line, cross-references to headings that don't exist, and figures that look copied between papers. It also warns about new rule entries that point the opposite way to an existing one. Contradictions phrased in different words still need a periodic read-through audit; see the `deconfliction-report-*.md` files.
 
 ---
 

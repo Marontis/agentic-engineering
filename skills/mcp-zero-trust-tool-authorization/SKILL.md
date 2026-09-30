@@ -183,6 +183,7 @@ low-privilege credential:
 | Stale credential | Token revoked at IdP but still cached | Bounded TTL; TTL = 0 or revocation signal for high-risk tools (Step 3) |
 | Fail-open default | Tool registered without a declaration is callable by every authenticated caller | Reject undeclared components at startup on privileged servers |
 | Refusal-as-boundary | Relying on model alignment to ignore injected tool requests | Attempt rates ranged 0–50% across vendors on identical inputs; enforce server-side |
+| Roster-as-boundary | Relying on multi-agent role splits to keep a tool away from the orchestrator | Full-roster delegation still executed a destructive call in 3/60 trials; a policy-enforced role-to-roster mapping isolated tools but enforced a parameter ceiling in 0/60 (arXiv:2609.28693). Keep the Step 5 check and add argument limits server-side |
 
 ## Cross-References
 
@@ -192,7 +193,7 @@ low-privilege credential:
 - [`unified-capability-gateway`](../unified-capability-gateway/SKILL.md): single auditable invocation pipeline
 - [`auth-revocation-quiescence`](../auth-revocation-quiescence/SKILL.md): closing effect paths after revocation
 - [`sdc-mcp-dry-run-gateway`](../../research-briefs/sdc-mcp-dry-run-gateway.md): read-only resources plus dry-run tools for physical-effect systems
-- `rules/agent-sandbox-safety.md`: "Resolve tool existence before any selection or authorization gate"; "Rely on structured LLM authorization decisions as the sole safety gate"
+- `rules/agent-sandbox-safety.md`: "Resolve tool existence before any selection or authorization gate"; "Rely on structured LLM authorization decisions as the sole safety gate"; "Treat tool hiding, specialist prompts or roster delegation as access control"
 
 ## Sources
 

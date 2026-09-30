@@ -55,13 +55,30 @@ For each governance decision or output:
 
 ### 3. Derive and Apply Safe-Kill Thresholds
 
-Before terminating an agent for non-conformance:
+Kill and sanction powers need an explicit, pre-granted scope. Before the
+federation can terminate or sanction an agent automatically, an operator
+grants in writing which agents may be terminated, by which governance
+role, on which triggers, and with which sanctions. Terminations outside
+that scope escalate to a human. An audit finding or threshold crossing is
+evidence, not authorization (see `rules/agent-human-interaction.md` —
+"DON'T: Treat agent output as implicit authorization", and
+`rules/multi-agent-coordination.md` — "DO: Apply commons governance
+principles to shared agent resources").
+
+Within that scope, before terminating an agent for non-conformance:
 1. Compute the channel noise estimate for the communication layer
 2. Apply the safe-kill threshold: only terminate if the evidence
    of non-conformance exceeds the threshold adjusted for noise
 3. Under 10% channel noise, this reduces false-positive termination
    from 80% to 0.00%
 4. Log all near-threshold cases for human review
+5. Terminating the agent, or revoking its key or consensus-token share,
+   stops new use of its authority but not effects already in flight
+   (queued callbacks, sub-agent work, provider-side reservations). Run
+   the root-scoped quiescence protocol in
+   [`auth-revocation-quiescence`](../auth-revocation-quiescence/SKILL.md)
+   and treat the kill as complete only on a **Quiescent** certificate
+   (arXiv:2609.21284)
 
 ### 4. Compute Economic Governance Boundaries
 
@@ -80,9 +97,15 @@ Determine whether to use singleton governance or Byzantine consensus:
 |:-------------|:--------|:-----------|
 | Prime collision | Same prime assigned to multiple agents | Maintain a central prime registry; use deterministic prime assignment |
 | Consensus token overflow | Too many agents (large prime product) | Use big-integer arithmetic; partition into sub-federations |
-| BLS key compromise | Agent's private key leaked | Implement key rotation; revoke compromised keys from aggregate |
+| BLS key compromise | Agent's private key leaked | Implement key rotation; revoke compromised keys from aggregate, then run `auth-revocation-quiescence` for effects already issued under the old key |
+| Unscoped sanction | Governance role terminates or sanctions outside its grant | Check every kill/sanction against the pre-granted scope; escalate outside it |
 | Channel noise underestimate | Actual noise exceeds estimated threshold | Periodically re-estimate noise; use conservative threshold |
 
 ## Sources
 
 > Source: "PRIMUS: Identity, Governance, and Verification for Multi-Agent Federations" (arXiv:2609.07910)
+> Revocation completeness: "Authorization Revocation for Long-Running AI Agents" (arXiv:2609.21284)
+
+See also [`multi-agent-federation-governance`](../multi-agent-federation-governance/SKILL.md)
+(the same PRIMUS paper, DID/delegation view; its Step 5 carries the same
+quiescence requirement).

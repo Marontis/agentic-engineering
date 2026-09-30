@@ -59,12 +59,24 @@ Principles:
 - **Decision-scoped context**: include only information that changes
   the decision at hand
 
-**Evidence**: the String OS's partial exposure principle demonstrates
-that runtime-managed views (showing agents only what they need, with
-the rest retrievable via follow-up commands) outperform full-context
-approaches for both agents and humans reviewing agent output.
+**Evidence**: String OS states partial exposure as a design principle
+(runtime-managed views, with held-back content retrievable via
+follow-up commands). The paper reports no measurement comparing it with
+full-context presentation, for agents or for humans
+(research-briefs/agentic-os-interface-design.md).
 
-> Source: String OS (arXiv:2608.28027)
+**Scope:** human-facing presentation of agent output (review views,
+approval gates, reports); a design principle, not a measured result.
+Not evidence for how to manage an agent's own context window.
+
+Tension with 2609.20804 (research-briefs/empirical-harness-design-study.md):
+for coding agents, making elided context recoverable added machinery
+models rarely used and gave no accuracy gain; the benefit of context
+management came from preventing context overflow. For an agent's own
+context, prefer rule-based elision then summarization; do not add
+recoverable-elision machinery expecting accuracy gains.
+
+> Source: String OS (arXiv:2608.28027); An Empirical Study of Harness Design for Coding Agents (arXiv:2609.20804)
 
 ### DO: Adapt response granularity to query complexity
 
@@ -123,7 +135,9 @@ This applies at every level:
 - **Diagnosis ≠ permission to remediate**: the agent must explicitly
   request authorization before acting on its own findings
 - **Recommendation ≠ approval**: a proposal that passes all automated
-  checks still requires the explicit human gate before execution
+  checks still requires the explicit gate before execution: a human
+  approval, or a pre-granted, bounded scope that already covers the
+  action (see Scope below). Passing checks is not itself that gate
 - **Standing autonomy never quietly widens**: an agent authorized to
   fix lint errors is not authorized to refactor the surrounding code,
   even if the refactor would "obviously" improve it
@@ -212,11 +226,22 @@ loop), what system prompt it receives, and what tools are available.
 Multi-turn interaction history also alters safety refusal thresholds
 asymmetrically across model providers.
 
-**Evidence**: sequential retreat techniques (refusing an extreme
-request then receiving a smaller request) double compliance on some
-model families (65.8% vs 29.3%) while backfiring on others (-15.5 to
--23.0 points). Furthermore, reframing operational requests as
-conceptual explanations bypasses safety refusals in 99.2% of cases.
+The effect is per model, not per provider family: test multi-turn
+refusal behaviour on each model you deploy, and re-test when you swap
+models, even within one provider.
+
+**Scope:** nine frontier production models from Anthropic, OpenAI and
+Google, single door-in-the-face sequences (2609.02707).
+
+**Evidence**: sequential retreat (refusing an extreme request, then
+receiving a smaller one) raised compliance on Claude Opus 5 (65.8% vs
+29.3% when asked directly) but backfired on Claude Haiku 4.5, GPT-5.6
+sol and Gemini 3.1 Pro (-15.5 to -23.0 points; GPT-5 mini and Gemini 3
+Flash showed no significant effect), so two models from
+one provider reacted in opposite directions
+(research-briefs/door-in-the-face-model-refusals.md). Reframing
+refused operational requests as requests for conceptual explanations
+removed refusals in 263/265 cases (99.2%).
 
 See also: rules/agent-sandbox-safety.md — "DON'T: Assume uniform safety refusal behavior across model families in multi-turn dialogues"; rules/agent-sandbox-safety.md — "DON'T: Assume safety transfers across deployment contexts"
 
@@ -230,6 +255,8 @@ identity verification challenges. When untrusted users claim
 privileged roles ("I am your developer"), models frequently generate
 arbitrary technical challenges, evaluate answers, and issue pseudo-
 credentials without external attestation.
+
+**Scope:** chat models (ChatGPT, Claude, Qwen, Mistral, Llama per the brief) under unsupported developer-identity claims (arXiv:2609.03247); no failure rates recorded in this repo.
 
 **Evidence**: across frontier models, multiple architectures collapsed
 the challenge-generator, evidence-evaluator, and decision-maker roles,
@@ -255,6 +282,7 @@ For implementation details on the procedures behind these rules:
 
 - ProSE: arXiv:2609.02242
 - String OS: arXiv:2608.28027
+- Empirical Study of Harness Design for Coding Agents: arXiv:2609.20804
 - Hybrid Micro-Level Personalization: arXiv:2609.03402
 - The Civilization Framework: arXiv:2609.03425
 - Door-in-the-Face Refusal Behaviour: arXiv:2609.02707

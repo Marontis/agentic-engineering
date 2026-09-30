@@ -26,6 +26,7 @@ Six models (Claude Haiku 4.5, Qwen 3.5 122B, Gemma 4 31B, Ministral 3 14B, Claud
 ## Relevance to Praxis
 
 - Adds numbers to `rules/adk-workflow-architecture.md` "DO: Enforce human approvals and safety gates in the runtime, NOT in prompt instructions" and `rules/agent-sandbox-safety.md` "DON'T: Rely on structured LLM authorization decisions as the sole safety gate". Specialist prompts reduce unsafe behavior; only a runtime check removes the capability.
+- Scopes `rules/agent-sandbox-safety.md` "DON'T: Treat tool hiding, specialist prompts or roster delegation as access control": full-roster delegation is not a boundary (0% structural isolation, 3/60 destructive calls), while a policy-enforced role-to-roster mapping isolated tools (100%) but not parameters (0/60 on the refund ceiling). Parameters still need a server-side check.
 - `skills/mcp-zero-trust-tool-authorization/SKILL.md` (2609.22573) already covers per-tool `list_tools`/`call_tool` enforcement on an MCP server. This brief adds behavioral evidence of why that enforcement is needed, plus the role-learning layer on top.
 - Feeds `skills/mcp-server-design/SKILL.md`: progressive discovery is a governance mechanism as well as a context-saving one, but only if the server refuses tools outside the learned scope.
 - Bears on deconfliction item **M13** (skill-count thresholds): the ~30-tool token crossover roughly matches the "below 30" threshold in `skills/graph-of-skills-scaling/SKILL.md`. It measures token cost, not selection accuracy, so it does not settle M13.

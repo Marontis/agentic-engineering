@@ -37,6 +37,15 @@ Origin: research — AI4AI-Bench (arXiv:2608.20318). The boundary guarantees
 that no agent could score a candidate under the metric that decides its
 result.
 
+Scope: the score comparison in this template is **search-time
+selection**. Keeping a change defers to `rules/recursive-improvement.md`
+"DO: Pass every self-modification through one acceptance gate": accept
+a change only if it shows no regression beyond a noise margin δ on
+previously-correct cases and held-out tasks, where δ is estimated from
+repeated runs of the unchanged baseline; the negative security testbed
+is always strict (zero tolerance, no margin). Also flag code whose keep
+decision is a single `score > baseline` comparison with no gate.
+
 ## Examples
 
 ### Bad example
@@ -65,7 +74,11 @@ class ImproverAgent:
         score = self.eval_service.score(
             candidate, sandbox_id=self.sandbox.create_isolated()
         )
-        if score > self.best_score:
+        # Search-time selection; the keep decision is the shared gate,
+        # also run out of the agent's reach.
+        if score > self.best_score + self.delta and self.eval_service.acceptance_gate(
+            candidate, incumbent=self.source_code
+        ):  # previously-correct + held-out within δ; security testbed strict
             self.source_code = candidate
             self.best_score = score
 ```

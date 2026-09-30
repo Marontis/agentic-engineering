@@ -66,6 +66,16 @@ for step in trajectory:
         break
 ```
 
+**Scope — two definitions of "decisive" in this library.** DoCtOR
+([`targeted-failure-attribution`](SKILL.md)) takes the *first* step whose
+correctness score falls below γ. AgentScope
+([`neural-invariant-failure-diagnosis`](../neural-invariant-failure-diagnosis/SKILL.md)) takes the first invariant
+violation that is *not corrected later* and propagates to the failure.
+They agree when errors cascade without recovery. When a trajectory
+contains an early error the agent later fixed, use the first
+*uncorrected* error: reflecting on a recovered hiccup teaches the wrong
+lesson.
+
 ### Step 4: Generate counterfactual correction
 
 Apply counterfactual reasoning to generate a *corrected* version of the

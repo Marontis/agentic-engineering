@@ -48,8 +48,12 @@
 | Tier | Definition | Action | Examples |
 |:-----|:----------|:-------|:--------|
 | Safe | Read-only, no side effects | Execute directly | `ls`, `cat`, `git status`, `grep` |
-| Uncertain | Local writes, env changes | Snapshot → execute → commit/rollback | `pip install`, `git commit`, file writes |
-| Unsafe | Network, process mgmt, privilege | Block or require approval | `curl`, `ssh`, `sudo`, `rm -rf /` |
+| Uncertain | Local writes, env changes | Snapshot → execute → commit/rollback | `git commit`, `sed -i`, `make`, file writes |
+| Unsafe | Network, process mgmt, privilege | Block or require approval | `curl`, `ssh`, `sudo`, `rm -rf /`, `pip`/`npm`/`apt install`, `docker run`/`pull` |
+
+Network installs are Unsafe: they fetch and run third-party code and
+reach the network. If policy approves one (e.g. a pinned internal
+mirror on the allowlist), also run it inside a snapshot.
 
 ### What classifier will you use?
 
@@ -57,6 +61,29 @@
 - [ ] Small language model (SLM) classifier (good balance)
 - [ ] Main reasoning model with classification prompt (most accurate, most expensive)
 - [ ] Hybrid: rules for obvious cases, SLM for edge cases
+
+> **Tiering, not enforcement**: whichever classifier you choose only
+> assigns tiers. Pattern lists are bypassed by obfuscation (410/500
+> payloads evaded a lexical matcher, arXiv:2609.29808). Enforce Unsafe
+> denials at the syscall/network layer with a default-deny allowlist
+> (`rules/agent-sandbox-safety.md`: "DON'T: Use application-layer tripwires or
+> PID signals as the containment boundary for a rogue agent"; "Default
+> to allowlist, not blocklist"). Anything the Safe allowlist does not
+> match is Uncertain or Unsafe.
+
+### What happens after a denial?
+
+- [ ] **Unsafe-tier denial ends the task or escalates to a human**
+      (required; the harness must not auto-continue)
+- [ ] Uncertain-tier rollback returns the error to the agent, which may
+      re-plan
+- [ ] Repeated attempts at a denied effect (rephrased, encoded,
+      scripted, split, delegated) are logged and alerted
+
+> **Pitfall**: telling the agent to "find another way" after a denial
+> trains it to route around the policy (arXiv:2609.30217;
+> `rules/agent-sandbox-safety.md`: "Give blocking action monitors recent
+> call history, and make denials terminal").
 
 ### Classification overrides:
 
@@ -97,7 +124,9 @@
 ### External API handling:
 
 > **Critical pitfall**: Filesystem rollback does NOT undo external API calls.
-> You MUST design compensating transactions for every external operation.
+> Design a compensating transaction for every external operation that has
+> one. Sent emails and messages have none: a follow-up message is not a
+> rollback, so gate them before sending (human confirmation).
 > (arXiv:2512.12806)
 
 - [ ] List all external APIs the agent may call: ___
@@ -105,8 +134,9 @@
 
 | API Call | Compensating Transaction | Automated? |
 |:---------|:------------------------|:-----------|
-| Example: send email | Send retraction email | No (manual) |
+| Example: create calendar event / DNS record | Delete the created record | Yes |
 | Example: POST to API | DELETE endpoint | Yes |
+| Example: send email / message | None (not compensable) | Pre-send confirmation gate instead |
 | | | |
 
 ---
@@ -150,11 +180,17 @@
 ### Speculative scheduling:
 
 - [ ] Agent generates plan → speculatively prepare sandboxes for likely branches
+- [ ] Speculate only on side-effect-free steps (or effects confined to the
+      disposable sandbox); Unsafe steps (network, external API, process
+      management) run only after the agent commits to the branch
 - [ ] Kill unused sandboxes when agent commits to a branch
 - [ ] Budget: max ___ concurrent speculative sandboxes
 
 > **Research note**: Moving sandbox creation off the critical path via
 > preforking eliminates 100ms–2s of latency per agent step. (arXiv:2607.23933)
+> Killing a speculative sandbox does not undo an external effect, so
+> speculation stops at Unsafe steps (`rules/agent-sandbox-safety.md`:
+> "Prefork sandbox environments on predicted execution branches").
 
 ### Resource limits:
 
@@ -200,7 +236,9 @@ Before finalizing the sandbox design, verify:
 - [ ] The agent cannot modify its own safety classification rules
 - [ ] The agent cannot modify the network allowlist/blocklist
 - [ ] The agent cannot escape the isolation boundary
-- [ ] Every external API call has a defined compensating transaction
+- [ ] Every external API call has a defined compensating transaction, or a pre-execution confirmation gate if it has none (sent messages)
+- [ ] Unsafe-tier denials are terminal (task ends or escalates); only Uncertain-tier rollbacks lead to re-planning
+- [ ] The command classifier is used for tiering only; enforcement is at the syscall/network layer with an allowlist
 - [ ] Snapshot overhead is acceptable for the target latency
 - [ ] Rollback is tested and verified for all uncertain command types
 - [ ] Audit logs capture enough detail for post-incident attribution
@@ -214,3 +252,5 @@ Before finalizing the sandbox design, verify:
 - SpecBox: arXiv:2607.23933
 - Fault-Tolerant Sandboxing: arXiv:2512.12806
 - AI Agency Typology: arXiv:2608.20041
+- Hard Stop: arXiv:2609.29808
+- Instrumental Monitor Evasion: arXiv:2609.30217

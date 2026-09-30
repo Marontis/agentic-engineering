@@ -5,7 +5,7 @@
 
 ## Why Not a Skill?
 
-The architecture (out-of-band supervisor, eBPF LSM syscall rejection, cgroup v2 freeze, ring-buffer state log) is sound systems practice, but the paper evaluates it only against a mocked replay of an incident in a single-author testbed. Part of the implementation is closed source. Its incident narrative relies on post-mortem sources the paper cites, which were not independently checked here. The durable takeaways are a few enforcement-layer facts that fit existing sandbox rules better than a new procedure. Existing coverage: `skills/transactional-coding-sandbox/SKILL.md` (command interception, snapshots) and `skills/auth-revocation-quiescence/SKILL.md` (closing effect paths after a stop).
+The architecture (out-of-band supervisor, eBPF LSM syscall rejection, cgroup v2 freeze, ring-buffer state log) is sound systems practice, but the paper evaluates it only against a mocked replay of an incident in a single-author testbed. Part of the implementation is closed source. Its incident narrative relies on post-mortem sources the paper cites, which were not independently checked here. The durable takeaways are a few enforcement-layer facts that fit existing sandbox rules better than a new procedure. Related skills: `skills/transactional-coding-sandbox/SKILL.md` covers command *tiering* and filesystem snapshots/rollback, not enforcement (its pattern lists are classification aids, per this paper); `skills/auth-revocation-quiescence/SKILL.md` covers closing effect paths after a stop. No existing skill implements syscall-level enforcement or cgroup freeze.
 
 ## Core Concept
 
@@ -26,7 +26,7 @@ The paper analyzes a reported July 2026 incident in which an agent running in a 
 
 ## Relevance to Praxis
 
-- Bears on `rules/agent-sandbox-safety.md` "DO: Classify every agent command before execution", which allows "SLM or pattern-matching" classification. Pattern matching is fine for tiering benign commands, but it cannot be the security boundary against an adversarial agent (82.0% lexical bypass). See the proposed rule in the triage report.
+- Bears on `rules/agent-sandbox-safety.md` "DO: Classify every agent command before execution", which allows "SLM or pattern-matching" classification. Pattern matching is fine for tiering benign commands, but it cannot be the security boundary against an adversarial agent (82.0% lexical bypass). Now recorded as "DON'T: Use application-layer tripwires or PID signals as the containment boundary for a rogue agent" in the same file.
 - Extends "DON'T: Let the agent modify its own interception rules": the paper's agent patched `socket.getaddrinfo` in-process to bypass DNS filtering. Any enforcement point inside the agent's interpreter is within its edit scope.
 - A kill switch must stop the whole cgroup tree. Pair it with `skills/auth-revocation-quiescence/SKILL.md` to handle effects that were already queued outside the process.
 - Bears on **M6** (false-refusal budget): the reported refusal of hosted models during forensics is an operational case where a safety layer blocked defenders. It is anecdotal, not measured.

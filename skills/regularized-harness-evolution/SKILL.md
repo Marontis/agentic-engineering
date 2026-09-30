@@ -31,7 +31,10 @@ loop never scored.
 - Evaluation is noisy (stochastic agents, rubric graders) and you
   suspect you are keeping lucky candidates.
 - You need a concrete way to implement `rules/skill-system-design.md`
-  "DO: Bound the search space of harness self-evolution".
+  "DO: Bound the search space of harness self-evolution". This loop does
+  not guarantee monotonic improvement; its acceptance floor allows
+  movement within a noise margin δ, the same margin the library's
+  acceptance gate uses.
 
 Not for weight updates: the paper explicitly excludes settings where
 model weights change during evolution.
@@ -80,7 +83,8 @@ across coding, agentic workspace and engineering design):
   one out-of-distribution benchmark that is **never scored during
   evolution**.
 - **Calibrate the noise band δ** by re-running the unchanged starting
-  harness several times on the evolve set. The paper calibrated δ from
+  harness at least 3 times on the evolve set (fewer only if the task
+  and grader are deterministic). The paper calibrated δ from
   repeated base-harness evaluations (about 3/178 trials for agentic
   workspace; about 60/14,100 rubric criteria for design).
 
@@ -127,6 +131,16 @@ S_hat(H') >= S* - δ
 
 Gains inside the noise band do not count as gains (see step 6).
 
+This floor is the same margin as the library's acceptance gate
+(`rules/recursive-improvement.md` "DO: Pass every self-modification
+through one acceptance gate"): accept a change only if it shows no
+regression beyond a noise margin δ on previously-correct cases and
+held-out tasks, where δ is estimated from repeated runs of the unchanged
+baseline; the negative security testbed is always strict (zero
+tolerance, no margin). Steps 5–7 select within the evolve loop; before a
+harness is kept or deployed, also check previously-correct cases and
+held-out tasks against the same δ.
+
 ### 6. Complexity-Aware Acceptance (Ridge/L2-style)
 
 For candidates with a real gain (`ΔS > δ`), require that the relative
@@ -170,9 +184,10 @@ means overfitting, not progress.
   the immutable negative security testbed from
   `rules/recursive-improvement.md` ("DO: Evaluate evolved instructions
   against immutable, held-out negative security testbeds",
-  arXiv:2609.17817) as a step-7 domain guard, and apply the
-  no-regression acceptance gate on previously correct cases (H7 in the
-  2026-09-28 deconfliction report).
+  arXiv:2609.17817) as a step-7 domain guard with zero tolerance, and
+  apply `rules/recursive-improvement.md` "DO: Pass every
+  self-modification through one acceptance gate" (no regression beyond
+  δ on previously-correct cases and held-out tasks).
 - Hyperparameters (δ, β, budgets, windows) are per-domain and were
   hand-set. Recalibrate δ whenever the grader or task pool changes.
 - The main policy was Claude Opus 4.8. Cross-model transfer was shown
@@ -209,11 +224,13 @@ means overfitting, not progress.
   proposal targeting and RRSI for acceptance.
 - [`recursive-self-improvement-loop`](../recursive-self-improvement-loop/SKILL.md)
   (AIDE²): its stagnation response now matches step 3 here (explore
-  unused component types within the fixed editable set) after the H1
-  fix in the 2026-09-28 deconfliction report.
+  unused component types within the fixed editable set), per
+  `rules/recursive-improvement.md` "DON'T: Freeze the improvement module
+  behind alignment constraints".
 - [`harness-tampering-audit`](../harness-tampering-audit/SKILL.md),
   [`stable-skill-evolution`](../stable-skill-evolution/SKILL.md).
 - Briefs: [`robust-sgpo-harness-evolution`](../../research-briefs/robust-sgpo-harness-evolution.md),
+  [`reliable-self-evolution-two-gate`](../../research-briefs/reliable-self-evolution-two-gate.md),
   [`evolutionary-safety-rsi-taxonomy`](../../research-briefs/evolutionary-safety-rsi-taxonomy.md).
 
 ## Sources

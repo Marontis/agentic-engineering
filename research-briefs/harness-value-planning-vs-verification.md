@@ -21,7 +21,9 @@ Agent harnesses create value through two primary mechanisms: **planning guidance
 ## Relevance to Praxis
 
 - **Decision rule**: If the cost of a false acceptance is high, invest in verification first; if performance on complex tasks matters more, invest in planning
-- Validates that verifiers are high-ROI harness components regardless of planning quality
-- Planning value diminishes for stronger models but converts to cost savings
+- Supports verifiers as high-ROI harness components in this τ²-bench setting, but budget for their false rejections (17% of correct episodes withheld)
+- This paper does not study how planning value changes with model strength. That finding is from a separate study, [`empirical-harness-design-study`](empirical-harness-design-study.md) (arXiv:2609.20804): planning helped the weakest model's accuracy and mostly cut cost for stronger ones
+- Scope: τ²-bench Retail (two experiments) and an Airline pilot; 265 matched Fixed-vs-Sham cells
+- Rule: `rules/recursive-improvement.md` "DO: Invest in standalone verifiers before planning components"
 
 > Source: Zhang et al., "How Do Agent Harnesses Create Value?" (arXiv:2609.20474)

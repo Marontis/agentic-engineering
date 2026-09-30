@@ -22,8 +22,9 @@ Encoded-prompt jailbreak benchmarks (homoglyphs, base64, ciphers, zero-width cha
 
 ## Relevance to Praxis
 
-- **M6 (false-refusal budget)**: direct evidence that a safety layer or model can reach near-ceiling harmful refusal just by refusing the whole input class. Any refusal-based layer should be scored on a matched benign arm under the **same** transformation or attack template, and accepted on harm gap, not harmful refusal alone. This extends `rules/agent-sandbox-safety.md` "DO: Track false refusal accumulation across layers" to the per-layer benign arm under obfuscation.
+- **M6 (false-refusal budget)**: direct evidence that a safety layer or model can reach near-ceiling harmful refusal just by refusing the whole input class. Any refusal-based layer should be scored on a matched benign arm under the **same** transformation or attack template, and accepted on harm gap, not harmful refusal alone. Recorded as `rules/agent-sandbox-safety.md` "DO: Measure each defense's benign cost on a matched benign arm, on the assembled stack".
 - Echoes "DON'T: Assume stacked defense layers fail independently" (2608.28327: seven layers refused 4 in 5 benign prompts). The same failure appears here within a single model.
+- Cross-link: [`arbitrary-cipher-attacks`](arbitrary-cipher-attacks.md) (2609.09553). Encoding's effect depends on model scale: that paper reports newer frontier models decoding ciphers in context and complying, whereas among these 7–8B models encoding mainly raised refusal of benign encoded prompts (Llama-3.1-8B: 0.99; Qwen2.5-7B kept a +0.61 harm gap). Neither result transfers across scale; measure per model with a benign arm.
 - Related briefs: [`style-over-substance-safety-judge-wrappers`](style-over-substance-safety-judge-wrappers.md), [`refuse-without-refusal-a-structural-analysis`](refuse-without-refusal-a-structural-analysis.md), [`threat-model-coverage-gap-safety-eval`](threat-model-coverage-gap-safety-eval.md).
 
 > Source: Zhang et al., "Refusing Everything Looks Safe: Restoring the Benign Arm to Encoded-Prompt Evaluation" (arXiv:2609.26176)

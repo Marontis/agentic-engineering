@@ -165,14 +165,14 @@ When evaluating a proposed skill change:
 
 1. **Apply the proposal** to produce a candidate skill set
 2. **Evaluate** the candidate on a validation split
-3. **Accept** if validation score exceeds the current best threshold
-   **and** the change passes the acceptance gate (no regressions on
-   previously-correct cases, behavioural evidence, negative security
-   testbed)
+3. **Accept** if validation score exceeds the current best by more
+   than δ **and** the change passes the acceptance gate below (no
+   regression beyond δ on previously-correct cases and held-out tasks,
+   behavioural evidence, strict negative security testbed)
 4. **Reject and rollback** the skill set if validation score doesn't
    improve — revert to the last accepted configuration
 
-**Acceptance gate:** this step selects a candidate; keeping it defers to rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate" (see also "DO: Measure acceptance-gate errors in both directions"). Security invariants (negative security testbed) are always strict, even where the task gate is looser.
+**Acceptance gate:** this step selects a candidate; keeping it defers to rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate": accept a change only if it shows no regression beyond a noise margin δ on previously-correct cases and held-out tasks, where δ is estimated from repeated runs of the unchanged baseline (at least 3, fewer only for deterministic tasks); the negative security testbed is always strict (zero tolerance, no margin). Report harmful-commit and missed-improvement rates (see "DO: Measure acceptance-gate errors in both directions").
 
 **Critical rule**: the knowledge layer is NEVER rolled back. Regardless
 of whether the skill proposal was accepted:

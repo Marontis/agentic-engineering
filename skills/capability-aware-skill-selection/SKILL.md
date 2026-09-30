@@ -29,8 +29,9 @@ by top-k or greedy packing has three failure modes:
 2. **Unpenalized redundancy**: loading a second skill covering the same
    capability costs tokens but adds near-zero marginal benefit
 3. **Unmodeled degradation**: irrelevant context actively hurts — observed
-   performance drops of up to 23pp from adding a semantically similar but
-   task-irrelevant skill
+   a performance drop of 23pp from adding a semantically similar but
+   task-irrelevant skill in one controlled example (paper v1; the revised
+   v2 of 28 Sep 2026 reports 12pp)
 
 **The evidence**: BPS (the algorithm below) reaches 0.73 task success vs
 0.20–0.52 for released skill routers, text retrievers, and executor

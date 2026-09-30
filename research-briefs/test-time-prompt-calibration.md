@@ -1,11 +1,11 @@
-﻿# Rethinking the Test-Time Prompt Tuning Objective from the Perspective of Calibration
+# Rethinking the Test-Time Prompt Tuning Objective from the Perspective of Calibration
 
 > **Paper**: [Rethinking the Test-Time Prompt Tuning Objective from the Perspective of Calibration](https://arxiv.org/abs/2608.30230)
 > **Praxis source**: `src:2608-30230v1`
 
 ## Why Not a Skill?
 
-Training method â€” calibration-aware prompt tuning requires specific model access and tuning infrastructure. Not a transferable subtask for agent engineering.
+Training method — calibration-aware prompt tuning requires specific model access and tuning infrastructure. Not a transferable subtask for agent engineering.
 
 ---
 
@@ -19,5 +19,6 @@ A prompt-tuned model that's 90% accurate but poorly calibrated (says "I'm 95% su
 
 ## Relevance to Praxis
 
-- Calibration directly informs the ag-evidence-triage skill â€” well-calibrated models produce more reliable evidence-state classifications
+- Calibration directly informs the 
+ag-evidence-triage skill — well-calibrated models produce more reliable evidence-state classifications
 - Relevant to any agent system that uses model confidence for decision routing

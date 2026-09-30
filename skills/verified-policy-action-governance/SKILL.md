@@ -98,8 +98,8 @@ review, or 5 rounds fully automated):
 3. **SAT** means a counterexample: a policy gap or conflict. Feed it back
    to step 1.
 4. **All UNSAT** means the bundle preserves every assertion over the
-   modeled record domain. Present it to an administrator, then **freeze**
-   it.
+   modeled record domain. Score it on utility, ASR and open privilege
+   (Step 5), present it to an administrator, then **freeze** it.
 
 No update may reach the runtime monitor without passing this check.
 
@@ -122,8 +122,23 @@ For each proposed call `c_i`:
 
 A defense that blocks everything scores ASR 0. Always report clean utility,
 attacked utility, and ASR together on a held-out split. Add utility loss to
-your end-to-end false-refusal budget (see `rules/agent-sandbox-safety.md`,
-"DO: Track false refusal accumulation across layers").
+the end-to-end benign-cost budget measured on the assembled stack (see
+`rules/agent-sandbox-safety.md`, "DO: Measure each defense's benign cost on
+a matched benign arm, on the assembled stack").
+
+Also score the bundle on **open privilege** (harm-weighted fraction of
+unneeded calls it would allow; `rules/agent-sandbox-safety.md`, "DO:
+Measure open privilege alongside attack success and utility"), and do this
+before freezing. A frozen bundle cannot narrow at runtime, so it must be
+argument-level tight from the start.
+
+**Tension with runtime narrowing**: in Ajar (arXiv:2609.26900), freezing
+Progent's initial policy (no update on tool results) raised open privilege
+1.56× on Sonnet-5 and 1.24× on Haiku-4.5 with sufficiency almost unchanged,
+so neither utility nor ASR showed the loosening. Freezing buys auditability
+and SMT-checkability; it costs whatever narrowing the task's own tool
+results would have allowed. Compensate with task-scoped `perm` and
+argument-level records, not tool-name permissions.
 
 ---
 
@@ -157,7 +172,8 @@ your end-to-end false-refusal budget (see `rules/agent-sandbox-safety.md`,
 | Provenance mislabeling | L2 extractor fooled by injected text | Keep L2 outputs enum-constrained; make L1 records carry as much as possible (for example, taint tags on tool outputs) |
 | Silent policy drift | Hand edits to the deployed bundle | Freeze the bundle; any change re-enters the SMT loop |
 | Assertion set too weak | Solver proves only what you asserted | Review `A_sec` with red-team traces; add assertions for each new attack class |
-| Static-benchmark overconfidence | ASR 0.000 on AgentDojo taken as robustness | Add adaptive attacks (`skills/self-improving-red-team/SKILL.md`), per deconfliction item M14 |
+| Static-benchmark overconfidence | ASR 0.000 on AgentDojo taken as robustness | Add adaptive attacks (`skills/self-improving-red-team/SKILL.md`), and measure open privilege (`rules/agent-sandbox-safety.md`, "DO: Measure open privilege alongside attack success and utility") |
+| Loose frozen policy | Tool-level permissions frozen without argument constraints | Score open privilege before freezing; tighten `perm` and records to argument level (Step 5) |
 
 ---
 
@@ -172,7 +188,9 @@ your end-to-end false-refusal budget (see `rules/agent-sandbox-safety.md`,
 - `skills/auto-formalization-safety-guarantee/SKILL.md`: same
   verify-before-deploy idea applied to generated code
 - `rules/agent-sandbox-safety.md`: "DON'T: Rely on structured LLM
-  authorization decisions as the sole safety gate"
+  authorization decisions as the sole safety gate"; "DO: Confine the LLM
+  to bounded record extraction and authorize against a verified, frozen
+  policy"; "DO: Measure open privilege alongside attack success and utility"
 - `rules/adk-workflow-architecture.md`: "DO: Evaluate deterministic policy
   checks BEFORE invoking generative models"
 
@@ -180,3 +198,6 @@ your end-to-end false-refusal budget (see `rules/agent-sandbox-safety.md`,
 
 > Zhang, Peng, Jiang et al., "ActGov: Governing LLM Agent Actions via
 > Policy-Constrained Validation" (arXiv:2609.24446), Sep 2026.
+>
+> Sharma et al., "Ajar: Measuring Open Privilege in Agent Defenses"
+> (arXiv:2609.26900), Sep 2026 (frozen-policy open privilege).

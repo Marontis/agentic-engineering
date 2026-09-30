@@ -22,7 +22,7 @@ Instead of accumulating multi-turn conversation logs inside a single expanding c
 1. **Filesystem Ledger**: Subagents receive fresh zero-shot contexts containing only the current task, overarching strategy, curated notes (<800 words), and existing code.
 2. **Structural Code-Ban During Ideation**: The initial worker is explicitly prohibited from writing code blocks, forcing prose analysis of algorithmic complexity ($O(N \log N)$ vs $O(N^2)$) and mathematical reductions before syntax generation.
 3. **Subprocess Test Execution & Veto**: The harness executes candidate programs against public sample tests. If tests fail, the harness programmatically overrides the manager's `done` declaration and forces an iterative repair cycle.
-4. **Active Memory Compaction**: Workers are instructed to rewrite `notes.md` to under 800 words, actively purging disproven hypotheses.
+4. **Active Memory Compaction**: Workers are instructed to rewrite `notes.md` to under 800 words, actively purging disproven hypotheses. (The library's [`ledger-orchestrated-coding-loop`](../skills/ledger-orchestrated-coding-loop/SKILL.md) instead compacts them into one-line principles so they are not retried.)
 
 ---
 
@@ -48,6 +48,7 @@ Why did single-call Qwen3.8-27B score so poorly (63.0%)? The paper discovered a 
 The scaffold is not universally beneficial:
 * On **Qwen3.6-35B-A3B** (MoE with 3B active parameters), the scaffold caused a **net drop** ($-1.2$ pts at 16k, $-9.0$ pts at 128k with reasoning off).
 * The ideation stage talked the model *out* of optimal algorithms (e.g. rejecting Convex Hull Trick DP as "too complex for Python" and picking a slow $O(N^3)$ approach).
+* *Contrast*: a separate coding-harness study ([`empirical-harness-design-study`](empirical-harness-design-study.md), arXiv:2609.20804) found planning helped its weakest *dense* model (Nemotron-3 30B, +11.6 pts on SWE-Bench Verified). Scaffolding that helps small dense models can hurt a low-active-parameter MoE, so benchmark per model family.
 
 ### 4. LiveCodeBench Evaluator Bug Discovery
 The authors uncovered a major defect in the official LiveCodeBench harness: `sys.stdin.buffer.readline()` was mocked statelessly as `inputs.split(b"\n")[0]`.

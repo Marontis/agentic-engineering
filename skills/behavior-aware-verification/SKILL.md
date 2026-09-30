@@ -159,7 +159,7 @@ batch can be completed within the remaining budget.
   not have enough variety.  Fall back to stratified sampling.
 - **Non-deterministic tasks**: Stochastic environments require multiple
   trials per task to distinguish modification effects from noise.
-  Repeat-run guideline (one for all optimizer skills): at least 3 runs per gate evaluation, or a noise band δ estimated by re-running the unchanged baseline, with the gain required to exceed δ — see rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate", item 5.
+  Repeat-run guideline (one for all optimizer skills): at least 3 runs per gate evaluation, and a noise band δ estimated from at least 3 runs of the unchanged baseline, with the gain required to exceed δ — see rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate", item 5.
 - **Search vs acceptance**: change-specific task selection is for the
   search loop. Before a modification is deployed, run the full frozen
   regression suite and the negative security testbed (rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate").

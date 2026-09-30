@@ -37,6 +37,17 @@ editable codebase, enabling **metacognitive self-modification** — improving no
 only task-solving behavior but also the mechanism that generates future
 improvements. No domain alignment required.
 
+**Editability exists only inside a bounded envelope.** The evaluator,
+graders, held-out and out-of-distribution splits, the negative security
+testbed, and the agent's permissions stay outside the editable program,
+under an authority the hyperagent cannot replace. The original
+HyperAgents runs did not test this: the same setup, fed a poisoned
+benchmark, internalized `verify=False` and kept it through later clean
+generations (arXiv:2609.17817). See `rules/recursive-improvement.md`
+"DO: Make the improvement mechanism part of the agent's editable
+source"; for a concrete bounded loop use
+[`regularized-harness-evolution`](../../regularized-harness-evolution/SKILL.md).
+
 ## Architecture: DGM-Hyperagents (DGM-H)
 
 ```
@@ -68,7 +79,8 @@ improvements. No domain alignment required.
 │   Staged evaluation (computational efficiency):             │
 │   1. Quick pre-filter on small task subset                  │
 │   2. Full evaluation only if promising                      │
-│   3. Result added to archive as stepping stone              │
+│   3. Archive admission: acceptance gate + security testbed  │
+│   4. Admitted result added to archive as stepping stone     │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -106,7 +118,20 @@ class Hyperagent:
 | **Simple initial agent** (single FM call + bash + file tools) | Broad search space; avoids constraining possible improvements |
 | **Python** (Turing-complete) | Hyperagent can build any computable machine |
 | **Frozen FM** (weights never modified) | Agent modifies scaffolding/prompts/pipelines, not the model |
-| **Everything is editable** (except outer loop, for safety) | No artificial ceiling on what can be improved |
+| **Task agent and meta agent are editable; the envelope is not** (outer loop, evaluator, graders, held-out/OOD splits, negative security testbed, permissions) | Wide search inside the envelope; nothing inside it can weaken the checks that judge it |
+
+## Archive Admission
+
+A child enters the archive (and can become a parent) only if it passes
+`rules/recursive-improvement.md` "DO: Pass every self-modification
+through one acceptance gate": no regression beyond a noise margin δ on
+previously-correct cases and held-out tasks, where δ is estimated from
+repeated runs of the unchanged baseline; the immutable negative security
+testbed is always strict (zero tolerance, no margin). Staged evaluation
+below is a cost filter, not admission. The original paper admitted every
+compiled child as a stepping stone; this library adds the gate because
+a poisoned child that survives in the archive propagates to its
+descendants (arXiv:2609.17817).
 
 ## Parent Selection Algorithm
 
@@ -294,6 +319,8 @@ learned elsewhere.
 | **Human oversight** | Maintained throughout all experiments |
 | **Fixed outer loop** | Parent selection + evaluation protocols not self-modifiable (in main experiments) |
 | **Predefined metrics** | Tasks and evaluation criteria fixed before runs |
+| **Bounded envelope** (library addition) | Evaluator, graders, held-out/OOD splits, negative security testbed and permissions outside the editable program |
+| **Gated archive admission** (library addition) | Acceptance gate with noise margin δ + strict negative security testbed before a child joins the archive |
 
 > **Critical limitation**: "As AI systems gain the ability to modify themselves
 > in increasingly open-ended ways, they can potentially evolve far more rapidly
@@ -306,7 +333,9 @@ learned elsewhere.
 - Implementing persistent cross-generation memory for agent systems
 - Creating agents that improve their own improvement process
 - Setting up transfer learning between agent populations across domains
-- Designing safety guardrails for self-modifying systems
+- Designing safety guardrails for self-modifying systems (together with
+  [`regularized-harness-evolution`](../../regularized-harness-evolution/SKILL.md)
+  and the envelope and gate rules in `rules/recursive-improvement.md`)
 
 ## Diagnostic Check (via companion skill)
 
@@ -320,7 +349,8 @@ learned elsewhere.
 ## Design Patterns to Extract
 
 1. **Hyperagent = task_agent + meta_agent in one editable program**: the meta
-   agent can rewrite itself, eliminating the fixed-meta-level bottleneck
+   agent can rewrite itself, eliminating the fixed-meta-level bottleneck,
+   inside a fixed envelope it cannot edit
 2. **Archive-based open-ended exploration**: population of stepping stones
    prevents premature convergence; performance/child-count selection balances
    exploitation and exploration
