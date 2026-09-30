@@ -18,7 +18,7 @@ jobs:
           python-version: "3.12"
 
       - name: Test the linter
-        run: python -m unittest scripts/test_kb_lint.py
+        run: python scripts/test_kb_lint.py
 
       - name: Lint changed rule entries (pull request)
         if: github.event_name == 'pull_request'
