@@ -89,6 +89,7 @@ Each federated agent must expose an authenticated Agent Card declaring its capab
 - [ ] **Google Cloud Service Account OIDC**: Callers generate ID tokens via IAM and target the recipient's audience.
 - [ ] **Scoped Delegation**: Coordinator forwards the original user's identity claims using IAM Workload Identity.
 - [ ] **Data Minimization**: Subagents receive only the fields necessary for their subtask, not the entire conversational history.
+- [ ] **Server-Side Authorization**: The recipient authorizes each call from its own permission declaration, keyed to the verified caller identity (OIDC token), and enforces parameter limits there. Agent Card `capabilities` and caller-supplied claims are advertisements, not grants; role splits and data minimization reduce exposure but are not the permission boundary (see `rules/multi-agent-coordination.md` — "DON'T: Share full context across all agents by default").
 
 ### Error Handling & Fallback Contracts:
 

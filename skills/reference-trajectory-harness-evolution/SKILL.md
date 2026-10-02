@@ -93,8 +93,15 @@ Never accept a harness mutation based solely on the task that inspired it:
    in the same domain to confirm it learned a generalizable capability rather
    than a hardcoded shortcut.
 3. **Regression Suite**: Run the mutated harness against the frozen reference
-   benchmark of historical tasks. If the accuracy on previously mastered tasks
-   drops by even 1 task, **reject the mutation** (catastrophic forgetting gate).
+   benchmark of historical tasks. Reject the mutation if accuracy on
+   previously mastered tasks drops by more than the noise margin δ, where δ
+   is estimated from at least 3 runs of the unchanged baseline (catastrophic
+   forgetting gate).
+4. **Negative Security Testbed**: Run the immutable security testbed. Any
+   safety-invariant violation rejects the mutation; there is no margin.
+
+These checks are this skill's instance of "DO: Pass every self-modification
+through one acceptance gate" (rules/recursive-improvement.md).
 
 ### Step 5: Commit Versioned Harness Snapshot
 

@@ -1,11 +1,11 @@
-﻿# OpenDiscoveryTrace: Process Traces for Evaluating AI Scientist Workflows
+# OpenDiscoveryTrace: Process Traces for Evaluating AI Scientist Workflows
 
 > **Paper**: [OpenDiscoveryTrace](https://arxiv.org/abs/2609.09203)
 > **Praxis source**: `src:2609-09203v1`
 
 ## Why Not a Skill?
 
-Benchmark/dataset â€” provides process traces (detailed logs of what AI scientist agents did) for evaluation. No transferable procedure.
+Benchmark/dataset — provides process traces (detailed logs of what AI scientist agents did) for evaluation. No transferable procedure.
 
 ---
 
@@ -16,4 +16,4 @@ Publishes detailed process traces from AI scientist agents performing real resea
 ## Relevance to Praxis
 
 - The process trace format could inform how Praxis captures and evaluates agent execution traces
-- Relevant to the `neural-invariant-failure-diagnosis` skill â€” detailed traces enable behavioral state extraction
+- Relevant to the `neural-invariant-failure-diagnosis` skill — detailed traces enable behavioral state extraction

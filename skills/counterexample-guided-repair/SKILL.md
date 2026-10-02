@@ -110,7 +110,13 @@ artifact:
   Targeted Robustness Probe to catch branch hacks.
 - **Oscillation loops**: Alternating between fixing false positives and creating false
   negatives across consecutive turns. Countermeasure: retain cumulative history of all
-  previously seen witnesses in the prompt context.
+  previously seen witnesses. In a ledger loop that resets context every turn
+  ([`ledger-orchestrated-coding-loop`](../ledger-orchestrated-coding-loop/SKILL.md)), keep
+  the witness list (minimal inputs, one line each) in `notes.md` rather than in the chat
+  transcript.
+- **Oracle vs final evaluator**: the witness oracle is a search oracle the agent learns
+  from. Acceptance still uses held-out tests the agent never saw (rules/recursive-improvement.md
+  — "DO: Separate exploration from evaluation").
 
 ## Cross-References
 

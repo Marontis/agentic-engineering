@@ -1,11 +1,11 @@
-﻿# Data-Efficient Language Modeling: From Frontier Advancement to Principle-Guided Model Improvement
+# Data-Efficient Language Modeling: From Frontier Advancement to Principle-Guided Model Improvement
 
 > **Paper**: [Data-Efficient Language Modeling](https://arxiv.org/abs/2609.10702)
 > **Praxis source**: `src:2609-10702v1`
 
 ## Why Not a Skill?
 
-Survey/framework â€” surveys data efficiency techniques for language model training. No standalone agent engineering procedure.
+Survey/framework — surveys data efficiency techniques for language model training. No standalone agent engineering procedure.
 
 ---
 

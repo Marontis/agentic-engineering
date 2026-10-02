@@ -83,7 +83,8 @@ The agent emits typed JSON payloads matching the A2UI component schema rather th
 ```
 
 - [ ] Client dispatches actions via typed API endpoint (`/api/action`)
-- [ ] Action payload formats as a `FunctionResponse` or new user turn matching the expected interrupt schema
+- [ ] Action payload formats as a schema-validated `FunctionResponse` carrying the open `interrupt_id` and matching the interrupt's `response_schema`; a new user turn or free chat text never resumes a gate (see `rules/adk-workflow-architecture.md` — "DO: Enforce human approvals and safety gates in the runtime, NOT in prompt instructions")
+- [ ] Backend rejects resumes whose `interrupt_id` is not open, already answered, or bound to a different session/user
 - [ ] Session journal records the action event for auditability
 
 ---

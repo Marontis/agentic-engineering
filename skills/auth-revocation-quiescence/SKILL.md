@@ -141,5 +141,11 @@ old-root paths:
 | Crash during protocol | Node crashes between fence and certificate | Protocol is crash/replay stable; replay from durable cut record |
 | Certificate mistaken for global safety | Operator assumes quiescence = no effects anywhere | Certificate covers only registered manifest; unregistered paths require separate assurance |
 
+## Cross-References
+
+- [`multi-agent-federation-governance`](../multi-agent-federation-governance/SKILL.md) —
+  PRIMUS Step 5 (revocation) defers to this protocol when a delegation
+  chain has queued callbacks, sub-agent work, or provider reservations
+
 > Source: Zhu & Wang, "Authorization Revocation for Long-Running AI
 > Agents" (arXiv:2609.21284), Sep 2026.

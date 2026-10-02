@@ -24,7 +24,11 @@ When an agent "improves" a training pipeline, it's easy to conflate three
 fundamentally different kinds of changes. Most benchmarks measure only the
 outcome (did the score go up?) without distinguishing what produced the gain.
 This distinction is critical for recursive self-improvement (RSI): only
-algorithmic changes compound unboundedly.
+algorithmic changes compound across generations without a hardware or
+data ceiling. They are still limited in practice by evaluator and
+feedback quality and by rising difficulty of further gains (see
+`rules/recursive-improvement.md` "DO: Distinguish systems, data, and
+algorithmic changes").
 
 ## The RSI Level Taxonomy
 
@@ -34,7 +38,7 @@ Three levels of improvement, only one of which compounds:
 |:------|:------------|:---------|:-----------|
 | **Systems engineering** | How computation maps to hardware | FlashAttention, ZeRO sharding, Megatron-LM, kernel fusion | Hardware roofline — once a kernel hits compute or memory bandwidth ceiling, no more gains |
 | **Data engineering** | What the model trains on | Mixture reweighting, instruction filtering, data synthesis, curriculum design | Finite human text stock, power-law diminishing returns, model collapse from recursive reuse |
-| **Algorithmic design** | How the model learns | Loss functions, update rules, regularization, schedules, objectives | **Nothing fundamental** — a better algorithm changes the compute/capability exchange rate for every subsequent run |
+| **Algorithmic design** | How the model learns | Loss functions, update rules, regularization, schedules, objectives | **No hardware or data ceiling** — a better algorithm changes the compute/capability exchange rate for every subsequent run; still subject to evaluator quality and difficulty damping |
 
 > "Adam, layer normalization, DPO and GRPO were each paid for once and have
 > been earning since; if RSI is going to compound, most of the compounding has
@@ -348,7 +352,8 @@ shipped algorithm and the task optimum.
 ## Design Patterns to Extract
 
 1. **RSI level classification**: always know whether a change is systems,
-   data, or algorithmic — only algorithmic compounds unboundedly
+   data, or algorithmic — only algorithmic compounds without a hardware
+   or data ceiling (still bounded by evaluator quality and difficulty)
 2. **8-family change taxonomy**: audit every submission against run-side vs.
    learning-side families to understand what the agent actually did
 3. **Explore/replay/evaluate separation**: the agent proposes source code,

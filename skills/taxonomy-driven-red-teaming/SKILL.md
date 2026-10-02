@@ -68,6 +68,14 @@ For each leaf node in the taxonomy:
    behavior, and success criteria
 4. Test each scenario against the target agent
 
+Score every attack outcome with **two judges from different model
+families**, neither from the attacker's or target's family. Count an
+attack as a success or failure only where both judges agree; report
+disagreements and per-judge rates. In CART, the same attacker's failure
+rate ranged from 27.70% to 77.00% depending on the judge (arXiv:2609.27336;
+see `rules/agent-evaluation-quality.md` — "DON'T: Report red-team failure
+rates scored by a single judge model").
+
 ### Step 3: Track coverage
 
 Maintain a coverage matrix:
@@ -89,8 +97,13 @@ For taxonomy nodes where all attacks fail:
 1. Analyze why the attacks failed
 2. Generate more sophisticated attacks informed by the failure
    analysis (compositional attacks, multi-step attacks)
-3. If attacks still fail after 3 rounds, mark the node as
-   "defended" (with confidence level)
+3. If attacks still fail, do not mark the node "defended" after a
+   fixed number of rounds. Mark it "no failure found (N rounds,
+   static)" until it has also resisted adaptive attempts: attacks
+   generated against the current defenses by a different attacker
+   model (see [`closed-loop-adaptive-red-teaming`](../closed-loop-adaptive-red-teaming/SKILL.md)),
+   scored by both judges. Even then, record it as a lower bound on
+   attack success, not a guarantee.
 
 For taxonomy nodes where attacks succeed:
 
@@ -150,3 +163,4 @@ Vulnerabilities that transfer indicate **architectural weaknesses**
 ## Sources
 
 - Black-Box Red Teaming of Agentic AI: A Taxonomy-Driven Framework for Automated Risk Discovery (arXiv:2609.09647)
+- CART: Closed-Loop Adaptive Red Teaming for LLMs (arXiv:2609.27336) (judge dependence)

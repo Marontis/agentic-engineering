@@ -166,7 +166,7 @@ secure_agent = Agent(
 
 ## Environment & Implementation Caveats
 
-- **Latency Optimization**: Call Model Armor and SDP APIs synchronously only when evaluating external user inputs. For internal agent-to-agent communication within a private perimeter, consider selective inspection to minimize p95 turn latency.
+- **Latency Optimization**: Call Model Armor and SDP APIs synchronously only when evaluating external user inputs. For internal agent-to-agent communication within a private perimeter, you may vary the *depth* of inspection (e.g. a cheap local screen inline, full Model Armor/SDP asynchronously or on sampled/high-risk messages) to minimize p95 turn latency. No traffic class skips sanitization: every tool output and every agent-to-agent message that carries tool-derived content still passes `sanitize_tool_output` before entering a model context (see "Sanitize all tool outputs before injecting into agent context" in `rules/agent-sandbox-safety.md`). Internal peers can relay injected content.
 - **Fail-Closed vs Fail-Open**: In high-security environments, configure `try/except` blocks to fail closed (block the request) if the Model Armor service is temporarily unreachable.
 - **Context Replacement**: When overriding tool output in `after_tool_callback`, preserve the expected return structure (e.g. dictionary keys) so model tool reasoning does not crash on missing fields.
 

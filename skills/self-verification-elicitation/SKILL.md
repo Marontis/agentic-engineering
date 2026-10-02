@@ -16,17 +16,26 @@ their own errors before producing final outputs.
 ## When to Use
 
 - Your agent produces confident but wrong answers
-- You want the agent to double-check its reasoning without
-  external verifiers
+- You want the agent to double-check its reasoning before it
+  reaches an external verifier
 - You're seeing errors that the agent "should have caught"
   in its own reasoning trace
-- You want to reduce the need for expensive external verification
+- You want to reduce how often expensive external verification
+  fails (fewer wasted verifier calls), not to replace it
+
+**Complement, not substitute.** Self-verification catches errors
+earlier; it does not certify completion. The agent that produced the
+output must never be its sole certifier: keep an independent external
+verifier, tester or oracle for acceptance (see
+rules/recursive-improvement.md — "DO: Enforce independent tester role
+separation" and "DO: Invest in standalone verifiers before planning
+components").
 
 ## Core Insight
 
 LLM agents can learn to verify their own intermediate reasoning
 steps if the reward signal incentivizes verification behavior.
-Rather than relying on external verifiers, **self-verification
+Alongside external verifiers (not instead of them), **self-verification
 elicitation** shapes the RL reward to reward agents that (1) pause
 to check intermediate results, (2) identify errors in their own
 reasoning, and (3) correct those errors before the final answer.

@@ -29,8 +29,9 @@ by top-k or greedy packing has three failure modes:
 2. **Unpenalized redundancy**: loading a second skill covering the same
    capability costs tokens but adds near-zero marginal benefit
 3. **Unmodeled degradation**: irrelevant context actively hurts — observed
-   performance drops of up to 23pp from adding a semantically similar but
-   task-irrelevant skill
+   a performance drop of 23pp from adding a semantically similar but
+   task-irrelevant skill in one controlled example (paper v1; the revised
+   v2 of 28 Sep 2026 reports 12pp)
 
 **The evidence**: BPS (the algorithm below) reaches 0.73 task success vs
 0.20–0.52 for released skill routers, text retrievers, and executor
@@ -216,6 +217,12 @@ the true optimum, where δ is the optimization error (0 for BPS).
 - Skills are non-overlapping (each covers a unique capability)
 - Token budget is generous relative to library size
 - You have no execution records to fit κ
+
+Note: the <10 threshold here is for *selection*. The <30 threshold in
+[`graph-of-skills-scaling`](../graph-of-skills-scaling/SKILL.md) is for
+whether to build a skill graph at all. When a graph is used, it
+produces the candidate pool and this skill selects the final set from
+it.
 
 ### The decision flow:
 

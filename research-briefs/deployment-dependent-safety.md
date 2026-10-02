@@ -1,11 +1,11 @@
-﻿# Not the Same Protector: Deployment-Dependent Protective Intervention in LLMs
+# Not the Same Protector: Deployment-Dependent Protective Intervention in LLMs
 
 > **Paper**: [Not the Same Protector: Deployment-Dependent Protective Intervention in LLMs](https://arxiv.org/abs/2608.29136)
 > **Praxis source**: `src:2608-29136v1`
 
 ## Why Not a Skill?
 
-Analysis paper â€” the key insight (safety is deployment-dependent) becomes a rule in `agent-sandbox-safety.md` rather than a standalone procedure.
+Analysis paper — the key insight (safety is deployment-dependent) becomes a rule in `agent-sandbox-safety.md` rather than a standalone procedure.
 
 ---
 
@@ -22,5 +22,5 @@ The same model with identical safety training can:
 
 ## Relevance to Praxis
 
-- Key insight captured as a rule in gent-sandbox-safety.md: "DON'T assume safety transfers across deployment contexts"
-- Informs the gent-sandbox.spec template â€” sandbox design must account for deployment-specific safety profiles
+- Key insight captured as a rule in agent-sandbox-safety.md: "DON'T assume safety transfers across deployment contexts"
+- Informs the agent-sandbox.spec template — sandbox design must account for deployment-specific safety profiles

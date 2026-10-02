@@ -34,8 +34,8 @@ Prediction: MALICIOUS [BLOCKED]   Prediction: BENIGN [PASSED] (Overflip)
 
 ### Key Findings
 
-- **Widespread Vulnerability Across Production Architectures**: Evaluated across 9 widely used lightweight guardrail classifiers, 5 exhibited consistent $\text{MAL} \to \text{BEN}$ flips on a benchmark of 100 malicious prompts.
-- **High Attack Success Rate**: Among vulnerable models, flip rates ranged from **8% to 92%**.
+- **Vulnerability in 5 of 9 Classifiers**: Evaluated across 9 widely used lightweight guardrail classifiers, 5 exhibited at least one $\text{MAL} \to \text{BEN}$ flip on a benchmark of 100 malicious prompts; the other 4 did not flip.
+- **Flip Rates in the Vulnerable Five**: Among the 5 vulnerable models, flip rates ranged from **8% to 92%**. Confidence margins shrink steadily with repetition; the paper gives no percentage for the margin drop.
 - **Early Boundary Collapse**: The first label flip occurs at sequence lengths between **2,600 and 9,400 tokens**—well within standard commercial context budgets.
 - **Distinct Attention Dynamics**: Attention dispersion under Overflip is steady and monotonic, unlike the steep, abrupt dilution caused by random padding. Attention entropy increases systematically with repetition count.
 - **Semantic Preservation**: Traditional padding attacks degrade model compliance because benign noise distracts the downstream LLM. Overflip delivers identical malicious intent with zero distraction to the downstream model.
@@ -47,4 +47,5 @@ Prediction: MALICIOUS [BLOCKED]   Prediction: BENIGN [PASSED] (Overflip)
 - **Rule Contribution to Sandbox & Guardrail Safety**:
   - **DON'T** rely solely on compact encoder models (DeBERTa, DistilBERT) for pre-execution prompt safety without length-normalized preprocessing.
   - **DO** implement deterministic token deduplication and repetition compression before routing prompts into lightweight guardrail classifiers. If a prompt's compression ratio exceeds a threshold (e.g., repeating the same sentence $>3$ times), trigger an immediate sanitization flag.
-- **Evaluation Benchmark Design**: Multi-turn and long-context red-teaming harnesses must include repeated-payload probes to assess guardrail stability beyond 2k tokens.
+- **Evaluation Benchmark Design**: Multi-turn and long-context red-teaming harnesses must include repeated-payload probes to assess guardrail stability beyond 2k tokens. Vulnerability is per classifier (5 of 9), so test each guardrail you deploy.
+- Recorded as `rules/agent-sandbox-safety.md` "DON'T: Rely on compact guardrail classifiers without repetition compression or entropy monitoring".

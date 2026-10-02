@@ -20,9 +20,20 @@ or validation overfitting.
   grow progressively longer across iterations without accuracy gains ("prompt bloat")
 - System prompts accumulating dozens of ad-hoc "DO NOT" and "ALWAYS" rules that increase
   inference latency and degrade reasoning focus
-- Small validation sets (30–100 examples) where evolutionary search selects overfitted
-  candidates due to validation noise
+- Small validation sets (the paper used 30 examples; treat up to ~200 as the intended
+  range) where evolutionary search selects overfitted candidates due to validation noise
 - Cross-model prompt transfer where bloated prompts fail to generalize to smaller models
+
+### When to choose this vs NPO or CASD
+
+ESPO fits small validation sets and bloated prompts. With a strong
+teacher and a large task pool, NPO
+([`iterative-instruction-refinement`](../iterative-instruction-refinement/SKILL.md))
+is simpler; with only a static corpus and no prompt yet, CASD
+([`corpus-scale-prompt-distillation`](../corpus-scale-prompt-distillation/SKILL.md))
+gives a first draft that ESPO can refine. Decision rule: rules/recursive-improvement.md — "DO: Choose the prompt optimizer by data regime, then gate the result".
+Bootstrap stability selection picks the candidate; keeping it still
+requires rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate".
 
 ## Core Insight
 
@@ -105,9 +116,11 @@ Do not evaluate candidates on a single validation score. A candidate with 78% ac
 
 ## Environment Caveats
 
-- **Validation set size**: Effective on small validation splits ($N \in [30, 200]$).
-  If validation data is $>1,000$ examples, standard split testing or $B=10$ resamples
-  is sufficient to bound selection error.
+- **Validation set size**: The paper tested only $N = 30$ validation examples (70
+  train, 500 test per dataset). Up to ~200 is this library's working range, an
+  extrapolation; above that the multiple-testing problem bootstrap selection targets
+  shrinks, and standard split testing or fewer resamples may suffice (in the paper's
+  ablation $B=10$ scored 74.0% vs 74.8% for $B=20$ and $B=30$).
 - **Token budget constraints**: Set an explicit length penalty in prompt generation to
   actively reject prompts exceeding target character limits ($<1,200$ characters).
 

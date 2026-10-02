@@ -1,11 +1,11 @@
-﻿# SearchWiki: Learning to Build and Navigate Knowledge Wikis for Active Information Seeking
+# SearchWiki: Learning to Build and Navigate Knowledge Wikis for Active Information Seeking
 
 > **Paper**: [SearchWiki: Learning to Build and Navigate Knowledge Wikis for Active Information Seeking](https://arxiv.org/abs/2608.29953)
 > **Praxis source**: `src:2608-29953v1`
 
 ## Why Not a Skill?
 
-Architecture â€” tied to a specific wiki-building system for information seeking. The architecture is interesting but the procedures are too coupled to the specific system to transfer as subtask skills.
+Architecture — tied to a specific wiki-building system for information seeking. The architecture is interesting but the procedures are too coupled to the specific system to transfer as subtask skills.
 
 ---
 
@@ -15,5 +15,5 @@ Agents that actively build and navigate wiki-structured knowledge bases during i
 
 ## Relevance to Praxis
 
-- The wiki-building pattern parallels Praxis's SkillGraph construction â€” both organize retrieved knowledge into navigable structures
-- The active-seeking approach (structure emerges from queries) connects to the gentic-data-cracking skill's adaptive structuring
+- The wiki-building pattern parallels Praxis's SkillGraph construction — both organize retrieved knowledge into navigable structures
+- The active-seeking approach (structure emerges from queries) connects to the agentic-data-cracking skill's adaptive structuring

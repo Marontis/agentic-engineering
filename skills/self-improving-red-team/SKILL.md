@@ -61,6 +61,14 @@ For each test scenario:
 3. Execute the attack against the target agent
 4. Record: attack composition, agent behavior, success/failure
 
+Score every attack outcome with **two judges from different model
+families**, neither from the attacker's or target's family. Count an
+attack as a success or failure only where both judges agree; report
+disagreements and per-judge rates. In CART, the same attacker's failure
+rate ranged from 27.70% to 77.00% depending on the judge (arXiv:2609.27336;
+see `rules/agent-evaluation-quality.md` — "DON'T: Report red-team failure
+rates scored by a single judge model").
+
 ```
 Example composition:
   Principle 1: Trust shifting (self-attribution)
@@ -129,8 +137,12 @@ scenarios.
   defense layer may be caught by another.  Test against the full
   defense stack, not individual layers.
 - **Diminishing returns**: After several rounds, new discoveries
-  become incremental.  This is expected — it means the agent's
-  most serious vulnerabilities have been found.
+  become incremental.  This means this attacker has stopped finding
+  new failures, not that the agent is secure.  Don't report a surface
+  as defended from a fixed small number of rounds: require adaptive
+  attempts (attacks generated against the current defenses, e.g.
+  [`closed-loop-adaptive-red-teaming`](../closed-loop-adaptive-red-teaming/SKILL.md))
+  and a different attacker model before claiming it.
 
 ## Cross-References
 
@@ -144,3 +156,4 @@ scenarios.
 ## Sources
 
 - SIR: Self-improving Red-teaming for Computer Use Agents (arXiv:2608.30207)
+- CART: Closed-Loop Adaptive Red Teaming for LLMs (arXiv:2609.27336) (judge dependence)

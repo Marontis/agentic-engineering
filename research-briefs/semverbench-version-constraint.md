@@ -1,11 +1,11 @@
-﻿# SemVerBench: Benchmarking LLM Comprehension of Version-Constraint Resolution Semantics
+# SemVerBench: Benchmarking LLM Comprehension of Version-Constraint Resolution Semantics
 
 > **Paper**: [SemVerBench](https://arxiv.org/abs/2609.11180)
 > **Praxis source**: `src:2609-11180v1`
 
 ## Why Not a Skill?
 
-Benchmark â€” measures LLM understanding of semantic versioning constraints. No transferable procedure.
+Benchmark — measures LLM understanding of semantic versioning constraints. No transferable procedure.
 
 ---
 
@@ -15,5 +15,5 @@ Tests whether LLMs can correctly resolve semantic versioning constraints (e.g., 
 
 ## Relevance to Praxis
 
-- Relevant to coding agents that manage dependencies â€” incorrect version resolution can cause silent compatibility failures
+- Relevant to coding agents that manage dependencies — incorrect version resolution can cause silent compatibility failures
 - Quantifies a specific knowledge gap that affects agent reliability in software engineering tasks

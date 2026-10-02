@@ -1,0 +1,27 @@
+# Rule pairs that kb_lint flags as possible conflicts but a person reviewed and judged
+# not to conflict. One pair per line: heading A || heading B || verdict: reason
+# Headings are matched on their first six words, in either order, so line moves don't matter.
+# Add a pair here only after reading both entries in full. A real tension gets a
+# "Tension with" line in both entries instead.
+
+Use multi-criteria rubrics for LLM-as-a-Judge || Trust single-score LLM-as-judge evaluations || complementary: the DO is the remedy for the DON'T
+Use multi-criteria rubrics for LLM-as-a-Judge || Report red-team failure rates scored by a single judge model || complementary: criteria count vs judge-family count; both apply
+Enforce Workload Identity Federation for tool database || Treat tool hiding, specialist prompts or roster delegation as access control || complementary: both put authorization server-side
+Enforce human approvals and safety gates in the runtime || Trust style-based safety judges as the sole safety gate || complementary: both say gates are enforced outside the model
+Enforce human approvals and safety gates in the runtime || Rely on structured LLM authorization decisions as the sole safety gate || complementary: both say gates are enforced outside the model
+Present structured, inspectable choices at approval gates || Rely on structured LLM authorization decisions as the sole safety gate || unrelated: human review UI vs LLM authorization
+Assume stacked defense layers fail independently || Select defense layers from different cost classes || complementary: same paper; the DO is the remedy
+Trust checkpoint state without integrity verification || Gate tool actions with dependency-scoped lineage checks || complementary: both verify state before acting
+Enforce two-axis tampering audits on self-modifying agent harnesses || Allow self-modifying agents to optimize prompts or scaffolding solely against performance benchmarks || complementary: both guard self-modification
+Assume uniform safety refusal behavior across model families || Speculate multi-step action skeletons in isolated sandboxes || unrelated: keyword overlap only
+Gate tool actions with dependency-scoped lineage checks || Trust style-based safety judges as the sole safety gate || unrelated: lineage checks vs judge style
+Gate tool actions with dependency-scoped lineage checks || Treat HTTP 200 / success tool return codes as workflow success || complementary: both verify state rather than trust signals
+Gate tool actions with dependency-scoped lineage checks || Trust MCP tool metadata without trace-aware vetting || complementary: both distrust unverified tool signals
+Enforce the four structural host obligations for constructive self-modifying agents || Allow self-modifying agents to optimize prompts or scaffolding solely against performance benchmarks || complementary: both guard self-modification
+Pin MCP tool descriptors and isolate offensive execution boundaries || Trust MCP tool metadata without trace-aware vetting || complementary: pinning is one remedy for untrusted metadata
+Evaluate privileged agent actions using unescaped raw transcripts in blocking monitors || Give blocking action monitors recent call history, and make denials terminal || complementary: history as schema-delimited records, not raw rationale
+Deploy the chain-of-thought monitor you optimized the policy against || Confine the LLM to bounded record extraction and authorize against a verified, frozen policy || unrelated: CoT monitoring under RL vs deterministic tool authorization
+Rely on structured LLM authorization decisions as the sole safety gate || Resolve tool existence before any selection or authorization gate || complementary: both add deterministic checks around LLM decisions
+Separate persistent knowledge from executable skills || Rely on dense semantic embeddings alone for retrieving code or executable skills || unrelated: storage separation vs retrieval method
+Write skill bodies as natural-language text, not code || Rely on dense semantic embeddings alone for retrieving code or executable skills || unrelated: authoring format vs retrieval method
+Rely on dense semantic embeddings alone for retrieving code or executable skills || Encapsulate inter-agent tool calls and skill invocations in standardized semantic envelopes || unrelated: retrieval vs message format

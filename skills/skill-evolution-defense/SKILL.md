@@ -60,8 +60,18 @@ persistent library:
    replace (or against no-skill baseline)
 3. **Safety check**: Run the skill against a safety benchmark
    (adversarial inputs, edge cases, policy violations)
-4. **Quarantine**: If performance improves but safety degrades,
-   quarantine for human review rather than auto-admitting
+4. **Security regression = strict reject**: if the skill fails any
+   case in the immutable negative security testbed, reject it outright,
+   whatever its task gain (zero tolerance, no margin). Do not route it
+   to human review as a way to admit it. Human review is for ambiguous
+   *non-security* signals (e.g. drift flags in Step 3)
+5. **Admission** defers to rules/recursive-improvement.md — "DO: Pass
+   every self-modification through one acceptance gate": accept a
+   change only if it shows no regression beyond a noise margin δ on
+   previously-correct cases and held-out tasks, where δ is estimated
+   from repeated runs of the unchanged baseline; the negative security
+   testbed is always strict (zero tolerance, no margin). Steps 1–3
+   select candidates; the gate decides admission
 
 ### Step 3: Detect mutation drift
 

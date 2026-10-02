@@ -17,6 +17,14 @@ Implement Google Cloud Model Armor inspection in `before_agent_callback` or `bef
 - Blocks or sanitizes suspicious payloads before they reach the model's inference context.
 - Returns a sanitized fallback `Content` or raises a security exception without consuming generative model tokens.
 
+Treat the classifier as one layer, not the boundary: never return its confidence scores to callers, and keep structural controls (tool authorization, argument-level policy) behind it.
+
+Tension with "DON'T: Treat compact prompt-injection classifiers as intent detectors, or expose their scores" (agent-sandbox-safety.md): confidence-guided paraphrases flipped Prompt Guard 2 while the jailbreak still worked. Interceptor-layer filtering is still the right *placement*; the tension is only about treating its verdict as sufficient.
+
+Give the interceptor a benign-cost budget before enabling it: measure its false-refusal rate on a matched benign arm (benign inputs put through the same encodings and formats as the attack set), accept on the harm gap rather than on block rate alone, and re-measure on the assembled stack (interceptor plus every other refusal or quarantine layer), not per layer. See "DO: Measure each defense's benign cost on a matched benign arm, on the assembled stack" (agent-sandbox-safety.md).
+
+**Scope:** ADK 2 agents using Model Armor templates (Google codelabs; no benchmark). The benign-cost requirement comes from 2609.26176 and 2609.22818 via the agent-sandbox-safety entry above.
+
 ```python
 from google.genai.types import Content, Part
 from google.cloud import modelarmor_v1
@@ -117,6 +125,16 @@ def test_golden_dataset_eval():
     )
     assert results.overall_pass_rate >= 0.95, f"Regression detected: {results.summary}"
 ```
+
+**Scope:** acceptance and deploy gates for ADK 2 agents (ADK codelabs;
+no benchmark). At these gates, run the full frozen golden dataset plus
+the security suites, never a change-specific subset. Behavior-aware
+test selection is for the inner search loop only. Tension with "Select
+verification tasks based on what each modification changes"
+(agent-evaluation-quality.md): selected tests while searching, full
+frozen and security suites at acceptance and deploy.
+
+The pass-rate floor (0.95) is necessary, not sufficient. A change is accepted only with no regression beyond a noise margin δ on previously-correct cases and held-out tasks, where δ is estimated from repeated runs of the unchanged baseline; the negative security testbed is always strict (zero tolerance). See "DO: Pass every self-modification through one acceptance gate" (recursive-improvement.md).
 
 > Source: Google Codelab: Evaluating Agents with ADK; Advanced ADK Evaluation with LLM-as-a-Judge Method
 

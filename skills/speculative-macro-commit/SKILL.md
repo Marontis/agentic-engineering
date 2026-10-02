@@ -99,6 +99,10 @@ When the Authoritative Actor produces its verified action $a_t$:
 - **Irreversible side effects**: Never execute non-idempotent or external real-world actions
   (e.g., sending emails, issuing financial transactions) speculatively. Restrict macro
   speculation strictly to local sandboxes, read-only tools, or transactional APIs.
+  Any step the command classifier tiers as Unsafe (network, external API) is a
+  speculation barrier: stop drafting there and execute it only after the actor
+  commits. See "Prefork sandbox environments on predicted execution branches" and
+  "Assume external API calls can be rolled back" in `rules/agent-sandbox-safety.md`.
 - **Snapshot creation overhead**: Ensure snapshot creation is cheap (<50ms). Use CoW
   filesystems (Btrfs, ZFS), memory-backed Docker containers, or git worktrees. If snapshotting
   takes >200ms, single-step speculation or sequential execution is faster.

@@ -146,7 +146,7 @@ effect or escalates to human review — never silently proceeds.
 
 - [`unified-capability-gateway`](../unified-capability-gateway/SKILL.md) —
   Route all agent capabilities through a single gateway with policy enforcement
-- [`dependency-scoped-plan-validation`](../../../../.gemini/config/skills/dependency-scoped-plan-validation/SKILL.md) —
+- [`dependency-scoped-plan-validation`](../dependency-scoped-plan-validation/SKILL.md) —
   Validate pending actions derive from current, un-superseded memory dependencies
 - [`browser-agent-http-sandbox`](../browser-agent-http-sandbox/SKILL.md) —
   HTTP-layer sandboxing that this contract model can govern

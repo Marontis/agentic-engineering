@@ -40,6 +40,15 @@ Origin: research — AI4AI-Bench (arXiv:2608.20318). 53.6% of agent
 submissions stayed entirely on the run side (bounded improvements).
 The ones that reached the learning side scored 0.226 vs 0.126.
 
+Scope: the score comparison in this template is **search-time
+selection**. Keeping a change defers to `rules/recursive-improvement.md`
+"DO: Pass every self-modification through one acceptance gate": accept
+a change only if it shows no regression beyond a noise margin δ on
+previously-correct cases and held-out tasks, where δ is estimated from
+repeated runs of the unchanged baseline; the negative security testbed
+is always strict (zero tolerance, no margin). Also flag code whose keep
+decision is a single `score > baseline` comparison with no gate.
+
 ## Examples
 
 ### Bad example
@@ -72,9 +81,13 @@ class Optimizer:
         result = self.benchmark.run(new_prompt)
         self.metrics.record("after", result)
 
-        if result.score > baseline.score:
-            self.system_prompt = new_prompt
-            self.metrics.record("accepted", delta=result.score - baseline.score)
-        else:
-            self.metrics.record("rejected", delta=result.score - baseline.score)
+        # Search-time selection: is this candidate worth gating?
+        if result.score > baseline.score + self.delta:  # δ from ≥3 baseline runs
+            # Keep decision: the shared acceptance gate (previously-correct
+            # cases + held-out tasks within δ; security testbed strict).
+            if self.acceptance_gate.passes(new_prompt, baseline_prompt=self.system_prompt):
+                self.system_prompt = new_prompt
+                self.metrics.record("accepted", delta=result.score - baseline.score)
+                return
+        self.metrics.record("rejected", delta=result.score - baseline.score)
 ```

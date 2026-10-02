@@ -78,8 +78,11 @@ When a `StalePlanException` is raised:
 - **Targeted context injection**: Pass the diff between the cited record and the
   current record to the planner (`"Requirement order_spec changed from v3 to v4: destination altered"`).
 - **Single-replan policy**: Allow exactly one scoped replanning turn to regenerate
-  the pending step with fresh arguments. If validation fails repeatedly (>2 attempts),
-  escalate to supervisor intervention.
+  the pending step with fresh arguments. If the regenerated step also fails
+  validation (i.e. a second validation failure for the same step), do not replan
+  again: escalate to supervisor intervention. Continued churn on the same
+  dependency is a signal for a different synchronization strategy (Step 4), not
+  more replans.
 
 ### 4. Choose Synchronization Strategy by Churn and Keyspace
 

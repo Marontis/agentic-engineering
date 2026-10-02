@@ -150,9 +150,9 @@ a given defense?
 
 - [`covert-tool-injection-defense`](../covert-tool-injection-defense/SKILL.md) —
   Defensive counterpart: how to prevent the injections this procedure finds
-- [`self-improving-red-team`](../../../../.gemini/config/skills/self-improving-red-team/SKILL.md) —
+- [`self-improving-red-team`](../self-improving-red-team/SKILL.md) —
   Related: iterative red-teaming with feedback-driven strategy discovery
-- [`layered-defense-ensemble`](../../../../.gemini/config/skills/layered-defense-ensemble/SKILL.md) —
+- [`layered-defense-ensemble`](../layered-defense-ensemble/SKILL.md) —
   Defense-side: stacking defenses with measured failure correlation
 
 ## Sources

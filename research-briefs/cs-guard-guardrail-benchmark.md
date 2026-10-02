@@ -1,11 +1,11 @@
-﻿# CS-Guard: Benchmarking LLM Guardrails for Code Generation Security
+# CS-Guard: Benchmarking LLM Guardrails for Code Generation Security
 
 > **Paper**: [CS-Guard](https://arxiv.org/abs/2609.09798)
 > **Praxis source**: `src:2609-09798v1`
 
 ## Why Not a Skill?
 
-Benchmark â€” systematically evaluates guardrails for code generation security but provides no new defense procedures. The finding that guardrails are weak is important context, not a transferable procedure.
+Benchmark — systematically evaluates guardrails for code generation security but provides no new defense procedures. The finding that guardrails are weak is important context, not a transferable procedure.
 
 ---
 
@@ -22,6 +22,6 @@ First benchmark to systematically evaluate guardrails for code generation securi
 
 ## Relevance to Praxis
 
-- Quantifies the weakness of current guardrails â€” informs the `layered-defense-ensemble` skill's defense stacking decisions
+- Quantifies the weakness of current guardrails — informs the `layered-defense-ensemble` skill's defense stacking decisions
 - FSA attack pattern is relevant to the `self-improving-red-team` and `taxonomy-driven-red-teaming` skills
 - Code-to-code vulnerability is relevant to coding agent sandbox design

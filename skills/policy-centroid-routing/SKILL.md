@@ -37,6 +37,16 @@ regimes into the same vector space, compute proximity, and select
 the k-nearest policy centroids.  This is a retrieval problem, not
 a reasoning problem — and it should happen before reasoning begins.
 
+**Routing selects which policies to *load*, not which ones to
+*enforce*.** Embedding similarity is approximate and can be steered
+by how an action is phrased. Hard safety constraints (access control,
+irreversible-action gates, blocked tools and arguments) are enforced
+by deterministic checks that run on every action regardless of what
+the router selected (see `rules/adk-workflow-architecture.md` —
+"DO: Evaluate deterministic policy checks BEFORE invoking generative
+models"). A router miss may cost context relevance; it must never
+disable a hard constraint.
+
 ## Procedure
 
 ### Step 1: Represent each policy regime as a centroid
@@ -96,7 +106,9 @@ relevant = [name for name, score in scores.items() if score > threshold]
 
 Inject only the rules from selected regimes into the agent's
 context for evaluation.  This reduces context size and focuses
-attention on applicable rules.
+attention on applicable rules.  Hard constraints are not in this
+path: they stay in deterministic code (gateway, policy node) and
+apply to every action, loaded or not.
 
 ### Step 5: Handle multi-regime overlap
 
@@ -141,7 +153,7 @@ When an action implicates multiple regimes:
   instead of rule selection
 - [`unified-capability-gateway`](../unified-capability-gateway/SKILL.md) —
   Policy enforcement happens after routing; the gateway is where
-  enforcement occurs
+  enforcement occurs, deterministically and for every action
 
 ## Sources
 

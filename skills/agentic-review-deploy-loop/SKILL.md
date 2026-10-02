@@ -94,10 +94,40 @@ Structure the review pipeline with progressive depth:
 
 **Routing rules**:
 - All PRs pass through layers 1 and 2 automatically
-- Layer 3 is required only when agentic review flags escalation triggers
+- Layer 3 is required when **either** a deterministic path/diff trigger
+  fires (below) **or** agentic review flags an escalation trigger
   (see "Escalate to Human Review When" in `REVIEW.md`)
 - In regulated environments, layer 3 is mandatory for all changes to
   designated critical paths
+
+**Deterministic triggers (not LLM-decided).** Whether a PR touches a
+security-critical path is decided by a script over the diff, not by
+the agentic reviewer. The LLM reviewer can add escalations but cannot
+waive these. Keep the list in a platform-owned file the agent cannot
+edit (e.g. `CODEOWNERS` or `review-triggers.yaml`):
+
+```yaml
+# review-triggers.yaml: any match forces human review
+force_human_review:
+  paths:
+    - "**/auth/**"            # authentication / authorization
+    - "**/crypto/**"          # cryptography, key handling
+    - ".github/workflows/**"  # CI config
+    - "cloudbuild*.yaml"
+    - "REVIEW.md"             # the review rules themselves
+    - "review-triggers.yaml"
+  dependency_manifests:
+    - "package.json"
+    - "package-lock.json"
+    - "requirements*.txt"
+    - "pyproject.toml"
+    - "go.mod"
+    - "Cargo.toml"
+  diff_patterns:              # content matches anywhere in the diff
+    - "(?i)(jwt|oauth|session|password|secret|private_key)"
+```
+
+Adapt the globs to your repository layout.
 
 ### Step 3: Configure Hooks as Approval Gates
 
@@ -157,8 +187,13 @@ stages:
 
   - name: route-review
     run: |
-      # Route based on agentic review output
-      if grep -q "ESCALATE" review_result.json; then
+      # Deterministic triggers first: the LLM reviewer cannot waive these
+      # match_review_triggers is illustrative: implement it as a script that diffs
+      # BASE..HEAD and exits 0 if any changed path or hunk matches review-triggers.yaml.
+      if match_review_triggers review-triggers.yaml "$BASE_SHA" "$HEAD_SHA"; then
+        request_human_review
+      # Then route on agentic review output (can only add escalations)
+      elif grep -q "ESCALATE" review_result.json; then
         request_human_review
       else
         auto_approve
@@ -230,6 +265,11 @@ the planning system rather than ad-hoc hotfixes.
 - **Over-trusting agentic review**: Agentic review catches checklist
   items but misses novel attack vectors, subtle architectural regressions,
   and business logic errors. It complements human review, not replaces it.
+- **LLM-gated escalation**: If human review happens only when the LLM
+  reviewer prints `ESCALATE`, a missed, injected or reworded verdict
+  silently skips the human on auth, crypto or CI changes. Deterministic
+  path/diff triggers (Step 2) must force human review regardless of
+  the reviewer's output.
 - **Under-scoped hooks**: Hooks that only block obvious operations
   (e.g., `rm -rf /`) miss subtle variants. Test hooks adversarially.
 - **Alert fatigue from control bands**: If 1σ thresholds are too tight,

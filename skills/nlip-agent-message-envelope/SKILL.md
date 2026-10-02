@@ -101,7 +101,7 @@ invent custom message envelopes.
   "security": {
     "auth_token": "Bearer <jwt-token>",
     "capability_claims": ["sandbox:exec", "fs:read:/src"],
-    "signature": "<optional-signature>"
+    "signature": "<required: detached signature over the canonicalized envelope>"
   },
   "trace": {
     "parent_span_id": "span:001",
@@ -109,6 +109,13 @@ invent custom message envelopes.
   }
 }
 ```
+
+Treat `sender` and `security.capability_claims` as **self-declared hints**, never as
+authority. The receiver binds sender identity from the transport (mTLS client
+certificate, workload identity, or the key that verifies `signature`), and rejects the
+message if the envelope's `sender.agent_id` disagrees with that bound identity.
+`capability_claims` may help routing and logging; authorization comes from the
+server-side permission declaration (Step 5). `signature` is mandatory, not optional.
 
 ### Step 2: Select Transport Binding
 
@@ -151,8 +158,9 @@ Model Context Protocol (MCP) and Agent-to-Agent (A2A) topologies:
 - **MCP Integration (Tool-Level Bridging)**:
   - When an agent requests tool execution, encapsulate the MCP JSON-RPC call in
     the NLIP payload with intent `"tool_call"`.
-  - The gateway strips or passes the envelope, verifies caller authorization against
-    `security.capability_claims`, and invokes the targeted MCP server.
+  - The gateway strips or passes the envelope, authorizes the transport-bound caller
+    identity against its own server-side permission declaration (not against
+    `security.capability_claims`), and invokes the targeted MCP server.
 - **A2A Integration (Agent-Level Delegation)**:
   - For multi-agent subtasks, wrap task contracts in NLIP with intent `"delegate"`
     or `"negotiate"`.
@@ -176,8 +184,10 @@ def wrap_mcp_as_nlip(tool_name: str, arguments: dict, sender_id: str, recipient_
             "method": f"tools/call",
             "params": {"name": tool_name, "arguments": arguments}
         },
-        "security": {"capability_claims": [f"tool:{tool_name}"]}
+        "security": {"capability_claims": [f"tool:{tool_name}"]}  # hint only
     }
+    # Sign the canonicalized envelope before sending; the gateway rejects unsigned
+    # envelopes and authorizes from its own permission declaration.
 ```
 
 ### Step 5: Enforce Security-by-Design Validation Gate
@@ -185,14 +195,31 @@ def wrap_mcp_as_nlip(tool_name: str, arguments: dict, sender_id: str, recipient_
 Before acting on any incoming message:
 
 1. **Validate Envelope Syntax**: Assert required fields (`nlip_version`, `message_id`,
-   `sender`, `intent`, `payload`).
-2. **Authorize Capabilities**: Verify that `security.capability_claims` covers the
-   invoked action. Reject unauthorized requests with intent `"error"` and code `403`.
-3. **Verify Context Access**: Check that any `context_references` point to authorized
-   resource paths within the caller's sandbox perimeter.
-4. **Sanitize Cross-Domain Payloads**: When receiving messages from external or
-   lower-trust domains, strip raw instructions from system prompts to prevent
-   indirect prompt injection.
+   `sender`, `intent`, `payload`, `security.signature`).
+2. **Verify Signature and Bind Identity**: Verify `security.signature` over the
+   canonicalized envelope with the sender's registered key, and bind the sender
+   identity from the transport layer (mTLS / workload identity / verifying key), not
+   from the `sender` field. **Quarantine** unsigned messages, messages whose signature
+   fails, and messages whose declared sender differs from the bound identity: do not
+   pass them to any agent's context; log them for review.
+3. **Authorize from a Server-Side Declaration**: Look up the bound identity in a
+   permission declaration held by the gateway/server (the same declaration that drives
+   tool visibility) and check the invoked action and its parameters against it. Never
+   authorize from `security.capability_claims`. Reject unauthorized requests with
+   intent `"error"` and code `403`.
+4. **Verify Context Access**: Check that any `context_references` point to authorized
+   resource paths within the bound caller's permissions.
+5. **Sanitize Cross-Domain Payloads**: Signing does not stop injection carried in tool
+   outputs. Also run boundary sanitization on payloads from external or lower-trust
+   domains, and keep their instructions out of system prompts.
+
+In one 6-agent pipeline, signing with quarantine cut inter-agent injection from 31% to
+2.8% but left indirect injection at 43%; sanitization did the reverse (43% to 9.5%
+indirect, 31% inter-agent unchanged). Fixed, non-adaptive payloads (arXiv:2609.22949).
+See `rules/multi-agent-coordination.md` — "DO: Sign inter-agent messages and quarantine
+unsigned ones, in addition to boundary sanitization"; `rules/agent-sandbox-safety.md` —
+"DON'T: Let agents self-declare their identity" and "DON'T: Treat tool hiding,
+specialist prompts or roster delegation as access control".
 
 ---
 
@@ -202,5 +229,8 @@ Before acting on any incoming message:
       traceable dialogue trees?
 - [ ] Are large files or retrieved chunks passed via URI references with SHA-256 digests
       rather than embedded directly in payload strings?
-- [ ] Does the gateway bridge MCP tools with verified capability claims before execution?
+- [ ] Is every message signed, with unsigned or mismatched-sender messages quarantined?
+- [ ] Is sender identity bound at the transport layer rather than read from the envelope?
+- [ ] Does the gateway authorize from its own server-side permission declaration, never
+      from sender-supplied `capability_claims`?
 - [ ] Is transport binding cleanly abstracted from agent decision logic?

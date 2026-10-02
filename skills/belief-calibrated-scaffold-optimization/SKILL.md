@@ -104,9 +104,14 @@ Before planning the next edit, force a dedicated belief-calibration turn:
 
 - **Belief Document Compaction**: Over 10+ iterations, the belief document can grow large.
   Summarize confirmed principles into a compact "Established Principles" section and retain
-  only the last 5 refuted hypotheses with their one-line takeaways.
+  the last 5 refuted hypotheses in full with their one-line takeaways. Do not delete older
+  refuted hypotheses: compact them into a "Refuted Principles" list (one line each: mechanism
+  + falsification cause) so the ban on re-proposing them survives compaction. This matches
+  the never-reset knowledge layer in [`knowledge-compounding-loop`](../knowledge-compounding-loop/SKILL.md).
 - **Stochastic noise**: If benchmark tests are non-deterministic, require 3 repeated trials
-  before classifying a hypothesis as completely confirmed or refuted.
+  before classifying a hypothesis as completely confirmed or refuted. Repeat-run guideline (one for all optimizer skills): at least 3 runs per gate evaluation, and a noise band δ estimated from at least 3 runs of the unchanged baseline, with the gain required to exceed δ — see rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate", item 5.
+- **Acceptance**: a confirmed hypothesis justifies a candidate edit; keeping the edit defers
+  to rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate".
 
 ## Failure Modes
 
@@ -119,7 +124,7 @@ Before planning the next edit, force a dedicated belief-calibration turn:
 
 ## Cross-References
 
-- [`recursive-self-improvement`](../recursive-self-improvement/SKILL.md) — Fundamental bounds and validation gates for self-improving agents.
+- [`recursive-self-improvement`](../recursive-self-improvement/hyperagent-self-improvement/SKILL.md) — Fundamental bounds and validation gates for self-improving agents.
 - [`reference-trajectory-harness-evolution`](../reference-trajectory-harness-evolution/SKILL.md) — Reference trajectory tracking to avoid shortcut learning.
 - [`iterative-instruction-refinement`](../iterative-instruction-refinement/SKILL.md) — Single-lineage prompt optimization feedback loops.
 

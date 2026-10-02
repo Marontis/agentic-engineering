@@ -84,6 +84,22 @@ full benchmark:
 - Require $\rho \ge 0.95$. If $\rho < 0.95$, increase the budget or rebalance
   task categories.
 
+### Step 5: Use the Pruned Subset Only Where It Belongs
+
+The pruned subset is for **search and PR-time** evaluation (daily cycles,
+candidate screening, inner optimization loops). It preserves model *rankings*,
+not per-case regressions, and it drops "trivial" tasks that are exactly the
+previously-correct cases a change can break.
+
+- Before any acceptance or deploy decision, run the **full frozen benchmark and
+  the security suites**, never the pruned subset.
+- Acceptance: no regression beyond a noise margin δ on previously-correct cases
+  and held-out tasks, where δ is estimated from repeated runs of the unchanged
+  baseline; the negative security testbed is always strict (zero tolerance). See
+  `rules/recursive-improvement.md` — "DO: Pass every self-modification through
+  one acceptance gate", and `rules/adk-security-and-evaluation.md` — "DO: Gate
+  production deployment on golden dataset trajectory validation in CI/CD".
+
 ---
 
 ## Environment Caveats

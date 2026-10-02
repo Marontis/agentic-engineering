@@ -71,11 +71,19 @@ Before committing a skill update:
 
 1. Run the updated skill on the evaluation set
 2. Compare performance against the current version
-3. **Accept** only if net improvement is positive
-4. **Reject and revert** if performance degrades
+3. **Select** the update only if net improvement exceeds the noise
+   margin δ
+4. **Reject and revert** if performance degrades beyond δ
 
 This prevents the "one step forward, two steps back" pattern
 where each evolution round introduces regressions.
+
+Steps 3–4 (and the golden set in Step 5) are search-time selection.
+Keeping the update defers to rules/recursive-improvement.md — "DO: Pass
+every self-modification through one acceptance gate": accept a change only if it shows no regression beyond a noise margin δ
+on previously-correct cases and held-out tasks, where δ is estimated
+from repeated runs of the unchanged baseline; the negative security
+testbed is always strict (zero tolerance, no margin).
 
 ### Step 5: Forgetting protection
 

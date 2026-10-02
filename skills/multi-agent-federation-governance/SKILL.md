@@ -82,7 +82,15 @@ When agents from different federations interact:
 ### Step 5: Revocation and audit
 
 - **Revocation**: Any entity in the delegation chain can revoke
-  downstream delegations.  Revocation propagates immediately.
+  downstream delegations.  Revoking a credential stops *new* use of
+  the chain; it does not by itself stop effects already in flight.
+  When the delegation chain has queued callbacks, sub-agent work, or
+  provider-side reservations, run the root-scoped quiescence protocol
+  in [`auth-revocation-quiescence`](../auth-revocation-quiescence/SKILL.md)
+  (seal the cut, fence each provider, account for carriers, compose a
+  cutset certificate). Treat revocation as complete only on a
+  **Quiescent** certificate. Cancellation, process exit and credential
+  revocation are each insufficient on their own (arXiv:2609.21284).
 - **Audit log**: Every capability exercise is logged with the
   full delegation chain, timestamp, and result.
 - **Expiry**: All delegations have mandatory expiry times.  No
@@ -105,7 +113,8 @@ When agents from different federations interact:
   hard to verify and audit.  Limit chain depth to 3–4 levels.
 - **Revocation lag**: If revocation doesn't propagate instantly,
   revoked agents can still act.  Use short expiry times as a
-  safety net.
+  safety net.  Even instant propagation misses already-queued
+  callbacks and provider-side work; see `auth-revocation-quiescence`.
 - **Identity theft**: If an agent's private key is compromised,
   the attacker can impersonate it.  Implement key rotation and
   anomaly detection on agent behavior.
@@ -118,7 +127,11 @@ When agents from different federations interact:
 - [`governed-knowledge-graph`](../governed-knowledge-graph/SKILL.md) —
   Knowledge governance tracks provenance and ownership;
   federation governance tracks identity and delegation
+- [`auth-revocation-quiescence`](../auth-revocation-quiescence/SKILL.md) —
+  Step 5 revocation for delegation chains with queued or
+  provider-side work; proves no old-authority effects after the fence
 
 ## Sources
 
 - PRIMUS: Identity, Governance, and Verification for Multi-Agent Federations (arXiv:2609.07910)
+- Authorization Revocation for Long-Running AI Agents (arXiv:2609.21284)

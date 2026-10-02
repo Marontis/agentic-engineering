@@ -1,0 +1,29 @@
+name: kb-lint
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Test the linter
+        run: python scripts/test_kb_lint.py
+
+      - name: Lint changed rule entries (pull request)
+        if: github.event_name == 'pull_request'
+        run: python scripts/kb_lint.py --base origin/${{ github.base_ref }}
+
+      - name: Lint whole knowledge base (push)
+        if: github.event_name == 'push'
+        run: python scripts/kb_lint.py

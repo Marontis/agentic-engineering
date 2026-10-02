@@ -1,11 +1,11 @@
-﻿# Watermarks Without Verification: AI Text Watermarking After the EU AI Act
+# Watermarks Without Verification: AI Text Watermarking After the EU AI Act
 
 > **Paper**: [Watermarks Without Verification](https://arxiv.org/abs/2609.09604)
 > **Praxis source**: `src:2609-09604v1`
 
 ## Why Not a Skill?
 
-Regulatory analysis â€” examines AI text watermarking requirements under the EU AI Act. No transferable agent engineering procedures.
+Regulatory analysis — examines AI text watermarking requirements under the EU AI Act. No transferable agent engineering procedures.
 
 ---
 

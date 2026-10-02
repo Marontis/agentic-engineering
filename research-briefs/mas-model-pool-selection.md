@@ -41,5 +41,6 @@ Marjanović et al. systematically benchmarked **8 model selection strategies**�
 ## Relevance to Praxis
 
 - Establishes a concrete decision rule for multi-agent system design: avoid arbitrary heterogeneous model bloat.
-- Directly contributes to [`rules/multi-agent-coordination.md`](../rules/multi-agent-coordination.md).
+- Directly contributes to [`rules/multi-agent-coordination.md`](../rules/multi-agent-coordination.md) — "DON'T: Expand candidate model pools with arbitrary heterogeneous architectures", scoped to the task accuracy of answer aggregation (routing, majority voting, LLM-as-a-judge answer selection).
+- **Scope limit:** "LLM judge" in this paper is an aggregator that picks one candidate answer. The finding does not cover judges that score red-team or eval results, monitors that audit a policy, or interactive deliberation/verification, which stay cross-family (see `rules/agent-evaluation-quality.md` — "DON'T: Report red-team failure rates scored by a single judge model"; `rules/agent-sandbox-safety.md` — "DON'T: Deploy the chain-of-thought monitor you optimized the policy against, or score raw reasoning"; `rules/multi-agent-coordination.md` — "DO: Use heterogeneous, cross-family rosters for deliberation and joint verification").
 - Complements [`capability-aware-skill-selection`](../skills/capability-aware-skill-selection/SKILL.md) by applying submodular set-selection principles to model candidate pools.

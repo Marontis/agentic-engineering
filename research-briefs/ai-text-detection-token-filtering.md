@@ -1,11 +1,11 @@
-﻿# When Less is More: Token Filtering for AI-Generated Text Detection
+# When Less is More: Token Filtering for AI-Generated Text Detection
 
 > **Paper**: [When Less is More: Understanding When Token Filtering Helps and Fails in AI-generated Text Detection](https://arxiv.org/abs/2608.29903)
 > **Praxis source**: `src:2608-29903v1`
 
 ## Why Not a Skill?
 
-Analysis â€” maps when token filtering helps and when it fails for AI text detection. No transferable agent engineering procedures.
+Analysis — maps when token filtering helps and when it fails for AI text detection. No transferable agent engineering procedures.
 
 ---
 

@@ -1,11 +1,11 @@
-﻿# When Does Bigger Help? A Controlled Study of LLM Scale for Ontology Learning
+# When Does Bigger Help? A Controlled Study of LLM Scale for Ontology Learning
 
 > **Paper**: [When Does Bigger Help? A Controlled Study of LLM Scale for Ontology Learning](https://arxiv.org/abs/2608.31118)
 > **Praxis source**: `src:2608-31118v1`
 
 ## Why Not a Skill?
 
-Empirical study â€” controlled study of how model scale affects ontology extraction tasks. Findings are informative but not procedural.
+Empirical study — controlled study of how model scale affects ontology extraction tasks. Findings are informative but not procedural.
 
 ---
 
@@ -19,5 +19,5 @@ Taxonomy induction requires structural reasoning (parent-child relationships, is
 
 ## Relevance to Praxis
 
-- Informs how Praxis builds its SkillGraph â€” relation extraction between sources is scale-sensitive, but the graph's hierarchical organization is not
+- Informs how Praxis builds its SkillGraph — relation extraction between sources is scale-sensitive, but the graph's hierarchical organization is not
 - Relevant to the governed-knowledge-graph skill's entity/relation type induction step

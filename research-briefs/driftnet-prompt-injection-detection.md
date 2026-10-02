@@ -1,17 +1,17 @@
-﻿# DriftNet: A Dual-Head Trajectory Transformer for Detecting and Localizing Prompt Injection in LLM Agents
+# DriftNet: A Dual-Head Trajectory Transformer for Detecting and Localizing Prompt Injection in LLM Agents
 
 > **Paper**: [DriftNet](https://arxiv.org/abs/2609.10892)
 > **Praxis source**: `src:2609-10892v1`
 
 ## Why Not a Skill?
 
-Architecture â€” tied to a specific dual-head transformer architecture for trajectory-level prompt injection detection. No transferable subtask procedure.
+Architecture — tied to a specific dual-head transformer architecture for trajectory-level prompt injection detection. No transferable subtask procedure.
 
 ---
 
 ## Core Concept
 
-Detects prompt injection by analyzing the agent's full action trajectory rather than individual inputs. A dual-head transformer processes the sequence of (action, observation) pairs and flags trajectories that deviate from expected patterns â€” detecting injections even when individual inputs look benign.
+Detects prompt injection by analyzing the agent's full action trajectory rather than individual inputs. A dual-head transformer processes the sequence of (action, observation) pairs and flags trajectories that deviate from expected patterns — detecting injections even when individual inputs look benign.
 
 ### Key Insight
 

@@ -17,12 +17,37 @@ Look for agent scaffolding (prompts, skills, tool configurations, workflow
 orchestrations) that was designed for an older model generation and has
 not been re-evaluated since the model was upgraded.
 
+This rule flags scaffolding for **re-evaluation on each deployment
+target**, not for removal. Whether a piece of scaffolding helps is
+model-specific: planning scaffolds helped a weak model and mostly saved
+cost on stronger ones (arXiv:2609.20804), and a ledger scaffold that
+lifted dense models cost a sparse-MoE model up to 9 points
+(arXiv:2608.26480). Only per-target evals decide.
+
+### Never flag (exempt)
+
+These are safety and correctness controls, not capability workarounds.
+They stay regardless of model generation:
+
+- Safety scaffolding: sandbox/permission checks, command classification,
+  security tests, policy and allowlist enforcement
+- Independent testers and verifiers (the author is never the sole
+  certifier; see `rules/recursive-improvement.md` "DO: Enforce
+  independent tester role separation")
+- Loop guards: retry caps, token/turn caps, repetition detectors,
+  recursion depth limits
+- Terminal denials: refusals or hard stops after a denied action (the
+  agent must not route around a denial)
+- Acceptance gates and negative security testbeds
+
 ### Indicators
 
 ```yaml
 patterns:
   - Multi-step workflow orchestration that could be a single agent call
-  - System prompts with model-specific workarounds (e.g. "do not loop")
+    (excluding independent test/verify steps)
+  - System prompts with model-specific *prompting* workarounds (not
+    loop guards, denials or safety instructions)
   - Instructions that constrain planning ("think step by step" for models
     that already do adaptive thinking)
   - Accumulated prompt rules without clear rationale comments
@@ -34,30 +59,34 @@ patterns:
 ### Examples
 
 ```python
-# ❌ STALE: Workaround for old doom-loop behavior
+# ⚠️ RE-EVALUATE: prompting workaround from an older model
 SYSTEM_PROMPT = """
-If you encounter an error, DO NOT try the same approach again.
-Instead, stop and ask the user for guidance.
-IMPORTANT: Never attempt more than 3 retries.
+Think step by step. Before answering, write out a numbered plan.
+Restate the question in your own words first.
 """
-# Newer models backtrack and try different approaches naturally.
-# This instruction now prevents useful exploration.
+# Models with adaptive thinking may not need this. Run your evals on
+# the new target with and without it; remove it only if the eval says so.
 
-# ❌ STALE: Multi-step orchestration from weaker-model era
+# ⚠️ RE-EVALUATE: forced planning/review steps from a weaker-model era
 async def run_task(task):
-    plan = await agent.plan(task)        # Step 1: force planning
-    review = await agent.review(plan)    # Step 2: force review
-    code = await agent.implement(plan)   # Step 3: force coding
-    test = await agent.test(code)        # Step 4: force testing
-    return test
-# Newer models do plan→implement→test naturally in one run,
-# and forced steps add latency + token cost.
+    plan = await agent.plan(task)        # forced planning
+    review = await agent.review(plan)    # forced self-review
+    code = await agent.implement(plan)
+    return await tester.verify(code)     # independent tester: KEEP
+# The forced plan/review may be redundant on a stronger model.
+# The independent tester is exempt and stays.
 
-# ✅ GOOD: Let the model work
+# ✅ GOOD: simplified after a per-target eval, controls kept
 async def run_task(task):
-    return await agent.execute(task, effort="extra_high")
-# Adaptive thinking handles planning, error recovery, and
-# verification internally.
+    result = await agent.execute(
+        task,
+        effort="extra_high",
+        max_turns=MAX_TURNS,             # loop guard: KEEP
+        token_budget=TOKEN_BUDGET,       # loop guard: KEEP
+    )
+    return await tester.verify(result)   # independent tester: KEEP
+# Planning scaffolding removed because evals on THIS model showed no
+# loss; sandbox, permissions and denials are unchanged.
 ```
 
 ## Why This Matters
@@ -66,10 +95,14 @@ Anthropic's capability curve data shows:
 
 1. **Planning**: Models now think before acting. Forcing explicit planning
    steps is redundant and adds latency.
-2. **Error recovery**: Models backtrack instead of doom-looping. Anti-loop
-   instructions now prevent useful exploration.
-3. **Long attention**: Models sustain focus over 1M+ tokens. Context-window
-   hacks are unnecessary overhead.
+2. **Error recovery**: Frontier models backtrack more often instead of
+   doom-looping, so prompt-level "don't retry" advice may now block
+   useful exploration. Hard loop guards (turn/token caps, repetition
+   detectors) are still required: mid-sized models can spend the whole
+   budget in runaway self-verification (arXiv:2608.26480).
+3. **Long attention**: Models sustain focus over long contexts, so some
+   context-window hacks may be overhead, but only on the models and
+   budgets where your evals show it.
 
 > "Often, you can actually boost your performance by REMOVING instead
 > of adding things onto your scaffolding." — Alex Albert, Anthropic
@@ -78,15 +111,20 @@ Anthropic's capability curve data shows:
 
 With every model upgrade:
 
-1. **Audit prompts**: Remove model-specific workarounds. Cut rules without
+1. **Audit prompts**: Re-evaluate model-specific workarounds. Cut rules without
    clear rationale. Shorter prompts = better performance + fewer tokens.
 2. **Simplify workflows**: Try collapsing multi-step orchestrations into
    single agent calls. Measure if performance improves.
-3. **Remove babysitting**: Stop chunking work, stop summarizing context,
-   stop forcing tool-call order. Let the model choose.
-4. **Test with evals**: Don't guess — measure. Swap the new model in with
-   the simplified scaffolding and run evals on YOUR task distribution
-   (not generic benchmarks).
+3. **Reduce babysitting only where evals allow**: chunking, context
+   summarization and forced tool-call order are candidates, but context
+   management still matters under tight context budgets
+   (arXiv:2609.20804). Never remove the exempt controls above.
+4. **Test with evals per deployment target**: Don't guess — measure.
+   Run the simplified scaffolding on each target model against YOUR task
+   distribution (not generic benchmarks). Keep a removal only if it
+   passes `rules/recursive-improvement.md` "DO: Pass every
+   self-modification through one acceptance gate" (no regression beyond
+   a noise margin δ; security testbed strict).
 
 ## Eval Hygiene
 

@@ -1,11 +1,11 @@
-﻿# Debate-to-Skill: Capability-Bound Process Supervision for Industrial Query-to-Agent Annotation
+# Debate-to-Skill: Capability-Bound Process Supervision for Industrial Query-to-Agent Annotation
 
 > **Paper**: [Debate-to-Skill](https://arxiv.org/abs/2609.11176)
 > **Praxis source**: `src:2609-11176v1`
 
 ## Why Not a Skill?
 
-Industrial annotation pipeline â€” describes a specific pipeline for converting user queries into agent capability annotations via structured debate. The pipeline is too domain-specific (annotation) for a general skill.
+Industrial annotation pipeline — describes a specific pipeline for converting user queries into agent capability annotations via structured debate. The pipeline is too domain-specific (annotation) for a general skill.
 
 ---
 

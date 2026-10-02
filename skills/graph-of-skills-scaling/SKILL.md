@@ -55,9 +55,15 @@ When retrieving skills for a task:
    and `composes_with` edges to pull in related skills
 3. **Reverse diffusion**: From seed skills, traverse edges in
    reverse to find skills that depend on or compose with them
-4. **Budget reranking**: If the retrieved set exceeds the context
-   budget, rank by combined (similarity score + graph centrality)
-   and truncate
+4. **Budget selection**: If the retrieved set exceeds the context
+   budget, do not truncate by score. Hand the diffused candidate set
+   (with similarity + centrality as benefit signals) to set-level
+   selection — BPS in
+   [`capability-aware-skill-selection`](../capability-aware-skill-selection/SKILL.md) —
+   which accounts for redundancy, complementarity and token cost.
+   Score-ranked truncation is the top-k failure mode that
+   skill-system-design.md "DON'T: Score by semantic relevance alone and
+   pack by top-k" warns against.
 
 ### Step 3: Collect experience signals
 
@@ -105,7 +111,10 @@ descriptions:
 ## Environment Caveats
 
 - **Small libraries** (<30 skills): Graph overhead isn't worth it.
-  Flat retrieval suffices.
+  Flat retrieval suffices. This threshold is about building a graph,
+  not about selection: from 10+ overlapping skills with a binding
+  token budget, still select the final set with BPS rather than top-k
+  (see `capability-aware-skill-selection`).
 - **Rapid skill addition**: When many skills are added at once
   (e.g., batch ingest), run a full topology re-evaluation rather
   than incremental updates.

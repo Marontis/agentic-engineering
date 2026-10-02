@@ -15,11 +15,11 @@ AutoFyn adapts a frozen LLM across many rounds by updating persistent state from
 
 ### Key Finding
 
-- **Primary Result**: Non-parametric expert iteration — updating persistent context rather than weights — enables a frozen model to improve across rounds on long-horizon agent tasks without fine-tuning.
-- **Secondary Result**: The explicit separation between ephemeral sessions and durable state prevents catastrophic forgetting and enables clean rollback of failed iterations.
+- **Primary Result**: Non-parametric expert iteration — updating persistent context rather than weights — let frozen models improve across rounds **where a task-grounded verifier supplies an objective reward**. Demonstrations: on the six 2026 IMO problems, every model with room to improve scored higher under AutoFyn than in its provider's own coding agent; AutoFyn built the top-ranked agent on Spider 2.0 dbt; it produced 16 maintainer-confirmed vulnerability advisories. This is a technical report with demonstrations in three domains, not a controlled comparison across many tasks.
+- **Design property (not a measured result)**: each round starts from a fresh session and durable information re-enters only through explicit interfaces (memory files, reports, repository state). That makes state inspectable and revertible, but the report does not measure forgetting or rollback.
 
 ## Relevance to Praxis
 
 - **Validates existing patterns**: Confirms the `knowledge-compounding-loop` architecture (raw → knowledge → skill layers with persistent state surviving rollbacks).
-- **Frozen model + state update**: Useful design rule — frozen models with updated prompts/context can substitute for weight updates in many agent improvement scenarios.
+- **Frozen model + state update**: frozen models with updated persistent context can substitute for weight updates **when weights are not trainable and an objective verifier exists**; where weights are trainable, see `rules/recursive-improvement.md` "DO: Alternate model weight updates and harness search" (WHALE). Persistent-state updates still pass "DO: Pass every self-modification through one acceptance gate".
 - **Verifier-grounded selection**: The reward → state distillation loop is the same pattern as `reward-hacking-immunization` — verify before committing to persistent state.

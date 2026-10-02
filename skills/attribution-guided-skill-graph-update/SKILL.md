@@ -104,7 +104,11 @@ Before committing the patch to the graph:
 2. **Re-execute** all tasks that used the same graph object in the
    current epoch — none must regress
 3. Use **paired execution** with decision stability checks (run twice,
-   confirm same outcome)
+   confirm same outcome). Two runs is the paper's setting. For noisy
+   tasks, estimate the noise margin δ from at least 3 runs of the
+   unchanged baseline (fewer only if the task is deterministic) — see
+   rules/recursive-improvement.md — "DO: Pass every self-modification
+   through one acceptance gate", item 5.
 4. If the Local Gate fails → **rollback** the patch and try a
    different repair or attribution
 
@@ -117,6 +121,14 @@ At the end of each epoch (batch of tasks):
 3. If epoch-level performance regresses → **restore** the pre-epoch
    graph state entirely
 4. If it passes → commit all accumulated patches as the new baseline
+
+The Local and Big Gates are this method's search-time selection. Keeping
+the graph for deployment defers to rules/recursive-improvement.md —
+"DO: Pass every self-modification through one acceptance gate": no
+regression beyond a noise margin δ on previously-correct cases and
+held-out tasks, where δ is estimated from repeated runs of the unchanged
+baseline; the negative security testbed is always strict (zero
+tolerance, no margin).
 
 ---
 
