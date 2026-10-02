@@ -53,8 +53,8 @@ agents", MiST coding retention, Overflip ">40% margin", criticality
 
 `scripts/kb_lint.py` now runs in CI; 0 errors. The remaining warnings are
 rules citing papers with no brief here (2609.09793, 2609.10707,
-2609.26419, 2609.11873). Unverified: 2609.03247's model list (brief and
-rule Scope disagree).
+2609.26419, 2609.11873). 2609.03247's model list was checked against the abstract (ChatGPT, Claude, Qwen,
+Mistral, Llama) and the rule Scope corrected.
 
 ## Independent re-audit (2026-09-29)
 

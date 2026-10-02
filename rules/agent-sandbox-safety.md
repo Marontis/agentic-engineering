@@ -478,7 +478,7 @@ Never allow an LLM to generate, administer, or evaluate its own identity verific
 
 **Evidence**: Across frontier models tested on self-issued authentication, multiple architectures (Qwen, Mistral, Llama) collapsed the challenge-generator, evidence-evaluator, and decision-maker roles, erroneously verifying developer identity and asserting unauthorized runtime access based solely on technical dialogue. Authentication must derive strictly from external cryptographic tokens or environment capability leases.
 
-**Scope:** open-weight chat models (Qwen, Mistral, Llama families) under role-claim dialogues (arXiv:2609.03247).
+**Scope:** staged developer-identity dialogues with five chat models: ChatGPT, Claude, Qwen, Mistral and Llama (arXiv:2609.03247); the Evidence line names the families reported to collapse the roles.
 
 See also: rules/agent-human-interaction.md — "Let users authenticate to agents via conversation"
 
