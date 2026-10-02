@@ -25,11 +25,21 @@ Define the edit scope explicitly. Every item outside this scope is frozen.
 | Its optimization algorithm | [ ] Yes / [ ] No | |
 | Its safety constraints | ❌ **No** | Non-negotiable |
 | Its evaluation criteria | ❌ **No** | Non-negotiable |
+| Its evaluator and graders | ❌ **No** | Non-negotiable (bounded envelope) |
+| Held-out and out-of-distribution splits | ❌ **No** | Non-negotiable (bounded envelope) |
+| The negative security testbed | ❌ **No** | Non-negotiable; immutable, out-of-band (arXiv:2609.17817) |
+| Its permissions | ❌ **No** | Frozen; widening needs an external authority (arXiv:2609.31186) |
+| The acceptance gate | ❌ **No** | Non-negotiable |
 | Its sandbox/isolation boundaries | ❌ **No** | Non-negotiable |
 
-> **Research note**: the meta-improvement mechanism MUST be within the
-> edit scope. If frozen, the agent cannot improve its own improvement
-> process, and RSI bottlenecks at generation 1. (arXiv:2603.19461)
+> **Research note**: the meta-improvement mechanism should be within the
+> edit scope — if frozen, the agent cannot improve its own improvement
+> process, and RSI bottlenecks at generation 1 (arXiv:2603.19461) — but
+> only inside the bounded envelope above. The same HyperAgents setup,
+> fed a poisoned benchmark, internalized `verify=False` and kept it
+> through later clean generations (arXiv:2609.17817). See
+> `rules/recursive-improvement.md` "DO: Make the improvement mechanism
+> part of the agent's editable source".
 
 ### What is the improvement target?
 
@@ -49,9 +59,11 @@ Define the edit scope explicitly. Every item outside this scope is frozen.
 |:------|:------------|:-----------|:-------------|
 | **Systems engineering** | How computation maps to hardware (kernels, sharding, memory) | No (bounded by hardware) | [ ] Yes / [ ] No |
 | **Data engineering** | What the model trains on (filtering, synthesis, curriculum) | Weakly (bounded by data stock) | [ ] Yes / [ ] No |
-| **Algorithmic design** | How the model learns (loss, update rule, supervision) | **Yes (unbounded)** | [ ] Yes / [ ] No |
+| **Algorithmic design** | How the model learns (loss, update rule, supervision) | **Yes** (no hardware/data ceiling; subject to evaluator and difficulty damping) | [ ] Yes / [ ] No |
 
-> **Evidence**: only algorithmic-level changes compound unboundedly. A
+> **Evidence**: only algorithmic-level changes compound without a
+> hardware or data ceiling; they remain limited by evaluator quality and
+> rising difficulty of further gains (arXiv:2609.24972, arXiv:2609.08175). A
 > better algorithm changes the compute/capability exchange rate for every
 > subsequent run. 53.6% of agents never attempt algorithmic changes,
 > preferring hyperparameter tuning instead. (arXiv:2608.20318)
@@ -82,7 +94,8 @@ Learning side (compounds):
 
 ### Meta-improvement mechanism:
 
-- [ ] **Editable source code** (recommended — enables true RSI)
+- [ ] **Editable source code** (recommended — enables true RSI), inside the
+  bounded envelope in Section 1 and behind the acceptance gate in Section 4
 - [ ] Prompt self-modification (agent rewrites its own prompts)
 - [ ] Tool library evolution (agent creates/modifies tools)
 - [ ] Learned policy (RL-based meta-learner)
@@ -161,6 +174,21 @@ function:
 
 where φ is the progress coordinate (identity for rates, −log for perplexity).
 
+### Acceptance gate (every kept change):
+
+Per `rules/recursive-improvement.md` "DO: Pass every self-modification
+through one acceptance gate": accept a change only if it shows no regression beyond a noise margin δ on previously-correct cases and held-out tasks, where δ is estimated from repeated runs of the unchanged baseline; the negative security testbed is always strict (zero tolerance, no margin).
+
+| Gate element | Value / how |
+|:-------------|:------------|
+| Noise margin δ | Estimated from ___ runs of the unchanged baseline (at least 3; fewer only if deterministic) |
+| Previously-correct cases re-run | [ ] Yes (must be Y) |
+| Held-out tasks never seen by the optimizer | [ ] Yes (must be Y) |
+| Behavioural evidence in trajectories | [ ] Yes (must be Y) |
+| Negative security testbed (strict, zero tolerance) | [ ] Yes (must be Y) — cases: ___ |
+| Harmful-commit and missed-improvement rates reported | [ ] Yes |
+| Persistent registries: multi-cohort margin | [ ] Yes / [ ] N/A |
+
 ---
 
 ## 5. Safety Envelope
@@ -215,8 +243,11 @@ where φ is the progress coordinate (identity for rates, −log for perplexity).
 
 Before deploying a self-improving agent, verify:
 
-- [ ] The improvement mechanism is within the agent's edit scope
-- [ ] Safety constraints, evaluation criteria, and sandbox boundaries are NOT editable
+- [ ] The improvement mechanism is within the agent's edit scope, inside a bounded envelope
+- [ ] Safety constraints, evaluation criteria, evaluator and graders, held-out/OOD splits, the negative security testbed, permissions, and sandbox boundaries are NOT editable
+- [ ] Every kept change passes the acceptance gate (no regression beyond δ on previously-correct cases and held-out tasks; δ from ≥3 baseline runs)
+- [ ] Every candidate runs the immutable negative security testbed (strict, zero tolerance)
+- [ ] On stagnation, the loop explores unused component types inside the fixed editable set; it never widens the set itself
 - [ ] Performance tracking is in place BEFORE self-modification begins
 - [ ] Every change is classified into the 8-family taxonomy
 - [ ] Exploration, replay, and evaluation are separated
@@ -268,5 +299,10 @@ shipped algorithm and the task optimum. Set expectations accordingly.
 
 - HyperAgents: arXiv:2603.19461
 - AI4AI-Bench: arXiv:2608.20318
+- Reflections on Trusting Trust, Revisited (poisoned benchmarks): arXiv:2609.17817
+- RRSI: arXiv:2609.24972
+- Evolutionary Safety of Recursive Self-Improving AI: arXiv:2609.31186
+- EvoPathBench: arXiv:2609.24663
+- A Theory of Reliable Self-Evolution for Agent Harnesses: arXiv:2609.08175
 - AI Agency Typology: arXiv:2608.20041
 - Instruct-to-Act: arXiv:2608.26788

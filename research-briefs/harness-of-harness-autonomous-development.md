@@ -5,9 +5,7 @@
 
 ## Why Not a Skill?
 
-System architecture framework for multi-day autonomous development rather than an isolated subtask procedure. Key design rules are integrated into 
-ules/recursive-improvement.md and 
-ules/agent-sandbox-safety.md.
+System architecture framework for multi-day autonomous development rather than an isolated subtask procedure. Key design rules are integrated into `rules/recursive-improvement.md` and `rules/agent-sandbox-safety.md`.
 
 ---
 
@@ -20,9 +18,9 @@ Autonomous software development requires agents to sustain progress over multi-d
 
 ### Key Finding
 
-Across three rigorous benchmarks (GameCraft-Bench, FrontierSWE, ProgramBench), HoH achieves absolute gains of 16.6–22.1 points over standalone agent harnesses. On FrontierSWE, HoH with frontier models sustains continuous improvement over 10 consecutive loops (from 22% to 72.7% resolution).
+Over standalone agent harnesses, HoH reports absolute gains of 16.62–22.08 points on GameCraft-Bench, 19–29 points on FrontierSWE, and 6.09–16.85 points on ProgramBench. On FrontierSWE, HoH with Codex and GPT-5.5 (high) kept improving over ten consecutive loops, from 22% to 72.67%. Ablations: removing plan updates cost 8.13 points, evidence feedback 6.28, warm-start 7.85.
 
 ## Relevance to Praxis
 
 - Supplies the core rule: autonomous loops must balance repair passes with concrete capability additions.
-- Demonstrates that filesystem-based progressive disclosure outperforms dedicated monolithic memory modules for multi-day trajectories.
+- Filesystem-based progressive disclosure is a design choice in HoH, not a measured result: the paper does not ablate it or compare it with a dedicated memory module. Separately, 2609.20804 (`research-briefs/empirical-harness-design-study.md`) found that making elided context recoverable added machinery coding agents rarely used and gave no accuracy gain; context management helped mainly by preventing context overflow.

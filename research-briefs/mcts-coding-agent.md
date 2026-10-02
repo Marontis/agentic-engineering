@@ -1,11 +1,11 @@
-﻿# Development of an Autonomous AI Coding Agent using Monte Carlo Tree Search
+# Development of an Autonomous AI Coding Agent using Monte Carlo Tree Search
 
 > **Paper**: [Development of an Autonomous AI Coding Agent using Monte Carlo Tree Search](https://arxiv.org/abs/2608.29096)
 > **Praxis source**: `src:2608-29096`
 
 ## Why Not a Skill?
 
-Architecture-specific â€” the MCTS implementation is tightly coupled to specific state representation, action space, and evaluation function choices. Too implementation-heavy for a text-based subtask skill.
+Architecture-specific — the MCTS implementation is tightly coupled to specific state representation, action space, and evaluation function choices. Too implementation-heavy for a text-based subtask skill.
 
 ---
 
@@ -19,5 +19,5 @@ Coding agents that can backtrack and explore alternative solutions significantly
 
 ## Relevance to Praxis
 
-- The explore-then-exploit pattern informs the cost-effective-repo-exploration skill â€” exploration strategies should allow backtracking
+- The explore-then-exploit pattern informs the cost-effective-repo-exploration skill — exploration strategies should allow backtracking
 - The MCTS approach to action selection is an alternative to the linear ReAct loop assumed by most agent architectures

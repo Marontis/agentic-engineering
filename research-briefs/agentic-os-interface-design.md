@@ -67,6 +67,13 @@ through the same kernel interface (see `unified-capability-gateway` skill).
 
 - **Partial exposure** (P1) is relevant to skill loading — show skill
   descriptions first, load full body on request (progressive disclosure)
+- **Evidence limit:** P1–P4 and C1–C3 are design principles. Neither
+  paper reports a measurement comparing partial exposure with
+  full-context presentation. For an agent's own context, 2609.20804
+  (`empirical-harness-design-study.md`) found that making elided
+  content recoverable added machinery coding agents rarely used and gave
+  no accuracy gain. `rules/agent-human-interaction.md` — "DON'T: Present
+  all information at once" uses P1 for human-facing presentation only.
 - **Uniform surface** (P2) validates our existing design where skills,
   rules, and specs all use the same Markdown format
 - **Text objects as state** (C1) validates Praxis's skill graph as

@@ -1,11 +1,11 @@
-﻿# Ideation Arena: Evaluating LLM Generated Research Ideas
+# Ideation Arena: Evaluating LLM Generated Research Ideas
 
 > **Paper**: [Ideation Arena: Evaluating LLM Generated Research Ideas with Battle-style Human Expert Assessment](https://arxiv.org/abs/2608.29696)
 > **Praxis source**: `src:2608-29696v1`
 
 ## Why Not a Skill?
 
-Evaluation methodology â€” Elo-style tournament for comparing LLM-generated research ideas via human expert judging. No transferable procedures for agent engineering.
+Evaluation methodology — Elo-style tournament for comparing LLM-generated research ideas via human expert judging. No transferable procedures for agent engineering.
 
 ---
 

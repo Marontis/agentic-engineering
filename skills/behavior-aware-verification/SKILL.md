@@ -159,6 +159,10 @@ batch can be completed within the remaining budget.
   not have enough variety.  Fall back to stratified sampling.
 - **Non-deterministic tasks**: Stochastic environments require multiple
   trials per task to distinguish modification effects from noise.
+  Repeat-run guideline (one for all optimizer skills): at least 3 runs per gate evaluation, and a noise band δ estimated from at least 3 runs of the unchanged baseline, with the gain required to exceed δ — see rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate", item 5.
+- **Search vs acceptance**: change-specific task selection is for the
+  search loop. Before a modification is deployed, run the full frozen
+  regression suite and the negative security testbed (rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate").
 - **Multi-component modifications**: When a modification touches several
   components simultaneously, regression coverage must be broader.
 
@@ -177,6 +181,8 @@ batch can be completed within the remaining budget.
 
 - [`iterative-instruction-refinement`](../iterative-instruction-refinement/SKILL.md) —
   NPO-style revision as the modification proposal mechanism
+- [`regularized-harness-evolution`](../regularized-harness-evolution/SKILL.md) —
+  bounded edit budget and noise-adjusted acceptance for the same loop
 - [`targeted-failure-attribution`](../targeted-failure-attribution/SKILL.md) —
   DoCtOR's failure attribution feeds diagnosis: identify WHICH behavior
   failed before proposing a targeted modification

@@ -1,11 +1,11 @@
-﻿# An Experimental Evaluation of Multimodal Prompt Injection Attacks on Agentic AI Frameworks
+# An Experimental Evaluation of Multimodal Prompt Injection Attacks on Agentic AI Frameworks
 
 > **Paper**: [Multimodal Prompt Injection Evaluation](https://arxiv.org/abs/2609.09404)
 > **Praxis source**: `src:2609-09404v1`
 
 ## Why Not a Skill?
 
-Experimental evaluation â€” tests prompt injection across text, image, and audio modalities on agentic frameworks. Provides an attack taxonomy but no new defense procedures.
+Experimental evaluation — tests prompt injection across text, image, and audio modalities on agentic frameworks. Provides an attack taxonomy but no new defense procedures.
 
 ---
 

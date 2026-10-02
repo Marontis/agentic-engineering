@@ -1,11 +1,11 @@
-﻿# Ignorance or Incompetence? Knowledge-Gated, Verifiable Tasks for LLM Agents
+# Ignorance or Incompetence? Knowledge-Gated, Verifiable Tasks for LLM Agents
 
 > **Paper**: [Ignorance or Incompetence? Constructing Knowledge-Gated, Verifiable Tasks for LLM Agents](https://arxiv.org/abs/2608.30322)
 > **Praxis source**: `src:2608-30322v1`
 
 ## Why Not a Skill?
 
-Evaluation methodology â€” separates knowledge failures from execution failures in agent benchmarks. No defense or improvement procedures.
+Evaluation methodology — separates knowledge failures from execution failures in agent benchmarks. No defense or improvement procedures.
 
 ---
 
@@ -20,4 +20,4 @@ Agents that "know" how but can't "do" need different fixes than agents that don'
 ## Relevance to Praxis
 
 - Informs how the 	argeted-failure-attribution skill should classify failure root causes
-- Relevant to skill library design â€” a skill should address a *knowledge* gap, while tool improvements address *execution* gaps
+- Relevant to skill library design — a skill should address a *knowledge* gap, while tool improvements address *execution* gaps

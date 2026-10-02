@@ -22,7 +22,7 @@ Instead of accumulating multi-turn conversation logs inside a single expanding c
 1. **Filesystem Ledger**: Subagents receive fresh zero-shot contexts containing only the current task, overarching strategy, curated notes (<800 words), and existing code.
 2. **Structural Code-Ban During Ideation**: The initial worker is explicitly prohibited from writing code blocks, forcing prose analysis of algorithmic complexity ($O(N \log N)$ vs $O(N^2)$) and mathematical reductions before syntax generation.
 3. **Subprocess Test Execution & Veto**: The harness executes candidate programs against public sample tests. If tests fail, the harness programmatically overrides the manager's `done` declaration and forces an iterative repair cycle.
-4. **Active Memory Compaction**: Workers are instructed to rewrite `notes.md` to under 800 words, actively purging disproven hypotheses.
+4. **Active Memory Compaction**: Workers are instructed to rewrite `notes.md` to under 800 words, actively purging disproven hypotheses. (The library's [`ledger-orchestrated-coding-loop`](../skills/ledger-orchestrated-coding-loop/SKILL.md) instead compacts them into one-line principles so they are not retried.)
 
 ---
 
@@ -33,6 +33,9 @@ Instead of accumulating multi-turn conversation logs inside a single expanding c
 * **Qwen3.8-27B (Single Call, 128k Cap-Matched)**: $63.0\% \pm 4.1\%$ — Cost: **$20.44** / 100 problems.
 * **Qwen3.8-27B + GVS5H Scaffold**: **$86.4\% \pm 2.7\%$** ($+23.4$ pts, $p = 0.73$ vs Fable 5) — Cost: **$51.75** / 100 problems (or free on local GPU).
 * **GPT-5.6-Terra + GVS5H Scaffold**: **$85.0\% \pm 0.0\%$** ($+8.0$ pts vs single call) — Cost: **$11.71$** / 100 problems (**19% of Fable 5 cost**).
+* **GPT-5.6-Luna + GVS5H Scaffold**: $67.2\% \to 77.8\%$ ($+10.6$ pts vs single call).
+* *Comparison caveat*: the Fable 5 arm is one call with no tools and no execution loop, while the scaffold arms get up to 10 manager→worker rounds with test execution, so "matches Fable 5" is not a like-for-like comparison.
+* *Version note*: figures above are from v1. v2 (21 Sep 2026) revises them (Luna $+10.8$, Terra $+7.2$, Qwen3.8-27B $66.8\% \to 92.4\%$, Fable 5 $90.4\%$).
 * **Claude Opus-5 + GVS5H Scaffold (Single Pass)**: **$91.0\%$** (Highest absolute score observed).
 
 ### 2. The Context Collapse & Runaway Deliberation Trap
@@ -45,6 +48,7 @@ Why did single-call Qwen3.8-27B score so poorly (63.0%)? The paper discovered a 
 The scaffold is not universally beneficial:
 * On **Qwen3.6-35B-A3B** (MoE with 3B active parameters), the scaffold caused a **net drop** ($-1.2$ pts at 16k, $-9.0$ pts at 128k with reasoning off).
 * The ideation stage talked the model *out* of optimal algorithms (e.g. rejecting Convex Hull Trick DP as "too complex for Python" and picking a slow $O(N^3)$ approach).
+* *Contrast*: a separate coding-harness study ([`empirical-harness-design-study`](empirical-harness-design-study.md), arXiv:2609.20804) found planning helped its weakest *dense* model (Nemotron-3 30B, +11.6 pts on SWE-Bench Verified). Scaffolding that helps small dense models can hurt a low-active-parameter MoE, so benchmark per model family.
 
 ### 4. LiveCodeBench Evaluator Bug Discovery
 The authors uncovered a major defect in the official LiveCodeBench harness: `sys.stdin.buffer.readline()` was mocked statelessly as `inputs.split(b"\n")[0]`.

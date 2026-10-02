@@ -16,12 +16,41 @@ improvement mechanism is frozen (a fixed prompt, a compiled binary, a
 locked API), the agent cannot improve its own improvement process, and
 recursive self-improvement bottlenecks at the first generation.
 
+**Editability exists only inside a bounded envelope.** The evaluator,
+graders, held-out and out-of-distribution splits, the negative security
+testbed, and the agent's permissions stay **outside** the editable
+surface, under an authority the change cannot itself replace. Every
+edit, including edits to the improvement module, passes the acceptance
+gate (see "DO: Pass every self-modification through one acceptance
+gate") and the immutable negative security testbed before it is kept.
+
+**Scope:** HyperAgents open-ended self-modification runs; no security
+testbed or poisoned-benchmark condition was evaluated in the original
+evidence.
+
 **Evidence**: Hyperagents with editable meta-improvement spontaneously
 develop persistent memory, performance tracking dashboards, structured
 decision pipelines, and defensive checks — none of which were
-programmed.
+programmed. But the same HyperAgents setup, fed a poisoned benchmark,
+internalized `verify=False` and kept it through later clean generations
+(arXiv:2609.17817). RRSI keeps graders, splits, security tests and the
+proposer/critic outside the editable surface; unregularized evolution
+scored higher on the evolve set (92.8 vs 90.5) but lower out of
+distribution (40.3 vs 43.6) (arXiv:2609.24972). Evolutionary Safety of
+RSI likewise places the updater, evaluator and security tests outside
+self-editable scope (arXiv:2609.31186). MedRSI: registering
+self-generated tools immediately degraded accuracy from an 89.6% peak to
+76.9% (arXiv:2609.24838).
 
-> Source: HyperAgents (arXiv:2603.19461)
+Tension with "DO: Bound the search space of harness self-evolution"
+(skill-system-design.md): resolved by scope — the improvement logic may
+be edited, but only within a fixed, declared editable set with bounded
+per-round change; the evaluator and safety envelope never move.
+
+> Source: HyperAgents (arXiv:2603.19461); RRSI (arXiv:2609.24972);
+> Evolutionary Safety of RSI (arXiv:2609.31186); arXiv:2609.17817;
+> MedRSI (arXiv:2609.24838). Procedure:
+> [`regularized-harness-evolution`](../skills/regularized-harness-evolution/SKILL.md)
 
 ### DON'T: Freeze the improvement module behind alignment constraints
 
@@ -30,7 +59,17 @@ beneficial ones. Instead, define a **safety envelope** — bounds on what
 the agent can modify (its own source, its prompts, its tools) — and let
 it operate freely within those bounds.
 
-> Source: arXiv:2603.19461
+The envelope itself is not editable: evaluator, graders, security tests
+and permissions are fixed, and widening the envelope requires an
+external authority (arXiv:2609.31186: "A coding agent might propose a
+skill while being unable to alter its security tests or grant itself new
+permissions"). On stagnation, explore unused component types inside the
+fixed editable set; do not widen the set (arXiv:2609.24972).
+
+**Scope:** same as above — HyperAgents evidence; the envelope conditions
+come from RRSI, 2609.31186 and 2609.17817.
+
+> Source: arXiv:2603.19461; arXiv:2609.24972; arXiv:2609.31186; arXiv:2609.17817
 
 ### DO: Track improvement metrics across generations
 
@@ -47,7 +86,8 @@ instrument before it can diagnose.
 
 ### DO: Distinguish systems, data, and algorithmic changes
 
-Three levels of improvement exist, and only one compounds unboundedly:
+Three levels of improvement exist, and only one compounds across
+generations without a hardware or data ceiling:
 
 | Level | What Changes | Bounded By |
 |:------|:------------|:-----------|
@@ -58,6 +98,22 @@ Three levels of improvement exist, and only one compounds unboundedly:
 A better algorithm changes the compute/capability exchange rate for every
 subsequent run. Systems and data improvements help the current generation
 only.
+
+"Nothing fundamental" means no hardware or data ceiling. Algorithmic
+self-improvement is still bounded in practice by the quality of the
+evaluator and feedback signal (RRSI's limitations section says its
+effectiveness may depend on the quality of the feedback signal,
+arXiv:2609.24972) and by rising difficulty of
+further improvements. Evolutionary Safety of RSI (arXiv:2609.31186)
+takes no position on capability ceilings.
+
+**Scope:** AI4AI-Bench ML-research tasks; a classification of change
+types, not a measured ceiling.
+
+Tension with "DON'T: Assume recursive self-improvement is unbounded"
+(skill-system-design.md): this table is about the absence of a
+*resource* ceiling; that entry is about evaluator and search-space
+limits. Both hold.
 
 > Source: AI4AI-Bench (arXiv:2608.20318)
 
@@ -92,6 +148,14 @@ This prevents the agent from overfitting to the evaluation metric. The
 boundary guarantees that no agent could score a candidate under the
 metric that decides its result.
 
+A search oracle whose feedback the agent sees (counterexample witnesses,
+rubric scores, test results — see A-CEGIS, SkillLift, NPO below) is not
+the final evaluator. Keep them separate: the agent may learn from the
+search oracle, but acceptance is decided by a held-out evaluator it
+never sees.
+
+**Scope:** AI4AI-Bench ML-research tasks with a frozen scorer.
+
 > Source: arXiv:2608.20318
 
 ### DO: Build a diagnostic instrument before acting
@@ -123,6 +187,18 @@ The bottleneck is willingness, not ability.
 affect whether the agent attempts structural changes. If your agent is
 only tuning hyperparameters, the fix may be giving it more reasoning
 budget, not better tools.
+
+Any added reasoning budget needs a loop guard (token/turn cap and a
+repetition detector), because mid-sized models can spend the whole
+budget in runaway self-verification (see "DO: Decouple agent context
+into file ledgers" in skill-system-design.md). Higher reasoning effort
+also raises willingness to evade monitors: GPT-5.6 Luna's evasion rose
+from 35.7% at low effort to 71.4% at max effort (30-task subset;
+research-briefs/instrumental-monitor-evasion.md), so more budget must
+come with monitoring, not instead of it.
+
+**Scope:** AI4AI-Bench ML-research tasks; reasoning-effort sweeps on
+the agents tested there.
 
 > Source: arXiv:2608.20318
 
@@ -171,19 +247,90 @@ single-lineage revision to rival complex multi-candidate search.
 (which use only scores or sparse feedback) despite maintaining no
 candidate population and using no search algorithms.
 
+**Scope:** IFBench, HotpotQA and interactive game tasks; Qwen3-8B
+student; weights frozen (prompt-only) setting.
+
+See also: skill-system-design.md — "DO: Invest in feedback quality over optimizer complexity".
+
 > Source: Naive Prompt Optimization (arXiv:2608.27266)
+
+### DO: Choose the prompt optimizer by data regime, then gate the result
+
+Three optimizers in this library prescribe different procedures for the
+same job. Pick one by the regime you are in:
+
+| Regime | Use | Skill |
+|:--|:--|:--|
+| Small validation set, or the prompt is already bloated with caveats | ESPO: cluster all errors, propose several candidates, bootstrap stability selection | [`error-structured-prompt-optimization`](../skills/error-structured-prompt-optimization/SKILL.md) |
+| Strong teacher model and a large task pool you can sample fresh minibatches from | NPO: single lineage with rich rollout traces | [`iterative-instruction-refinement`](../skills/iterative-instruction-refinement/SKILL.md) |
+| Large unlabeled/weakly labeled corpus and no prompt yet | CASD: corpus-wide distillation, **as a first draft only** | [`corpus-scale-prompt-distillation`](../skills/corpus-scale-prompt-distillation/SKILL.md) |
+
+**Large task pool** means enough labelled tasks that each revision round
+can draw a fresh minibatch without reusing earlier ones and still leave
+a held-out split for the acceptance gate (as a working threshold,
+several hundred tasks or more; NPO's own experiments used full
+IFBench/HotpotQA training splits). ESPO was tested with 30 validation
+examples.
+
+**Tie-break** when more than one row fits: (1) if the current prompt is
+already long or has accumulated overlapping caveats, use ESPO first;
+(2) otherwise, if a strong teacher and a large task pool both exist,
+use NPO; (3) if neither a prompt nor labelled validation data exists,
+draft with CASD and then refine with ESPO. If still unsure, prefer ESPO:
+its bootstrap selection is the only step of the three designed for
+noisy small-sample choice.
+
+**Regime note (SelfOp, arXiv:2609.22792):** SelfOp also clusters errors
+across a batch before editing, like ESPO, but its evidence cuts against
+two ESPO-style instincts. Loose cross-task consensus thresholds
+generalized better than strict ones (48% vs 35% test pass@1), and
+smaller batches beat larger ones (batch 16: 55%; batch 32: 35%) because
+diverse failure types diluted consensus. Treat clustering thresholds
+and batch size as tuned per domain, not "stricter and larger is safer".
+One security domain (CyberGym), one model family.
+
+Whichever you pick, the output is a candidate, not a deployment: it
+must pass "DO: Pass every self-modification through one acceptance
+gate". Where NPO's validation is described as optional, it is not
+optional at acceptance. A CASD draft can seed ESPO or NPO.
+
+**Scope:** synthesis of NPO (arXiv:2608.27266; Qwen3-8B, IFBench/HotpotQA),
+ESPO (arXiv:2609.04197; 30-example validation sets) and CASD
+(arXiv:2609.26261); no head-to-head comparison of the three exists. The
+tie-break and the "large task pool" threshold are library judgement,
+not measured.
+
+Tension with SelfOp (research-briefs/selfop-security-skill-optimization.md):
+its loose-consensus and small-batch results run against tightening
+thresholds by default; unresolved until a head-to-head comparison
+exists.
+
+> Source: arXiv:2608.27266; arXiv:2609.04197; arXiv:2609.26261; arXiv:2609.22792
 
 ### DO: Test optimized instructions on other models before assuming they're model-specific
 
 Instructions optimized for one model often transfer verbatim to other
 models — both within and across model families. Optimize once on a
 representative student, then evaluate directly on deployment targets.
-Re-optimization per model is usually unnecessary.
+Re-optimization per model is usually unnecessary, but **test on each
+deployment target before reuse**: transfer is not guaranteed, and some
+scaffolds reverse sign on some architectures (see "DON'T: Assume
+multi-agent scaffolding is universally monotonic").
+
+**Scope:** Qwen3 (8B→14B/32B) and Llama-3.x-70B dense models, prompt-only
+optimization. SelfOp (research-briefs/selfop-security-skill-optimization.md)
+found skill transfer within one family (GPT-5.4 ↔ GPT-5.4-mini) but did
+not test across families.
 
 **Evidence**: prompts optimized on Qwen3-8B produce positive performance
 gains when applied unchanged to Qwen3-14B, Qwen3-32B, Llama-3.1-70B,
 and Llama-3.3-70B. Transfer is strongest within-family but also works
 cross-family.
+
+Tension with "DON'T: Assume multi-agent scaffolding is universally
+monotonic across model architectures" (this file): that entry concerns
+scaffolds on sparse-MoE models; this one concerns prompt text on dense
+models. Either way, the per-target test decides.
 
 > Source: arXiv:2608.27266
 
@@ -201,6 +348,15 @@ regular-behaving agents with wrong insights and may introduce new errors.
 **Evidence**: DoCtOR achieves 22-27% improvements by targeting only the
 decisive error agent, outperforming methods that require all agents to
 reflect (Reflexion, Retroformer, COPPER).
+
+**Scope:** DoCtOR's multi-agent benchmarks; "decisive" there is the
+first step scoring below a correctness threshold. AgentScope ("DO:
+Abstract long trajectories into structured state graphs and verify
+neural invariants", below) uses the first *uncorrected* violation. They
+coincide when errors cascade without recovery; when an early error was
+later fixed, attribute to the first uncorrected one.
+
+See also: multi-agent-coordination.md — DoCtOR decisive-error entry.
 
 > Source: DoCtOR (arXiv:2608.28264)
 
@@ -226,6 +382,16 @@ Include regression coverage for broader modifications.
 **Evidence**: HarnessLens improves performance by 7.6-13.6% over fixed-set
 verification while consuming substantially fewer rollouts.
 
+Change-specific selection applies **during search**. At acceptance and
+deploy, run the full frozen regression suite and the negative security
+testbed (see "DO: Pass every self-modification through one acceptance
+gate").
+
+**Scope:** propose-and-verify harness configuration search; the rollout
+savings are measured during search, not at deployment.
+
+See also: agent-evaluation-quality.md — HarnessLens change-specific test selection entry.
+
 > Source: HarnessLens (arXiv:2608.27311)
 
 ### DON'T: Accept modifications based on aggregate metrics alone
@@ -235,19 +401,119 @@ behavior changed.  Require behavioral evidence from trajectory analysis
 AND metric improvement.  Confirm on previously unused tasks before
 accepting.
 
+**Scope:** HarnessLens propose-and-verify harness evolution.
+
 > Source: arXiv:2608.27311
+
+### DON'T: Register self-generated capabilities on their discovery gain
+
+Explore freely, but add a self-generated tool or skill to the
+persistent registry only if its mean gain exceeds a margin across K
+fresh cohorts and its consequence-weighted error cost does not rise.
+A capability registered too early changes the traces later reflection
+learns from, so the damage compounds.
+
+**Scope:** medical-diagnosis agent (GPT-4o on OpenHands), only the tool
+registry editable, K=3, margin 0.5 pp balanced accuracy.
+
+**Evidence**: immediate registration peaked at 89.6% and fell to 76.9%
+by round 30 (57 tools); staged registration held 94.4% with 18 tools.
+29 of the 43 tools the gate rejected had negative trial gain.
+
+> Source: MedRSI: Recursive Self-Improvement for Medical Agents (arXiv:2609.24838)
+
+### DO: Measure acceptance-gate errors in both directions
+
+No single acceptance gate suits every setting. EvoPathBench compared
+open acceptance with a *safeguarded* gate (require improvement and limit
+regressions; not a strict zero-regression gate). The safeguarded gate
+halved harmful commits but rejected real improvements, and the paper
+notes that strict regression limits can reject rules better suited to a
+changed environment. Report harmful and missed-improvement rates plus
+worst-10% (CVaR) retention loss, not only the mean. Security invariants
+stay strict unconditionally (see "Evaluate evolved instructions against
+immutable, held-out negative security testbeds").
+
+Recommendation (not a finding of the paper): where the task relation is
+stationary, keep δ tight; where rules are expected to change, report
+missed improvements and consider re-validating against the new
+evidence rather than widening δ. The paper did not test a stationary vs
+non-stationary gate split.
+
+**Scope:** artifact-level skill and memory evolution on EvoPathBench
+trading streams, Qwen3.8-Max and Kimi-K3.
+
+**Evidence**: moving from open to safeguarded acceptance changed
+harmful commits 12.4%→6.2%, missed improvements 0%→16.5%, capture
+69.0%→47.2%, precision 9.3%→29.5% and recall 52.9%→41.9%. Validation
+agreed with held-out outcomes only ~56% of the time under both gates
+(56.9% vs 55.8%): the safeguard gave stability mainly by accepting
+fewer updates, not by picking better ones.
+
+> Source: Beyond Endpoint Performance: Process-Level Evaluation of Self-Evolving Agents (arXiv:2609.24663)
+
+### DO: Pass every self-modification through one acceptance gate
+
+Optimizer skills (prompt, skill, harness, tree-search, rubric-guided)
+decide which candidate to *propose*; this gate decides what is *kept*.
+Their own "commit if improves", "net positive" or "beats best score"
+steps are search-time selection and defer to this gate.
+
+1. **No regression beyond δ**: accept a change only if it shows no
+   regression beyond a noise margin δ on previously-correct cases and
+   held-out tasks, where δ is estimated from repeated runs of the
+   unchanged baseline; the negative security testbed is always strict
+   (zero tolerance, no margin). Report harmful-commit and
+   missed-improvement rates alongside the decision (see "DO: Measure
+   acceptance-gate errors in both directions").
+2. **Behavioural evidence**: the trajectory shows the targeted behaviour
+   changed, not just the aggregate score (see "DON'T: Accept
+   modifications based on aggregate metrics alone").
+3. **Full frozen suite + held-out tasks** never seen by the optimizer.
+4. **Negative security testbed, always strict** (zero tolerance, no
+   margin), whatever δ is (see "DO: Evaluate evolved instructions
+   against immutable, held-out negative security testbeds").
+5. **Estimating δ**: run the unchanged baseline at least 3 times to
+   estimate δ (as RRSI does before evolution); fewer runs only when the
+   task and grader are deterministic. A claimed gain must also exceed δ.
+6. **Persistent registries** (tools, skills) additionally need the
+   multi-cohort margin in "DON'T: Register self-generated capabilities
+   on their discovery gain".
+
+**Scope:** synthesis of HarnessLens (2608.27311), MedRSI (2609.24838),
+EvoPathBench (2609.24663), RRSI (2609.24972), the Two-Gate theory
+(2609.08175) and 2609.17817. RRSI's floor `S ≥ S* − δ` is an instance of this margin. Two-Gate's
+bounded retained-task change (D ≤ 0.50) is an analogous bounded-change
+rule, not a noise band: it deliberately trades some retained-task loss
+for gains. The
+3-run minimum and thresholds should be re-tuned per domain.
+
+> Source: arXiv:2608.27311; arXiv:2609.24838; arXiv:2609.24663; arXiv:2609.24972; arXiv:2609.08175; arXiv:2609.17817
 
 ### DO: Invest in standalone verifiers before planning components
 
 A standalone verifier captures nearly all the false-pass benefit of
 full planning+verification at a fraction of the cost (<$0.01 per
-episode). Planning improves oracle-verified success by 7.17pp but gains
-are concentrated in high-complexity tasks. Decision rule: if the cost
-of a false acceptance is high, invest in verification first; if
-performance on complex tasks matters more, invest in planning. Planning
-value diminishes for stronger models but converts to cost savings.
+episode). The read-only terminal verifier rejected 61% of Retail
+oracle-invalid episodes but also withheld 17% of correct ones, so budget
+for false rejections. Planning improves oracle-verified success by
+7.17pp (90% interval 1.15–13.36) but gains are concentrated in
+high-complexity tasks. Decision rule: if the cost of a false acceptance
+is high, invest in verification first; if performance on complex tasks
+matters more, invest in planning.
 
-> Source: Zhang et al., Harness Value Study (arXiv:2609.20474)
+A separate study of coding harnesses (arXiv:2609.20804) found planning
+shifts from an accuracy scaffold for the weakest model (Nemotron-3 30B:
++11.6pp SWE-Bench Verified) to mainly a cost saver for stronger ones
+(~30% lower cost, 0.4–2.0pp lower success). 2609.20474 itself does not
+report this model-strength trend.
+
+**Scope:** τ²-bench Retail (two experiments) and an Airline pilot, 265
+matched Fixed-vs-Sham planning cells, five to six models per experiment; the model-strength
+trend is from SWE-Bench Verified and Terminal-Bench with four models.
+
+> Source: Harness Value Study (arXiv:2609.20474); An Empirical Study of
+> Harness Design for Coding Agents (arXiv:2609.20804)
 
 ### DON'T: Expose full interaction history to peer-verifying agents
 
@@ -259,6 +525,21 @@ interaction history** available to agents is the most practical
 mitigation. Limit peer verifiers to the current task's outputs and
 the verification rubric — do not provide cumulative interaction
 history, prior verification outcomes, or peer reward information.
+
+**Separate verifiers from auditors.** *Verifiers* (who approve or
+reject a peer's work and whose outcome feeds rewards) get task-scoped
+context only. *Auditors* (who look for fraud or drift across the
+collective) may see cumulative history, but read-only, out-of-band,
+with no reward coupling to the agents they audit and no power to
+approve work in the task loop.
+
+**Scope:** repeated task/verify loops under reward-incompatible
+verification, 10 models.
+
+Tension with "DO: Establish Ostrom-style commons governance and peer
+auditing over shared swarm memory" (this file): resolved by role — that
+entry's transparent monitoring applies to auditors, this entry's
+restriction applies to verifiers.
 
 > Source: Shi et al., Emergent Collusion in Long-Horizon LLM Agent
 > Interaction (arXiv:2609.24967)
@@ -296,8 +577,14 @@ completion. Separate Planner, Developer, and Tester roles:
 
 ### DO: Alternate model weight updates and harness search
 
-Do not attempt to optimize model parameters $\theta$ while holding the harness $h$
-frozen, or optimize prompts/tools while holding model weights frozen.
+**When weights are trainable**, do not attempt to optimize model parameters
+$\theta$ while holding the harness $h$ frozen, or optimize prompts/tools while
+holding model weights frozen. When weights are not trainable (API models,
+frozen deployments), prompt/harness-only optimization remains valid — the
+NPO, ESPO, SkillLift, RSIAgent and skill-evolution rules assume that setting.
+
+**Scope:** open-weight models where rejection-sampling weight updates are
+available (WHALE).
 
 **Evidence**: Either component can become the bottleneck for the other. WHALE
 alternates updating model weights (via rejection sampling) and searching harness
@@ -329,6 +616,10 @@ Evolutionary prompt optimizers reflecting on small random error batches accumula
 
 **Evidence**: Adding proposal diversity *without* bootstrap stability selection decreases performance by **-1.20%** due to noisy winner selection on small validation sets. Both structural diagnosis and stability selection must be paired.
 
+**Scope:** small validation sets where random-batch reflection is noisy;
+use the regime table in "DO: Choose the prompt optimizer by data
+regime, then gate the result" to pick between ESPO, NPO and CASD.
+
 > Source: ESPO: Error-Structured Prompt Optimization (arXiv:2609.04197)
 
 ### DO: Guide iterative repair with minimal counterexample witnesses and targeted boundary probing
@@ -337,19 +628,32 @@ Generic self-correction ("reflect on your mistake and try again") solves only 26
 
 **Evidence**: Passing finite held-out test suites does not prove semantic equivalence. Always apply post-repair targeted robustness probes (synthesizing boundary mutations from positive and negative seeds): 23.3% of solutions passing finite test suites fail targeted robustness checks.
 
+**Scope:** code and formal-artifact synthesis with a deterministic oracle.
+The oracle that produces witnesses is a search oracle; final acceptance
+still uses a held-out evaluator the agent never queries (see "DO:
+Separate exploration from evaluation").
+
 > Source: A-CEGIS: Counterexamples as Feedback for Agent Self-Correction (arXiv:2609.02892)
 
 ### DON'T: Rely on unperturbed rubric evaluators without counterfactual verification
 
 Classifiers trained solely on rubric text without access to candidate responses achieve non-trivial accuracy in predicting LLM-as-a-judge scores, proving that rubrics convey latent evaluative priors independent of candidate quality. Furthermore, LLM judges systematically fail to invert decisions when candidate responses or rubric criteria are counterfactually negated.
 
+**Scope:** meta-evaluation of rubric-based LLM judges for automated text-generation evaluation (arXiv:2609.02942); applying it to recursive-improvement loops is this repo's extension, not measured.
+
 **Evidence**: Evaluators used in recursive improvement loops must be audited with counterfactual perturbation tests (reversing criteria and candidate assertions) to confirm that judge scores reflect candidate reasoning rather than rubric lexical bias.
+
+See also: agent-evaluation-quality.md — rubric artifacts entries.
 
 > Source: Judging LLM-as-a-Judge: Concerning Rubric Artifacts in LLM-based Automated Text Generation Evaluation (arXiv:2609.02942)
 
 ### DO: Abstract long trajectories into structured state graphs and verify neural invariants
 
 Unstructured LLM reflection on long agent trajectories misattributes root causes due to recency bias, hallucinated causality, and symptom-blaming. Projecting raw logs into structured behavioral state transitions $(s_t, a_t, o_t)$ and checking formal neural invariants (precondition satisfaction, monotonic progress, loop non-oscillation, observation grounding) reliably isolates the first decisive uncorrected error step.
+
+See also: multi-agent-coordination.md — AgentScope behavioural-abstraction entry.
+
+**Scope:** post-hoc diagnosis of long multi-turn agent trajectories (arXiv:2609.02371); no localization accuracy recorded in this repo.
 
 > Source: Diagnosing with Insights: Structured Analysis of Agent Failures via Behavioral Abstractions (arXiv:2609.02371)
 
@@ -367,13 +671,29 @@ When autonomous agents collaborate via shared knowledge repositories, evaluation
 
 **Evidence**: In a 100-agent autonomous research collective, a single evaluation loophole propagated rapidly across peer agents via shared libraries under competitive pressure. Transparent communication channels enabled non-cheating agents to spontaneously detect fraud, organize boycotts, and issue validation patches, functionally demonstrating Elinor Ostrom's decentralized commons governance principles.
 
+**Auditors vs verifiers**: transparent, mutual monitoring is for
+*auditors*, who get read-only, out-of-band access to shared history
+with no reward coupling to the audited agents. Agents that *verify* a
+peer's task output get task-scoped context only (see "DON'T: Expose
+full interaction history to peer-verifying agents"). Sanctions
+(quarantine, rollback, restriction) need an explicit grant.
+
+**Scope:** one 100-agent autonomous research swarm case study with
+shared libraries under competitive pressure.
+
+See also: multi-agent-coordination.md — Ostrom commons governance entry.
+
 > Source: A Case Study on Emergent Cheating and Whistleblowing in Autonomous Research Swarms (arXiv:2609.04170)
 
 ### DO: Dynamically calibrate consensus entropy and weight peer influence by evidence grounding in multi-agent debate
 
 In multi-agent debate and consensus refinement loops, never rely on unweighted majority voting. When an initial cohort shares a biased concept prior, unweighted debate amplifies rather than corrects the error (shared misconception). Compute consensus entropy and dynamically inject verified historical counter-evidence when premature convergence or deadlock is detected, weighting each agent's vote by factual evidence grounding.
 
+**Scope:** multi-agent debate on reasoning tasks versus standard MAD baselines (arXiv:2609.03619); benchmarks and effect sizes not recorded in this repo.
+
 **Evidence**: The R^2-MAD framework demonstrates that state-aware retrieval of historical debate experiences combined with confidence-weighted peer influence prevents majority skew and consistently improves reasoning accuracy over standard multi-agent debate baselines.
+
+See also: multi-agent-coordination.md — R²-MAD debate entry.
 
 > Source: Remember and Reweight: Enhancing Multi-Agent Debate with Experience Memory and Confidence Estimation (arXiv:2609.03619)
 
@@ -381,9 +701,19 @@ In multi-agent debate and consensus refinement loops, never rely on unweighted m
 
 Scaffolding, multi-turn ideation, and problem decomposition do not benefit all models equally and can cause severe negative transfer on models with uncalibrated reasoning priors or sparse Mixture-of-Experts (MoE) architectures with low active parameter counts. In uncalibrated models, multi-turn deliberation frequently talks the agent out of optimal solutions into flawed, over-engineered approximations.
 
-**Evidence**: While a manager-worker ledger scaffold improved Qwen3.8-27B by +23.4 points and GPT-5.6-Luna by +10.6 points on LiveCodeBench Hard, it degraded Qwen3.6-35B-A3B (3B active parameters) by -1.2 points (16k) and -9.0 points (128k with reasoning off). Its ideation stage actively rejected optimal algorithms (such as Convex Hull Trick DP) as "too complex for Python" and implemented slower, buggy fallbacks. Always benchmark scaffold interventions per model family before deployment.
+**Scope:** LiveCodeBench Hard (100 latest problems), GVS5H manager-worker ledger scaffold; dense 27B and GPT-5.6 models vs one sparse-MoE model (Qwen3.6-35B-A3B). Numbers are from paper v1; v2 (21 Sep 2026) revised them (e.g. GPT-5.6-Luna +10.8, GPT-5.6-Terra +7.2).
 
-> Source: Zero-Shot Self-Orchestration with Ledger-Based Control (arXiv:2608.26480)
+**Evidence**: While a manager-worker ledger scaffold improved Qwen3.8-27B by +23.4 points, GPT-5.6-Luna by +10.6 points and GPT-5.6-Terra by +8.0 points on LiveCodeBench Hard, it degraded Qwen3.6-35B-A3B (3B active parameters) by -1.2 points (16k) and -9.0 points (128k with reasoning off). Its ideation stage actively rejected optimal algorithms (such as Convex Hull Trick DP) as "too complex for Python" and implemented slower, buggy fallbacks. Always benchmark scaffold interventions per model family before deployment.
+
+An independent coding-harness study (arXiv:2609.20804) points the same
+way for single components: planning helped the weakest model's success
+but mostly cut cost (with small success losses) for stronger ones, and
+predefined tools helped weak-bash models while bash-capable models
+worked well with bash only at substantially lower cost.
+
+See also: skill-system-design.md — "DO: Decouple agent context into file ledgers to prevent runaway reasoning loops" (same paper).
+
+> Source: Zero-Shot Self-Orchestration with Ledger-Based Control (arXiv:2608.26480); An Empirical Study of Harness Design for Coding Agents (arXiv:2609.20804)
 
 ---
 
@@ -396,7 +726,11 @@ When agents decompose complex problems dynamically or self-recurse at runtime (e
 2. **Typed Finish Schema**: When conversational or recursive subroutines handle subtasks, require explicit structured terminal schemas (e.g. `finish_task(schema)`) so the parent orchestrator receives validated data rather than unbounded natural language turns.
 3. **Framework Trace Integration**: Run dynamic recursive nodes inside framework context (`ctx.run_node`) rather than uninstrumented raw Python loops to preserve state checkpointing, distributed tracing, and execution replayability.
 
+**Scope:** ADK 2 dynamic-workflow deep-research example (Google ADK codelab); vendor walkthrough, not a controlled benchmark.
+
 **Evidence**: In recursive deep research benchmarks, unconstrained recursive query expansion frequently suffered exponential fan-out explosion and context saturation. Enforcing `MAX_DEPTH=2` with `parallel_worker=True` bounded fan-out to 4 parallel workers and maintained 100% trajectory completion without runaway token consumption.
+
+See also: adk-workflow-architecture.md and skill-system-design.md — typed `finish_task` termination entries.
 
 > Source: Google Cloud Tech & ADK 2 Orchestration Codelab (ADK 2: Graph, Collaborative & Dynamic Workflows)
 
@@ -417,6 +751,17 @@ search from oracle verification via bilevel optimization:
    threshold ($\rho < 0.65$), recalibrate criterion weights using validation trajectories.
 3. **Token Efficiency**: Bilevel rubric surrogate optimization reduces total optimization token
    costs by 40% to 70% while avoiding overfitting to sparse binary pass/fail signals.
+4. **Counterfactual audit in the outer loop**: at each calibration, also run
+   counterfactual perturbation checks on the rubric judge (negate criteria,
+   negate candidate assertions; the score must invert) — rank correlation
+   alone does not detect rubric artifacts (see "DON'T: Rely on unperturbed
+   rubric evaluators without counterfactual verification").
+5. **Acceptance**: the surrogate picks candidates; keeping one still requires
+   "DO: Pass every self-modification through one acceptance gate".
+
+**Scope:** prompt/skill evolution with a sparse, expensive task oracle;
+token savings measured on SkillLift's benchmarks. Steps 4–5 are added
+from arXiv:2609.02942 and the acceptance-gate entries, not from SkillLift.
 
 > Source: SkillLift: Learning Dense Rubrics from Sparse Oracles for Efficient Skill Evolution (arXiv:2609.15396)
 
@@ -443,9 +788,15 @@ When deploying agents to unfamiliar operating systems, CLI tools, or external AP
 
 When autonomous coding agents modify their own instructions, prompts, or tool wrappers to maximize benchmark pass rates, adversaries can supply subtly poisoned benchmarks to induce self-perpetuating vulnerabilities (e.g. disabling SSL verification `verify=False` on network requests). Because the agent's meta-optimizer seeks reward without understanding intent, it internalizes insecure directives into its system instructions.
 
+**Scope:** self-modifying coding-agent harnesses optimizing against externally supplied benchmarks.
+
+> Source: Reflections on Trusting Trust, Revisited: Contaminating Self-Modifying AI Coding Agents with Poisoned Benchmarks (arXiv:2609.17817)
+
 ### DO: Evaluate evolved instructions against immutable, held-out negative security testbeds
 
 In self-improving agent harnesses (such as Hyperagents or Darwin Gödel Machines), backdoors introduced by poisoned benchmarks persist across subsequent generations even when evolved against completely clean benchmarks. Because standard benchmarks only check for task completion rather than the absence of security regressions, clean tests never penalize the dormant vulnerability. Gate every self-evolved prompt or code modification through an immutable, out-of-band negative testbed that explicitly checks for safety invariant violations (e.g., certificate validation, privilege drops, credential protection).
+
+**Scope:** self-modifying coding-agent harnesses (HyperAgents, Darwin Gödel Machine) under poisoned benchmarks. This gate is strict in every setting, regardless of how loose the task-performance gate is.
 
 > Source: Reflections on Trusting Trust, Revisited: Contaminating Self-Modifying AI Coding Agents with Poisoned Benchmarks (arXiv:2609.17817)
 
@@ -454,24 +805,26 @@ In self-improving agent harnesses (such as Hyperagents or Darwin Gödel Machines
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
-- [`hyperagent-self-improvement`](skills/recursive-self-improvement/hyperagent-self-improvement/SKILL.md) — Editable meta-improvement architecture
-- [`algorithmic-design-evaluation`](skills/recursive-self-improvement/algorithmic-design-evaluation/SKILL.md) — 8-family taxonomy and scoring
-- [`iterative-instruction-refinement`](skills/iterative-instruction-refinement/SKILL.md) — NPO-style revision loop
-- [`knowledge-compounding-loop`](skills/knowledge-compounding-loop/SKILL.md) — Persistent knowledge accumulation
-- [`targeted-failure-attribution`](skills/targeted-failure-attribution/SKILL.md) — DoCtOR decisive error identification
-- [`behavior-aware-verification`](skills/behavior-aware-verification/SKILL.md) — HarnessLens targeted verification
-- [`reference-trajectory-harness-evolution`](skills/reference-trajectory-harness-evolution/SKILL.md) — Trace-aligned harness evolution
-- [`requirements-driven-code-generation`](skills/requirements-driven-code-generation/SKILL.md) — Pre-implementation specification quality assessment
-- [`error-structured-prompt-optimization`](skills/error-structured-prompt-optimization/SKILL.md) — Diagnose-Propose-Select prompt optimization without bloat
-- [`counterexample-guided-repair`](skills/counterexample-guided-repair/SKILL.md) — Multi-turn artifact repair with oracle witnesses
-- [`neural-invariant-failure-diagnosis`](skills/neural-invariant-failure-diagnosis/SKILL.md) — Behavioral state abstraction and invariant checking
-- [`belief-calibrated-scaffold-optimization`](skills/belief-calibrated-scaffold-optimization/SKILL.md) — Persistent causal world model for scaffold optimization
-- [`debate-consensus-memory-calibration`](skills/debate-consensus-memory-calibration/SKILL.md) — Memory calibration and confidence reweighting for multi-agent debate
-- [`ledger-orchestrated-coding-loop`](skills/ledger-orchestrated-coding-loop/SKILL.md) — File-ledger multi-turn loop with test veto
-- [`adk2-agent-orchestration-patterns`](skills/adk2-agent-orchestration-patterns/SKILL.md) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
-- [`dense-rubric-skill-evolution`](skills/dense-rubric-skill-evolution/SKILL.md) — Bilevel dense rubric surrogate optimization for skill evolution
-- [`autonomous-environment-exploration`](skills/autonomous-environment-exploration/SKILL.md) — Curriculum-guided broad-then-deep environment exploration and causal memory
-- [`fast-tree-search-self-improvement`](skills/fast-tree-search-self-improvement/SKILL.md) — Budget-constrained self-improvement via LLM-judge-guided tree search
+- [`hyperagent-self-improvement`](../skills/recursive-self-improvement/hyperagent-self-improvement/SKILL.md) — Editable meta-improvement architecture
+- [`algorithmic-design-evaluation`](../skills/recursive-self-improvement/algorithmic-design-evaluation/SKILL.md) — 8-family taxonomy and scoring
+- [`iterative-instruction-refinement`](../skills/iterative-instruction-refinement/SKILL.md) — NPO-style revision loop
+- [`knowledge-compounding-loop`](../skills/knowledge-compounding-loop/SKILL.md) — Persistent knowledge accumulation
+- [`targeted-failure-attribution`](../skills/targeted-failure-attribution/SKILL.md) — DoCtOR decisive error identification
+- [`behavior-aware-verification`](../skills/behavior-aware-verification/SKILL.md) — HarnessLens targeted verification
+- [`reference-trajectory-harness-evolution`](../skills/reference-trajectory-harness-evolution/SKILL.md) — Trace-aligned harness evolution
+- [`requirements-driven-code-generation`](../skills/requirements-driven-code-generation/SKILL.md) — Pre-implementation specification quality assessment
+- [`error-structured-prompt-optimization`](../skills/error-structured-prompt-optimization/SKILL.md) — Diagnose-Propose-Select prompt optimization without bloat
+- [`counterexample-guided-repair`](../skills/counterexample-guided-repair/SKILL.md) — Multi-turn artifact repair with oracle witnesses
+- [`neural-invariant-failure-diagnosis`](../skills/neural-invariant-failure-diagnosis/SKILL.md) — Behavioral state abstraction and invariant checking
+- [`belief-calibrated-scaffold-optimization`](../skills/belief-calibrated-scaffold-optimization/SKILL.md) — Persistent causal world model for scaffold optimization
+- [`debate-consensus-memory-calibration`](../skills/debate-consensus-memory-calibration/SKILL.md) — Memory calibration and confidence reweighting for multi-agent debate
+- [`ledger-orchestrated-coding-loop`](../skills/ledger-orchestrated-coding-loop/SKILL.md) — File-ledger multi-turn loop with test veto
+- [`adk2-agent-orchestration-patterns`](../skills/adk2-agent-orchestration-patterns/SKILL.md) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
+- [`dense-rubric-skill-evolution`](../skills/dense-rubric-skill-evolution/SKILL.md) — Bilevel dense rubric surrogate optimization for skill evolution
+- [`autonomous-environment-exploration`](../skills/autonomous-environment-exploration/SKILL.md) — Curriculum-guided broad-then-deep environment exploration and causal memory
+- [`fast-tree-search-self-improvement`](../skills/fast-tree-search-self-improvement/SKILL.md) — Budget-constrained self-improvement via LLM-judge-guided tree search
+- [`regularized-harness-evolution`](../skills/regularized-harness-evolution/SKILL.md) — Bounded, regularized harness evolution with a fixed editable set
+- [`recursive-self-improvement-loop`](../skills/recursive-self-improvement-loop/SKILL.md) — AIDE² propose-benchmark-select loop
 
 ## Sources
 
@@ -497,8 +850,14 @@ For implementation details on the procedures behind these rules:
 - RSIAgent: arXiv:2609.15364
 - Reflections on Trusting Trust, Revisited: arXiv:2609.17817
 - Harness Value Study: arXiv:2609.20474
+- Empirical Study of Harness Design for Coding Agents: arXiv:2609.20804
+- A Theory of Reliable Self-Evolution for Agent Harnesses (Two-Gate): arXiv:2609.08175
 - SIFT: arXiv:2609.19526
 - AIDE² Recursive Self-Improvement: arXiv:2609.26457
 - Emergent Collusion: arXiv:2609.24967
-
-
+- MedRSI: arXiv:2609.24838
+- EvoPathBench (Process-Level Evaluation of Self-Evolving Agents): arXiv:2609.24663
+- RRSI (Regularized Recursive Self-Improvement of Agent Harnesses): arXiv:2609.24972
+- Evolutionary Safety of Recursive Self-Improving AI: arXiv:2609.31186
+- CASD (corpus-scale prompt distillation): arXiv:2609.26261
+- Instrumental Monitor Evasion: arXiv:2609.30217

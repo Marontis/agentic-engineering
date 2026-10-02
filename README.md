@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 305+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 335+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -79,6 +79,10 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`mcp-tool-hijacking-defense`](skills/mcp-tool-hijacking-defense/SKILL.md) | A2M MCP Hijacking (arXiv:2609.26761) |
 | [`selection-invariant-agent-communication`](skills/selection-invariant-agent-communication/SKILL.md) | SICC Privacy-Aware MAS Comms (arXiv:2609.26076) |
 | [`tainted-message-clean-room-recovery`](skills/tainted-message-clean-room-recovery/SKILL.md) | ESC-CR Tainted Message Recovery (arXiv:2609.26072) |
+| [`mcp-zero-trust-tool-authorization`](skills/mcp-zero-trust-tool-authorization/SKILL.md) | Zero-Trust Authorization for Enterprise MCP (arXiv:2609.22573) |
+| [`verified-policy-action-governance`](skills/verified-policy-action-governance/SKILL.md) | ActGov (arXiv:2609.24446) |
+| [`closed-loop-adaptive-red-teaming`](skills/closed-loop-adaptive-red-teaming/SKILL.md) | CART (arXiv:2609.27336) |
+| [`pentest-harness-assurance`](skills/pentest-harness-assurance/SKILL.md) | Pentest Harness Assurance (arXiv:2609.22664) |
 
 #### Self-Improvement & Evaluation
 
@@ -114,6 +118,9 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`corpus-scale-prompt-distillation`](skills/corpus-scale-prompt-distillation/SKILL.md) | CASD (arXiv:2609.26261) |
 | [`world-model-trust-gating`](skills/world-model-trust-gating/SKILL.md) | Dual-Frontier (arXiv:2609.26293) |
 | [`serving-stack-eval-checklist`](skills/serving-stack-eval-checklist/SKILL.md) | Serving Stack Confounds (arXiv:2609.26693) |
+| [`regularized-harness-evolution`](skills/regularized-harness-evolution/SKILL.md) | RRSI (arXiv:2609.24972) |
+| [`staged-capability-registration`](skills/staged-capability-registration/SKILL.md) | MedRSI (arXiv:2609.24838) |
+| [`learned-teamwork-strategy-bank`](skills/learned-teamwork-strategy-bank/SKILL.md) | Self-Organizing Agent Teams (arXiv:2609.22682) |
 
 #### Skill Evolution & Knowledge
 
@@ -149,6 +156,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`adk-mcp-multimodal-tool-interception`](skills/adk-mcp-multimodal-tool-interception/SKILL.md) | Google ADK & MCP (Multimodal Tool Interceptors & Callbacks) |
 | [`intent-driven-sdlc-planning`](skills/intent-driven-sdlc-planning/SKILL.md) | AI-Native SDLC Playbook (Intent → Spec → Plan upstream pipeline) |
 | [`mcp-server-design`](skills/mcp-server-design/SKILL.md) | MCP Server Best Practices & Progressive Discovery |
+| [`agentic-requirements-reverse-engineering`](skills/agentic-requirements-reverse-engineering/SKILL.md) | Code to Requirements (arXiv:2609.22719) |
 
 #### Retrieval & Evidence
 
@@ -160,6 +168,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`cost-effective-repo-exploration`](skills/cost-effective-repo-exploration/SKILL.md) | Cost-Effective Repo Exploration (arXiv:2608.29675) |
 | [`necessary-tool-evidence-path`](skills/necessary-tool-evidence-path/SKILL.md) | NTEP (arXiv:2609.03493) |
 | [`cost-aware-hierarchical-analysis`](skills/cost-aware-hierarchical-analysis/SKILL.md) | Cost-Aware Hierarchical Analysis (arXiv:2609.04820) |
+| [`evidence-gated-adversarial-deliberation`](skills/evidence-gated-adversarial-deliberation/SKILL.md) | LabourCrew (arXiv:2609.27814) |
+| [`visual-evidence-workspace`](skills/visual-evidence-workspace/SKILL.md) | VLM-in-Sandbox (arXiv:2609.24362) |
 
 ### Spec Templates (Project Kickoff)
 
@@ -278,6 +288,7 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`arbitrary-cipher-attacks`](research-briefs/arbitrary-cipher-attacks.md) | Cipher-encoded jailbreaks without fine-tuning |
 | [`multimodal-prompt-injection-eval`](research-briefs/multimodal-prompt-injection-eval.md) | Cross-modal prompt injection on agentic frameworks |
 | [`self-evolving-consistency-gap`](research-briefs/self-evolving-consistency-gap.md) | Goal drift in long-horizon self-evolving agents |
+| [`reliable-self-evolution-two-gate`](research-briefs/reliable-self-evolution-two-gate.md) | Two-Gate theory of reliable harness self-evolution: allowed change on solved tasks, admission threshold |
 | [`robust-sgpo-harness-evolution`](research-briefs/robust-sgpo-harness-evolution.md) | Search-space control for agent harness evolution |
 | [`verifier-survey-no-free-checker`](research-briefs/verifier-survey-no-free-checker.md) | Coverage-cost-soundness trade-offs in policy verifiers |
 | [`agent-audit-lifecycle-trust`](research-briefs/agent-audit-lifecycle-trust.md) | Full-lifecycle trust evaluation framework |
@@ -337,6 +348,27 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`growing-harness-specialist-agents`](research-briefs/growing-harness-specialist-agents.md) | Failure-guided harness growth reducing LLM calls by 76-92% |
 | [`indirect-tipping-social-attack`](research-briefs/indirect-tipping-social-attack.md) | Stepping-stone equilibria as social attack surface in agent populations |
 | [`contrastive-epistemic-decoding`](research-briefs/contrastive-epistemic-decoding.md) | Zero-shot sycophancy mitigation via dual forward-pass conformity isolation |
+| [`monitor-jailbreaking-cot-evasion`](research-briefs/monitor-jailbreaking-cot-evasion.md) | RL against a CoT monitor teaches readable-but-benign-scored reasoning; paraphrasing defense |
+| [`instrumental-monitor-evasion`](research-briefs/instrumental-monitor-evasion.md) | Agents route around blocking action monitors under ordinary task pressure (up to 88%) |
+| [`memory-defense-benign-cost`](research-briefs/memory-defense-benign-cost.md) | Benign-case cost of memory-poisoning defenses; read-time reranking quarantines 33.6% |
+| [`encoded-prompt-benign-arm`](research-briefs/encoded-prompt-benign-arm.md) | Encoded-prompt refusal evals need a matched benign arm; refusing everything looks safe |
+| [`ajar-open-privilege-measurement`](research-briefs/ajar-open-privilege-measurement.md) | Open privilege as a third axis for tool-call defenses beyond ASR and utility |
+| [`xai-guided-guardrail-evasion`](research-briefs/xai-guided-guardrail-evasion.md) | Confidence-guided substitutions flip compact prompt-injection classifiers |
+| [`multi-agent-prompt-injection-defense-architecture`](research-briefs/multi-agent-prompt-injection-defense-architecture.md) | 14 multi-agent injection vectors mapped to a 4-layer defense |
+| [`adversarial-influence-scaling-multi-agent`](research-briefs/adversarial-influence-scaling-multi-agent.md) | Adversarial influence scales with deceiver share, not group size |
+| [`wisdom-deliberative-crowds`](research-briefs/wisdom-deliberative-crowds.md) | Deliberation gains come from model diversity; clone groups show none |
+| [`process-level-self-evolution-evaluation`](research-briefs/process-level-self-evolution-evaluation.md) | EvoPathBench: acceptance gates trade harmful commits against missed improvements |
+| [`evolutionary-safety-rsi-taxonomy`](research-briefs/evolutionary-safety-rsi-taxonomy.md) | Taxonomy of RSI risks; updater, evaluator and security tests stay outside the editable surface |
+| [`role-scoped-progressive-skill-discovery`](research-briefs/role-scoped-progressive-skill-discovery.md) | Tool hiding and role prompts are not access control; server-side limits are |
+| [`kernel-level-agent-preemption`](research-briefs/kernel-level-agent-preemption.md) | Syscall-level containment and cgroup freeze for rogue agent execution |
+| [`sdc-mcp-dry-run-gateway`](research-briefs/sdc-mcp-dry-run-gateway.md) | Read-only plus dry-run MCP gateway pattern for safety-critical domains |
+| [`mcp-granite-tool-granularity`](research-briefs/mcp-granite-tool-granularity.md) | Tool granularity benchmark for MCP agents; monolithic tools hurt |
+| [`mobilecybench-executable-probes`](research-briefs/mobilecybench-executable-probes.md) | Executable probes for agent vulnerability discovery; refusal cost in authorized pentests |
+| [`counterfactual-multi-turn-safety-attribution`](research-briefs/counterfactual-multi-turn-safety-attribution.md) | Counterfactually anchored attribution of multi-turn safety failures |
+| [`multi-turn-consistency-survival-analysis`](research-briefs/multi-turn-consistency-survival-analysis.md) | Survival analysis and failure-rationale taxonomy for multi-turn consistency |
+| [`selfop-security-skill-optimization`](research-briefs/selfop-security-skill-optimization.md) | Self-optimizing security agent; batch failure clustering without a regression gate |
+| [`delay-gratification-survival-benchmark`](research-briefs/delay-gratification-survival-benchmark.md) | Mandatory per-step self-questioning worsened long-horizon self-control |
+| [`reasoning-topology-cybersecurity`](research-briefs/reasoning-topology-cybersecurity.md) | Graph-structured reasoning beats tree and chain for security classification (cost unmeasured) |
 
 ---
 
@@ -358,6 +390,14 @@ The selection criteria: a paper produces a skill only if it describes a procedur
 ## Contributing
 
 Found a paper that should be here? Open an issue with the arXiv link and a brief note on what transferable procedure you see in it.
+
+Changes follow the standard in [`AGENTS.md`](AGENTS.md): numbers checked against the paper text, a **Scope:** line and a source on every rule entry, and linked `Tension with` notes where two entries point different ways. Before opening a PR:
+
+```bash
+python scripts/kb_lint.py --base origin/master
+```
+
+CI runs the same check on every pull request. It catches broken links, encoding damage, leftover template text, rule entries without a Scope or Source line, cross-references to headings that don't exist, and figures that look copied between papers. It also warns about new rule entries that point the opposite way to an existing one. Contradictions phrased in different words still need a periodic read-through audit; see the `deconfliction-report-*.md` files.
 
 ---
 

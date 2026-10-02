@@ -99,11 +99,20 @@ For each pair of candidate patches at the current frontier:
 
 ### 6. Commit or Reject
 
-1. If the top candidate improves downstream task performance → commit
-   the modification as the new agent baseline
+1. If the top candidate improves downstream task performance by more
+   than the noise margin δ and passes the acceptance gate below →
+   commit it as the new agent baseline
 2. If not → prune the subtree and continue exploration from other
    high-ranked candidates
 3. Iterate until the compute budget is exhausted
+
+**Acceptance gate:** step 1 selects a candidate; keeping it defers to
+rules/recursive-improvement.md — "DO: Pass every self-modification
+through one acceptance gate": accept a change only if it shows no
+regression beyond a noise margin δ on previously-correct cases and
+held-out tasks, where δ is estimated from repeated runs of the
+unchanged baseline; the negative security testbed is always strict
+(zero tolerance, no margin).
 
 ---
 

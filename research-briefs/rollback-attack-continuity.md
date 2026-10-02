@@ -1,11 +1,11 @@
-﻿# Safe to Resume? Breaking Execution Continuity of Agent Execution via Rollback
+# Safe to Resume? Breaking Execution Continuity of Agent Execution via Rollback
 
 > **Paper**: [Safe to Resume? Breaking Execution Continuity of Agent Execution via Rollback](https://arxiv.org/abs/2608.29381)
 > **Praxis source**: `src:2608-29381v1`
 
 ## Why Not a Skill?
 
-Attack paper â€” describes how to break agent checkpoint/resume mechanisms. The key insight becomes a rule in `agent-sandbox-safety.md` rather than a defense procedure (the defenses are straightforward: integrity verification).
+Attack paper — describes how to break agent checkpoint/resume mechanisms. The key insight becomes a rule in `agent-sandbox-safety.md` rather than a defense procedure (the defenses are straightforward: integrity verification).
 
 ---
 
@@ -22,5 +22,5 @@ Checkpoint state is an implicit trust boundary. Most agent systems trust their o
 
 ## Relevance to Praxis
 
-- Key insight captured as a rule in gent-sandbox-safety.md: "DON'T trust checkpoint state without integrity verification"
-- Directly relevant to the 	ransactional-coding-sandbox skill's rollback mechanism â€” rollback itself can be an attack vector
+- Key insight captured as a rule in agent-sandbox-safety.md: "DON'T trust checkpoint state without integrity verification"
+- Directly relevant to the 	ransactional-coding-sandbox skill's rollback mechanism — rollback itself can be an attack vector

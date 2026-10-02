@@ -82,6 +82,15 @@ Before promotion, each proposed skill must pass:
    outside its intended scope
 4. All three gates must pass — failure on any gate blocks promotion
 
+These gates implement rules/recursive-improvement.md — "DO: Pass every self-modification through one acceptance gate" for skill libraries:
+accept a change only if it shows no regression beyond a noise margin δ
+on previously-correct cases and held-out tasks, where δ is estimated
+from repeated runs of the unchanged baseline; the negative security
+testbed is always strict (zero tolerance, no margin). For deterministic
+protected cases δ is zero. Report missed improvements as well as harmful
+commits (rules/recursive-improvement.md — "DO: Measure acceptance-gate
+errors in both directions").
+
 ### 4. Promote, Version, or Reject
 
 Based on validation results:

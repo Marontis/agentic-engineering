@@ -36,9 +36,11 @@ triggered when confidence is insufficient or specialists disagree.
 
 **Key evidence**: The hierarchical system achieved 96.57% accuracy,
 0.96 F1-score and 0.99 ROC-AUC while reducing average analysis cost
-by 43.97% relative to exhaustive analysis.  56.05% of cases resolved
-using the cheapest modality alone; only 4.33% required the complete
-pipeline.
+by 43.97% relative to exhaustive analysis (family attribution: 0.90
+macro-F1).  56.05% of cases resolved using static evidence (the
+cheapest modality) alone; only 4.33% required the complete evidence
+pipeline.  These figures are from ransomware detection; re-measure
+escalation rates in your own domain.
 
 ---
 
@@ -148,9 +150,9 @@ thresholds save cost but may sacrifice accuracy.
 
 ## Cross-References
 
-- [`cost-effective-repo-exploration`](../../../../.gemini/config/skills/cost-effective-repo-exploration/SKILL.md) —
+- [`cost-effective-repo-exploration`](../cost-effective-repo-exploration/SKILL.md) —
   Related: escalation-oriented search for code repository exploration
-- [`trajectory-aware-eval-pruning`](../../../../.gemini/config/skills/trajectory-aware-eval-pruning/SKILL.md) —
+- [`trajectory-aware-eval-pruning`](../trajectory-aware-eval-pruning/SKILL.md) —
   Related: cost reduction through intelligent subset selection
 
 ## Sources

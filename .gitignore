@@ -16,6 +16,8 @@ desktop.ini
 
 # Scripts & temporary pipeline scratch files (keep pipeline in tools/praxis)
 *.py
+# ...except the knowledge-base linter and its tests
+!scripts/*.py
 *.ps1
 candidates*.json
 __pycache__/

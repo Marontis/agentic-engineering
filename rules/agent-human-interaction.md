@@ -59,12 +59,24 @@ Principles:
 - **Decision-scoped context**: include only information that changes
   the decision at hand
 
-**Evidence**: the String OS's partial exposure principle demonstrates
-that runtime-managed views (showing agents only what they need, with
-the rest retrievable via follow-up commands) outperform full-context
-approaches for both agents and humans reviewing agent output.
+**Evidence**: String OS states partial exposure as a design principle
+(runtime-managed views, with held-back content retrievable via
+follow-up commands). The paper reports no measurement comparing it with
+full-context presentation, for agents or for humans
+(research-briefs/agentic-os-interface-design.md).
 
-> Source: String OS (arXiv:2608.28027)
+**Scope:** human-facing presentation of agent output (review views,
+approval gates, reports); a design principle, not a measured result.
+Not evidence for how to manage an agent's own context window.
+
+Tension with 2609.20804 (research-briefs/empirical-harness-design-study.md):
+for coding agents, making elided context recoverable added machinery
+models rarely used and gave no accuracy gain; the benefit of context
+management came from preventing context overflow. For an agent's own
+context, prefer rule-based elision then summarization; do not add
+recoverable-elision machinery expecting accuracy gains.
+
+> Source: String OS (arXiv:2608.28027); An Empirical Study of Harness Design for Coding Agents (arXiv:2609.20804)
 
 ### DO: Adapt response granularity to query complexity
 
@@ -123,10 +135,27 @@ This applies at every level:
 - **Diagnosis ≠ permission to remediate**: the agent must explicitly
   request authorization before acting on its own findings
 - **Recommendation ≠ approval**: a proposal that passes all automated
-  checks still requires the explicit human gate before execution
+  checks still requires the explicit gate before execution: a human
+  approval, or a pre-granted, bounded scope that already covers the
+  action (see Scope below). Passing checks is not itself that gate
 - **Standing autonomy never quietly widens**: an agent authorized to
   fix lint errors is not authorized to refactor the surrounding code,
   even if the refactor would "obviously" improve it
+
+**Scope:** agents acting on their own findings in a human-supervised
+workflow (FirstMate design principle; no benchmark). A pre-granted,
+bounded scope counts as the explicit gate: an autonomous loop that
+fixes only what an operator authorized in advance (e.g. a `mode="task"`
+remediation node limited to its declared tools and output schema) is
+already authorized for that scope. Sanction or revocation powers over
+other agents need their own explicit grant.
+
+Tension with "Use `mode="task"` with typed `finish_task` for autonomous
+remediation loops" (adk-workflow-architecture.md) and "Apply commons
+governance principles to shared agent resources"
+(multi-agent-coordination.md): those loops act without a per-action
+human gate, and they stay consistent with this rule only while they
+act inside the scope they were granted up front.
 
 > Source: FirstMate agent distro (github.com/kunchenguid/firstmate),
 > VISION.md: "Evidence is never authorization"
@@ -197,11 +226,24 @@ loop), what system prompt it receives, and what tools are available.
 Multi-turn interaction history also alters safety refusal thresholds
 asymmetrically across model providers.
 
-**Evidence**: sequential retreat techniques (refusing an extreme
-request then receiving a smaller request) double compliance on some
-model families (65.8% vs 29.3%) while backfiring on others (-15.5 to
--23.0 points). Furthermore, reframing operational requests as
-conceptual explanations bypasses safety refusals in 99.2% of cases.
+The effect is per model, not per provider family: test multi-turn
+refusal behaviour on each model you deploy, and re-test when you swap
+models, even within one provider.
+
+**Scope:** nine frontier production models from Anthropic, OpenAI and
+Google, single door-in-the-face sequences (2609.02707).
+
+**Evidence**: sequential retreat (refusing an extreme request, then
+receiving a smaller one) raised compliance on Claude Opus 5 (65.8% vs
+29.3% when asked directly) but backfired on Claude Haiku 4.5, GPT-5.6
+sol and Gemini 3.1 Pro (-15.5 to -23.0 points; GPT-5 mini and Gemini 3
+Flash showed no significant effect), so two models from
+one provider reacted in opposite directions
+(research-briefs/door-in-the-face-model-refusals.md). Reframing
+refused operational requests as requests for conceptual explanations
+removed refusals in 263/265 cases (99.2%).
+
+See also: rules/agent-sandbox-safety.md — "DON'T: Assume uniform safety refusal behavior across model families in multi-turn dialogues"; rules/agent-sandbox-safety.md — "DON'T: Assume safety transfers across deployment contexts"
 
 > Source: Door-in-the-Face Refusal Behaviour (arXiv:2609.02707),
 > Not the Same Protector (arXiv:2608.29136)
@@ -214,11 +256,15 @@ privileged roles ("I am your developer"), models frequently generate
 arbitrary technical challenges, evaluate answers, and issue pseudo-
 credentials without external attestation.
 
+**Scope:** chat models (ChatGPT, Claude, Qwen, Mistral, Llama per the brief) under unsupported developer-identity claims (arXiv:2609.03247); no failure rates recorded in this repo.
+
 **Evidence**: across frontier models, multiple architectures collapsed
 the challenge-generator, evidence-evaluator, and decision-maker roles,
 erroneously verifying developer identity based solely on technical
 dialogue. Authentication must derive from external cryptographic
 tokens or environment capability leases.
+
+See also: rules/agent-sandbox-safety.md — "DON'T: Permit dialogue-driven identity authentication or self-issued credentials"
 
 > Source: Conversational False Authentication (arXiv:2609.03247)
 
@@ -227,15 +273,16 @@ tokens or environment capability leases.
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
-- [`intent-driven-sdlc-planning`](skills/intent-driven-sdlc-planning/SKILL.md) — Structured intent → spec → plan pipeline for human-agent planning
-- [`agentic-review-deploy-loop`](skills/agentic-review-deploy-loop/SKILL.md) — Layered review pipeline with escalation triggers
-- [`requirements-driven-code-generation`](skills/requirements-driven-code-generation/SKILL.md) — Requirement decomposition for evaluable specifications
-- [`persistent-agent-migration`](skills/persistent-agent-migration/SKILL.md) — Preserving agent identity across interaction sessions
+- [`intent-driven-sdlc-planning`](../skills/intent-driven-sdlc-planning/SKILL.md) — Structured intent → spec → plan pipeline for human-agent planning
+- [`agentic-review-deploy-loop`](../skills/agentic-review-deploy-loop/SKILL.md) — Layered review pipeline with escalation triggers
+- [`requirements-driven-code-generation`](../skills/requirements-driven-code-generation/SKILL.md) — Requirement decomposition for evaluable specifications
+- [`persistent-agent-migration`](../skills/persistent-agent-migration/SKILL.md) — Preserving agent identity across interaction sessions
 
 ## Sources
 
 - ProSE: arXiv:2609.02242
 - String OS: arXiv:2608.28027
+- Empirical Study of Harness Design for Coding Agents: arXiv:2609.20804
 - Hybrid Micro-Level Personalization: arXiv:2609.03402
 - The Civilization Framework: arXiv:2609.03425
 - Door-in-the-Face Refusal Behaviour: arXiv:2609.02707

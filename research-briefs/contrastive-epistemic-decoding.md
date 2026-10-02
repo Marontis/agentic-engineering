@@ -22,7 +22,10 @@ Consensus Paradox via Contrastive Epistemic Decoding"
 
 CED extends the consensus overstatement findings (2609.20543) with a
 practical mitigation. The dual forward-pass approach to isolating
-conformity bias is zero-cost at inference time and model-agnostic. The
+conformity bias needs no training (no fine-tuning), but it runs two
+forward passes per decoding step, so expect roughly 2× inference compute
+(an inference from the method; the abstract reports no cost figure). The
+paper tests it on open-weight models (e.g. Gemma-2, Llama-3.1). The
 finding that it induces different recovery behaviors across architectures
 is notable.
 

@@ -1,11 +1,11 @@
-﻿# Beyond Training: A Feasibility Taxonomy for Inference-Time AI Governance
+# Beyond Training: A Feasibility Taxonomy for Inference-Time AI Governance
 
 > **Paper**: [Beyond Training](https://arxiv.org/abs/2609.10105)
 > **Praxis source**: `src:2609-10105v1`
 
 ## Why Not a Skill?
 
-Taxonomy â€” classifies inference-time governance mechanisms by feasibility, not by implementation procedure.
+Taxonomy — classifies inference-time governance mechanisms by feasibility, not by implementation procedure.
 
 ---
 

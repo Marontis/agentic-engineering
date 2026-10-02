@@ -16,19 +16,25 @@ a standalone transferable workflow.
 
 ## Core Concept
 
-LoopArena tests whether agents can iteratively observe execution results,
-diagnose errors, and correct course across multiple rounds — the "control
-cycle." It separates three distinct capabilities:
+LoopArena evaluates the **Controller**: a model that, after each coding
+round, receives a structured summary of the run and tells a separate,
+**fixed** coding agent (the Worker) what to do or verify next, or decides
+to stop. Holding the Worker fixed separates loop guidance from coding
+ability. Three settings differ in execution scope and cost:
 
-**Type I: Contract Selection** — Can the agent identify the correct behavioral
-specification (contract) from a set of candidates? Tests whether the agent
-understands what the code should do before trying to fix it.
+**Type I: Loop Contract selection** — choose the right next-step Loop
+Contract in execution-validated questions, without running the Worker at
+evaluation time.
 
-**Type II: Condensed Coding Task** — Given a failing test and a minimal code
-context, can the agent fix the issue within a budget of control cycles?
+**Type II: Condensed task** — repeated control over a selected slice of a
+full task.
 
-**Type III: Full Coding Task** — The complete task: understand requirements,
-write code, observe failures, and iteratively correct until tests pass.
+**Type III: Full task** — control over the paired full task from its
+original state.
+
+Results: the best observed Strict Success Rate on full tasks was 24.69%.
+Type II ranked Controllers similarly to Type III (Spearman ρ = 0.9747)
+at an average 64.4% lower estimated inference cost.
 
 ### Architecture
 - **Worker**: The LLM that writes/modifies code
@@ -36,9 +42,12 @@ write code, observe failures, and iteratively correct until tests pass.
   retry, or terminate
 - **Reporter**: Summarizes execution results for the controller
 
-The controller's decision-making (not just code generation) is the key bottleneck.
-Good controllers limit unnecessary retries while allowing sufficient iteration
-for complex fixes.
+Because the Worker is fixed, the benchmark measures controller quality
+directly; it does not show that controller quality is *the* bottleneck in
+general, only that even the best Controller left most full tasks
+unsolved with this Worker. Typical loop failures it targets: trusting a
+stale progress note, skipping needed verification, spending budget in the
+wrong direction, or stopping before the task is safe to submit.
 
 ---
 
@@ -49,5 +58,7 @@ for complex fixes.
   contract understanding, narrow repair, and full-scope capability.
 - The controller-worker separation validates the planner-controller
   decoupling pattern documented in our existing research brief.
-- The finding that controller quality is the bottleneck (not code generation)
-  aligns with our recursive-improvement rules about reasoning budget.
+- With a fixed Worker, loop control alone left most full tasks unsolved
+  (best 24.69%), which supports treating the controller as a component to
+  benchmark on its own. The cheaper Type II setting is a candidate
+  search-time proxy; acceptance still uses full tasks.

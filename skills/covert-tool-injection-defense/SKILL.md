@@ -56,8 +56,12 @@ context.  Instead:
 2. **Role separation**: Tool outputs should never appear in the
    "user" role — they should be in a distinct "tool_result" role
    that the model treats differently
-3. **Escaping**: Strip or escape any instruction-like patterns from
-   tool outputs before injection
+3. **Escaping**: Escape (neutralize, don't delete) instruction-like
+   patterns in tool outputs before injection, and flag each one for
+   review and for the action-alignment check in Step 4.  Content stays
+   in the quarantine zone as inert data; blocking decisions happen at
+   the action gate, not by silently removing text (see Failure Modes:
+   over-sanitization)
 
 ### Step 2: Detect return anchors
 
@@ -125,8 +129,8 @@ After the agent produces its final response:
   pattern matching.
 - **Over-sanitization**: Aggressively stripping content from tool
   outputs can break legitimate functionality.  Calibrate the
-  sanitization to flag suspicious patterns for review rather than
-  silently removing content.
+  sanitization to escape and flag suspicious patterns (Step 1.3)
+  rather than silently removing content.
 - **Detection-only defense**: Detecting an injection after the
   fact doesn't help the user if the malicious action already
   executed.  The defense must be preventive (quarantine + action

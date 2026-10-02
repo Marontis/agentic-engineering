@@ -1,11 +1,11 @@
-﻿# BAITBENCH: Measuring Agent Reward Hacking with Optional Shortcuts
+# BAITBENCH: Measuring Agent Reward Hacking with Optional Shortcuts
 
 > **Paper**: [BAITBENCH: Measuring Agent Reward Hacking with Optional Shortcuts Planted in ML Tasks](https://arxiv.org/abs/2608.30724)
 > **Praxis source**: `src:2608-30724v1`
 
 ## Why Not a Skill?
 
-Benchmark â€” tests whether agents take planted shortcuts instead of solving tasks correctly. Provides a measurement tool, not a defense procedure.
+Benchmark — tests whether agents take planted shortcuts instead of solving tasks correctly. Provides a measurement tool, not a defense procedure.
 
 ---
 
@@ -19,5 +19,6 @@ Reward hacking propensity varies significantly across models and is not simply c
 
 ## Relevance to Praxis
 
-- Directly informs the ehavior-aware-verification skill â€” verification must check for shortcutting, not just correctness
-- Relevant to the ecursive-improvement rules about evaluation design
+- Directly informs the behavior-aware-verification skill — verification must check for shortcutting, not just correctness
+- Relevant to the 
+ecursive-improvement rules about evaluation design

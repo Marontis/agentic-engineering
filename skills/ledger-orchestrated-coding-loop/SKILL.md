@@ -28,7 +28,7 @@ Monolithic long-context chat histories poison multi-turn coding agents: models f
 The **Ledger-Orchestrated Coding Loop** decouples coordination from context:
 1. **Durable File Ledger**: State persists in a shared directory (`plan.md`, `notes.md`, `tasks.json`, `solution.py`). Every worker is invoked in a clean, zero-shot context containing only the current task, high-level plan, compact notes, and current code artifact.
 2. **Structural Code-Ban on Ideation**: The first worker is strictly forbidden from writing code, forcing pure algorithmic complexity analysis ($O(N \log N)$ vs $O(N^2)$) and mathematical reductions in prose.
-3. **Active Memory Compaction**: Workers are required to rewrite `notes.md` to under ~800 words, dropping disproven or obsolete hypotheses.
+3. **Active Memory Compaction**: Workers are required to rewrite `notes.md` to under ~800 words, compacting disproven hypotheses into one-line principles ("X fails because Y") instead of deleting them, and dropping only obsolete detail.
 4. **Programmatic Execution Veto**: Candidate solutions are executed in a subprocess against public sample tests. If tests fail, the harness programmatically overrides the manager's `done` signal and forces another repair iteration.
 
 ---
@@ -132,7 +132,7 @@ Spawn a fresh worker instance. The input payload contains *only*:
 
 Prompt the worker with an explicit output contract:
 - `### CODE`: Complete, self-contained Python program.
-- `### NOTES`: **Rewritten notes file under ~800 words.** Instruct the worker to fold in findings, keep what still matters, and delete anything superseded or disproven.
+- `### NOTES`: **Rewritten notes file under ~800 words.** Instruct the worker to fold in findings, keep what still matters, compress each disproven hypothesis into a one-line principle (what was tried, why it failed) so it is not retried, and delete only superseded detail.
 - `### NEXT`: Bullet list of remaining steps or checks.
 - `### STATUS`: `solved` or `continue`.
 
@@ -183,7 +183,7 @@ If `run_sample_tests` returns `passed: False`, the harness **programmatically ov
 ### 1. Context Accumulation (Chat History Bloat)
 * **Anti-Pattern**: Appending every manager turn, worker thought, and execution error into an ongoing multi-turn chat transcript.
 * **Why It Fails**: Attention dilution causes the model to fixate on earlier buggy code structures and repeat hallucinated proofs.
-* **Fix**: Reset context every turn. Workers receive only the curated `notes.md` (<800 words) and current `solution.py`.
+* **Fix**: Reset context every turn. Workers receive only the curated `notes.md` (<800 words) and current `solution.py`. Resetting the transcript does not mean dropping evidence: keep a compact list of previously failing test cases (counterexample witnesses: input, expected, got) in `notes.md` so they survive the reset and the worker does not oscillate between fixes (see [`counterexample-guided-repair`](../counterexample-guided-repair/SKILL.md)).
 
 ### 2. Runaway Deliberation Loops
 * **Anti-Pattern**: Setting generation caps to 128k–250k on smaller reasoning models without turn limits.

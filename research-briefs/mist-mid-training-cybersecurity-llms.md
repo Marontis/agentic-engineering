@@ -17,7 +17,7 @@ MiST (Mid-trained Security Transformer) introduces **mid-training** as a dedicat
 
 ```
 ┌─────────────────────────┐
-│ General Pre-trained LLM │ (e.g. Qwen 2.5 8B / 32B Base)
+│ General Pre-trained LLM │ (Qwen3-8B-Base / Qwen3-32B)
 └────────────┬────────────┘
              │
              ▼
@@ -42,21 +42,22 @@ MiST (Mid-trained Security Transformer) introduces **mid-training** as a dedicat
 ## Key Empirical Findings
 
 - **Substantial Accuracy Improvements**:
-  - **MiST-8B**: Improves mean cybersecurity accuracy by **+13.1 absolute percentage points** over the Qwen-8B baseline (**+27.0% relative gain**).
-  - **MiST-32B**: Improves mean accuracy by **+8.6 absolute percentage points** over Qwen-32B (**+15.8% relative gain**).
+  - **MiST-8B**: Improves mean cybersecurity accuracy by **+13.1 absolute percentage points** over its Qwen3-8B baseline (**+27.0% relative gain**).
+  - **MiST-32B**: Improves mean accuracy by **+8.6 absolute percentage points** over Qwen3-32B (**+15.8% relative gain**). No public Qwen3-32B-Base existed, so this one starts from a post-trained checkpoint.
+  - **Cross-size comparison (cybersecurity mean only)**: MiST-8B-DPO scored 61.7 versus 54.6 for Qwen3-32B and 61.2 for GPT-5.4-mini on the paper's own benchmark suite.
 - **Ablation of Adaptation Stages**:
-  - Ablations confirm that the performance surge stems specifically from the combination of mid-training with synthetic data flows followed by SFT. Neither SFT alone nor raw continual pre-training achieved comparable sample efficiency or reasoning depth.
+  - Against raw continual pre-training on a roughly 2× larger corpus, mid-training with synthetic data flows scored higher on nearly all benchmarks while using fewer training tokens.
 - **Retention of General Capabilities**:
-  - In contrast to standard domain-adapted models which suffer degradation on standard MMLU, GSM8K, and HumanEval benchmarks, MiST retains baseline performance across general reasoning, coding, and mathematical problem-solving.
+  - On MMLU, ARC-Challenge, GSM8K and IFEval, the authors report MiST models "largely retain or improve" general performance (MiST-8B-DPO mean 85.8 vs 82.5 baseline). Coding benchmarks were not reported.
 - **Stronger Downstream Initialization**:
-  - The mid-trained checkpoints provide a superior foundation for downstream agentic reinforcement learning (RL) and specialized task fine-tuning, reaching benchmark convergence in significantly fewer rollout iterations.
+  - The authors report the mid-trained checkpoints as a stronger initialization for downstream fine-tuning and RL (higher validation accuracy throughout training at lower KL divergence).
 
 ---
 
 ## Relevance to Praxis & Agent Architecture
 
 - **Domain-Specialist Local SLM Selection**:
-  - Validates that high-quality mid-trained 8B models can match or exceed 32B+ generalist baselines in specialized technical domains, reinforcing the viability of local-first agent architectures (as in `PentestChain`).
+  - In this one domain, on the paper's own benchmark suite, a mid-trained 8B model outscored Qwen3-32B and roughly matched GPT-5.4-mini on mean cybersecurity accuracy. That supports trying local domain-specialist models (as in `PentestChain`), but it is not evidence of parity with larger generalists outside cybersecurity or on agentic tasks.
 - **Data Engineering for Agent Memory & Fine-Tuning**:
   - **DO prioritize synthetic expansion of compact expert seeds over massive unstructured document scraping**: High-density synthetic reasoning pairs outperform raw document ingestion for training and evaluating domain-specific skills.
   - **DO stage model adaptation in layers**: Base $\rightarrow$ Mid-training (conceptual vocabulary & structures) $\rightarrow$ SFT (procedural task execution) $\rightarrow$ Alignment (guardrails & tool safety).

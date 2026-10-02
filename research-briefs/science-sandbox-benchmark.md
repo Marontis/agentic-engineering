@@ -1,11 +1,11 @@
-﻿# Science Sandboxes Measure the Scientific Capability of AI Agents
+# Science Sandboxes Measure the Scientific Capability of AI Agents
 
 > **Paper**: [Science Sandboxes Measure the Scientific Capability of AI Agents](https://arxiv.org/abs/2608.30165)
 > **Praxis source**: `src:2608-30165v1`
 
 ## Why Not a Skill?
 
-Benchmark/evaluation framework â€” sandboxed environments for evaluating AI agents on scientific tasks (hypothesis generation, experimental design, analysis). No transferable subtask procedures.
+Benchmark/evaluation framework — sandboxed environments for evaluating AI agents on scientific tasks (hypothesis generation, experimental design, analysis). No transferable subtask procedures.
 
 ---
 
@@ -15,6 +15,6 @@ Evaluates AI agents on real scientific tasks rather than just coding. Uses sandb
 
 ## Relevance to Praxis
 
-- The sandbox design informs the gent-sandbox.spec template
+- The sandbox design informs the agent-sandbox.spec template
 - Scientific reasoning evaluation is orthogonal to the coding agent evaluations in existing skills
 - The distinction between "can code" and "can reason scientifically" is relevant to capability assessment
