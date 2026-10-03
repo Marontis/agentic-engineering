@@ -174,7 +174,16 @@ What to read: loss curve shape, gradient norms, policy entropy,
 divergence from reference, distribution of advantages, per-token loss
 breakdowns, reward model saturation patterns.
 
-> Source: arXiv:2608.20318
+**Scope:** AI4AI-Bench ML-research tasks (2608.20318); second source is
+long-video harness evolution with a frozen DeepSeek-V4-Pro solver and
+editor (2609.37950).
+
+**Evidence**: in Video-RSI, actively re-probing training videos to test
+competing failure explanations before revising the harness beat
+revising from execution trajectories alone: MLVU 72.9% vs 64.7%
+(initial harness 62.4%).
+
+> Source: arXiv:2608.20318; Video-RSI: Recursive Self-Improvement of Video Understanding Agents via Harness Evolution (arXiv:2609.37950)
 
 ### DON'T: Conflate reasoning effort with algorithmic ability
 
@@ -251,6 +260,8 @@ candidate population and using no search algorithms.
 student; weights frozen (prompt-only) setting.
 
 See also: skill-system-design.md — "DO: Invest in feedback quality over optimizer complexity".
+
+Tension with "Return only accept/reject decisions to the proposer when the acceptance set is reused across rounds" (recursive-improvement.md): rich traces are fine from the search/optimization set; an acceptance set that is reused across rounds must return decisions only (shown on Covertype pipelines; untested on agent harness loops).
 
 > Source: Naive Prompt Optimization (arXiv:2608.27266)
 
@@ -401,9 +412,17 @@ behavior changed.  Require behavioral evidence from trajectory analysis
 AND metric improvement.  Confirm on previously unused tasks before
 accepting.
 
-**Scope:** HarnessLens propose-and-verify harness evolution.
+**Scope:** HarnessLens propose-and-verify harness evolution; the
+ER-Audit evidence is from verifiers (gpt-oss-20B, Qwen3.5-9B,
+Llama3.1-8B) fine-tuned on debate transcripts, QuALITY-H and GPQA-H.
 
-> Source: arXiv:2608.27311
+**Evidence (arXiv:2609.32361):** a gpt-oss-20B verifier fine-tuned on
+adversarial debate transcripts beat the honest-trained one on both
+monitored (80.63% vs 79.73%) and hidden (63.96% vs 59.91%) QuALITY-H
+accuracy, yet a paraphrase audit found degradation counterexamples on
+103 vs 90 of 222 hidden questions.
+
+> Source: arXiv:2608.27311; Black-Box Auditing of Epistemic Reliability in Multi-Agent Debate Distillation (arXiv:2609.32361)
 
 ### DON'T: Register self-generated capabilities on their discovery gain
 
@@ -452,6 +471,36 @@ fewer updates, not by picking better ones.
 
 > Source: Beyond Endpoint Performance: Process-Level Evaluation of Self-Evolving Agents (arXiv:2609.24663)
 
+### DO: Return only accept/reject decisions to the proposer when the acceptance set is reused across rounds
+
+Loops that feed score changes back to the proposer (e.g. RRSI and Video-RSI
+in `skills/regularized-harness-evolution`) need a held-out acceptance set
+whose scores never reach the proposer; otherwise this entry applies.
+
+When a self-improvement loop scores candidates on the same frozen set
+every round, a proposer that sees those scores turns the set into
+training data (adaptive overfitting); best-of-K selection and many
+rounds of testing add false promotions. Give the proposer only
+promote/reject decisions from the acceptance set, test each candidate
+against the incumbent with a paired test, and split a global error
+budget α over rounds, prior promotions and the K candidates. Rich
+feedback may still come from a separate search split. Procedure:
+[`decision-only-sequential-acceptance`](../skills/decision-only-sequential-acceptance/SKILL.md).
+
+**Scope:** binary classification on Covertype; Qwen2.5-7B-Instruct
+proposing scikit-learn pipeline edits; T=200 rounds, K=8, 30 seeds,
+eval sets n=2,000 and 10,000. Not yet tested on agent harness loops.
+
+**Evidence**: at n=2,000, empirical best-of-K made 75 false promotions
+over 30 runs ("nearly 20 percent" of accepted updates), Elite 89, Reuse
+0. Population improvement was 7.02 ± 0.26 pp for Reuse vs 7.04 ± 0.08
+for best-of-K and 2.35 ± 0.37 for Bonferroni-style. At n=10,000: Reuse
+7.19 ± 0.13 pp with 0 false promotions, best-of-K 7.19 ± 0.06 with 71.
+
+Tension with "Use rich rollout feedback for instruction revision, not just scores" (recursive-improvement.md): NPO's rich traces come from the optimization rollouts; this entry restricts only feedback from the reused acceptance set. Keep the two sets disjoint.
+
+> Source: Which Self-Improvements Should We Trust? Reliable Self-Improvement When Agents Reuse Their Benchmarks (arXiv:2609.33180)
+
 ### DO: Pass every self-modification through one acceptance gate
 
 Optimizer skills (prompt, skill, harness, tree-search, rubric-guided)
@@ -479,16 +528,21 @@ steps are search-time selection and defer to this gate.
 6. **Persistent registries** (tools, skills) additionally need the
    multi-cohort margin in "DON'T: Register self-generated capabilities
    on their discovery gain".
+7. **Reused acceptance sets**: when the same acceptance set is scored
+   every round, return only accept/reject decisions to the proposer and
+   correct for repeated testing (see "DO: Return only accept/reject
+   decisions to the proposer when the acceptance set is reused across
+   rounds").
 
 **Scope:** synthesis of HarnessLens (2608.27311), MedRSI (2609.24838),
 EvoPathBench (2609.24663), RRSI (2609.24972), the Two-Gate theory
-(2609.08175) and 2609.17817. RRSI's floor `S ≥ S* − δ` is an instance of this margin. Two-Gate's
+(2609.08175), 2609.17817 and Reuse (2609.33180, step 7). RRSI's floor `S ≥ S* − δ` is an instance of this margin. Two-Gate's
 bounded retained-task change (D ≤ 0.50) is an analogous bounded-change
 rule, not a noise band: it deliberately trades some retained-task loss
 for gains. The
 3-run minimum and thresholds should be re-tuned per domain.
 
-> Source: arXiv:2608.27311; arXiv:2609.24838; arXiv:2609.24663; arXiv:2609.24972; arXiv:2609.08175; arXiv:2609.17817
+> Source: arXiv:2608.27311; arXiv:2609.24838; arXiv:2609.24663; arXiv:2609.24972; arXiv:2609.08175; arXiv:2609.17817; arXiv:2609.33180
 
 ### DO: Invest in standalone verifiers before planning components
 
@@ -514,6 +568,37 @@ trend is from SWE-Bench Verified and Terminal-Bench with four models.
 
 > Source: Harness Value Study (arXiv:2609.20474); An Empirical Study of
 > Harness Design for Coding Agents (arXiv:2609.20804)
+
+### DON'T: Pick an RL reward verifier by its agreement with a stronger judge alone
+
+Agreement with a frontier "golden" judge screens out very weak reward
+verifiers but does not reliably pick the one that trains the best policy.
+Screen candidates by agreement, then compare the survivors on a short
+post-training sweep. Inexpensive open-weight judges can come within a few
+points of the best verifier at a small fraction of the cost. Watch response
+length: it drifted toward the cap under rubric rewards.
+
+**Scope:** GRPO post-training of Qwen3 1.7B–8B on rubric-graded HealthBench
+and PRBench (medical, legal, finance); 12 training verifiers; Claude Opus 4.6,
+Gemini 3.1 Pro and GPT-5.5 as golden references; one GRPO setup, no
+replication. Training rewards only: not keep/reject decisions (see "DO: Pass
+every self-modification through one acceptance gate") and not inference-time
+verification (see "DO: Invest in standalone verifiers before planning
+components").
+
+**Evidence**: "higher verifier agreement does not consistently identify the
+best training verifier". Gemma 4 26B: +0.010 score gap, 95% of available
+uplift, 98.8% cost reduction. A cheaper pick: +0.027 gap, 82% uplift, 99.7%
+cost reduction. Both picks were chosen retrospectively from training outcomes.
+Cost $0.45 vs $133.20 per 1,000 tasks (Gemma 4 26B vs Claude Opus 4.6).
+
+Tension with "Use bilevel surrogate rubrics with rank-correlation calibration
+for prompt and skill evolution" (this file): that entry picks search-time
+candidates by surrogate–oracle rank agreement. This entry picks a training-
+reward verifier, where agreement predicted the outcome only loosely. Use
+agreement as a screen in both; do not treat it as proof of usefulness.
+
+> Source: A Cheap Verifier is Good Enough: LLM Post-training is Robust to Erroneous Rewards (arXiv:2609.33467)
 
 ### DON'T: Expose full interaction history to peer-verifying agents
 
@@ -543,6 +628,30 @@ restriction applies to verifiers.
 
 > Source: Shi et al., Emergent Collusion in Long-Horizon LLM Agent
 > Interaction (arXiv:2609.24967)
+
+### DON'T: Reward a task proposer with a solver trained on labels from the same source
+
+In proposer-solver self-evolution without ground truth, a wrong
+pseudo-label trains the solver to repeat the error on later questions
+from that source, and the proposer is then rewarded for the agreement
+(co-cheating). Score each proposal with a solver that never trained on
+labels from that proposal's source documents: split sources (not
+questions) into folds and score cross-fold. Audit false agreement with an
+outside judge; rising in-loop agreement is not evidence of improvement.
+Keeping a trained checkpoint still goes through "DO: Pass every
+self-modification through one acceptance gate".
+
+**Scope:** data-free self-evolving search/QA agents (Dr. Zero-style
+loop), Qwen3.5-4B/9B, three rounds, 1,325 questions over seven
+open-domain QA sets.
+
+**Evidence**: false-agreement mass 6.1%/8.8% (coupled) → 3.0%/3.7% with
+CrossFit → 0.4%/0.1% with CrossFit + multi-sample verification; random
+(non-source) partitioning only reached 5.0%/6.2%. Cover-EM 48.8%/51.2%
+vs 40.0%/42.8%. Half-budget CrossFit cost +36%/+40% compute. See
+[`source-disjoint-proposer-feedback`](../skills/source-disjoint-proposer-feedback/SKILL.md).
+
+> Source: False Frontiers: Diagnosing and Mitigating Co-Cheating in Self-Evolving Search Agents (arXiv:2609.39102)
 
 ---
 
@@ -584,15 +693,21 @@ frozen deployments), prompt/harness-only optimization remains valid — the
 NPO, ESPO, SkillLift, RSIAgent and skill-evolution rules assume that setting.
 
 **Scope:** open-weight models where rejection-sampling weight updates are
-available (WHALE).
+available (WHALE); GRPO with prompt-scaffold edits every 5 RL steps on
+AIME 2025 and LiveCodeBench v6, Qwen3.5-4B to Qwen3.8-27B, single seed
+(COEVO).
 
 **Evidence**: Either component can become the bottleneck for the other. WHALE
 alternates updating model weights (via rejection sampling) and searching harness
 code (prompts, tool wrappers, control flow), outperforming single-component updates
 by 4.15–24.38 percentage points with lower rollout costs. Use adaptive patience
 switching over training signals to transition between phases.
+COEVO beat fixed-prompt RL at every scale tested (e.g. 9B AIME
+Average@12 65.56% vs 61.39%), and steering prompt edits by policy
+entropy and attention beat reward-driven prompt co-evolution (44.3% vs
+41.6%, 4B).
 
-> Source: WHALE (arXiv:2609.00196)
+> Source: WHALE (arXiv:2609.00196); COEVO: Co-Evolving Context and Parameters for Recursive Self-Improvement (arXiv:2609.33398)
 
 ---
 
@@ -689,13 +804,19 @@ See also: multi-agent-coordination.md — Ostrom commons governance entry.
 
 In multi-agent debate and consensus refinement loops, never rely on unweighted majority voting. When an initial cohort shares a biased concept prior, unweighted debate amplifies rather than corrects the error (shared misconception). Compute consensus entropy and dynamically inject verified historical counter-evidence when premature convergence or deadlock is detected, weighting each agent's vote by factual evidence grounding.
 
-**Scope:** multi-agent debate on reasoning tasks versus standard MAD baselines (arXiv:2609.03619); benchmarks and effect sizes not recorded in this repo.
+**Scope:** multi-agent debate on reasoning tasks versus standard MAD baselines (arXiv:2609.03619; benchmarks and effect sizes not recorded in this repo); evidence-gated message exchange in trained teams around a frozen Qwen3.5-9B executor on 12 QA, math, medical, embodied and code benchmarks (arXiv:2609.38662).
 
 **Evidence**: The R^2-MAD framework demonstrates that state-aware retrieval of historical debate experiences combined with confidence-weighted peer influence prevents majority skew and consistently improves reasoning accuracy over standard multi-agent debate baselines.
 
+CollabFlow (arXiv:2609.38662; frozen Qwen3.5-9B team, evidence levels
+executed-check=2 > retrieval=1, margin κ=1): removing the evidence gate
+dropped AIME 76.67→63.33 and HotpotQA EM 63.28→57.03; always revising
+was worse (AIME 56.67). Setting: team message exchange, not debate
+voting. See research-briefs/collabflow-evidence-gated-collaboration.md.
+
 See also: multi-agent-coordination.md — R²-MAD debate entry.
 
-> Source: Remember and Reweight: Enhancing Multi-Agent Debate with Experience Memory and Confidence Estimation (arXiv:2609.03619)
+> Source: Remember and Reweight: Enhancing Multi-Agent Debate with Experience Memory and Confidence Estimation (arXiv:2609.03619); CollabFlow: Recursive Self-Improvement of Agent Collaboration (arXiv:2609.38662)
 
 ### DON'T: Assume multi-agent scaffolding is universally monotonic across model architectures
 
@@ -762,6 +883,11 @@ search from oracle verification via bilevel optimization:
 **Scope:** prompt/skill evolution with a sparse, expensive task oracle;
 token savings measured on SkillLift's benchmarks. Steps 4–5 are added
 from arXiv:2609.02942 and the acceptance-gate entries, not from SkillLift.
+
+Tension with "Pick an RL reward verifier by its agreement with a stronger
+judge alone" (this file): there agreement only screens out weak
+training-reward verifiers; here rank agreement selects search candidates
+and is re-checked against the oracle, so the settings differ.
 
 > Source: SkillLift: Learning Dense Rubrics from Sparse Oracles for Efficient Skill Evolution (arXiv:2609.15396)
 
@@ -861,3 +987,10 @@ For implementation details on the procedures behind these rules:
 - Evolutionary Safety of Recursive Self-Improving AI: arXiv:2609.31186
 - CASD (corpus-scale prompt distillation): arXiv:2609.26261
 - Instrumental Monitor Evasion: arXiv:2609.30217
+- Reuse (Which Self-Improvements Should We Trust?): arXiv:2609.33180
+- CollabFlow: arXiv:2609.38662
+- Video-RSI: arXiv:2609.37950
+- False Frontiers (co-cheating): arXiv:2609.39102
+- COEVO: arXiv:2609.33398
+- ER-Audit (Epistemic Reliability in Debate Distillation): arXiv:2609.32361
+- A Cheap Verifier is Good Enough: arXiv:2609.33467

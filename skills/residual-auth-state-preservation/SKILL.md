@@ -2,8 +2,10 @@
 name: residual-auth-state-preservation
 description: >
   Preserve and verify authorization state that language agents must maintain
-  under token revocation, session expiry, and delegated-scope changes.
-  Derived from "ResidualAuth" (arXiv:2609.08062).
+  under token revocation, session expiry, and delegated-scope changes,
+  and keep stored user approvals bound to the context they were granted in.
+  Derived from "ResidualAuth" (arXiv:2609.08062); approval replay evidence
+  from "When Consent Outlives Context" (arXiv:2609.33910).
 source: https://arxiv.org/abs/2609.08062
 ---
 
@@ -46,6 +48,21 @@ gate reduced eight observed unauthorized effects to zero.
 Implication: keep the delegation ledger (not a summary or model-written
 memory) as the residual state, and decide each privileged action from an
 authenticated read of current authorization, enforced by a hard gate.
+
+**Stored approvals are residual authority too** (arXiv:2609.33910). When
+an agent remembers a user's "allow" across tasks or sessions, the grant
+can be replayed in a context where it means something else. On AgentDojo
+v1.2 (508 cases, six models), retaining grants at tool level gave attack
+success 0.114-0.351 against zero in a fresh approval state (up to +35.1
+points), and silent execution of approval-gated actions rose from zero to
+0.982-1.000 after 64 benign tasks. Exact-resource matching cut success to
+0.012-0.039 but not to zero. On 55 Terminal-Bench cases against live
+coding agents, replay raised success by 24.9 points on average; one agent
+(Goose) admitted every approval-gated probe action silently after a single
+benign task. Task-bound authorization removed the effect (PAuth: zero
+across all models; Progent: at most 0.009). The authors' guidance: retain
+and revalidate the security-relevant bindings under which consent was
+granted, and ask again when a change to them alters the action's meaning.
 
 ---
 
@@ -95,6 +112,26 @@ When delegating capabilities to sub-agents:
 - Revocation of parent scope must cascade to all sub-agents
 - Sub-agents must not be able to escalate beyond delegated scope
 
+### 5. Bind Stored User Approvals to Their Context
+
+When the runtime remembers user approvals ("always allow", "don't ask
+again", session-wide grants):
+1. Store each grant with the bindings it was given under: task or goal,
+   exact resource (path, recipient, host, command), and anything else
+   that changes the action's effect (e.g. the executable or dependency
+   that a command resolves to)
+2. At each authorization point, re-check those bindings; if any changed
+   in a way that alters what the action does, ask the user again
+3. Default grant lifetime to the current task; cross-task or
+   cross-session reuse must be an explicit, visible user choice
+4. Measure it: replay a target action in a fresh approval state and after
+   a history of benign tasks; any action admitted only in the second case
+   is residual authority (the paper's conditional history exposure)
+
+Exact-resource matching alone is not enough (0.012-0.039 attack success
+remained in arXiv:2609.33910): the same resource can mean something
+different in a new task.
+
 ---
 
 ## Failure Modes & Mitigations
@@ -105,9 +142,11 @@ When delegating capabilities to sub-agents:
 | Summary loses decision-relevant history | Delegation state compressed into a fixed summary or model-written memory | Keep an exact delegation ledger; decide from authenticated current-query reads |
 | Late effects after revocation | Queued callbacks or provider-side work outlive invalidation | Run `auth-revocation-quiescence`; complete only on a Quiescent certificate |
 | Delegation scope escalation | Sub-agent requests broader scope | Enforce strict subset validation at delegation time |
+| Approval replay | A remembered "allow" from an earlier task admits the same tool or resource in a new context | Bind grants to task and resource context; re-ask when bindings change (Step 5) |
 | Residual state bloat | Too many cached authorization entries | Never prune, summarize or TTL-expire the delegation ledger; only derived credential caches (tokens, decision caches) may expire |
 
 ## Sources
 
 > Source: "ResidualAuth: What Authorization State Must Language Agents Preserve under Revocable Delegation?" (arXiv:2609.08062)
 > Revocation completeness: "Authorization Revocation for Long-Running AI Agents" (arXiv:2609.21284)
+> Approval replay: "When Consent Outlives Context: Residual Authority Replay in Long-Lived Agents" (arXiv:2609.33910)

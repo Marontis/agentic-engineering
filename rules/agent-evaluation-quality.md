@@ -133,7 +133,7 @@ Agents frequently generate surface-level patches (null checks, early
 returns) that suppress the crash symptom without fixing the underlying
 vulnerability.
 
-**Scope:** 11 automated vulnerability-patching agents on PatchBench (arXiv:2609.04075), C/C++ memory-safety crashes with PoCs.
+**Scope:** 11 automated vulnerability-patching agents on PatchBench (arXiv:2609.04075), C/C++ memory-safety crashes with PoCs; SecProbe (arXiv:2609.33763), 353 synthesized repository-scale repair tasks in 6 languages, 9 backbones on Mini-SWE-Agent and Terminus-2.
 
 **Evidence**: PoC-only validation inflated measured solve rates by
 1.83× on average across 11 state-of-the-art patching agents. 25% of
@@ -141,9 +141,15 @@ agent patches exhibited substantial memorization of historical
 developer fixes. Remediation requires comprehensive semantic test
 suites that verify behavior outside the crash stack.
 
+SecProbe (arXiv:2609.33763; 353 synthesized repair tasks, 9 backbones,
+Mini-SWE-Agent/Terminus-2): experts judged 8 of 100 test-passing
+patches incomplete; incomplete repair coverage was the top failure mode
+(37.9%); best pass rate 28.33%. See
+research-briefs/secprobe-adaptive-security-eval.md.
+
 See also: rules/agent-sandbox-safety.md — "DON'T: Validate vulnerability repairs using PoC crash suppression alone"
 
-> Source: PatchBench (arXiv:2609.04075)
+> Source: PatchBench (arXiv:2609.04075); SecProbe: Adaptive Evaluation of Coding Agents on Cybersecurity Vulnerabilities (arXiv:2609.33763)
 
 ---
 
@@ -167,6 +173,29 @@ modified environment.
 See also: rules/agent-sandbox-safety.md — "DO: Enforce two-axis tampering audits on self-modifying agent harnesses"
 
 > Source: Auditing Harness Tampering (arXiv:2609.00069)
+
+### DO: Attribute failed rollouts to environment, task, verifier or policy before training on them
+
+In synthesized tool-use environments, a failed rollout may come from a broken
+tool, an infeasible task or a wrong verifier. Use state diffs, tool returns and
+cross-harness patterns to attribute each failure. Repair only the responsible
+component, rerun construction checks and fresh rollouts, and keep the repair
+only through the acceptance gate (rules/recursive-improvement.md, "DO: Pass
+every self-modification through one acceptance gate"). Repairs are made by a
+separate evolution agent against executable evidence, never by the policy
+under training (consistent with "DON'T: Let agents modify their own
+evaluation harness", above).
+
+**Scope:** WEFT tool-use post-training of Qwen3-8B/14B and Qwen3.5-35B-A3B
+on 8,172 synthesized MCPs; Toolathlon-Verified, AutomationBench, Claw-Eval.
+
+**Evidence**: with task set and rollout budget fixed, three repair rounds cut
+the tool-error rate in selected trajectories from 1.76% to 0.96% and raised the
+three benchmarks by 5.25, 4.33 and 3.65 points (WEFT-35B-A3B).
+
+See also: skills/execution-driven-environment-repair/SKILL.md
+
+> Source: WEFT: Scaling Tool-Use Post-Training for General-Purpose Agents (arXiv:2609.36887)
 
 ### DO: Test evaluators with counterfactual perturbations
 
@@ -250,3 +279,5 @@ For implementation details on the procedures behind these rules:
 - FLY-EVAL++: arXiv:2609.04021
 - Scaling LRMs Beyond Supervision: arXiv:2608.31075
 - CART: arXiv:2609.27336
+- SecProbe: arXiv:2609.33763
+- WEFT: arXiv:2609.36887
