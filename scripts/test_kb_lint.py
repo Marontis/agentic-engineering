@@ -98,13 +98,22 @@ Tension with "Expand candidate model pools" (above).
         _, out = run(self.tmp)
         self.assertNotIn("xref:", out)
 
-    def test_copied_statistic_across_papers(self):
+    def test_copied_statistics_across_papers(self):
         build(self.tmp, {
-            "skills/a/SKILL.md": "source: arXiv:2609.04820\n56.05% of cases resolved cheaply.\n",
-            "skills/b/SKILL.md": "source: arXiv:2609.05335\n56.05% of cases resolved statically.\n",
+            "skills/a/SKILL.md": "source: arXiv:2609.04820\n56.05% resolved cheaply; 4.33% needed all.\n",
+            "skills/b/SKILL.md": "source: arXiv:2609.05335\n56.05% resolved statically; 4.33% needed all.\n",
         })
         _, out = run(self.tmp)
-        self.assertIn("copied-stat: 56.05%", out)
+        self.assertIn("copied-stat:", out)
+        self.assertIn("56.05%", out)
+
+    def test_single_coincidental_statistic_is_not_flagged(self):
+        build(self.tmp, {
+            "skills/a/SKILL.md": "source: arXiv:2609.04820\nAccuracy 30.40% on task A.\n",
+            "skills/b/SKILL.md": "source: arXiv:2609.05335\nSuccess 30.40% on task B.\n",
+        })
+        _, out = run(self.tmp)
+        self.assertNotIn("copied-stat:", out)
 
     def test_conflict_warning_without_link(self):
         text = CLEAN_RULE + """
