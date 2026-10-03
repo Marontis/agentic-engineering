@@ -528,16 +528,21 @@ steps are search-time selection and defer to this gate.
 6. **Persistent registries** (tools, skills) additionally need the
    multi-cohort margin in "DON'T: Register self-generated capabilities
    on their discovery gain".
+7. **Reused acceptance sets**: when the same acceptance set is scored
+   every round, return only accept/reject decisions to the proposer and
+   correct for repeated testing (see "DO: Return only accept/reject
+   decisions to the proposer when the acceptance set is reused across
+   rounds").
 
 **Scope:** synthesis of HarnessLens (2608.27311), MedRSI (2609.24838),
 EvoPathBench (2609.24663), RRSI (2609.24972), the Two-Gate theory
-(2609.08175) and 2609.17817. RRSI's floor `S ≥ S* − δ` is an instance of this margin. Two-Gate's
+(2609.08175), 2609.17817 and Reuse (2609.33180, step 7). RRSI's floor `S ≥ S* − δ` is an instance of this margin. Two-Gate's
 bounded retained-task change (D ≤ 0.50) is an analogous bounded-change
 rule, not a noise band: it deliberately trades some retained-task loss
 for gains. The
 3-run minimum and thresholds should be re-tuned per domain.
 
-> Source: arXiv:2608.27311; arXiv:2609.24838; arXiv:2609.24663; arXiv:2609.24972; arXiv:2609.08175; arXiv:2609.17817
+> Source: arXiv:2608.27311; arXiv:2609.24838; arXiv:2609.24663; arXiv:2609.24972; arXiv:2609.08175; arXiv:2609.17817; arXiv:2609.33180
 
 ### DO: Invest in standalone verifiers before planning components
 

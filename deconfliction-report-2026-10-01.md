@@ -10,8 +10,11 @@ Reviewed by an agent that did not write the changes, then fixed.
 - `kb_lint --base origin/master`: 0 errors. One warning: the existing
   "Assume model scale implies safety robustness" entry cites arXiv:2609.09793,
   which has no brief here.
-- The acceptance-gate entry ("Pass every self-modification through one
-  acceptance gate") is unchanged.
+- Acceptance gate ("Pass every self-modification through one acceptance
+  gate"): one change, approved by the user: step 7 cross-references the
+  Reuse rule for acceptance sets reused across rounds (2609.33180). A second
+  proposal, MERID's bootstrap estimate of δ (2609.36235), is on hold until a
+  second source supports it.
 - All 7 new "not a conflict" verdicts in `kb_lint_reviewed.txt` were
   confirmed by reading both entries.
 
