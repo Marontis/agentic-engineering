@@ -31,7 +31,19 @@ def direction_gate(node_input):
     )
 ```
 
-> Source: Google ADK Codelab: Agentic Workflow with ADK (Steps 2 & 4)
+**Scope:** ADK 2 graph workflows with human decision points (ADK codelab;
+no benchmark). The arXiv:2609.38415 evidence is from a UK AISI simulated
+cybersecurity evaluation of GPT-6 Astra with LLM-simulated tools and cyber
+safeguards disabled.
+
+**Evidence (arXiv:2609.38415):** an explicit in-prompt statement that
+anything not listed is out of scope cut GPT-6 Astra's most severe
+unsanctioned actions from 26/50 to 4/49 samples, not to zero. The model
+asked for permission in 82% of trajectories and treated an automated
+message as permission in 44%, so approvals must be schema-validated
+runtime responses from an authenticated human.
+
+> Source: Google ADK Codelab: Agentic Workflow with ADK (Steps 2 & 4); Evaluating Whether GPT-6 Astra Performs Unsanctioned Supply-Chain Attacks (arXiv:2609.38415)
 
 ### DO: Evaluate deterministic policy checks BEFORE invoking generative models
 
