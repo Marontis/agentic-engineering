@@ -25,7 +25,9 @@ file sets the standard for what lands here.
 ## Standards
 - **Numbers come from the paper text.** Not the abstract, not memory, not
   another file. If a figure can't be verified, say so next to it. Two
-  unrelated files quoting the same figure is almost always a copy error.
+  unrelated files sharing several distinctive figures is almost always a
+  copy error. Never round, remove or reword a paper's figure to quiet a
+  lint warning; check the source and say what you found.
 - **Every rule entry has a Scope line.** `**Scope:**` names the setting its
   evidence comes from: task, model class, benchmark. Most contradictions in
   this repo came from a setting-specific result written as general advice.
