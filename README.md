@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 335+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 380+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -83,6 +83,12 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`verified-policy-action-governance`](skills/verified-policy-action-governance/SKILL.md) | ActGov (arXiv:2609.24446) |
 | [`closed-loop-adaptive-red-teaming`](skills/closed-loop-adaptive-red-teaming/SKILL.md) | CART (arXiv:2609.27336) |
 | [`pentest-harness-assurance`](skills/pentest-harness-assurance/SKILL.md) | Pentest Harness Assurance (arXiv:2609.22664) |
+| [`authorization-closure-repair`](skills/authorization-closure-repair/SKILL.md) | Authorization Closure Graph (arXiv:2609.32428) |
+| [`provenance-capability-grants`](skills/provenance-capability-grants/SKILL.md) | ToolFence (arXiv:2609.37196) |
+| [`vault-mediated-credential-injection`](skills/vault-mediated-credential-injection/SKILL.md) | API Secrets Threat Analysis (arXiv:2609.33371) |
+| [`poisoned-skill-tool-call-authorization`](skills/poisoned-skill-tool-call-authorization/SKILL.md) | ActionGuard (arXiv:2609.39450) |
+| [`evidence-guided-skill-audit`](skills/evidence-guided-skill-audit/SKILL.md) | SKILLLITE (arXiv:2609.36879) |
+| [`rubric-first-safety-probing`](skills/rubric-first-safety-probing/SKILL.md) | SCOUT (arXiv:2609.36201) |
 
 #### Self-Improvement & Evaluation
 
@@ -121,6 +127,11 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`regularized-harness-evolution`](skills/regularized-harness-evolution/SKILL.md) | RRSI (arXiv:2609.24972) |
 | [`staged-capability-registration`](skills/staged-capability-registration/SKILL.md) | MedRSI (arXiv:2609.24838) |
 | [`learned-teamwork-strategy-bank`](skills/learned-teamwork-strategy-bank/SKILL.md) | Self-Organizing Agent Teams (arXiv:2609.22682) |
+| [`decision-only-sequential-acceptance`](skills/decision-only-sequential-acceptance/SKILL.md) | Reliable Self-Improvement under Benchmark Reuse (arXiv:2609.33180) |
+| [`source-disjoint-proposer-feedback`](skills/source-disjoint-proposer-feedback/SKILL.md) | False Frontiers / CrossFit (arXiv:2609.39102) |
+| [`execution-driven-environment-repair`](skills/execution-driven-environment-repair/SKILL.md) | WEFT (arXiv:2609.36887) |
+| [`pairwise-action-verification`](skills/pairwise-action-verification/SKILL.md) | Mid-Harness (arXiv:2609.39982) |
+| [`hypergraph-augmented-mcts`](skills/hypergraph-augmented-mcts/SKILL.md) | HyperMCTS (arXiv:2609.33920) |
 
 #### Skill Evolution & Knowledge
 
@@ -289,6 +300,39 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`multimodal-prompt-injection-eval`](research-briefs/multimodal-prompt-injection-eval.md) | Cross-modal prompt injection on agentic frameworks |
 | [`self-evolving-consistency-gap`](research-briefs/self-evolving-consistency-gap.md) | Goal drift in long-horizon self-evolving agents |
 | [`reliable-self-evolution-two-gate`](research-briefs/reliable-self-evolution-two-gate.md) | Two-Gate theory of reliable harness self-evolution: allowed change on solved tasks, admission threshold |
+| [`agentxploit-defensive-lessons`](research-briefs/agentxploit-defensive-lessons.md) | Defensive lessons from repository-to-runtime agent audits: validate what you execute, bind credentials to destinations |
+| [`tool-mediated-refusal-gap`](research-briefs/tool-mediated-refusal-gap.md) | Refusal drops 15.5–84.4 points when the same request comes as a tool call |
+| [`agenttell-behavioural-side-channel`](research-briefs/agenttell-behavioural-side-channel.md) | Browser agents leak carried secrets through their choices despite instructions |
+| [`cosec-community-authorization`](research-briefs/cosec-community-authorization.md) | Multi-community authorization depends on the harness, not just the model |
+| [`pictionary-render-untrusted-content`](research-briefs/pictionary-render-untrusted-content.md) | Rendering untrusted text as images cuts injection success, per model |
+| [`codel-latent-injection-coevolution`](research-briefs/codel-latent-injection-coevolution.md) | Latent injections break explicit-trained defenses; static suites saturate |
+| [`countersteer-tool-result-steering`](research-briefs/countersteer-tool-result-steering.md) | Activation steering on tool results; parameter manipulation still gets through |
+| [`fragmented-injection-defensive-lessons`](research-briefs/fragmented-injection-defensive-lessons.md) | Agents reconstruct injections split across fragments: defensive lessons |
+| [`jailbreak-context-safety-routing`](research-briefs/jailbreak-context-safety-routing.md) | Jailbreak context lingers and diverts safety routing in tool agents |
+| [`gradient-jailbreak-detector-multiturn`](research-briefs/gradient-jailbreak-detector-multiturn.md) | Gradient jailbreak detectors calibrated on synthetic benign traffic fail on real chats |
+| [`skill-scanner-evasion-defensive-lessons`](research-briefs/skill-scanner-evasion-defensive-lessons.md) | Malicious-skill scanners fall to iterative evasion: defensive lessons |
+| [`malicious-retriever-backdoor-defensive-lessons`](research-briefs/malicious-retriever-backdoor-defensive-lessons.md) | Backdoored retriever checkpoints in agentic search: defensive lessons |
+| [`semantic-cache-poisoning-defense`](research-briefs/semantic-cache-poisoning-defense.md) | Embedding similarity is not answer validity for semantic caches |
+| [`codemimicry-defensive-lessons`](research-briefs/codemimicry-defensive-lessons.md) | Safety alignment lags in the code domain: defensive lessons |
+| [`unsanctioned-supply-chain-eval-defensive-lessons`](research-briefs/unsanctioned-supply-chain-eval-defensive-lessons.md) | In-prompt scope cut severe unsanctioned actions but not to zero |
+| [`redherring-verification-decoys`](research-briefs/redherring-verification-decoys.md) | Unreachable decoys exploit the cost of verification in vulnerability-hunting agents |
+| [`rag-vulnerability-detection-dissection`](research-briefs/rag-vulnerability-detection-dissection.md) | Component attribution for retrieval-augmented vulnerability detectors |
+| [`secprobe-adaptive-security-eval`](research-briefs/secprobe-adaptive-security-eval.md) | Adaptive evaluation of vulnerability repair; test-passing patches can be incomplete |
+| [`madbench-debate-security`](research-briefs/madbench-debate-security.md) | Debate absorbs wrong answers but amplifies unauthorized actions |
+| [`minirep-reputation-debate-aggregation`](research-briefs/minirep-reputation-debate-aggregation.md) | Reputation-weighted debate aggregation under adversarial debaters |
+| [`er-audit-debate-distillation`](research-briefs/er-audit-debate-distillation.md) | Aggregate accuracy hides local reliability loss in debate-trained verifiers |
+| [`cheap-verifier-rl-rewards`](research-briefs/cheap-verifier-rl-rewards.md) | Cheap open-weight reward verifiers come within points of the best for RL |
+| [`coevo-policy-aware-context-evolution`](research-briefs/coevo-policy-aware-context-evolution.md) | Co-evolving prompts and weights beats fixed-prompt RL |
+| [`r2flow-recursive-skill-evolution`](research-briefs/r2flow-recursive-skill-evolution.md) | Evidence-gated recursive skill evolution |
+| [`collabflow-evidence-gated-collaboration`](research-briefs/collabflow-evidence-gated-collaboration.md) | Evidence-gated messages in agent teams |
+| [`tocomas-topological-coherence`](research-briefs/tocomas-topological-coherence.md) | Topological coherence for self-evolving multi-agent systems |
+| [`gameboyworlds-self-improvement-testbed`](research-briefs/gameboyworlds-self-improvement-testbed.md) | Self-improvement methods fail without expert guidance; contamination masks it |
+| [`smart-self-evolving-subtitle-translation`](research-briefs/smart-self-evolving-subtitle-translation.md) | Evolve prompts on part of a long job, then freeze |
+| [`frontier-autolab-org-simulation-pitfalls`](research-briefs/frontier-autolab-org-simulation-pitfalls.md) | Hindsight leakage and uncalibrated critics in simulated agent firms |
+| [`multi-agent-preference-learning`](research-briefs/multi-agent-preference-learning.md) | Preference fine-tuning of small agent teams; a stronger comparator hurt |
+| [`heterofold-cross-family-kv-transfer`](research-briefs/heterofold-cross-family-kv-transfer.md) | Cross-family KV transfer is fast but loses accuracy vs text |
+| [`htn-mcp-coordination-layer`](research-briefs/htn-mcp-coordination-layer.md) | HTN planning as a coordination layer for multi-server MCP |
+| [`cua-sandbox-state-capsules`](research-briefs/cua-sandbox-state-capsules.md) | Shared runtimes with private state capsules for computer-use RL |
 | [`robust-sgpo-harness-evolution`](research-briefs/robust-sgpo-harness-evolution.md) | Search-space control for agent harness evolution |
 | [`verifier-survey-no-free-checker`](research-briefs/verifier-survey-no-free-checker.md) | Coverage-cost-soundness trade-offs in policy verifiers |
 | [`agent-audit-lifecycle-trust`](research-briefs/agent-audit-lifecycle-trust.md) | Full-lifecycle trust evaluation framework |
