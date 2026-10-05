@@ -261,6 +261,30 @@ to unrelated tasks.  An unprovenanced skill is the primary attack vector.
 
 > Source: EvoSkill Injection (arXiv:2608.30429)
 
+### DON'T: Use a pre-execution skill scanner as the sole admission gate for third-party skills
+
+Scanners that combine static rules with per-file LLM review become the
+attacker's optimization signal when they can be queried repeatedly.
+Admit skills on provenance, constrain admitted skills with per-task
+capability scopes and sandboxed, intercepted execution, rate-limit and
+log resubmissions, and test scanner and runtime defense together.
+
+**Scope:** SkillsBench (249 skills) with SkillScan + SkillSonar, four
+victim LLMs, Codex harness; NVIDIA SkillSpector v2.2.3 with
+qwen3t/glm/gpt-oss backends; attackers with repeated detector access.
+
+**Evidence**: Iteratively revised skills reached 45.28% average attack
+success with 0% SkillScan detection, against 97.34–100% detection for
+baseline attacks. Scanner acceptance took 3.23 rounds on average (95.18%
+by round 10). Against a frozen SkillSpector, evasion reached
+96.7%/63.2%/70.5%. The static layer caught 5.6%. When the detector also
+adapted, false negatives stayed at 47–78% and false positives rose to
+50–62% on gpt-oss.
+
+See also "Validate skill provenance before adding to library" (skill-system-design.md) and "Assume stacked defense layers fail independently" (agent-sandbox-safety.md).
+
+> Source: SkillDRE: Dual-Stage Red-Team Evolution of Agent Skills via Pre-Execution and Runtime Feedback (arXiv:2609.32400); Pretext: Defeating Malicious Skill Detection Frameworks for AI Agents (arXiv:2609.39607)
+
 ---
 
 ## Prompt Context Assembly & Prefix Invariance
@@ -531,4 +555,6 @@ For implementation details on the procedures behind these rules:
 - Zero-Shot Self-Orchestration: arXiv:2608.26480
 - Google Cloud Tech / ADK 2 Orchestration: Graph, Collaborative & Dynamic Workflows
 - Protocol-Preserving Context Trimming: arXiv:2609.16461
+- SkillDRE: arXiv:2609.32400
+- Pretext: arXiv:2609.39607
 

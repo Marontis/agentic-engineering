@@ -193,6 +193,8 @@ Tension with "Expand candidate model pools with arbitrary heterogeneous
 architectures" (below): that rule's evidence is for routing and voting
 aggregation; this one is for interactive deliberation and verification.
 
+Tension with "Treat debate consensus as authorization for tool side effects" (this file): heterogeneity improves the accuracy of a deliberated judgment, including safety monitoring, but a deliberated verdict is still not authorization; side effects stay behind an external policy. MADBench did not test cross-family rosters against side-effect attacks.
+
 > Source: The Wisdom of Artificial Deliberative Crowds (arXiv:2609.22497); Self-Organizing Agent Teams Learn to Reason Together (arXiv:2609.22682)
 
 ### DON'T: Rely on group size or majority vote to dilute adversarial agents
@@ -204,19 +206,53 @@ disputed claims independently and early, and select members for low
 sycophancy.
 
 **Scope:** fully connected, anonymous deliberation among 2–21 agents
-with an honest majority on Humanity's Last Exam questions; four models;
-no defense or hierarchy tested.
+with an honest majority on Humanity's Last Exam questions; four models
+(defense: MiniRep, 3 of 10 debaters adversarial, MATH/GoEmotions/HumanEval
+Pro, 100 tasks each).
 
 **Evidence**: defection slope b = 2.1–5.7 across the four models
 (p ≤ 0.004). A share-based model fit better than a count-based one, and
 adding group size did not help (χ² = 0.59, p = 0.44). 58–72% of first
 defections happened by round 2. A sycophantic honest model defected at
 37.7% versus 19.5% for Gemini.
+A defense was tested in MiniRep (arXiv:2609.39297). With 3 of 10
+debaters adversarial, blocking flagged proposals, capping same-model
+clone groups and reputation weighting raised MATH attacked accuracy to
+61.95%, against 54.37% for the best baseline. The cost was 1.75–2.00
+points of clean accuracy on two of three datasets.
 
 Tension with "Preserve minority viewpoints" (below): that rule covers
 aggregating preferences; this one covers an adversarial minority.
 
-> Source: How does Adversarial Influence Scale in Multi-Agent Systems? (arXiv:2609.30028)
+> Source: How does Adversarial Influence Scale in Multi-Agent Systems? (arXiv:2609.30028); MiniRep: Robust Reputation-Based Aggregation for Multi-Agent Debate (arXiv:2609.39297)
+
+### DON'T: Treat debate consensus as authorization for tool side effects
+
+Debate can absorb attacks on answer correctness while amplifying
+unauthorized reads and writes: debaters argue each other into an action
+no single agent would take. Authorize every side effect against a
+policy outside the debate, let only the executor that carries out the
+agreed action hold write tools, and harden the orchestrator, whose
+compromise hands over the whole system. Adding debate rounds is not a
+security control.
+
+**Scope:** 5 debaters plus 1 LLM orchestrator, GPT-4o by default, 1–3
+debate rounds, static (non-adaptive) attacks; MADBench, 3,958 cases from
+SealQA, StrategyQA, AgentDojo and JailbreakBench. Covers tool side
+effects, not answer accuracy.
+
+**Evidence**: for indirect injection on workspace tasks, debate
+amplified unauthorized reads 3.09x and writes 1.22x relative to a single
+agent, while RAG-poisoning attacks on accuracy were absorbed (AF 0.74).
+With 3 of 5 debaters colluding, attack success was 28.30% although only
+3.26% of honest agents switched answers. A compromised orchestrator
+reached 100.00% attack success and 100.00% unauthorized operations.
+Results were roughly the same for 1, 2 and 3 rounds. See
+[madbench-debate-security](../research-briefs/madbench-debate-security.md).
+
+Tension with "Use heterogeneous, cross-family rosters for deliberation and joint verification" (this file): that entry is about answer and monitoring accuracy; cross-family consensus still doesn't authorize side effects. This entry's evidence is mostly single-family (GPT-4o), so heterogeneous rosters were not tested against side-effect attacks.
+
+> Source: MADBench: Benchmarking the Security of Multi-Agent Debate (arXiv:2609.39146)
 
 ### DO: Preserve minority viewpoints in agent voting and consensus
 
@@ -555,3 +591,5 @@ For implementation details on the procedures behind these rules:
 - Emergent Collusion (cited from recursive-improvement.md): arXiv:2609.24967
 - CART: Closed-Loop Adaptive Red Teaming (cited from agent-evaluation-quality.md): arXiv:2609.27336
 - Monitor Jailbreaking (cited from agent-sandbox-safety.md): arXiv:2609.31121
+- MiniRep: arXiv:2609.39297
+- MADBench: arXiv:2609.39146

@@ -157,8 +157,40 @@ governance principles to shared agent resources"
 human gate, and they stay consistent with this rule only while they
 act inside the scope they were granted up front.
 
+See also "Let a stored user approval outlive the context it was granted
+in" (below): a pre-granted scope stays a valid gate only while the
+context it was granted in still holds.
+
 > Source: FirstMate agent distro (github.com/kunchenguid/firstmate),
 > VISION.md: "Evidence is never authorization"
+
+### DON'T: Let a stored user approval outlive the context it was granted in
+
+When the runtime remembers an "allow" (always allow, don't ask again,
+session-wide grants), store it with the task, the exact resource and
+anything else that changes the action's effect, re-check those at every
+authorization point, and ask again when a change alters what the action
+does. Default grant lifetime to the current task. Exact-resource
+matching narrows replay but does not remove it.
+
+**Scope:** approval-gated tool-use agents that persist grants across
+tasks or sessions; AgentDojo v1.2 (508 cases; GPT-4.1,
+Gemini-3.1-Flash-Lite, Qwen3-14B, DeepSeek-V4-Pro, Llama-3.3-70B,
+Claude-Sonnet-5) and 55 Terminal-Bench cases on live Codex, Gemini CLI
+and Goose.
+
+**Evidence**: tool-level grant retention gave attack success
+0.114–0.351 against 0 in a fresh approval state (up to +35.1 points);
+silent execution of approval-gated actions rose from 0 to 0.982–1.000
+after 64 benign tasks; exact-resource matching left 0.012–0.039. On live
+agents replay raised success by 24.9 points on average, and Goose
+admitted every approval-gated probe action silently after one benign
+task. Task-bound authorization removed the effect (PAuth 0; Progent at
+most 0.009). See
+[`residual-auth-state-preservation`](../skills/residual-auth-state-preservation/SKILL.md)
+Step 5.
+
+> Source: When Consent Outlives Context: Residual Authority Replay in Long-Lived Agents (arXiv:2609.33910)
 
 ### DON'T: Let the human become the transport layer between agents
 
@@ -243,7 +275,7 @@ one provider reacted in opposite directions
 refused operational requests as requests for conceptual explanations
 removed refusals in 263/265 cases (99.2%).
 
-See also: rules/agent-sandbox-safety.md — "DON'T: Assume uniform safety refusal behavior across model families in multi-turn dialogues"; rules/agent-sandbox-safety.md — "DON'T: Assume safety transfers across deployment contexts"
+See also: rules/agent-sandbox-safety.md — "DON'T: Assume uniform safety refusal behavior across model families in multi-turn dialogues"; rules/agent-sandbox-safety.md — "DON'T: Assume safety transfers across deployment contexts" (tool-mediated refusal evidence: 2609.35117, refusal falls once the tool schema is visible)
 
 > Source: Door-in-the-Face Refusal Behaviour (arXiv:2609.02707),
 > Not the Same Protector (arXiv:2608.29136)
@@ -290,3 +322,4 @@ For implementation details on the procedures behind these rules:
 - Conversational False Authentication: arXiv:2609.03247
 - The AI-Native SDLC Playbook: https://academy.claude.com/courses/ai-native-sdlc-playbook
 - FirstMate agent distro: https://github.com/kunchenguid/firstmate
+- When Consent Outlives Context: arXiv:2609.33910

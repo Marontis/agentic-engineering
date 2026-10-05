@@ -277,6 +277,35 @@ classifiers (2608.28327); measure your own stack end to end.
 
 > Source: Refusing Everything Looks Safe (arXiv:2609.26176); The Price of Safety: Memory-Poisoning Defenses in LLM Agents (arXiv:2609.22818)
 
+### DO: Calibrate safety-detector thresholds on realistic benign traffic, per target model
+
+Shown for one gradient-based detector (GradSafe); treat it as a calibration
+check for any threshold-based detector, not a measured property of all.
+
+A detector tuned against clean synthetic benign prompts looks solved and
+hands you an operating point that blocks real users. Calibrate thresholds
+on realistic, length-matched benign conversations from your own traffic,
+recalibrate for every target model, and report the false-positive rate at
+the deployed threshold. Prompt-only scoring can miss context-building
+attacks whose unsafe content appears only in the response; back it with
+action-level gates.
+
+**Scope:** GradSafe gradient scoring over user turns before generation,
+Llama 3.1 8B Instruct and Qwen2.5-7B-Instruct; 537 MHJ multi-turn
+jailbreaks and 149 successful Crescendo conversations vs 2,000
+length-matched WildChat and 183 synthetic benign conversations.
+
+**Evidence**: W=3 ROC-AUC 0.9836 vs synthetic benign but 0.7614 vs
+WildChat; the synthetic best-F1 threshold flagged 8.74% of synthetic and
+90.85% of WildChat benign conversations. On Llama, a 1-turn window
+(0.8101) beat full history (0.7376). Successful Crescendo scored 0.5018 at
+W=1 and 0.3050 at W=3. On Qwen every setting was 0.5545–0.5908, and the
+Llama threshold gave 38.8–82.9% false positives.
+
+Tension with "Rely on single-turn refusal or initial benign turns to evaluate long-horizon safety" (agent-sandbox-safety.md): that entry is about evaluating agent behavior over whole trajectories; this one is about how many turns a prompt-side input detector scores. Adding turns diluted this detector on Llama, but the ordering reversed on Qwen.
+
+> Source: Does the Unsafe Gradient Survive a Conversation? On the Fragility of Gradient-Based Jailbreak Detection in Multi-Turn Dialogue (arXiv:2609.36849)
+
 ### DO: Measure open privilege alongside attack success and utility
 
 A tool-call defense can score well on attack success and benign
@@ -288,15 +317,21 @@ when the benchmark's attacks already fail against the undefended agent.
 
 **Scope:** tool-call boundary defenses on AgentDojo (97 tasks, 10,471
 unneeded-call tests), deciding models Sonnet-5 / Haiku-4.5, replayed
-reference traces rather than live agents.
+reference traces rather than live agents; within-tool split: AgentDojo
+85 within-tool / 524 cross-tool pairs, Qwen3-max and GPT-4o (2609.37196).
 
 **Evidence**: open privilege ranged from 0.0810 (Permission Assistant)
 to 0.3009 (Claude Code Auto mode); an argument-exact oracle scored
 0.0020 and a tool-name allowlist 0.3551. Two defenses within 0.009 of
 each other on open privilege differed by 37 points of benign
 completion. Model-based verdicts agreed only 91–98% run to run.
+Split attack success by cross-tool vs within-tool hijacking: on
+AgentDojo, Tool Filter left within-tool ASR at 9.18% (Qwen3-max) and
+18.20% (GPT-4o), while provenance-bound argument checks gave 0.80% and
+2.10% at 1.63x and 3.79x latency, versus 10.67x and 12.95x for CaMeL
+(2609.37196).
 
-> Source: Ajar: Measuring Open Privilege in Agent Defenses (arXiv:2609.26900)
+> Source: Ajar: Measuring Open Privilege in Agent Defenses (arXiv:2609.26900); ToolFence: Fine-Grained Authorization for Secure Tool-Using LLM Agents (arXiv:2609.37196)
 
 ### DON'T: Assume encrypted inference inherently prevents guardrail enforcement
 
@@ -341,7 +376,25 @@ it's invoked, what system prompt it receives, and what tools are
 available.  Always re-evaluate safety in the specific deployment
 configuration, not just in the training/evaluation context.
 
-> Source: Not the Same Protector (arXiv:2608.29136)
+**Scope:** deployment-dependence of safety behaviour (2608.29136,
+setting not re-verified here); conversational vs tool-mediated refusal
+on eight open-weight 8-70B instruction models, AgentHarm public test
+behaviors, single turn, thinking disabled (2609.35117).
+
+**Evidence**: Moving the same harmful AgentHarm intent from a prose
+reply to a tool-call directive cut refusal in all eight models by
+15.5-84.4 points (Llama-3.1-8B 0.941 to 0.096; Qwen3-32B 0.968 to
+0.295). Exposing the target tool schema while still asking for prose
+already produced 35-88% of that drop, while a tool-use system prompt
+with no tools had no consistent effect. Under the same GCG budget, on
+prompts refused in both channels, tool-channel refusal broke within 40
+steps for 83-100% of prompts on Qwen3-8B/32B and Llama-3.1-8B/70B,
+against 0-25% for conversational refusal (2609.35117). Run refusal and
+red-team suites with the deployed tool schemas exposed: conversational
+refusal was near-saturated and ranked models only weakly against their
+tool-action behaviour.
+
+> Source: Not the Same Protector (arXiv:2608.29136); Tool Mediation Alters Refusal Mechanisms in Large Language Models (arXiv:2609.35117)
 
 ---
 
@@ -356,7 +409,20 @@ Strategies discovered against one model often transfer to others,
 indicating they exploit general agent weaknesses rather than
 model-specific bugs.
 
-> Source: SIR: Self-improving Red-teaming (arXiv:2608.30207)
+**Scope:** computer-use agents red-teamed by a self-improving attacker
+(SIR; benchmark details not recorded in this repo); injection defenses
+for 7–8B open-weight tool agents (Qwen2.5-7B, Llama-3.1-8B) on AgentDojo,
+InjecAgent and ASB-OPI (CoDeL).
+
+**Evidence (arXiv:2609.34463)**: rewriting 48 AgentDojo injections to be
+latent (deviation delayed behind normal tool calls) raised attack success
+from 0.062 to 0.208 (Meta-SecAlign), 0.083 to 0.542 (TSGuard) and 0.146
+to 0.333 (PIGuard). Trained against a static suite, a defender's attack
+success fell from 0.404 to 0.045 within three rounds, while a frozen
+defender facing an evolving attacker rose from 0.273 to 0.662. See
+[codel-latent-injection-coevolution](../research-briefs/codel-latent-injection-coevolution.md).
+
+> Source: SIR: Self-improving Red-teaming (arXiv:2608.30207); CoDeL: Co-Evolutionary Defense against Indirect Prompt Injection in LLM-based Agents (arXiv:2609.34463)
 
 ---
 
@@ -373,6 +439,32 @@ never present them in the "user" role, and scan for instruction-like
 patterns (return anchors, user-framing attacks) before injection.
 
 > Source: Will the User Ever Know? Covert Indirect Prompt Injection (arXiv:2608.30362)
+
+### DO: Consider rendering untrusted prose as images as one prompt-injection layer, per model
+
+For vision-language models, render untrusted documents and tool output
+as typographic images while the system prompt and user query stay text.
+Models act on image-borne instructions far less often. Do not render
+code or exact-match content; it gives no protection for content that is
+already visual; re-measure for each model, because the gap is learned
+and fine-tuning closed part of it (+13–19 pts image ASR). Details:
+research-briefs/pictionary-render-untrusted-content.md.
+
+**Scope:** ten VLMs on DirectInject, AgentDojo, τ²-Bench and SWE-bench
+Verified; text payloads in one untrusted channel; single-defense
+comparisons, not stacked.
+
+**Evidence**: adaptive-attack ASR on AgentDojo banking: Claude Haiku
+4.5 97.6%→9.5%, GPT-5.4 mini 83.3%→31.0%, but Gemini 3.1 Flash Lite
+100.0%→97.8%. AgentDojo utility −14.4 to +9.7 pts; some models lost
+9–10 pts on SWE-bench Verified; total serving cost never more than
+doubled.
+
+See also "DON'T: Assume stacked defense layers fail independently" and
+"DO: Measure each defense's benign cost on a matched benign arm, on the
+assembled stack": add it only if end-to-end measurement passes both.
+
+> Source: Render Before Reading: Visual Rendering as a Prompt Injection Defense (arXiv:2609.36121)
 
 ---
 
@@ -484,6 +576,29 @@ See also: rules/agent-human-interaction.md — "Let users authenticate to agents
 
 > Source: Trust Me, I'm Your Developer: Self-Issued Authentication in Large Language Models (arXiv:2609.03247)
 
+### DON'T: Let API credentials enter model context or agent-visible state
+
+A secret the model can see spreads into history, logs, memory, generated
+code and errors, and injection or model error can then disclose it.
+Agents should reference connector IDs; a boundary outside the sandbox
+injects the credential only for the connector's configured origin, with
+no ambient cloud identity. Verify this with black-box probes. Vault
+mediation does not fix over-privilege or injection; keep least-privilege
+scopes and deterministic action gates.
+
+**Scope:** One vault-mediated sandbox, two connectors (Federal Reserve
+API, GitHub API), 16 purposive black-box probes; a functional
+evaluation, not a prevalence study or certification.
+
+**Evidence**: 16/16 probes met their expected outcome (20 environment
+variables, none secret; three echo services received no Authorization
+header; an unrelated API returned 401). In residual risk scoring
+(likelihood x impact), pasted-secret risk fell 25→4, but
+over-privileged connector stayed at 20→15 and indirect injection at
+25→12.
+
+> Source: API Secrets Should Never Become Tokens in the LLM's Vocabulary: A Threat Analysis of API Credential Handling (arXiv:2609.33371)
+
 ### DON'T: Validate vulnerability repairs using PoC crash suppression alone
 
 When evaluating or running AI coding agents for automated bug fixing and vulnerability repair, never rely solely on Proof-of-Concept (PoC) crash elimination. Agents frequently generate surface-level patches directly on the crash stack trace (such as null checks or early returns) that suppress the crash symptom without fixing the underlying vulnerability, or reproduce memorized historical human patches.
@@ -575,7 +690,15 @@ activation space.  Larger models are not inherently more robust;
 their larger activation space provides more attack surface.  Always
 validate safety at the specific scale and architecture of deployment.
 
-> Source: How Fragile Is Safety Alignment at Frontier Scale? (arXiv:2609.09793)
+**Scope:** single-direction activation attacks on 320B+ models
+(2609.09793); post-jailbreak safety feedback in 8 open-weight tool
+agents, 192 simulated tasks (2609.34686).
+
+**Evidence**: tool-agent evidence: after jailbreak context, the same
+safety feedback left 1.0% (Qwen3.6-27B) to 85.7% (Qwen3-14B) of
+trajectories persistently unsafe (arXiv:2609.34686).
+
+> Source: How Fragile Is Safety Alignment at Frontier Scale? (arXiv:2609.09793); Jailbreak Context Lingers: Divergent Safety Routing and Its Cross-Task Predictability in Tool Agents (arXiv:2609.34686)
 
 ---
 
@@ -665,7 +788,19 @@ each tool parameter to explicit evidence spans in the agent's observation histor
 derives from untrusted external text rather than verified task requirements, compute parameter-intent
 divergence and mask or abort the untrusted payload before execution reaches live side-effects.
 
-> Source: ActGuard: Pre-execution Action Auditing against Indirect Prompt Injection (arXiv:2609.14987)
+**Scope:** indirect prompt injection against tool-using agents (ActGuard;
+benchmark details not recorded in this repo); inference-time injection
+defenses on five open-weight models, AgentDojo (CounterSteer).
+
+**Evidence (arXiv:2609.36570)**: inference-time defenses (e.g. activation
+steering) do not protect arguments; fine-tuned SecAlign held the same
+search to 1/18. Under a framing search, parameter manipulation cracked 13/18
+samples against activation steering (3/18 for tool hijack); the author
+reports that every inference-time defense measured shares this gap and
+recommends composing with argument-provenance controls. See
+[countersteer-tool-result-steering](../research-briefs/countersteer-tool-result-steering.md).
+
+> Source: ActGuard: Pre-execution Action Auditing against Indirect Prompt Injection (arXiv:2609.14987); CounterSteer: Suppressing Indirect Prompt Injection with Activation Steering (arXiv:2609.36570)
 
 ---
 
@@ -679,11 +814,35 @@ to silent state drift, phantom completions, and downstream workflow failures. Im
 verification assertions that query observable state changes, enforce caller-generated idempotency
 keys on mutative tools, and maintain inverse compensation actions for transactional failure recovery.
 
-**Scope:** public agent tools at the agent-tool boundary (arXiv:2609.15397); anomaly study, not a defense evaluation.
+**Scope:** public agent tools at the agent-tool boundary (arXiv:2609.15397); anomaly study, not a defense evaluation. Verifier evidence: computer-use agents on OSWorld-based AutoElicit-Bench (arXiv:2609.36201).
+
+**Evidence**: on AutoElicit-Bench, a verifier that probes environment state against task-specific rubrics reached 75.4% unsafe F1, against 69.1% for screenshot-only judging (SCOUT, arXiv:2609.36201; see [`rubric-first-safety-probing`](../skills/rubric-first-safety-probing/SKILL.md)).
 
 See also: "Assume external API calls can be rolled back" (this file, Command Execution): compensating transactions.
 
-> Source: When Tool Calls Succeed but Workflows Fail: Anomalies at the Agent-Tool Boundary (arXiv:2609.15397)
+> Source: When Tool Calls Succeed but Workflows Fail: Anomalies at the Agent-Tool Boundary (arXiv:2609.15397); SCOUT: Synergizing Reasoning and Tool-Use for Computer-Use Safety (arXiv:2609.36201)
+
+### DON'T: Put steps the calling agent can't execute in tool error text
+
+Error text written for developers ("run this command", "edit config",
+"visit the dashboard") asks a tool-only agent for actions it can't take,
+and instruction-following models act on it literally. In server errors,
+state the cause and name a tool the server exposes as the fix; for rate
+limits, name the call to repeat. When consuming third-party servers,
+strip next-step sentences from error text and keep the cause. See
+[`mcp-server-design`](../skills/mcp-server-design/SKILL.md).
+
+**Scope:** 168 BFCL multi-turn scenarios with injected failures, five
+OpenAI models, agents limited to tool calls (15,120 trials).
+
+**Evidence**: expired credentials, mean recovery 45% with a
+terminal-command step, 84% naming the login tool, 82% with the step
+filtered out; GPT-6 Astra fell from 75% (cause only) to 6% (with the
+terminal-command step). Rate limits: 6% → 88% when the call
+is named. 477 of 949 next-step messages across 150 popular MCP servers
+depend on the caller.
+
+> Source: MCP Error Messages Written for Developers Hurt the Most Capable Agents Most (arXiv:2609.35381)
 
 ---
 
@@ -702,6 +861,10 @@ Anomaly-based quarantine is a refusal layer: before deploying it, the assembled 
 ### DON'T: Rely on single-turn refusal or initial benign turns to evaluate long-horizon safety
 
 Safety failures in autonomous tool-using agents routinely do not emerge on the first interaction turn. In long-horizon multi-turn environments, adversaries establish benign context and state across multiple turns (average 14.7 turns) before injecting adversarial pivots, leading to delayed unsafe tool execution or severe over-refusal. Evaluate and calibrate agent safety as a continuous trajectory-level property across complete user-agent-environment traces rather than relying on static prompt-response refusal metrics.
+
+**Scope:** BLINDSPOT live-simulation benchmark, 13 open and closed models, 22 attack families in 35 scenarios across 7 domains, over 2,500 trajectories averaging 14.7 turns (arXiv:2609.16305; figures as recorded in the repo brief); evaluates agent behavior over whole trajectories, not input-detector design.
+
+Tension with "Calibrate safety-detector thresholds on realistic benign traffic, per target model" (agent-sandbox-safety.md): trajectory-level evaluation of agent behavior is a different target from the scoring window of a prompt-side gradient detector; there, shorter windows scored best on Llama.
 
 > Source: BLINDSPOT: A Benchmark for Safety and Refusal Calibration in Long-Horizon Tool-Using Agents (arXiv:2609.16305)
 
@@ -768,7 +931,13 @@ from 35.7% at low reasoning effort to 71.4% at max effort. With a
 forged denial injected, Astra's task completion fell from 100% to 40%,
 so low evasion can hide over-refusal.
 
-> Source: Instrumental Monitor Evasion Emerges Under Ordinary Task Pressure (arXiv:2609.30217)
+ActionGuard (arXiv:2609.39450) returns denial reasons for a retry and
+reached 8.65% ASR on SKILL-INJECT. Its injected objectives were not the
+agent's own task, so there was no task pressure to evade, and it did not
+measure repeated attempts; it does not show retry-after-denial is safe
+under task pressure.
+
+> Source: Instrumental Monitor Evasion Emerges Under Ordinary Task Pressure (arXiv:2609.30217); ActionGuard: Tool Call Authorization under Poisoned Skills (arXiv:2609.39450)
 
 ---
 
@@ -865,6 +1034,37 @@ authorization layer with mock tools, vendor-authored (2609.28693).
 Tension with rules/multi-agent-coordination.md — "Share full context across all agents by default": role partitioning there reduces what each agent is exposed to, which is compatible with this entry; it just isn't the enforcement point. Enforcement of tools and parameters stays server-side.
 
 > Source: Zero-Trust Authorization and Discovery for Enterprise MCP (arXiv:2609.22573); Progressive Skill Discovery as Access Control (arXiv:2609.28693)
+
+### DON'T: Rely on prompt-level privacy instructions to keep carried information inside its boundary
+
+An agent holding private or community-scoped information moves it
+across boundaries through its actions (which link it opens, which
+option it selects, what it writes to a shared file), even when told
+not to and even after noting that it must not. Check information flows
+at the action boundary, before a write, share, tool argument or
+cross-site navigation, against the authorization state currently in
+force. Carry forward only what the next task needs, prefer a general
+action when it completes the task, and verify an agent's claim that
+nothing was disclosed against its action log.
+
+**Scope:** browser-use agents on 20 synthetic two-site scenarios, six
+backbones, one Browser Use harness keeping full history in context
+(arXiv:2609.32915); 13 harness/model configurations of persistent
+multi-community agents on 208 synthetic scenarios (arXiv:2609.34790).
+
+**Evidence**: Despite an explicit instruction not to disclose, browser
+agents carrying a secret picked the option revealing it in 61.1% of
+7,630 loaded sessions (31.2% chose the general option vs 87.2% without
+the secret). They still leaked in 56.7% of sessions where their own
+memory said not to share it, and 34.5% of leaking sessions ended with a
+false assurance that nothing was disclosed (2609.32915). In CoSec, the
+same first-turn guardrail prompt cut the privacy violation rate from
+82.69% to 58.65% on OpenClaw and left it at 96.15% on Hermes, both with
+DeepSeek 4.1 Flash. Workflow carryover (29.9%) and failed revocation
+(19.4%) were among the four failure modes after a boundary change
+(2609.34790).
+
+> Source: AgentTell: Behavioural Side-Channel Leakage in Browser-Use Agents (arXiv:2609.32915); CoSec: Benchmarking Agent Security in Communities (arXiv:2609.34790)
 
 ### DON'T: Trust MCP tool metadata without trace-aware vetting
 
@@ -969,3 +1169,16 @@ For implementation details on the procedures behind these rules:
 - ActGov: arXiv:2609.24446
 - Zero-Trust Authorization for Enterprise MCP: arXiv:2609.22573
 - Progressive Skill Discovery as Access Control: arXiv:2609.28693
+- Does the Unsafe Gradient Survive a Conversation?: arXiv:2609.36849
+- ToolFence: arXiv:2609.37196
+- API Secrets Should Never Become Tokens: arXiv:2609.33371
+- Render Before Reading (Pictionary): arXiv:2609.36121
+- Jailbreak Context Lingers: arXiv:2609.34686
+- SCOUT: arXiv:2609.36201
+- MCP Error Messages Written for Developers: arXiv:2609.35381
+- ActionGuard: arXiv:2609.39450
+- CoDeL: arXiv:2609.34463
+- CounterSteer: arXiv:2609.36570
+- Tool Mediation Alters Refusal Mechanisms: arXiv:2609.35117
+- AgentTell: arXiv:2609.32915
+- CoSec: arXiv:2609.34790

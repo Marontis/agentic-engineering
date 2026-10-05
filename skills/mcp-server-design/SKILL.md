@@ -206,6 +206,34 @@ These annotations inform:
 - **Read-only mode**: Clients can filter to safe-only tools
 - **Attorn policy**: The gateway's I9 invariant uses these for confirmation
 
+### ✅ Error Text Written for the Calling Agent
+
+The caller of an MCP tool is usually an agent that can only call tools.
+Error text copied from the underlying API ("run `x --auth`", "edit your
+config", "visit the dashboard") asks for things it can't do, and newer,
+more instruction-following models act on that text literally.
+
+- State the **cause** in every error.
+- If you give a next step, name a **tool this server exposes**
+  ("call `ticket_login` first"), never a terminal command, config edit or
+  web page.
+- For rate limits, name the call to repeat ("wait a few seconds and call
+  `place_order` again"), not just "wait before retrying".
+- Client side: when consuming servers you don't control, strip
+  next-step sentences from error text before the model sees it and keep
+  the cause.
+
+**Evidence** (arXiv:2609.35381; 168 BFCL multi-turn scenarios, five
+OpenAI models, 15,120 trials): of 3,001 error messages in 150 popular MCP
+servers, 949 give a next step and 477 of those depend on the caller's
+capabilities. On expired credentials, mean recovery was 45% when the
+error asked for a terminal command, 84% when it named the login tool
+and 82% when the step was filtered out; the most instruction-following
+model fell from 75% to 6%. On rate limits, naming the call raised
+recovery from 6% to 88%. Malformed-call errors were recovered from the
+cause alone. See
+[`research-briefs/mcp-error-message-recovery.md`](../../research-briefs/mcp-error-message-recovery.md).
+
 ## Server ↔ Client ↔ Gateway Contract
 
 | Responsibility | Owner |
@@ -279,6 +307,9 @@ Use this before shipping a new MCP server or adding tools to an existing one:
       and `cacheScope` hints?
 - [ ] **Descriptions**: Is the first sentence of every tool description
       a clear, one-line summary usable in search results?
+- [ ] **Error text**: Does every error state its cause, and does any next
+      step name one of this server's tools rather than a terminal
+      command, config edit or web page? (arXiv:2609.35381)
 
 ## References
 

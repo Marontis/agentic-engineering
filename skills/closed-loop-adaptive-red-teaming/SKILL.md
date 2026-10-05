@@ -79,6 +79,11 @@ For tool-using targets, never let probes touch real systems:
 - Put the agent in a ReAct-style loop with **mock tools** (files, web,
   email, key-value store, shell, database, HTTP) that record calls and
   return fixed observations
+- Give the mocks the **deployed tool schemas** (same names, parameters
+  and descriptions) and run probes with them exposed: refusal measured
+  in plain conversation does not transfer, since exposing a tool schema
+  alone lowered refusal on eight open-weight models (rules/agent-sandbox-safety.md,
+  "DON'T: Assume safety transfers across deployment contexts"; arXiv:2609.35117)
 - Plant **canaries** in retrieved content and tool outputs so that
   following an injected instruction is detectable deterministically
 - Keep the full action trace for the Judge

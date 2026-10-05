@@ -47,6 +47,7 @@ PLACEHOLDER_RE = re.compile(
 XREF_RE = re.compile(r"\b(See also|Tension with|Refines)\b", re.IGNORECASE)
 ARXIV_RE = re.compile(r"\b(2[0-9]{3}\.[0-9]{4,5})\b")
 STAT_RE = re.compile(r"(?<![\d.])(\d{1,3}\.\d{2})%")
+COMMON_STATS = {"0.00", "10.00", "20.00", "25.00", "33.33", "50.00", "66.67", "75.00", "100.00"}
 STOPWORDS = set("""a an the and or of to in on for by with as at from into via not no be is
 are it its their than rather that this only every each all any use using make treat
 assume rely let before after across without based alone just your agent agents llm
@@ -233,20 +234,27 @@ def main():
                 warnings.append(f"conflict: {rel(e.path)}:{e.line} '{e.heading[:50]}' vs "
                                 f"{rel(o.path)}:{o.line} '{o.heading[:50]}' (shared: {', '.join(sorted(shared))})")
 
-    # copied statistics across files citing different papers
-    stat_files = defaultdict(set)
+    # copied statistics: two files citing disjoint papers that share two or more
+    # distinctive figures. One shared figure is usually coincidence (66.67% is
+    # just 2/3); a copy error carries several (the 56.05% / 4.33% case). Never
+    # edit a paper's figure to silence this; it only reports pairs.
+    file_stats = {}
     for p, text in texts.items():
         if p.name == "README.md" or "deconfliction" in p.name:
             continue
-        for s in set(STAT_RE.findall(text)):
-            if s not in ("50.00", "10.00", "100.00", "0.00"):
-                stat_files[s].add(p)
-    for s, ps in stat_files.items():
-        sources = {frozenset(ARXIV_RE.findall(texts[p])) for p in ps}
-        ids = [set(x) for x in sources]
-        if len(ps) > 1 and len(ids) > 1 and not set.intersection(*ids):
-            warnings.append(f"copied-stat: {s}% appears in files citing different papers: "
-                            + ", ".join(sorted(rel(p) for p in ps)))
+        stats = {s for s in STAT_RE.findall(text) if s not in COMMON_STATS}
+        if stats:
+            file_stats[p] = stats
+    paths = sorted(file_stats, key=rel)
+    for i, a in enumerate(paths):
+        for b in paths[i + 1:]:
+            shared = file_stats[a] & file_stats[b]
+            if len(shared) < 2:
+                continue
+            ids_a, ids_b = set(ARXIV_RE.findall(texts[a])), set(ARXIV_RE.findall(texts[b]))
+            if ids_a and ids_b and not ids_a & ids_b:
+                warnings.append(f"copied-stat: {rel(a)} and {rel(b)} cite different papers but share "
+                                + ", ".join(f"{s}%" for s in sorted(shared)))
 
     backed = set()
     for p, text in texts.items():

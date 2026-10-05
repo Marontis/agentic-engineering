@@ -107,6 +107,13 @@ Log every proposed edit as a record: component, hypothesis, diff, score
 change, cost change, accepted/rejected. Give the proposer the full log so
 it does not retest hypotheses that have already failed.
 
+Score feedback on the evolve set is safe only if the final keep decision
+uses held-out tasks whose scores never reach the proposer. When one set is
+both fed back and reused for acceptance every round, follow "DO: Return
+only accept/reject decisions to the proposer when the acceptance set is
+reused across rounds" (rules/recursive-improvement.md) and
+[`decision-only-sequential-acceptance`](../decision-only-sequential-acceptance/SKILL.md).
+
 ### 3. Structured Exploration on Stall
 
 If progress over the last `w` rounds stays inside the noise band δ
@@ -152,6 +159,23 @@ increase in policy-token cost be justified by the gain:
 
 Paper values: `β0 = 0.05, β1 = 0.5` (coding); `β0 = 0.10, β1 = 0.3`
 (agentic, design). Among admissible candidates, keep the highest-scoring.
+
+**Second source (Video-RSI, arXiv:2609.37950).** A long-video
+understanding harness (DeepSeek-V4-Pro solver and editor, frozen) was
+evolved over 20 revision attempts with a cost-aware gate on a private,
+video-disjoint selection set of 72 questions (216 training questions for
+diagnosis). It accepted a candidate if accuracy rose with frames processed
+growing at most 10% (`ΔA > 0` and frames ≤ 1.1·C), or if frames fell by at
+least 20% with accuracy loss of at most one selection question. Against an
+accuracy-only gate, the cost-aware gate was better on both axes: MLVU
+72.9% at 61.1 frames vs 67.1% at 81.9, LongVideoBench 71.1% at 41.1 vs
+69.5% at 66.4 (initial harness: MLVU 62.4% at 68.5 frames). Actively
+re-probing training videos to test competing failure explanations also
+beat revising from trajectories alone on every benchmark: MLVU 72.9% at
+61.1 frames vs 64.7% at 60.3 (Table 2). In this
+library, the "accuracy loss of at most one question" allowance must stay
+inside the gate's noise margin δ estimated from repeated baseline runs;
+the paper did not estimate δ that way.
 
 ### 7. Domain Guards (non-compensatory)
 
@@ -237,3 +261,7 @@ means overfitting, not progress.
 
 > Xia et al., "RRSI: Regularized Recursive Self-Improvement of Agent
 > Harnesses" (arXiv:2609.24972), Sep 2026.
+>
+> Luo, Guo & Li, "Video-RSI: Recursive Self-Improvement of Video
+> Understanding Agents via Harness Evolution" (arXiv:2609.37950), Sep 2026
+> (cost-aware acceptance evidence in step 6).
