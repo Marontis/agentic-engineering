@@ -255,11 +255,16 @@ transformation as the harmful arm, and accept on the harm gap
 (harmful-refusal minus benign-refusal), not on harmful-refusal alone.
 Measure the false-refusal / false-quarantine budget on the assembled
 stack, not by summing per-layer rates: how layers compose depends on
-where they sit in the pipeline.
+where they sit in the pipeline. For guardrails on acting agents, also
+report task completion on the benign arm, and report harm actually
+realized separately from detection: a guardrail that replans can miss
+a detection and still prevent the harm.
 
 **Scope:** encoded-prompt refusal on four open 7–8B models
 (JailbreakBench, 100 harmful + 100 matched benign); memory-poisoning
-defenses on LoCoMo (5 conversations × 3 replicates, gemini-3.1-flash-lite).
+defenses on LoCoMo (5 conversations × 3 replicates, gemini-3.1-flash-lite);
+six embodied-agent guardrails on SafeAgentBench in AI2-THOR (300 unsafe +
+300 safe instructions, GPT-4o and DeepSeek-V3.2 planners, simulation only).
 
 **Evidence**:
 - Under homoglyph encoding, Llama-3.1-8B refused 0.99 of *benign*
@@ -270,12 +275,17 @@ defenses on LoCoMo (5 conversations × 3 replicates, gemini-3.1-flash-lite).
   provenance and anomaly checks had 0 false quarantines. Stacking all
   four defenses did not compound (false quarantine 0.303, −3.1 pp with
   a CI including zero) (2609.22818).
+- The embodied guardrail with the lowest average bypass rate (RoboSafe,
+  7.24%) intercepted 91.00% of safe instructions; the one that kept task
+  completion near baseline (AgentSpec, 63.76% vs 64.77% unguarded, 3.36%
+  false positives) had the worst hazard success (35.55%). RoboGuard's
+  bypass rate was 82.05% but its hazard success only 23.85% (2610.06122).
 
 Refines "Track false refusal accumulation across layers" (above): the
 union-composition result there was measured for prompt-refusal
 classifiers (2608.28327); measure your own stack end to end.
 
-> Source: Refusing Everything Looks Safe (arXiv:2609.26176); The Price of Safety: Memory-Poisoning Defenses in LLM Agents (arXiv:2609.22818)
+> Source: Refusing Everything Looks Safe (arXiv:2609.26176); The Price of Safety: Memory-Poisoning Defenses in LLM Agents (arXiv:2609.22818); Benchmarking Jailbreak Guardrails for Embodied Agents (arXiv:2610.06122)
 
 ### DO: Calibrate safety-detector thresholds on realistic benign traffic, per target model
 
@@ -379,7 +389,9 @@ configuration, not just in the training/evaluation context.
 **Scope:** deployment-dependence of safety behaviour (2608.29136,
 setting not re-verified here); conversational vs tool-mediated refusal
 on eight open-weight 8-70B instruction models, AgentHarm public test
-behaviors, single turn, thinking disabled (2609.35117).
+behaviors, single turn, thinking disabled (2609.35117); free-text vs
+visual grounding (points, boxes) on five VLMs, 15,401 matched pairs from
+VLSU, BBQ-V and Asimov-2.0, LLM judge (2610.05637).
 
 **Evidence**: Moving the same harmful AgentHarm intent from a prose
 reply to a tool-call directive cut refusal in all eight models by
@@ -394,7 +406,17 @@ red-team suites with the deployed tool schemas exposed: conversational
 refusal was near-saturated and ranked models only weakly against their
 tool-action behaviour.
 
-> Source: Not the Same Protector (arXiv:2608.29136); Tool Mediation Alters Refusal Mechanisms in Large Language Models (arXiv:2609.35117)
+The same gap appears for visual grounding, the output GUI agents click
+and robots act on: grounding refusal trailed free-text refusal by 31-59
+points for every model and domain (VLSU averages 19.4% vs 62.9%).
+VisionReasoner-7B's reasoning argued for refusal on 64.5% of BBQ-V
+requests yet it grounded a target in over 99%, and across three
+system-prompt conditions only Claude Sonnet 4.6 exceeded 40% grounding
+refusal (2610.05637). Test refusal on every output channel the agent
+acts on, with matched requests that differ only in output form, and
+check proposed coordinates or targets outside the model.
+
+> Source: Not the Same Protector (arXiv:2608.29136); Tool Mediation Alters Refusal Mechanisms in Large Language Models (arXiv:2609.35117); Visual Grounding Safety in Vision-Language Models (arXiv:2610.05637)
 
 ---
 
@@ -868,6 +890,45 @@ Tension with "Calibrate safety-detector thresholds on realistic benign traffic, 
 
 > Source: BLINDSPOT: A Benchmark for Safety and Refusal Calibration in Long-Horizon Tool-Using Agents (arXiv:2609.16305)
 
+### DO: Restore earlier-turn safety constraints and enforce them at a deterministic action boundary
+
+In long sessions, an agent that obeys a constraint when it is restated
+can still break it when the constraint exists only many turns back in
+the history, even with a benign user and no attack. Don't count on the
+context window or generic memory to carry it. Capture each persistable
+user constraint when it is stated, as a structured rule (scope,
+trigger, constraint, target-bound audit rule); restate it when a
+matching task resumes; and check every proposed tool call against it
+deterministically (Block > Repair > Allow) before it reaches the
+environment. Procedure:
+[`historical-constraint-restoration`](../skills/historical-constraint-restoration/SKILL.md).
+
+**Scope:** SCARBench, 412 matched instances (103 executable scenarios,
+6 tool-use domains), benign histories of 6,000–6,176 tokens over 56–160
+turns, seven models, prerequisite and prohibition constraints only;
+no adversarial users.
+
+**Evidence**: with no defense, strict GHOST rates ran from 6.8%
+(Kimi-K2.6) to 27.8% (Qwen3.5-4B), 11.5% on GPT-5.5. STAR-Guard took
+GPT-5.5 Safe Completion from 76.3% to 94.0% with no unsafe completions
+observed, and Qwen3.5-4B from 47.0% to 81.2% with unsafe completion
+31.1% → 1.9%. On Qwen3.5-4B, summarization (VerIFY-Summarize) raised
+unsafe completion to 35.3% and three-tier memory (LIGHT) left it at
+23.7%.
+
+See also "DON'T: Rely on single-turn refusal or initial benign turns to
+evaluate long-horizon safety" (above; adversarial pivots, whereas this
+entry covers benign forgetting) and "DON'T: Rely on structured LLM
+authorization decisions as the sole safety gate" (below).
+
+Tension with "Assume uniform safety refusal behavior across model families
+in multi-turn dialogues" (above): that entry covers refusal of a harmful
+request drifting over turns under persuasion; this one covers a benign
+user's own constraint being dropped. Both vary by model (GHOST 6.8–27.8%
+here), so test each deployed model with its own long histories.
+
+> Source: A GHOST in Long-Horizon Agents: Governance Hazard from Overlooked Safety Constraints across Turns (arXiv:2610.02664)
+
 ---
 
 ## Model Context Protocol (MCP) Tool Exposure & Execution Security
@@ -1117,6 +1178,7 @@ For implementation details on the procedures behind these rules:
 - [`runtime-resource-authorization-bounds`](../skills/runtime-resource-authorization-bounds/SKILL.md) — Dynamic resource acquisition quarantine and effect permits
 - [`pre-execution-action-auditing`](../skills/pre-execution-action-auditing/SKILL.md) — Pre-execution parameter evidence audit against indirect injection
 - [`universal-tool-defense`](../skills/universal-tool-defense/SKILL.md) — Anomaly-based tool filtering, canonical schema recalling, and reflection
+- [`historical-constraint-restoration`](../skills/historical-constraint-restoration/SKILL.md) — Online constraint capture, restoration, and deterministic action audit for long sessions
 
 ## Sources
 
@@ -1182,3 +1244,6 @@ For implementation details on the procedures behind these rules:
 - Tool Mediation Alters Refusal Mechanisms: arXiv:2609.35117
 - AgentTell: arXiv:2609.32915
 - CoSec: arXiv:2609.34790
+- Benchmarking Jailbreak Guardrails for Embodied Agents: arXiv:2610.06122
+- Visual Grounding Safety in Vision-Language Models: arXiv:2610.05637
+- A GHOST in Long-Horizon Agents (STAR-Guard): arXiv:2610.02664

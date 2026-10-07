@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 380+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 395+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -30,14 +30,14 @@ Concise, evidence-backed guardrails. Load these so your agent applies them autom
 
 | Rules File | Domain |
 |:-----------|:-------|
-| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring, hook security, multi-turn refusal variance, dependency-scoped plan lineage, dialogue authentication decoupling, semantic patch validation, input tree perturbation, constructive agent host obligations, guard-agent topologies, deterministic safety constraint gates, guardrail repetition instability, dynamic resource acquisition bounds, pre-execution action auditing, agent-tool boundary contracts, universal tool anomaly filtering, trajectory-level multi-turn safety |
+| [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring, hook security, multi-turn refusal variance, dependency-scoped plan lineage, dialogue authentication decoupling, semantic patch validation, input tree perturbation, constructive agent host obligations, guard-agent topologies, deterministic safety constraint gates, guardrail repetition instability, dynamic resource acquisition bounds, pre-execution action auditing, agent-tool boundary contracts, universal tool anomaly filtering, trajectory-level multi-turn safety, historical safety-constraint restoration, per-channel refusal testing |
 | [`skill-system-design`](rules/skill-system-design.md) | Skill authoring, selection, library management, skill evolution, training data quality, evidence triage, library integrity, hallucination detection, prefix-preserving context assembly, protocol-aware context trimming, persistent agent architecture, procedural families, operational know-how distillation, speculative macro commit, code embedding functional retrieval gap, standardized semantic envelopes |
-| [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification, multi-day autonomous loops, joint harness-weight optimization, reference trajectory evolution, error-structured prompt optimization (ESPO), counterexample-guided repair, rubric artifact bias, neural invariant diagnosis, belief-calibrated scaffold optimization, swarm commons governance, debate consensus calibration, surrogate-guided bilevel rubric evolution, autonomous environment exploration and frozen causal memory |
+| [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification, multi-day autonomous loops, joint harness-weight optimization, reference trajectory evolution, error-structured prompt optimization (ESPO), counterexample-guided repair, rubric artifact bias, neural invariant diagnosis, belief-calibrated scaffold optimization, swarm commons governance, debate consensus calibration, surrogate-guided bilevel rubric evolution, autonomous environment exploration and frozen causal memory, sequential stopping for self-evolution loops |
 | [`adk-workflow-architecture`](rules/adk-workflow-architecture.md) | Graph DAG orchestration, deterministic runtime gates, zero-token policy routing, default fallback edges, lifecycle callback interceptors, Memory Bank vs RAG separation, long-running tool receipts, universal resumption |
 | [`adk-security-and-evaluation`](rules/adk-security-and-evaluation.md) | Model Armor prompt injection guards, Sensitive Data Protection (SDP) PII de-identification, A2A mutual agent authentication & Agent Card verification, AP2/UCP cryptographic commerce tokens, CI/CD golden dataset trajectory validation, multi-criteria LLM-as-a-Judge rubrics |
 | [`agent-evaluation-quality`](rules/agent-evaluation-quality.md) | Output evaluation, benchmarking, quality gates, pass/fail rubrics, trajectory verification |
 | [`agent-human-interaction`](rules/agent-human-interaction.md) | Work presentation, feedback solicitation, cognitive load management, structured reviews |
-| [`multi-agent-coordination`](rules/multi-agent-coordination.md) | Multi-agent topology, role delegation, communication protocols, coordination failure recovery, intent-regularized bus communication, intra-family model candidate selection |
+| [`multi-agent-coordination`](rules/multi-agent-coordination.md) | Multi-agent topology, role delegation, communication protocols, coordination failure recovery, intent-regularized bus communication, intra-family model candidate selection, protocol overhead sizing, differential sub-agent auditing |
 
 ### Skills (On-Demand)
 
@@ -89,6 +89,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`poisoned-skill-tool-call-authorization`](skills/poisoned-skill-tool-call-authorization/SKILL.md) | ActionGuard (arXiv:2609.39450) |
 | [`evidence-guided-skill-audit`](skills/evidence-guided-skill-audit/SKILL.md) | SKILLLITE (arXiv:2609.36879) |
 | [`rubric-first-safety-probing`](skills/rubric-first-safety-probing/SKILL.md) | SCOUT (arXiv:2609.36201) |
+| [`historical-constraint-restoration`](skills/historical-constraint-restoration/SKILL.md) | GHOST / STAR-Guard (arXiv:2610.02664) |
 
 #### Self-Improvement & Evaluation
 
@@ -132,6 +133,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`execution-driven-environment-repair`](skills/execution-driven-environment-repair/SKILL.md) | WEFT (arXiv:2609.36887) |
 | [`pairwise-action-verification`](skills/pairwise-action-verification/SKILL.md) | Mid-Harness (arXiv:2609.39982) |
 | [`hypergraph-augmented-mcts`](skills/hypergraph-augmented-mcts/SKILL.md) | HyperMCTS (arXiv:2609.33920) |
+| [`self-evolution-stopping-rule`](skills/self-evolution-stopping-rule/SKILL.md) | When Is Enough Enough (arXiv:2610.04756) |
 
 #### Skill Evolution & Knowledge
 
@@ -413,6 +415,19 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`selfop-security-skill-optimization`](research-briefs/selfop-security-skill-optimization.md) | Self-optimizing security agent; batch failure clustering without a regression gate |
 | [`delay-gratification-survival-benchmark`](research-briefs/delay-gratification-survival-benchmark.md) | Mandatory per-step self-questioning worsened long-horizon self-control |
 | [`reasoning-topology-cybersecurity`](research-briefs/reasoning-topology-cybersecurity.md) | Graph-structured reasoning beats tree and chain for security classification (cost unmeasured) |
+| [`nlip-a2a-hop-latency-benchmark`](research-briefs/nlip-a2a-hop-latency-benchmark.md) | Per-hop protocol and client overhead for NLIP vs A2A |
+| [`embodied-agent-guardrail-benchmark`](research-briefs/embodied-agent-guardrail-benchmark.md) | No embodied guardrail wins on both bypass rate and benign task completion |
+| [`sentinel-intent-matching-jailbreak-defense`](research-briefs/sentinel-intent-matching-jailbreak-defense.md) | Intention-aware input-output matching kept HarmBench jailbreak ASR under 5% |
+| [`emotion-induced-over-refusal`](research-briefs/emotion-induced-over-refusal.md) | Emotional framing drives benign over-refusal; mitigation without raising harmful compliance |
+| [`topology-conditioned-backdoors`](research-briefs/topology-conditioned-backdoors.md) | Defensive lessons: backdoors that fire only in multi-agent framings |
+| [`mlcommons-jailbreak-benchmark-v1`](research-briefs/mlcommons-jailbreak-benchmark-v1.md) | Standardized jailbreak benchmark; unsafe rate 11.08% to 18.65% under attack |
+| [`safe-role-internalization-alignment`](research-briefs/safe-role-internalization-alignment.md) | Safe-role fine-tuning beat token-matched SFT on attack success for two of three models |
+| [`refusal-steering-dimensionality`](research-briefs/refusal-steering-dimensionality.md) | Safety refusal steers along one direction; general refusal does not |
+| [`visual-grounding-safety-gap`](research-briefs/visual-grounding-safety-gap.md) | VLMs refuse in text but still ground harmful targets |
+| [`sigma-self-improving-alignment`](research-briefs/sigma-self-improving-alignment.md) | Self-improving alignment from a model spec; transfers to AgentHarm and agentic misalignment |
+| [`subgoal-transition-authorization`](research-briefs/subgoal-transition-authorization.md) | Runtime authorization of self-generated subgoals blocked drift with no benign loss |
+| [`moe-safety-sensitive-experts`](research-briefs/moe-safety-sensitive-experts.md) | Router-gradient selection finds the MoE experts that carry refusal |
+| [`recursive-harness-data-synthesis`](research-briefs/recursive-harness-data-synthesis.md) | Recursive harness that makes synthesized reasoning tasks harder each round |
 
 ---
 
