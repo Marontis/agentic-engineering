@@ -544,6 +544,33 @@ for gains. The
 
 > Source: arXiv:2608.27311; arXiv:2609.24838; arXiv:2609.24663; arXiv:2609.24972; arXiv:2609.08175; arXiv:2609.17817; arXiv:2609.33180
 
+### DO: Stop self-evolution loops on sequential evidence, not a fixed round budget
+
+Fixed round budgets keep paying after proposals stop helping, and long
+runs can end by accepting a degenerate artifact that games the
+validation set. Watch proposal quality, not the incumbent's score: bet
+on per-item candidate-vs-incumbent outcomes against "expected gain is
+still at least ε", restart a bettor every round, stop when the best
+wealth crosses 1/δ_FA, and return the incumbent just before the
+estimated change point. The returned artifact still goes through "DO:
+Pass every self-modification through one acceptance gate" (above).
+Procedure:
+[`self-evolution-stopping-rule`](../skills/self-evolution-stopping-rule/SKILL.md).
+
+**Scope:** SkillOpt and GEPA; DeepSeek V4 Flash, Qwen3-32B, GPT-5.6
+Luna; SearchQA, GSM8K, OfficeQA, LiveMath, SpreadsheetBench; binary
+per-item outcomes; ε = 0.01, δ_FA = 0.05 (a false-alarm level, not the
+gate's noise margin δ); 40-round full budget in the main runs.
+
+**Evidence**: token savings of 48.4–91.6% on the three main benchmarks
+with unseen-test differences of +0.43, −0.80 and −1.16 pp (all 95% CIs
+include zero); SearchQA stopped at round 4 of 40. On LiveMath it
+alarmed at round 8, before the full run accepted an "always answer A"
+skill at round 16. It stayed silent on SpreadsheetBench, which kept
+improving (0.375 → 0.70 over 16 rounds).
+
+> Source: When Is Enough Enough in Self-Evolving LLM Systems? (arXiv:2610.04756)
+
 ### DO: Invest in standalone verifiers before planning components
 
 A standalone verifier captures nearly all the false-pass benefit of
@@ -951,6 +978,7 @@ For implementation details on the procedures behind these rules:
 - [`fast-tree-search-self-improvement`](../skills/fast-tree-search-self-improvement/SKILL.md) — Budget-constrained self-improvement via LLM-judge-guided tree search
 - [`regularized-harness-evolution`](../skills/regularized-harness-evolution/SKILL.md) — Bounded, regularized harness evolution with a fixed editable set
 - [`recursive-self-improvement-loop`](../skills/recursive-self-improvement-loop/SKILL.md) — AIDE² propose-benchmark-select loop
+- [`self-evolution-stopping-rule`](../skills/self-evolution-stopping-rule/SKILL.md) — Anytime-valid stopping and change-point output selection for self-evolving loops
 
 ## Sources
 
@@ -994,3 +1022,4 @@ For implementation details on the procedures behind these rules:
 - COEVO: arXiv:2609.33398
 - ER-Audit (Epistemic Reliability in Debate Distillation): arXiv:2609.32361
 - A Cheap Verifier is Good Enough: arXiv:2609.33467
+- When Is Enough Enough in Self-Evolving LLM Systems?: arXiv:2610.04756

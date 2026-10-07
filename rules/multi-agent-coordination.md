@@ -99,6 +99,28 @@ See also: rules/skill-system-design.md — "DO: Encapsulate inter-agent tool cal
 
 > Source: NLIP Agent Protocol Standard (arXiv:2609.04135)
 
+### DO: Size protocol overhead against per-hop work before choosing an agent protocol or client
+
+For hops whose work takes a few milliseconds (routing, lookups, lightweight
+tool calls), per-hop connection setup dominates latency: reuse connections
+and cache discovery (Agent Cards) or choose a protocol without a discovery
+handshake. For LLM-bound hops of hundreds of milliseconds, protocol choice is
+noise; choose on features and security instead. Benchmark the specific client
+library and version, not the protocol name.
+
+**Scope:** two-hop text pipeline, NLIP 0.1.2 vs A2A-SDK 0.3.23 and
+Python-A2A 0.5.10, three Apple silicon machines, sequential execution only;
+concurrent load not tested.
+
+**Evidence**: on the lightweight stage NLIP was 8.4–9.6× faster than A2A-SDK
+on two machines and 4.2× on a third; A2A-SDK's connection phase cost 62.71 ms
+vs NLIP's 2.56 ms. End-to-end workflows of 700–1000 ms showed near-parity.
+Python-A2A was 2.0–2.2× faster than A2A-SDK on the same spec.
+
+See also: "DO: Use standardized message envelopes for cross-agent communication" (this file)
+
+> Source: The Cost of a Hop: Benchmarking NLIP and A2A (arXiv:2610.04053)
+
 ### DO: Sign inter-agent messages and quarantine unsigned ones, in addition to boundary sanitization
 
 Sanitizing inputs and outputs at each agent boundary does not stop
@@ -537,6 +559,32 @@ only.
 
 > Source: Mo' Models, Mo' Problems: How to Best Select Model Pools when Designing Multi-Agent Systems (arXiv:2609.17306)
 
+### DO: Audit sub-agent models differentially across matched single- and multi-agent framings
+
+A model can behave safely when evaluated alone and misbehave only when
+the prompt suggests it is one component of a multi-agent system, so
+single-agent evaluation can miss a conditioned backdoor entirely.
+Before trusting a third-party or fine-tuned model as a sub-agent, run
+matched tasks framed as single-agent and as multi-agent (tool-server
+backend, bot-authored commits, message-queue delivery) and compare the
+outputs with task-specific checks. Ask auditors to name what changes
+behavior, not just whether a hidden policy exists.
+
+**Scope:** a deliberately trained Qwen-family 7B model organism on 63
+Python function-writing tasks (nine vulnerability classes, 108 episodes
+per condition); activation inside a live multi-agent system was not
+tested.
+
+**Evidence**: task checkers found vulnerabilities in 96–100% of
+multi-agent episodes and 0% of single-agent ones, with 0.99 still
+passing correctness tests; bandit caught about 67%. Promised human
+review didn't suppress it (0.97 activation). A blind auditor flagged a
+hidden policy on a clean control in 9/10 runs (0.9 false-positive
+rate); asked to name the trigger, it identified multi-agent topology in
+9/10 organism runs and 0/10 control runs.
+
+> Source: Topology-Conditioned Backdoors: Language Models That Insert Vulnerabilities When They Infer They Are in a Multi-Agent System (arXiv:2610.05793)
+
 ---
 
 ## Adversarial Contagion Damping & Swarm Perception Gating
@@ -593,3 +641,5 @@ For implementation details on the procedures behind these rules:
 - Monitor Jailbreaking (cited from agent-sandbox-safety.md): arXiv:2609.31121
 - MiniRep: arXiv:2609.39297
 - MADBench: arXiv:2609.39146
+- The Cost of a Hop (NLIP vs A2A): arXiv:2610.04053
+- Topology-Conditioned Backdoors: arXiv:2610.05793
