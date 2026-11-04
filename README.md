@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 395+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 440+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -90,6 +90,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`evidence-guided-skill-audit`](skills/evidence-guided-skill-audit/SKILL.md) | SKILLLITE (arXiv:2609.36879) |
 | [`rubric-first-safety-probing`](skills/rubric-first-safety-probing/SKILL.md) | SCOUT (arXiv:2609.36201) |
 | [`historical-constraint-restoration`](skills/historical-constraint-restoration/SKILL.md) | GHOST / STAR-Guard (arXiv:2610.02664) |
+| [`mcp-decode-provenance-binding`](skills/mcp-decode-provenance-binding/SKILL.md) | Decode-Time Provenance Binding for MCP (arXiv:2610.31974) |
+| [`out-of-band-hitl-verification`](skills/out-of-band-hitl-verification/SKILL.md) | I-HITL: Inalienable Human-in-the-Loop (arXiv:2610.35835) |
 
 #### Self-Improvement & Evaluation
 
@@ -134,6 +136,9 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`pairwise-action-verification`](skills/pairwise-action-verification/SKILL.md) | Mid-Harness (arXiv:2609.39982) |
 | [`hypergraph-augmented-mcts`](skills/hypergraph-augmented-mcts/SKILL.md) | HyperMCTS (arXiv:2609.33920) |
 | [`self-evolution-stopping-rule`](skills/self-evolution-stopping-rule/SKILL.md) | When Is Enough Enough (arXiv:2610.04756) |
+| [`selective-step-verification`](skills/selective-step-verification/SKILL.md) | SWE-VERIFIER (arXiv:2610.30284) |
+| [`coordinator-executor-prompt-optimization`](skills/coordinator-executor-prompt-optimization/SKILL.md) | CEPO Multi-Agent Prompt Optimization (arXiv:2610.34722) |
+| [`capability-matched-skill-adaptation`](skills/capability-matched-skill-adaptation/SKILL.md) | Evolving to Match Capabilities (arXiv:2610.33024) |
 
 #### Skill Evolution & Knowledge
 
@@ -170,6 +175,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`intent-driven-sdlc-planning`](skills/intent-driven-sdlc-planning/SKILL.md) | AI-Native SDLC Playbook (Intent → Spec → Plan upstream pipeline) |
 | [`mcp-server-design`](skills/mcp-server-design/SKILL.md) | MCP Server Best Practices & Progressive Discovery |
 | [`agentic-requirements-reverse-engineering`](skills/agentic-requirements-reverse-engineering/SKILL.md) | Code to Requirements (arXiv:2609.22719) |
+| [`decoupled-interface-action-repair`](skills/decoupled-interface-action-repair/SKILL.md) | Matched Capabilities, Different Behaviors: DART & MICA (arXiv:2610.34298) |
 
 #### Retrieval & Evidence
 
@@ -428,6 +434,48 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`subgoal-transition-authorization`](research-briefs/subgoal-transition-authorization.md) | Runtime authorization of self-generated subgoals blocked drift with no benign loss |
 | [`moe-safety-sensitive-experts`](research-briefs/moe-safety-sensitive-experts.md) | Router-gradient selection finds the MoE experts that carry refusal |
 | [`recursive-harness-data-synthesis`](research-briefs/recursive-harness-data-synthesis.md) | Recursive harness that makes synthesized reasoning tasks harder each round |
+| [`memory-injection-persistent-compromise`](research-briefs/memory-injection-persistent-compromise.md) | Persistent memory and shared skill-directory poisoning across frontier chat agents |
+| [`refusal-transfer-failure-tool-agents`](research-briefs/refusal-transfer-failure-tool-agents.md) | Refusal fails to transfer from chat to tool calls; steering wipes out benign calls |
+| [`role-separated-self-criticism-red-teaming`](research-briefs/role-separated-self-criticism-red-teaming.md) | Target-session self-criticism paired with an external attacker discovers more flaws |
+| [`broken-access-control-repair-benchmark`](research-briefs/broken-access-control-repair-benchmark.md) | ACFix-Bench: access-control repair requires negative authorization tests, not PoC-only checks |
+| [`untrusted-monitor-collusion-corrective-transfer`](research-briefs/untrusted-monitor-collusion-corrective-transfer.md) | Corrective fine-tuning of colluding oversight monitors fails to transfer across collusion signals |
+| [`sentrybench-cost-sensitive-public-safety-agents`](research-briefs/sentrybench-cost-sensitive-public-safety-agents.md) | Cautionary prompts cause 65–100% emergency over-refusal; selective trust-gating avoids it |
+| [`commit-boundary-authorization-entity-resolution`](research-briefs/commit-boundary-authorization-entity-resolution.md) | Conceptual two-phase commit boundary separating entity resolution from side-effecting dispatch |
+| [`pretraining-seed-jailbreak-susceptibility`](research-briefs/pretraining-seed-jailbreak-susceptibility.md) | Pretraining seed variance exceeds corpus-intervention effects on jailbreak susceptibility |
+| [`reva-contextual-probing-vulnerability-detection`](research-briefs/reva-contextual-probing-vulnerability-detection.md) | Multi-layer attention probing over context-enriched hidden states beats LLM text verdicts on PrimeVul |
+| [`multi-agent-system-prompt-extraction-defense`](research-briefs/multi-agent-system-prompt-extraction-defense.md) | Defensive lessons from topology-aware prompt extraction in multi-agent systems |
+| [`log-to-leak-mcp-post-hoc-logging-injection`](research-briefs/log-to-leak-mcp-post-hoc-logging-injection.md) | Post-hoc logging directives in MCP tool descriptions exfiltrate sessions across servers |
+| [`agent-mediated-web-vulnerability-surface`](research-briefs/agent-mediated-web-vulnerability-surface.md) | Vela: 91% of web vulnerabilities survive workflow MCP interfaces unless gated by typed slot schemas |
+| [`mdp-multi-turn-jailbreak-escalation`](research-briefs/mdp-multi-turn-jailbreak-escalation.md) | Defensive analysis of MDP-formulated multi-turn jailbreak state tracking and backtracking |
+| [`mcp-fault-injection-resilience`](research-briefs/mcp-fault-injection-resilience.md) | MCP-FlawBench: malformed tool outputs cause silent hallucinations; timeouts waste 36% of budgets |
+| [`latent-harm-monitors-vs-model-refusal`](research-briefs/latent-harm-monitors-vs-model-refusal.md) | Instruction-end activation monitors trail TF-IDF on OOD jailbreaks; pre-gen probes track refusal plans |
+| [`mpidetector-multimodal-prompt-injection-reasoning`](research-briefs/mpidetector-multimodal-prompt-injection-reasoning.md) | Visual-semantic decoupling eliminates false positives on obfuscated multimodal web injections |
+| [`evolvemas-decentralized-multi-agent-memory`](research-briefs/evolvemas-decentralized-multi-agent-memory.md) | Decentralized multi-agent experience banks require central coordinator routing to prevent herding |
+| [`nametrap-identifier-poisoning-coding-agents`](research-briefs/nametrap-identifier-poisoning-coding-agents.md) | Identifier-only poisoning in context files tricks coding agents while evading pre-completion scanners |
+| [`multi-agent-herding-and-runaway-cascades`](research-briefs/multi-agent-herding-and-runaway-cascades.md) | Exposing running tallies or popularity orderings triggers Polya-urn herding in sequential agents |
+| [`multi-agent-debate-peer-influence-tracing`](research-briefs/multi-agent-debate-peer-influence-tracing.md) | Peer influence in multi-agent debate concentrates in Round 1 and propagates shared misconceptions |
+| [`mode-optimized-reasoning-adaptive-effort`](research-briefs/mode-optimized-reasoning-adaptive-effort.md) | Two-stage discrete reasoning-mode SFT + difficulty-tiered RL halves response tokens without accuracy loss |
+| [`infinity-machine-autonomous-research-agent`](research-briefs/infinity-machine-autonomous-research-agent.md) | 6-day autonomous research loop showing why synthesized verifiers need monotonic ranking checks |
+| [`skill-infinity-recursive-meta-skill-optimization`](research-briefs/skill-infinity-recursive-meta-skill-optimization.md) | Bounded 3-level meta-skill hierarchy with Pareto frontier pruning and dual-axis evolution |
+| [`physevolve-executable-world-self-evolution`](research-briefs/physevolve-executable-world-self-evolution.md) | Executable MuJoCo counterfactual margin gating prevents degenerate self-play in physical reasoning |
+| [`agentphishing-adaptive-persuasive-email-attacks`](research-briefs/agentphishing-adaptive-persuasive-email-attacks.md) | Workflow-continuation phishing bypasses email agent detection without out-of-band confirmation |
+| [`seclog-bench-scaffolded-log-reasoning`](research-briefs/seclog-bench-scaffolded-log-reasoning.md) | Scaffolded sub-question rubrics separate parsing, linking, and attribution in security log analysis |
+| [`world-model-predictive-paths-agents`](research-briefs/world-model-predictive-paths-agents.md) | Jointly updating planner and world-model transition memories prevents single-branch lookahead degradation |
+| [`smart-med-uncertainty-aware-multi-agent-routing`](research-briefs/smart-med-uncertainty-aware-multi-agent-routing.md) | Confidence-gated dynamic specialist routing cuts multi-agent token cost by 53–72% |
+| [`clinician-led-verifiable-rule-guardrails`](research-briefs/clinician-led-verifiable-rule-guardrails.md) | Domain-expert atomic rule extraction and LLM-as-Judge checklists catch clinical safety errors |
+| [`muffin-asynchronous-shared-memory-buffer`](research-briefs/muffin-asynchronous-shared-memory-buffer.md) | Asynchronous shared memory buffers decouple multi-agent collaboration from barrier synchronization |
+| [`self-evolving-static-analysis-pseudo-labeling`](research-briefs/self-evolving-static-analysis-pseudo-labeling.md) | Actor-critic pseudo-labeling evolves CodeQL queries without labels, but FP repairs can prune true bugs |
+| [`rsiv-harness-conversational-visualization`](research-briefs/rsiv-harness-conversational-visualization.md) | Bounded 4-stage retrieve-specify-implement-verify harness for conversational scientific visualization |
+| [`rsi-arena-autonomous-post-training-feedback`](research-briefs/rsi-arena-autonomous-post-training-feedback.md) | Autonomous post-training closes 76–87% of Base-to-Instruct gap, but ungated feedback erodes safety |
+| [`pitfall-anticipation-world-model-steering`](research-briefs/pitfall-anticipation-world-model-steering.md) | Subgoal-gated pitfall anticipation beats always-on trajectory world models on ScienceWorld & WebArena |
+| [`recursive-self-improvement-physical-ai`](research-briefs/recursive-self-improvement-physical-ai.md) | Formal R0–R3 validation protocol separating physical knowledge discovery from orchestration tuning |
+| [`c-safegen-claim-based-streaming-guardrails`](research-briefs/c-safegen-claim-based-streaming-guardrails.md) | Claim-level streaming verification with KV-cache backtracking and conformal risk bounds |
+| [`cyberdual-adversarial-code-review-arena`](research-briefs/cyberdual-adversarial-code-review-arena.md) | Paired patch-and-review evaluation showing code review accuracy drops sharply on subtle flaws |
+| [`multi-agent-collusion-on-policy-distillation`](research-briefs/multi-agent-collusion-on-policy-distillation.md) | Weak-to-strong on-policy distillation suppresses multi-agent peer-pressured cover-up deception |
+| [`science-agent-harness-safety-erosion`](research-briefs/science-agent-harness-safety-erosion.md) | Scientific agent harnesses erode base-LLM refusal from 2% to 20–72% ASR on hazardous chemistry |
+| [`mining-multi-agent-workflow-design-space`](research-briefs/mining-multi-agent-workflow-design-space.md) | Controlled 3,360-configuration study showing heterogeneous agent teams beat homogeneous scaling |
+| [`mcp-vs-cli-tool-integration-analysis`](research-briefs/mcp-vs-cli-tool-integration-analysis.md) | Controlled comparison of CLI speed/token efficiency vs MCP typed schema reliability |
+| [`agent-protocol-handshake-overhead-benchmark`](research-briefs/agent-protocol-handshake-overhead-benchmark.md) | Quantifying discovery and handshake latency across MCP, A2A, ACP, and ANP under cold/warm starts |
 
 ---
 

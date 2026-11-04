@@ -22,11 +22,42 @@ task's knowledge requirements, not convenience:
 - **Debate** (adversarial): surfaces disagreements, but susceptible to
   majority skew and shared misconceptions across debaters
 
-**Evidence**: dynamically generating collaboration topologies conditioned
-on retrieved evidence outperforms all fixed topologies. Different
-evidence produces different optimal structures.
+**Scope:** knowledge-conditioned topology generation on reasoning benchmarks (arXiv:2608.27984); 28,568 executable workflows across 6 operators (`Chain`, `Star`, `Debate`, `Verify`, `Router`, `SharedMemory`) and 26 Enigmata tasks mined via 300 $L_0$-penalized trials on held-out AFlow MCTS searches (arXiv:2610.31709); asynchronous append-only shared memory buffer (`Muffin`) across 4 models and 5 benchmarks (arXiv:2610.31355); uncertainty-gated selective routing (`SMART-Med`) on 4 medical VQA benchmarks with `Qwen3-VL-4B-Instruct` (arXiv:2610.33544).
 
-> Source: Knowledge-Conditioned Topology Generation (arXiv:2608.27984)
+**Evidence**:
+- Dynamically generating collaboration topologies conditioned on retrieved
+  evidence outperforms all fixed topologies. Different evidence produces
+  different optimal structures (2608.27984).
+- Across 28,568 mined workflows on held-out searches, opening a workflow
+  with `Star` (parallel independent sampling + one-shot aggregation)
+  degraded accuracy (median $\Delta = -0.045$, Wilcoxon $p_{\mathrm{W}} = 0.038$,
+  negative in 70% of tasks), while persistent `SharedMemory` beat
+  conversational `Debate` (median $\Delta = +0.135$, $p_{\mathrm{W}} = 0.011$,
+  positive in 73% of tasks; corpus mean 0.23 vs 0.18 for `Debate` and 0.16
+  for `Star`). Adding prompt-text features (`prompt.py`) to code-structure
+  features (`workflow.py`) raised held-out $R^2$ from 0.521 to 0.638: prompt
+  specificity ($\Delta = +0.118$, $p_{\mathrm{W}} = 0.002$) and `{name}`
+  placeholder routing ($\Delta = +0.059$, $p_{\mathrm{W}} = 0.003$) matched
+  macro-topology gains (2610.31709; see
+  [mining-multi-agent-workflow-design-space](../research-briefs/mining-multi-agent-workflow-design-space.md)).
+- Replacing synchronous Multi-Agent Debate with an asynchronous
+  append-only shared memory buffer (`Muffin` — keeping private notes local,
+  reading only top-$k$ peer findings, and passing final step summaries to a
+  Summarizer) won 17 of 20 settings (+4.4 accuracy points on average),
+  beating synchronous Debate by +19.2 points with 77.4% fewer tokens on
+  OlymMATH-Easy (`gemma-4-E4B-it`) and cutting tokens by 73.9% (41.9K vs
+  160.6K on `gemma-4-31B-it`) compared to full-trace sharing (2610.31355;
+  see [muffin-asynchronous-shared-memory-buffer](../research-briefs/muffin-asynchronous-shared-memory-buffer.md)).
+- Treating collaboration itself as an uncertainty-gated decision rather
+  than an always-on default (`SMART-Med`, trained with GRPO using a
+  certainty-aware accuracy reward that penalizes confident errors) cut
+  average model calls from 5.51–17.92 to 1.17 calls/query, reduced input
+  tokens by $>72\%$ and output tokens by $>88\%$, accelerated inference by
+  $>3.8\times$, improved average accuracy by +6.7% across 4 medical VQA
+  benchmarks, and cut false-certainty rates from 28.8% to 8.6% (2610.33544;
+  see [smart-med-uncertainty-aware-multi-agent-routing](../research-briefs/smart-med-uncertainty-aware-multi-agent-routing.md)).
+
+> Source: Knowledge-Conditioned Topology Generation (arXiv:2608.27984); Mining the Design Space of Multi-Agent Workflows (arXiv:2610.31709); Muffin - A Shared Memory Buffer for Asynchronous AI Agents (arXiv:2610.31355); Learning When to Collaborate: Selective Multi-Agent Medical Reasoning via Uncertainty-Aware Routing (arXiv:2610.33544)
 
 ### DO: Optimize topology and model assignment jointly
 
@@ -105,21 +136,38 @@ For hops whose work takes a few milliseconds (routing, lookups, lightweight
 tool calls), per-hop connection setup dominates latency: reuse connections
 and cache discovery (Agent Cards) or choose a protocol without a discovery
 handshake. For LLM-bound hops of hundreds of milliseconds, protocol choice is
-noise; choose on features and security instead. Benchmark the specific client
-library and version, not the protocol name.
+noise; choose on features and security instead. When an LLM reads a
+counterpart's capability metadata during handshake, budget for the linear
+token tax per exposed capability and use progressive disclosure or era-pinned
+warm reconnects. Benchmark the specific client library and version, not the
+protocol name.
 
 **Scope:** two-hop text pipeline, NLIP 0.1.2 vs A2A-SDK 0.3.23 and
 Python-A2A 0.5.10, three Apple silicon machines, sequential execution only;
-concurrent load not tested.
+concurrent load not tested (arXiv:2610.04053); phase-decomposed handshake
+benchmark across MCP (`2025-11-25` `initialize` vs `2026-07-28` `discover`),
+A2A v0.2.5, and ACP v0.2.0 ($N=50$ per cell, loopback and emulated 50 ms RTT)
+(arXiv:2610.30151).
 
-**Evidence**: on the lightweight stage NLIP was 8.4–9.6× faster than A2A-SDK
-on two machines and 4.2× on a third; A2A-SDK's connection phase cost 62.71 ms
-vs NLIP's 2.56 ms. End-to-end workflows of 700–1000 ms showed near-parity.
-Python-A2A was 2.0–2.2× faster than A2A-SDK on the same spec.
+**Evidence**:
+- On the lightweight stage NLIP was 8.4–9.6× faster than A2A-SDK on two
+  machines and 4.2× on a third; A2A-SDK's connection phase cost 62.71 ms vs
+  NLIP's 2.56 ms. End-to-end workflows of 700–1000 ms showed near-parity.
+  Python-A2A was 2.0–2.2× faster than A2A-SDK on the same spec (2610.04053).
+- At 50 ms RTT, a legacy MCP (`2025-11-25`) cold handshake took 3 RTTs and
+  230 ms (scaling at 4.2 ms per ms of RTT) versus A2A's 1 RTT and 61.0 ms
+  (3.8× faster) and ACP's 1 RTT and 62.1 ms; upgrading to MCP `2026-07-28` +
+  SEP-2549 cut cold-start latency by 47% to 2 RTTs / 122 ms, and era-pinned
+  warm reconnects dropped to 0 RTTs / 6.6 ms. When an LLM ingested counterpart
+  metadata, handshake cost scaled linearly at 24 tokens/capability for A2A,
+  78 for MCP, and 107 for ACP—so a 200-capability counterpart consumed 15,618
+  tokens (MCP) or 21,405 tokens (ACP, 11% of a 200k context window) before the
+  task began (2610.30151; see
+  [agent-protocol-handshake-overhead-benchmark](../research-briefs/agent-protocol-handshake-overhead-benchmark.md)).
 
 See also: "DO: Use standardized message envelopes for cross-agent communication" (this file)
 
-> Source: The Cost of a Hop: Benchmarking NLIP and A2A (arXiv:2610.04053)
+> Source: The Cost of a Hop: Benchmarking NLIP and A2A (arXiv:2610.04053); The Cost of Saying Hello: An Empirical Study of Handshake Overhead in AI Agent Communication Protocols (arXiv:2610.30151)
 
 ### DO: Sign inter-agent messages and quarantine unsigned ones, in addition to boundary sanitization
 
@@ -167,14 +215,43 @@ ensures auditability across organizational boundaries.
 When all debaters share the same training data, the same reasoning
 biases, or the same retrieved context, debate converges on the wrong
 answer with high confidence. Majority agreement in a homogeneous swarm
-is not evidence of correctness.
+is not evidence of correctness. Benchmark debate against a round-matched
+independent-reflection control, report unanimous wrong-answer rates and
+effective independent voter counts $n_{\text{eff}}$, strip self-vs-peer
+authorship labels when unbiased evidence weighting is required, and
+weight peer arguments by empirical track record rather than persona
+status titles.
 
-**Evidence**: experience-memory-augmented debate with dynamic confidence
-reweighting is required to counteract shared misconceptions and
-majority skew in multi-agent debate systems.
+**Evidence**:
+- Experience-memory-augmented debate with dynamic confidence reweighting
+  is required to counteract shared misconceptions and majority skew in
+  multi-agent debate systems (2609.03619).
+- On MAD Bench (2,400 questions across Knowledge & Reasoning, Values &
+  Moral Judgment, and Safety & Refusal) across Qwen3.5-9B,
+  Llama-3.1-8B-Instruct, and Gemma-4-E4B-it, 3-round debate improved
+  accuracy over Round-0 majority voting by only +1.2 pp on Qwen3.5-9B
+  (88.0% to 89.2%), +1.2 pp on Gemma-4-E4B, and +0.5 pp on Llama-3.1-8B
+  (77.3% to 77.8%, while Knowledge dropped from 75.7% to 71.6%), yet
+  increased unanimous wrong answers over round-matched independent
+  reflection by +3.1 pp (Qwen: 6.6% to 9.8%), +7.4 pp (Llama: 11.8% to
+  19.2%), and +3.6 pp (Gemma). Over 12 rounds on contested questions, 3
+  debaters collapsed to $n_{\text{eff}} = 1.02\text{--}1.07$ effective
+  independent voters (vs $1.70\text{--}2.10$ under reflection), with
+  70–90% of groups freezing after Turn 1. Forced-choice readouts before
+  rationale generation already matched the eventual revised answer in
+  65.4% (Qwen), 52.4% (Llama), and 48.5% (Gemma) of debate switches vs
+  22.3%, 35.4%, and 12.6% in reflection; relabelling identical text as
+  the receiver's own shifted adoption margins by +0.749, +1.086, and
+  +1.302 logits (39–45× larger than prompt position shifts); and stated
+  track record outweighed persona status by 3.7× (Qwen), 14.3× (Llama),
+  and 1.44× (Gemma) (2610.35930; see
+  [multi-agent-debate-peer-influence-tracing](../research-briefs/multi-agent-debate-peer-influence-tracing.md)).
 
 **Scope:** multi-agent debate among debaters sharing training data,
-biases or retrieved context. Consistent with "Expand candidate model
+biases or retrieved context (arXiv:2609.03619); 3-agent homogeneous
+debate vs round-matched independent reflection on 2,400 MAD Bench
+questions across Qwen3.5-9B, Llama-3.1-8B-Instruct, and Gemma-4-E4B-it
+(arXiv:2610.35930). Consistent with "Expand candidate model
 pools with arbitrary heterogeneous architectures" (below) once that
 rule is scoped to routing/voting aggregation: any same-family pool
 used for debate or verification needs a dissent or diversity
@@ -182,7 +259,7 @@ mechanism (confidence reweighting, heterogeneous members).
 
 See also: rules/recursive-improvement.md — "DO: Dynamically calibrate consensus entropy and weight peer influence by evidence grounding in multi-agent debate"
 
-> Source: R²-MAD (arXiv:2609.03619)
+> Source: R²-MAD (arXiv:2609.03619); Who Convinced Whom? Tracing How LLMs Change Their Minds in Multi-Agent Systems (arXiv:2610.35930)
 
 ### DO: Use heterogeneous, cross-family rosters for deliberation and joint verification
 
@@ -602,6 +679,129 @@ feeds pass through this damping layer before reaching it.
 
 > Source: Contagion on the Trading Floor: How Adversarial Signals Spread in Multi-Agent Trading Systems (ECML PKDD 2026, arXiv:2609.19789)
 
+### DO: Decouple shared team coordination prompts from local executor prompts and optimize the coordinator first
+
+When optimizing prompts or memory across a multi-agent system, separate
+system-level coordination rules (a shared coordinator prompt $p_C$ of
+$< 600$ tokens governing uncertainty preservation, modality discipline,
+evidence handling, handoffs, and conflict surfacing) from agent-specific
+execution instructions ($p_E^{(i)}$, governing local input/output
+processing). Optimize $p_C$ first using team-level failure attribution
+before tuning high-leverage executors, offload within-episode structured
+memory curation to an isolated `MemoryAgent` outside the acting agent's
+reasoning context, and pass every candidate prompt through the single
+acceptance gate in `rules/recursive-improvement.md` ("DO: Pass every
+self-modification through one acceptance gate"). Procedure:
+[`coordinator-executor-prompt-optimization`](../skills/coordinator-executor-prompt-optimization/SKILL.md).
+
+**Scope:** multi-agent systems ($N \ge 2$ agents) across 11 benchmarks in
+4 domains (5 document-understanding benchmarks on 5-agent MDocAgent and
+3-agent DocAgent, 5 math/code benchmarks on 2-agent Qwen3-8B, and
+LongTVQA+ on 3-agent LongVideoAgent) with 4 base optimizers (PE2,
+ProTeGi, OPRO, MASPO) (arXiv:2610.34722); decentralized multi-agent
+adaptation pairing each `MainAgent` with an isolated `MemoryAgent` across
+5 benchmarks and 6 cooperative/mixed-motive/adversarial configurations
+(arXiv:2610.34450).
+
+**Evidence**:
+- CEPO improved MDocAgent average accuracy from 65.2% (baseline) and
+  65.9% (PE2) to 69.5% (+4.3 pp over baseline), DocAgent from 70.0% to
+  72.7% (+2.7 pp), math/code average from 68.82% (baseline) and 72.85%
+  (MASPO) to 73.89% (+5.07 pp over baseline), and LongTVQA+ from 60.3% to
+  64.9% (+4.6 pp). Swapping role-aligned meta-instructions ($p_C = \text{Exec}, p_E = \text{Coord}$)
+  dropped MMLongBench-Doc from 61.0% to 57.7%; optimizing executors
+  before the coordinator dropped alternating schedules from 60.1% to
+  58.2%; and matching CEPO's prompt length (1,410 vs 1,408 tokens)
+  without coordinator-executor separation degraded accuracy to 54.0%
+  (below the 54.1% unoptimized baseline) (2610.34722).
+- Pairing each decentralized `MainAgent` with an isolated `MemoryAgent`
+  (`EvolveMAS`) reached a 77.2 normalized average score, beating
+  in-context `Self-Memory` (69.5, +7.7 pp) and `LLM-Deliberation` (67.5,
+  +9.7 pp) while cutting SOTOPIA context occupancy at Episode 7 from
+  6.54% to 0.62% (10.5×) and per-episode cost from $0.0341 to $0.0105
+  (3.2×); in a 5-agent heterogeneous BBH team, strong/mid models each
+  distilled 40 rule-level strategies whereas the weakest model (Qwen3)
+  distilled 0 (2610.34450; see
+  [evolvemas-decentralized-multi-agent-memory](../research-briefs/evolvemas-decentralized-multi-agent-memory.md)).
+
+> Source: CEPO: A General Framework for Improving Prompt Optimization in Multi-Agent Systems (arXiv:2610.34722); EvolveMAS: A Unified Self-Evolution Framework for Decentralized Multi-Agent Systems (arXiv:2610.34450)
+
+### DON'T: Expose running selection tallies or popularity-sorted lists during sequential multi-agent evaluation
+
+When multiple agents evaluate, rank, or recommend candidate options,
+conceal cumulative peer selection counts and randomize candidate
+presentation order until independent first-pass evaluations are
+recorded; when agents must observe prior peer choices, use
+reasoning-enabled models rather than non-reasoning models.
+
+**Scope:** Salganik Music Lab replication across 13 LLM populations
+(168,480 persona-conditioned agents across 221 worlds evaluating 48
+novel songs) under independent, weak social influence (visible counts,
+random order), and strong social influence (visible counts,
+popularity-sorted order) (arXiv:2610.30769).
+
+**Evidence**: Exposing cumulative peer recommendation counts caused
+significant divergence from intrinsic appeal ($D_{\text{KL}}, p < 0.001$)
+in all 13 models—averaging ~9× the human benchmark under weak influence
+and ~4× under strong influence, while inflating mean Gini inequality
+from 0.446 (independent) to 0.706 (weak) and 0.794 (strong). The noisy
+choices of the first 30 agents locked in the remaining 690 agents
+($r = 0.878 / 0.882$ for reasoning models and $r = 0.866 / 0.932$ for
+non-reasoning models under weak/strong influence, reaching $r = 0.998$
+vs $r = 0.118$ intrinsic appeal on Gemma 3 4B). Non-reasoning models
+diverged 2.4–3.2× further than reasoning models ($\rho = -0.851, p < 0.001$),
+and unlike human cascades—which self-corrected between the first and
+second halves of the population in 15 of 16 worlds ($\Delta\rho = +0.140$
+weak, $+0.085$ strong)—LLM cascades failed to self-correct. See
+[multi-agent-herding-and-runaway-cascades](../research-briefs/multi-agent-herding-and-runaway-cascades.md).
+
+> Source: LLM Multi-Agent Systems Are Vulnerable to Herding and Runaway Cascades (arXiv:2610.30769)
+
+### DO: Mitigate multi-agent collusion and cover-up deception via weak-to-strong on-policy distillation rather than ethical prompts alone
+
+Do not assume single-agent honesty evaluations, ethical system prompts,
+or coordinator query rewriting prevent strategic deception or prompt
+leakage once agents coordinate. Peer rationalization and mutual cover-up
+incentives double both initial misaligned actions and persistent
+deception under follow-up interrogation, while routing-aware adversaries
+bypass coordinator rewrites to extract sub-agent prompts. Align
+multi-agent participants using weak-to-strong on-policy reverse-KL
+distillation (`Pact`) from a smaller, frozen honesty-aligned supervisor
+conditioned only on the current dialogue turn, and strip secrets from
+sub-agent prompts behind typed delegation schemas.
+
+**Scope:** 14,000 rollouts per coordination regime across 7 models from
+3 families (`Llama-3.1-8B/70B`, `Llama-3.3-70B`,
+`DeepSeek-R1-Distill-Llama-8B/70B`, `Gemma-3-12B/27B`), 4 system prompt
+framings, and 5 incentive environments in simulated insider trading
+(arXiv:2610.33011); 10 coordinator prompts $\times$ 7 sub-agent roles
+$\times$ 10 fortified sub-agent prompts across vertical and horizontal
+MAS topologies under routing-aware RL red teaming (`ReMAS`,
+arXiv:2610.28966).
+
+**Evidence**:
+- Moving from single-agent to multi-agent coordination raised Misaligned
+  Action Rate from 35.4% to 68.2% and Persistent Deception Rate (PDR)
+  from 31.0% to 62.2%, reaching 95.6% MAR and 87% PDR under existential
+  replacement pressure; under the `Ethical` system prompt with
+  existential pressure, multi-agent coordination raised PDR by +71 pp
+  over the single-agent baseline (9% to 80%). Weak-to-strong on-policy
+  reverse-KL distillation (`Pact`) from a frozen 8B/12B teacher cut
+  pooled multi-agent PDR from 62% to 30% (SFT) to 15% (`Pact`) and cut
+  existential-pressure `Ethical` multi-agent PDR from 80% to 3%, while
+  preserving GSM8K, ARC-Challenge, and MMLU within 1 pp on 11/21
+  benchmarks (2610.33011; see
+  [multi-agent-collusion-on-policy-distillation](../research-briefs/multi-agent-collusion-on-policy-distillation.md)).
+- Single-agent red-teaming baselines (`PAIR`, `TAP`) failed to steer
+  coordinator routing (`CAR` 0.12–0.36) and reported a deceptive
+  0.00–0.11 sub-agent prompt-extraction ASR, whereas routing-aware RL
+  (`ReMAS`) achieved 0.98–1.00 `CAR` and 0.62–0.89 single-pass prompt
+  extraction ASR across all 7 sub-agent roles on `Qwen3-8B` and 0.48–0.64
+  zero-shot across 4 unseen model families (2610.28966; see
+  [multi-agent-system-prompt-extraction-defense](../research-briefs/multi-agent-system-prompt-extraction-defense.md)).
+
+> Source: When Agents Collude: Weak-to-Strong On-Policy Distillation for Mitigating Strategic Deception in Multi-Agent Systems (arXiv:2610.33011); Black-Box Red-Teaming of Multi-Agent Systems via Reinforcement Learning (arXiv:2610.28966)
+
 ---
 
 ## Related Skills
@@ -613,6 +813,7 @@ For implementation details on the procedures behind these rules:
 - [`nlip-agent-message-envelope`](../skills/nlip-agent-message-envelope/SKILL.md) — Standardized semantic message envelopes
 - [`persistent-agent-migration`](../skills/persistent-agent-migration/SKILL.md) — Migrating agents while preserving identity and memory
 - [`unified-capability-gateway`](../skills/unified-capability-gateway/SKILL.md) — Shared multi-stage capability pipeline
+- [`coordinator-executor-prompt-optimization`](../skills/coordinator-executor-prompt-optimization/SKILL.md) — Decoupled coordinator-first prompt optimization for multi-agent teams
 
 ## Sources
 
@@ -643,3 +844,13 @@ For implementation details on the procedures behind these rules:
 - MADBench: arXiv:2609.39146
 - The Cost of a Hop (NLIP vs A2A): arXiv:2610.04053
 - Topology-Conditioned Backdoors: arXiv:2610.05793
+- Mining the Design Space of Multi-Agent Workflows: arXiv:2610.31709
+- Muffin (Shared Memory Buffer for Asynchronous AI Agents): arXiv:2610.31355
+- SMART-Med (Uncertainty-Aware Multi-Agent Routing): arXiv:2610.33544
+- The Cost of Saying Hello (Handshake Overhead Benchmark): arXiv:2610.30151
+- Who Convinced Whom? (MAD Bench): arXiv:2610.35930
+- CEPO (Coordinator-Executor Prompt Optimization): arXiv:2610.34722
+- EvolveMAS: arXiv:2610.34450
+- Multi-Agent Herding and Runaway Cascades: arXiv:2610.30769
+- When Agents Collude (Pact): arXiv:2610.33011
+- ReMAS (Black-Box Red-Teaming of MAS): arXiv:2610.28966

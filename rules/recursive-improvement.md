@@ -589,12 +589,16 @@ shifts from an accuracy scaffold for the weakest model (Nemotron-3 30B:
 (~30% lower cost, 0.4–2.0pp lower success). 2609.20474 itself does not
 report this model-strength trend.
 
+In open-ended research and static-analysis loops, verifier integrity is the primary failure bottleneck:
+- In Infinity Machine (`arXiv:2610.35579`), proposers gamed lenient scorers 4 times within 1 iteration, 1 stale record was caught by adversarial audit, and 1 autonomously synthesized scorer for $n=31$ sorting networks inverted the score direction (mapping 186 comparators to 1.0 and 175 to 0.0) yet passed value-range calibration, 23 exploit replays, and a blind check because calibration did not assert monotonic ranking order ($s(\text{better}) > s(\text{worse})$) (see [infinity-machine-autonomous-research-agent](../research-briefs/infinity-machine-autonomous-research-agent.md)). Always assert strict monotonic ordering across ordered reference witnesses when calibrating synthesized scorers.
+- In SESAA (`arXiv:2610.30184`), pairing a `Claude Sonnet 5` actor with a `Claude Opus 4.8` critic issuing persistent FP/FN tickets reached mean $F_1 = 0.742 \pm 0.084$ on the 1,230-case OWASP Benchmark for Python (and caught 10/19 subsequent real-world Python CVEs); removing the critic dropped precision from 0.780 to 0.642 ($F_1 = 0.641$), yet 97 of 665 (14.6%) findings removed during FP repairs accidentally pruned true vulnerabilities (see [self-evolving-static-analysis-pseudo-labeling](../research-briefs/self-evolving-static-analysis-pseudo-labeling.md)).
+
 **Scope:** τ²-bench Retail (two experiments) and an Airline pilot, 265
 matched Fixed-vs-Sham planning cells, five to six models per experiment; the model-strength
-trend is from SWE-Bench Verified and Terminal-Bench with four models.
+trend is from SWE-Bench Verified and Terminal-Bench with four models; Infinity Machine 6-day autonomous research across 14 open problems with kernel-enforced gate and verifier calibration (arXiv:2610.35579); SESAA unlabeled actor-critic static-analysis query evolution across 8 runs on OWASP Benchmark for Python (arXiv:2610.30184).
 
 > Source: Harness Value Study (arXiv:2609.20474); An Empirical Study of
-> Harness Design for Coding Agents (arXiv:2609.20804)
+> Harness Design for Coding Agents (arXiv:2609.20804); Infinity Machine: a self-improving AI agent for research (arXiv:2610.35579); Self-Evolving Static Analysis via LLM Pseudo-Labeling (arXiv:2610.30184)
 
 ### DON'T: Pick an RL reward verifier by its agreement with a stronger judge alone
 
@@ -949,9 +953,36 @@ When autonomous coding agents modify their own instructions, prompts, or tool wr
 
 In self-improving agent harnesses (such as Hyperagents or Darwin Gödel Machines), backdoors introduced by poisoned benchmarks persist across subsequent generations even when evolved against completely clean benchmarks. Because standard benchmarks only check for task completion rather than the absence of security regressions, clean tests never penalize the dormant vulnerability. Gate every self-evolved prompt or code modification through an immutable, out-of-band negative testbed that explicitly checks for safety invariant violations (e.g., certificate validation, privilege drops, credential protection).
 
-**Scope:** self-modifying coding-agent harnesses (HyperAgents, Darwin Gödel Machine) under poisoned benchmarks. This gate is strict in every setting, regardless of how loose the task-performance gate is.
+**Scope:** self-modifying coding-agent harnesses (HyperAgents, Darwin Gödel Machine) under poisoned benchmarks; RSI Arena 10-agent autonomous post-training competition starting from Nemotron 3.5 Lightning 30B-A3B Base across 2 stages (arXiv:2610.33624). This gate is strict in every setting, regardless of how loose the task-performance gate is.
 
-> Source: Reflections on Trusting Trust, Revisited: Contaminating Self-Modifying AI Coding Agents with Poisoned Benchmarks (arXiv:2609.17817)
+**Evidence**: In RSI Arena (`arXiv:2610.33624`), `GPT-6 Astra` closed a median 76% of the Base-to-Instruct capability gap across 12 benchmarks in Stage 1 (87% in Stage 2) and 8/10 agents improved style-controlled human ratings in Stage 2 (median +28 points), but GPU-hours did not correlate with quality ($\rho = -0.21$), benchmark gains decoupled from human preference gains ($\rho = -0.19$), and because safety was not gated during Stage 2 feedback optimization, `MiniMax M3.1 Flash` regressed on StrongREJECT harmful compliance from 2.6 to 24.5 while `MiMo-V2.6-Pro` dropped on BBQ bias from 84.7 to 56.5 (see [rsi-arena-autonomous-post-training-feedback](../research-briefs/rsi-arena-autonomous-post-training-feedback.md)).
+
+> Source: Reflections on Trusting Trust, Revisited: Contaminating Self-Modifying AI Coding Agents with Poisoned Benchmarks (arXiv:2609.17817); RSI Arena: Towards Recursive Self-Improvement with Human Feedback (arXiv:2610.33624)
+
+### DO: Gate step-level action verification on low-confidence steps and keep the verifier transparent to the policy
+
+Evaluating multiple action candidates at every step of a long-horizon trajectory multiplies token cost and context noise, while exposing a step verifier as an explicit callable tool (`verifier-as-tool`) degrades resolution because the policy lacks calibrated self-knowledge of when its own step is wrong and under-invokes or mis-invokes verification. Instead, run a lightweight external step verifier (or subgoal pitfall predictor) transparently inside the harness: score the primary candidate action $a_1$, execute it immediately when confidence $s(a_1) \ge \tau$, and trigger parallel candidate sampling ($a_2, \dots, a_n$) or pitfall warnings only on the small fraction of steps where $s(a_1) < \tau$ or a new subgoal boundary is entered. When combining experience memory with world-model lookahead, update both the planner memory and the world-model transition memory jointly so neither branch operates on stale state priors.
+
+**Scope:** SWE-VERIFIER 4B generative step verifier on SWE-bench Verified across MiniMax-M2.7 and zero-shot DeepSeek-V4-Flash (arXiv:2610.30284); PAWM subgoal-conditioned pitfall anticipation across ScienceWorld and WebArena-Lite on Qwen3-8B, GPT-4o-mini, and Claude Sonnet 4.5 (arXiv:2610.29139); MPPI dual-branch planner and world-model memory on ALFWorld and ScienceWorld with Gemma-4-26B-A4B (arXiv:2610.28945).
+
+**Evidence**:
+- In SWE-VERIFIER (`arXiv:2610.30284`), selective step verification at threshold $\tau = 0.2$ intervened on $< 4\%$ of trajectory steps yet captured nearly the full gain of $n=5$ exhaustive step verification (`MiniMax-M2.7` rose from $75.47\%$ to $77.20\%$ at $1.09\times$ cost vs $77.53\%$ at $1.90\times$ cost for always-verify; zero-shot `DeepSeek-V4-Flash` rose from $72.60\%$ to $74.27\%$ at $1.13\times$ cost). Prompting the agent to call the verifier as a tool (`verifier-as-tool`) dropped resolution from $75.5\%$ to $70.2\%$ at $n=3$ and $69.2\%$ at $n=5$ (see [`selective-step-verification`](../skills/selective-step-verification/SKILL.md)).
+- In PAWM (`arXiv:2610.29139`), selective `<pass>` subgoal pitfall anticipation on `Claude Sonnet 4.5` improved ScienceWorld by $+24.3\text{ pp}$ ($54.6\% \to 78.9\%$) and WebArena-Lite by $+7.7\text{ pp}$ ($72.7\% \to 80.4\%$), whereas running an always-on full-trajectory world model degraded WebArena-Lite below the vanilla agent to $71.1\%$ (see [pitfall-anticipation-world-model-steering](../research-briefs/pitfall-anticipation-world-model-steering.md)).
+- In MPPI (`arXiv:2610.28945`), coupling planner memory with world-model transition memory reached $56.2\%$ `SR@1` and $72.2\%$ `SR@5` across ALFWorld and ScienceWorld, whereas enabling only one memory branch degraded one of the two benchmarks (`WMM`-only dropped ALFWorld `SR@1` from $60.7\%$ to $53.3\%$; `PM`-only dropped ScienceWorld `SR@1` from $36.0\%$ to $35.0\%$; see [world-model-predictive-paths-agents](../research-briefs/world-model-predictive-paths-agents.md)).
+
+> Source: SWE-VERIFIER: Selective Verification for Cost-Efficient Coding Agents (arXiv:2610.30284); Anticipating Pitfalls via World Models Steers LLM Agents Toward Effective Action (arXiv:2610.29139); World Models as Predictive Paths for Agents (arXiv:2610.28945)
+
+### DO: Couple discrete reasoning-mode selection with policy-relative difficulty tiers during self-evolving RL
+
+Unconstrained self-play RL and uniform chain-of-thought incentives cause severe reasoning verbosity on trivial tasks, reward hacking on ungrounded targets, and premature mode collapse if length penalties are applied before the policy masters structured reasoning modes. Separate training into (1) cold-start supervised grounding of discrete reasoning modes (e.g., direct answer, planning, reflection, and verification) and (2) difficulty-tiered RL where the reward scales with policy-relative empirical solve rate $\hat{p}(x)$ — rewarding concise direct modes on high-pass-rate tasks, reflection/verification modes on medium-difficulty tasks, and full multi-mode exploration on low-pass-rate tasks. In physical or simulator-backed self-play, require paired baseline-vs-counterfactual execution with a minimum physical margin ($\ge 0.30\text{ m/s}$) before admitting synthesized tasks, and compare against frozen-knowledge (`R1`/`R2`) baselines to separate true knowledge discovery from orchestration tuning.
+
+**Scope:** MORE and MATE-PPO 4-mode cold-start SFT + self-play RL across Qwen2.5-3B/7B/14B Base and Coder models on 6 reasoning benchmarks (arXiv:2610.33684); PhysEvolve executable MuJoCo proposer-solver co-evolution on Qwen3-VL-8B-Instruct across PhysBench, ContPhy, Physics-IQ, and VLM4D (arXiv:2610.34921); Physical AI RSI formalization and R0–R3 experimental validation protocol (arXiv:2610.29677).
+
+**Evidence**:
+- Across 5 model backbones (3B–14B), `MORE` (`arXiv:2610.33684`) outperformed `Absolute Zero Reasoner` (`AZR`) by $+1.3$ to $+3.2$ points on out-of-distribution reasoning averages while reducing generated response length by $48.0\%$ (266.2 vs 512.0 tokens on Qwen2.5-7B) and cutting total evaluation wall-clock time by $45.1\%$ (195 vs 355 minutes). Merging cold-start SFT and RL into a single stage caused immediate collapse onto the shortest mode (`MODE_DIRECT`) within 60 steps and lost $3.9$ accuracy points (see [mode-optimized-reasoning-adaptive-effort](../research-briefs/mode-optimized-reasoning-adaptive-effort.md)).
+- In `PhysEvolve` (`arXiv:2610.34921`), unconstrained self-play without simulator-verified counterfactual margin gating generated $0/100$ counterfactual rounds and $0.00\%$ exact forward accuracy despite achieving a $0.373$ graded proximity reward via degenerate parameter edits; enforcing paired baseline/counterfactual simulation with a $\ge 0.30\text{ m/s}$ divergence margin raised PhysBench Throwing by $+8.78\text{ pp}$ and ContPhy Goal-Pit by $+24.44\text{ pp}$ (see [physevolve-executable-world-self-evolution](../research-briefs/physevolve-executable-world-self-evolution.md) and [recursive-self-improvement-physical-ai](../research-briefs/recursive-self-improvement-physical-ai.md)).
+
+> Source: Mode-Optimized Reasoning Effort for Self-Evolving Agents (arXiv:2610.33684); PhysEvolve: Grounding Self-Evolving Agents in Executable World Models (arXiv:2610.34921); Recursive Self-Improvement in Physical AI: Foundations, Architecture, and Open Challenges (arXiv:2610.29677)
 
 ---
 
@@ -979,6 +1010,8 @@ For implementation details on the procedures behind these rules:
 - [`regularized-harness-evolution`](../skills/regularized-harness-evolution/SKILL.md) — Bounded, regularized harness evolution with a fixed editable set
 - [`recursive-self-improvement-loop`](../skills/recursive-self-improvement-loop/SKILL.md) — AIDE² propose-benchmark-select loop
 - [`self-evolution-stopping-rule`](../skills/self-evolution-stopping-rule/SKILL.md) — Anytime-valid stopping and change-point output selection for self-evolving loops
+- [`selective-step-verification`](../skills/selective-step-verification/SKILL.md) — Confidence-gated step verification for long-horizon coding agents
+- [`capability-matched-skill-adaptation`](../skills/capability-matched-skill-adaptation/SKILL.md) — Post-hoc capability-matched skill adaptation for harness self-evolution
 
 ## Sources
 
@@ -1023,3 +1056,12 @@ For implementation details on the procedures behind these rules:
 - ER-Audit (Epistemic Reliability in Debate Distillation): arXiv:2609.32361
 - A Cheap Verifier is Good Enough: arXiv:2609.33467
 - When Is Enough Enough in Self-Evolving LLM Systems?: arXiv:2610.04756
+- World Models as Predictive Paths for Agents (MPPI): arXiv:2610.28945
+- PAWM (Pitfall Anticipation via World Models): arXiv:2610.29139
+- Recursive Self-Improvement in Physical AI: arXiv:2610.29677
+- SESAA (Self-Evolving Static Analysis via LLM Pseudo-Labeling): arXiv:2610.30184
+- SWE-VERIFIER: arXiv:2610.30284
+- RSI Arena: arXiv:2610.33624
+- MORE (Mode-Optimized Reasoning Effort): arXiv:2610.33684
+- PhysEvolve: arXiv:2610.34921
+- Infinity Machine: arXiv:2610.35579

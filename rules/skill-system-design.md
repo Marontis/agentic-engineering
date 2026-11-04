@@ -179,17 +179,33 @@ See also: recursive-improvement.md — "DO: Use rich rollout feedback for instru
 Skills evolved by a stronger model can outperform skills a weaker model
 evolved for itself. Skill discovery and skill execution are distinct
 capabilities. Invest evolution compute in your strongest model; deploy the
-resulting skills to cheaper models.
+resulting skills to cheaper models, after adapting the skill text to match
+the weaker executor's capability bottlenecks.
 
 **Evidence**: Qwen-27B-evolved skills improve Qwen-9B by +26.2pp on
 SpreadSheet, vs. +9.3pp from self-evolved skills. Transfer works across
-model families.
+model families (2608.27454). Across 103 skill-sensitive task-skill pairs
+spanning 7 models and 3 benchmarks (SkillsBench, DocOps, Tessl),
+unadapted skills improved frontier models by +29.2 points on average
+(+31.1 pts on `GPT-5.6-luna`) but weak models (`Gemma-4-E4B`,
+`Qwen3.5-9B`, `Qwen3.6-flash`) by only +1.2 points, degrading
+`Gemma-4-E4B` by −8.8 points, with 86% of failed weak-model runs
+violating requirements already written in `SKILL.md`. Adapting the skill
+across four executor bottlenecks (tool vs format disambiguation,
+task-scope headers/inlined references, single-line rules with negative
+branches, and independent second-route verification) via a strong
+rewriter (`Kimi-K3`) restored +5.1 to +14.1 points zero-shot on weak
+executors (mean 0.294 to 0.387), whereas weak self-rewriting without
+execution traces degraded mean score from 0.294 to 0.271 (2610.33024; see
+[`capability-matched-skill-adaptation`](../skills/capability-matched-skill-adaptation/SKILL.md)).
 
-**Scope:** WikiSkill benchmarks (e.g. SpreadSheet), Qwen 27B to 9B. Test
-on each deployment target before reuse: EvoPathBench found skills
-evolved by Qwen3.8-Max gave Qwen3.8-27B +1.96 CEG but same-family
-Qwen3.5-9B only +0.03 and Qwen3.5-4B +0.27, so stronger-to-weaker
-transfer is receiver-dependent even within a family
+**Scope:** WikiSkill benchmarks (e.g. SpreadSheet), Qwen 27B to 9B
+(arXiv:2608.27454); 103 skill-sensitive task-skill pairs across 7 models
+(`Gemma-4-E4B` to `GPT-5.6-luna`) and 3 benchmarks (SkillsBench, DocOps,
+Tessl) (arXiv:2610.33024). Test on each deployment target before reuse:
+EvoPathBench found skills evolved by Qwen3.8-Max gave Qwen3.8-27B +1.96
+CEG but same-family Qwen3.5-9B only +0.03 and Qwen3.5-4B +0.27, so
+stronger-to-weaker transfer is receiver-dependent even within a family
 (research-briefs/process-level-self-evolution-evaluation.md);
 SelfOp found transfer within one
 family (GPT-5.4 and GPT-5.4-mini, both directions) but did not test
@@ -198,7 +214,7 @@ and scaffolds can reverse sign on sparse-MoE models
 (recursive-improvement.md — "DON'T: Assume multi-agent scaffolding is
 universally monotonic across model architectures").
 
-> Source: arXiv:2608.27454
+> Source: arXiv:2608.27454; Evolving to Match Capabilities: Improving Harness Self-Evolution via Skill Adaptation (arXiv:2610.33024)
 
 ---
 
@@ -411,7 +427,25 @@ security suites.
 AgentX brainstorming workflow, 120 tasks, proposals capped at 120
 changed lines and 6,000 added characters; RRSI: agentic-workspace,
 coding and design benchmarks); 2609.08175 is theoretical with one
-DS-1000 illustration.
+DS-1000 illustration; $\text{Skill}^\infty$ across 83 SkillsBench tasks
+(arXiv:2610.35434); RSIV-Harness across 640 ODAC-Vis conversational
+visualization tasks (arXiv:2610.35316).
+
+In $\text{Skill}^\infty$ (arXiv:2610.35434), the seed meta-skill $m_0$
+selected tied newer candidates 83% of the time without progress on the
+targeted failure, capping task-skill pass rate at 55.9% (below
+human-curated skills at 56.4%); rewriting the tie-breaking rule to
+require verified rollout progress on the targeted parent failure cut
+tied-candidate selection to 54% and raised pass rate to 60.7% (vs 54.5%
+for SkillEvolver; see
+[skill-infinity-recursive-meta-skill-optimization](../research-briefs/skill-infinity-recursive-meta-skill-optimization.md)).
+In RSIV-Harness (arXiv:2610.35316), a 4-layer stability gate requiring a
+validation Anchor Check and a protected-record Memory Check improved
+Executability by +28.02 points (64.98% to 93.00%) and Chart Structure by
++34.01 points (41.46% to 75.47%) on `DeepSeek-V4.1-Flash`; removing the
+stability rules dropped all 6 metrics, including −9.73 points on
+Executability and −9.53 points on Chart Structure (see
+[rsiv-harness-conversational-visualization](../research-briefs/rsiv-harness-conversational-visualization.md)).
 
 Tension with "DO: Make the improvement mechanism part of the agent's
 editable source" (recursive-improvement.md): resolved by scope — the
@@ -420,7 +454,9 @@ editable set with bounded per-round change; evaluator, graders, security
 tests and permissions stay outside.
 
 > Source: RobustSGPO (arXiv:2609.09646); RRSI (arXiv:2609.24972);
-> A Theory of Reliable Self-Evolution for Agent Harnesses (arXiv:2609.08175)
+> A Theory of Reliable Self-Evolution for Agent Harnesses (arXiv:2609.08175);
+> Skill$^{\infty}$: Recursive Self-Improvement for Agent Skill Optimization (arXiv:2610.35434);
+> RSIV-Harness (arXiv:2610.35316)
 
 ---
 
@@ -502,6 +538,86 @@ When reducing context in long-horizon agentic workflows, prioritize preserving p
 
 > Source: Protocol-Preserving Context Trimming for Agentic Workflows: Benefits, Failure Regimes, and Budget Guardrails (arXiv:2609.16461)
 
+### DO: Decouple semantic action commitment from interface-specific tool realization and repair realization locally
+
+When an agent selects a tool operation and its semantic arguments,
+persist that validated semantic commitment separately from its concrete
+interface realization (MCP JSON-RPC payload vs CLI flag/command string).
+If the realization fails schema validation, syntax parsing, or
+precondition admission, invoke a bounded local realization repair step
+conditioned on the preserved semantic commitment and interface
+feedback—rather than appending the raw error to the trajectory and
+triggering full replanning. Use direct CLI execution for local,
+single-user workflows where low latency dominates, and pair MCP in
+governed or multi-tenant deployments with two-meta-tool progressive
+disclosure (`get_tool` + `invoke_tool`) to avoid upfront catalog token
+bloat. Procedure:
+[`decoupled-interface-action-repair`](../skills/decoupled-interface-action-repair/SKILL.md).
+
+**Scope:** 2,004 paired episodes across 6 models (`Qwen3-4B/8B/14B/32B`,
+`DeepSeek-v4-Flash`, `Gemini-2.5-Flash`) and 3 interactive environments
+(ALFWorld, WebShop, ScienceWorld) under capability-matched MCP and CLI
+interfaces, plus 338 matched-state probes (arXiv:2610.34298); 14-dimension
+comparative analysis and progressive disclosure modeling of CLI vs MCP
+(arXiv:2610.30157).
+
+**Evidence**:
+- Across 2,004 paired episodes, 1,889 (94.3%) exhibited structured
+  divergence between capability-matched MCP and CLI interfaces; on
+  `Qwen3-14B`, MCP trailed CLI by 36.6 points on ALFWorld (20.1 vs 56.7,
+  +54.9k tokens/task) yet beat CLI by 4.9 points on WebShop (64.4 vs
+  59.5, −35.0k tokens/task). In MICA $2 \times 2 \times 2$ probes, action
+  realization $R$ alone shifted local failure by up to 84.4 pp. Decoupled
+  Action Realization and Targeted Repair (DART) improved
+  `Gemini-2.5-Flash` across all 6 environment-interface cells (up to +9.0
+  points on ALFWorld MCP) and cut MCP token cost in all 3 environments
+  (−27.1k, −11.2k, and −4.3k tokens/task) (2610.34298).
+- Across 14 evaluation dimensions, CLI won 3 (setup cost, model
+  familiarity, and simple local execution with 2–5× lower latency) while
+  MCP won 9 (structured parsing, typed error recovery, RBAC, audit,
+  blast-radius containment, 6/6 compliance frameworks, multi-tenancy,
+  discovery, composability); replacing upfront catalog injection with
+  `get_tool` + `invoke_tool` (~170 upfront tokens vs 55,000 for 80 tools)
+  cut MCP schema token overhead by 71–99% (2610.30157; see
+  [mcp-vs-cli-tool-integration-analysis](../research-briefs/mcp-vs-cli-tool-integration-analysis.md)).
+
+> Source: Matched Capabilities, Different Behaviors: A Controlled Study of MCP and CLI Interfaces for Language Agents (arXiv:2610.34298); MCP vs CLI for AI Agents: A Comparative Analysis of Tool Integration Strategies for Autonomous Systems (arXiv:2610.30157)
+
+### DO: Enforce fast-fail circuit breakers, output schema validation, and grounded-fulfillment gates for MCP tool faults
+
+Do not assume that scaling model parameters improves resilience to MCP
+tool faults, or configure unconstrained retry/replanning loops when the
+vast majority of real-world MCP faults are permanent or silent content
+corruptions. Enforce strict per-call timeouts, low retry caps ($\le 2$
+retries per tool), output schema/value validation at the MCP client
+boundary, and an explicit abstention rule prohibiting agents from
+answering tool-dependent queries from parametric memory when tools fail;
+in benchmarks, zero out task-fulfillment scores whenever tool
+appropriateness falls below threshold (**grounded fulfillment**).
+
+**Scope:** 13,824 injectable MCP faults mined from 57,240 threads across
+1,774 open-source MCP repositories, and a 1,350-cell factorial
+experiment across `gpt-oss-20B` and `gpt-oss-120B` on `MCP-Bench`,
+`OpenAI Agents SDK`, and `LangChain` (arXiv:2610.32555).
+
+**Evidence**: Across 13,824 empirical MCP failures, 91.3% (12,616) were
+permanent, 8.0% intermittent, and 0.75% transient; by mode, 71.2% were
+explicit errors (`OP4`), 19.1% silent content corruptions (`OP1–OP3`),
+and 9.7% timing hangs/delays (`OP5–OP6`). Under the calibrated fault
+profile, pooled task-completion score dropped 60%, from 8.08 to 3.23 out
+of 10 ($p < 0.001$), with 56% of faulted runs ending in silent partial
+degradation. Scaling from `gpt-oss-20B` to `gpt-oss-120B` gave zero
+resilience gain ($\beta_{\text{model}} = -0.009$, 95% CI $[-0.39, 0.37]$,
+$p = 0.96$) and a descriptively lower completion rate under faults
+(91.1% vs 95.6%) because `120B` retried broken tools longer (4.5 vs 3.9
+consecutive retries) and hit wall-clock timeouts (18/20 non-completions).
+In 6.0% (27/450) of faulted runs, agents fabricated plausible answers
+from parametric memory without valid tool output, inflating 16% of
+apparent fulfillment credit under faults. See
+[mcp-fault-injection-resilience](../research-briefs/mcp-fault-injection-resilience.md).
+
+> Source: Tool-Calling LLM Agents Under Realistic MCP Faults: Scale Does Not Purchase Fault Tolerance (arXiv:2610.32555)
+
 ---
 
 ## Related Skills
@@ -528,6 +644,8 @@ For implementation details on the procedures behind these rules:
 - [`bayesian-backward-disagreement-anchor`](../skills/bayesian-backward-disagreement-anchor/SKILL.md) — Label-free multi-agent disagreement resolution
 - [`ledger-orchestrated-coding-loop`](../skills/ledger-orchestrated-coding-loop/SKILL.md) — File-ledger multi-turn loop with test veto
 - [`adk2-agent-orchestration-patterns`](../skills/adk2-agent-orchestration-patterns/SKILL.md) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
+- [`capability-matched-skill-adaptation`](../skills/capability-matched-skill-adaptation/SKILL.md) — Adapting skill text across executor capability bottlenecks
+- [`decoupled-interface-action-repair`](../skills/decoupled-interface-action-repair/SKILL.md) — Decoupled semantic commitment and interface-specific realization repair
 
 ## Sources
 
@@ -557,4 +675,10 @@ For implementation details on the procedures behind these rules:
 - Protocol-Preserving Context Trimming: arXiv:2609.16461
 - SkillDRE: arXiv:2609.32400
 - Pretext: arXiv:2609.39607
+- Evolving to Match Capabilities (Skill Adaptation): arXiv:2610.33024
+- Skill$^{\infty}$: arXiv:2610.35434
+- RSIV-Harness: arXiv:2610.35316
+- Matched Capabilities, Different Behaviors (MICA & DART): arXiv:2610.34298
+- MCP vs CLI for AI Agents: arXiv:2610.30157
+- Tool-Calling LLM Agents Under Realistic MCP Faults (MCP-Injector): arXiv:2610.32555
 
