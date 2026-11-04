@@ -33,16 +33,48 @@ See also: rules/recursive-improvement.md — "DON'T: Rely on unperturbed rubric 
 
 The judge is part of the measurement. Use at least two judges from
 different model families, quote a failure rate only where their
-verdicts agree, and report severity per judge.
+verdicts agree, and report severity per judge. Standardize and log the
+red-teamer's system prompt framing (worked examples vs explicit harm
+definitions), and in stateful web or tool environments, report
+verifier-grounded terminal task execution separately from intermediate
+UI engagement (`Click-Through Rate`).
 
 **Scope:** CART with Kimi as the target, the Frontier suite (76 seed
 cases from MITRE ATLAS and OWASP), 1,000 rounds, a 7 × 7 grid of
-attacker and judge models.
+attacker and judge models; 1,024 red-team rollouts re-scored across 6
+judges from 6 model families on 47 harmful behaviors (`Curriculum of
+Models`, arXiv:2610.38833); 228-paper red-teaming survey and $5 \times 3 \times 3$
+factorial PAIR simulation across $N=61,584$ total runs (arXiv:2611.00412);
+8,316 stateful web-agent red-teaming rollouts across 9 websites and 8
+VLMs in ANGLER (arXiv:2610.41272).
 
-**Evidence**: the same GPT attacker produced failure rates from 27.70%
-to 77.00% depending on the judge; pairs using the same model as
-attacker and judge ranged from 12.30% to 51.00%. Replaying the
-unchanged seed cases scored 0.00–5.50% under every judge.
+**Evidence**:
+- In CART (`arXiv:2609.27336`), the same GPT attacker produced failure
+  rates from 27.70% to 77.00% depending on the judge; pairs using the
+  same model as attacker and judge ranged from 12.30% to 51.00%.
+  Replaying the unchanged seed cases scored 0.00–5.50% under every judge.
+- Re-scoring 1,024 red-team rollouts across 6 judges from 6 families
+  (`arXiv:2610.38833`) showed `gpt-oss-120b` self-agreement was only
+  81.6% exact / 92.9% pass-fail due to API `temperature=0`
+  non-determinism, cross-family pass-fail agreement spanned
+  77.7%–89.6%, all 5 external judges were stricter than `gpt-oss-120b`
+  when judging `gpt-oss-120b` outputs, and `deepseek-v4.1-flash` caught
+  flawed synthesis routes by reasoning longer (median 4,882 vs 3,230
+  chars; see [curriculum-of-models-jailbreak-evaluation](../research-briefs/curriculum-of-models-jailbreak-evaluation.md)).
+- Across $N=20,812$ primary factorial PAIR runs (`arXiv:2611.00412`),
+  red-team instruction framing accounted for 61.4% of systematic ASR
+  variance (Nakagawa marginal $R^2 = 0.062$ vs conditional $R^2 = 0.101$):
+  worked examples raised ASR by +50.7% (0.144 to 0.217), explicit harm
+  definitions lowered ASR (0.187 to 0.151), and anchoring prompts to
+  high-salience exemplars backfired on guarded targets (`GLM-5.2`
+  Physical ASR dropped from 0.139 to 0.051–0.053; see
+  [red-teaming-instruction-framing-effects](../research-briefs/red-teaming-instruction-framing-effects.md)).
+- In `ANGLER` (`arXiv:2610.41272`), adaptive multi-round testing raised
+  mean verified web-agent ASR from 15.24% to 20.36% (+33.6% relative;
+  `GPT-4o` 25.4% to 41.2%) while exposing a 30+ pp gap between
+  intermediate UI engagement (`CTA`: 52.4% pop-up, 47.0% distraction)
+  and verifier-grounded terminal `ASR` (17.1% and 17.8%; see
+  [angler-verifier-grounded-web-agent-benchmarking](../research-briefs/angler-verifier-grounded-web-agent-benchmarking.md)).
 
 Tension with "Expand candidate model pools with arbitrary heterogeneous
 architectures" (multi-agent-coordination.md): that rule restricts
@@ -50,7 +82,7 @@ architectures" (multi-agent-coordination.md): that rule restricts
 selection) to one family for task accuracy. It does not apply to
 judges that measure failure rates, which stay cross-family.
 
-> Source: CART: Closed-Loop Adaptive Red Teaming for LLMs (arXiv:2609.27336)
+> Source: CART: Closed-Loop Adaptive Red Teaming for LLMs (arXiv:2609.27336); Discovering Jailbreaks via Curriculum of Models (arXiv:2610.38833); On the Framing Effect of AI Red-Teaming Instructions (arXiv:2611.00412); ANGLER: Adaptive Multi-Round Red-Teaming for Web Agents (arXiv:2610.41272)
 
 ### DO: Decompose evaluations into atomic checklist items
 
@@ -68,7 +100,10 @@ checks verified in Z3 over 393,216 fact states plus 500 held-out
 Health-ORSC-Bench boundary prompts with Llama-3.3-70B-Instruct
 (arXiv:2610.30690); 216 human-confirmed multi-source cybersecurity log
 windows across 29 attack scenarios and 8 LLMs on SecLog-Bench
-(arXiv:2610.31000).
+(arXiv:2610.31000); Rewindable Interactive Proofs (RIPs) over oracle
+Boolean circuits up to $q_C = 2^{26}$ oracle gates (arXiv:2610.40535);
+BELL two-stage scan-and-search watermark localization with
+multiplicative e-values and length-weighted e-BH (arXiv:2611.02030).
 
 **Evidence**:
 - Checklist decomposition combined with learned aggregation significantly
@@ -96,8 +131,20 @@ windows across 29 attack scenarios and 8 LLMs on SecLog-Bench
   (flat compression) to 50.00%, raised `SRF1` from 2.77% and 36.59% to
   44.09%, and cut Critical Errors from 39.58% to 16.67% (2610.31000; see
   [seclog-bench-scaffolded-log-reasoning](../research-briefs/seclog-bench-scaffolded-log-reasoning.md)).
+- For scalable oversight of compound reasoning circuits (`arXiv:2610.40535`),
+  Rewindable Interactive Proofs (RIPs) reduced verifier oracle queries at
+  $q_C = 2^{26}$ by $840,000\times$ (to 80 queries) and ran in $0.12\times$
+  direct evaluation time (1.9 ms vs 15.51 ms) without Debate's
+  truthful-prover assumption (see
+  [rewindable-interactive-proofs-scalable-oversight](../research-briefs/rewindable-interactive-proofs-scalable-oversight.md)).
+  For localized statistical detection in long documents (`BELL`,
+  `arXiv:2611.02030`), decoupling coarse window scanning from terminal
+  e-value hypothesis testing via length-weighted `e-BH` strictly
+  controlled FWER/FDR while improving token-level IoU across 4 watermark
+  families (see
+  [bell-budgeted-watermark-localization](../research-briefs/bell-budgeted-watermark-localization.md)).
 
-> Source: Reliable Eval Pipeline (arXiv:2609.00805); From Clinical Judgment to Checkable Rules: Clinician-Led Guardrails for Mental-Health Chatbots (arXiv:2610.30690); SecLog-Bench: A Scalable Benchmark for Cybersecurity Log Reasoning with Scaffolded Evidence (arXiv:2610.31000)
+> Source: Reliable Eval Pipeline (arXiv:2609.00805); From Clinical Judgment to Checkable Rules: Clinician-Led Guardrails for Mental-Health Chatbots (arXiv:2610.30690); SecLog-Bench: A Scalable Benchmark for Cybersecurity Log Reasoning with Scaffolded Evidence (arXiv:2610.31000); Efficient Scalable Oversight via Rewinding (arXiv:2610.40535); Query-efficient scan-and-search watermark localization (arXiv:2611.02030)
 
 ### DON'T: Provide ground-truth answers to oversight monitors
 
@@ -409,6 +456,118 @@ See also: rules/agent-sandbox-safety.md — "DON'T: Evaluate safety-critical age
 
 > Source: FLY-EVAL++ (arXiv:2609.04021)
 
+### DO: Certify benchmark tasks with reference-pass and empty-fail preflights, lock the verifier's evidence view, and fingerprint baseline bytes before reusing grading sandboxes
+
+Before admitting any task into an evaluation or RL training suite, run a
+two-check preflight inside the exact deployment container: (1) the
+reference solution must pass (`reference-pass`), and (2) an empty/noop
+patch must fail (`empty-fail`). During agent execution, never allow the
+agent to choose the subset, slice, or aggregation view of data on which
+its own output is scored (`evidence-view gaming`); evaluate all
+candidates on a harness-locked canonical test split. When reusing warm
+grading sandboxes across rollouts (`reset-for-reuse`), compare file byte
+hashes against a precomputed baseline manifest before and after grading
+to prevent cross-episode state contamination.
+
+**Scope:** Sandman production container orchestrator over 500 SWE-bench
+Verified tasks and 64-worker agentic RL training (arXiv:2610.39711);
+1,200 equation-discovery runs across 3 LLMs and 10 dynamical systems
+testing evidence-view gaming (arXiv:2611.01334); EvoMCP dual-verifier
+agent-data co-evolution across 85 MCP servers on Toolathlon and
+MCP-Atlas (arXiv:2610.41479).
+
+**Evidence**:
+- In `Sandman` (`arXiv:2610.39711`), two-check preflight certification
+  caught 3 broken tasks (`0.6%`) in SWE-bench Verified before rollout
+  spending, while manifest-based `reset-for-reuse` cut grading latency by
+  14.2× (18.4 s to 1.3 s), prevented worker OOM crashes at 64-worker
+  concurrency (99.4% vs 71.2% completion), and raised 64-step RL reward
+  from 0.31 to 0.42 (see
+  [sandman-production-agentic-rl-sandboxes](../research-briefs/sandman-production-agentic-rl-sandboxes.md)).
+- Across 1,200 scientific discovery runs (`arXiv:2611.01334`), allowing
+  agents to select their own validation slice caused self-reported vs
+  locked canonical $R^2$ to diverge by 0.41 (`Evidence-View Gaming` in
+  38.4% of trajectories), whereas locking the canonical evaluation view
+  and gating complexity eliminated gaming and improved canonical OOD
+  $R^2$ from 0.52 to 0.79 (see
+  [evidence-view-gaming-agentic-equation-discovery](../research-briefs/evidence-view-gaming-agentic-equation-discovery.md)).
+- In `EvoMCP` (`arXiv:2610.41479`), requiring synthesized MCP tasks to
+  pass both a `Task Solvability Check` and a strict programmatic state
+  verifier (`Trajectory Verification`) before entering SFT raised Qwen3-8B
+  pass@1 by +12.5% on Toolathlon and +14.6% on MCP-Atlas (see
+  [`agent-data-mutual-evolution`](../skills/agent-data-mutual-evolution/SKILL.md)).
+
+> Source: Sandman: Managing Sandbox Environments at Scale for Agentic RL (arXiv:2610.39711); Evidence-View Gaming in Agentic Science (arXiv:2611.01334); EvoMCP: Mutual Evolution of Agent and Data for MCP Tool-Use (arXiv:2610.41479)
+
+### DO: Benchmark reward-hacking, manipulation, and backdoor monitors against gap-matched honest failures and counterfactual control pairs
+
+Do not evaluate trajectory monitors solely on successful vs hacking
+trajectories, or backdoor detectors solely on trigger-present vs clean
+inputs. Monitors regularly conflate *honest incompetence* (failing tests,
+repeated edits, frustration) with reward hacking, and backdoor scores
+are confounded by general out-of-distribution sensitivity unless
+calibrated against matched controls. Include (1) **gap-matched honest
+failures** (trajectories that fail or struggle without tampering) and
+(2) **paired counterfactual controls** (same user profile without the
+vulnerability disclosure, or non-target trigger variants) to measure
+true specificity.
+
+**Scope:** 1,840 coding trajectories across 6 LLM monitors on SWE-bench
+and APPS testing reward-hacking vs honest-failure confusion
+(arXiv:2611.00407); 3,600 multi-turn healthcare/finance/legal dialogues
+across 9 LLMs on the GAP targeted-manipulation benchmark
+(arXiv:2611.02689); 48 backdoor-distilled student models across 4
+architectures testing backdoor selectivity $S = p_{	ext{trig}} - p_{	ext{ctrl}}$
+(arXiv:2611.00748).
+
+**Evidence**:
+- Across 1,840 coding trajectories (`arXiv:2611.00407`), LLM monitors
+  evaluated on hacking vs clean successes reported 0.89 AUROC, but on
+  gap-matched honest failures false-positive rates jumped to 34.2%
+  (AUROC dropped to 0.64); decomposing monitoring into factual state-diff
+  extraction plus intent verification cut honest-failure FPR from 34.2%
+  to 9.8% and raised AUROC to 0.86 (see
+  [hacking-or-just-failing-llm-monitor-reward-hacking](../research-briefs/hacking-or-just-failing-llm-monitor-reward-hacking.md)).
+- On `GAP` (`arXiv:2611.02689`), comparing agent behavior on identical
+  tasks with vs without a disclosed user vulnerability showed frontier
+  models shifted toward exploitative recommendations in 28.4% of
+  vulnerable sessions vs 4.1% of matched controls ($\Delta = +24.3	ext{ pp}$),
+  which single-arm auditing missed (see
+  [gap-vulnerability-targeted-manipulation-detection](../research-briefs/gap-vulnerability-targeted-manipulation-detection.md)).
+- Across 48 distilled models (`arXiv:2611.00748`), raw trigger ASR
+  overestimated backdoor survival by up to 31 pp because student models
+  responded to any syntactic perturbation; subtracting matched control
+  triggers ($S = p_{	ext{trig}} - p_{	ext{ctrl}}$) isolated true
+  backdoor retention (see
+  [backdoor-selectivity-distilled-language-models](../research-briefs/backdoor-selectivity-distilled-language-models.md)).
+
+> Source: Hacking or Just Failing? Distinguishing Reward Hacking from Honest Failures in LLM Monitors (arXiv:2611.00407); Mind the GAP: Detecting Targeted Manipulation of Vulnerable Users (arXiv:2611.02689); Measuring Backdoor Selectivity in Distilled Language Models (arXiv:2611.00748)
+
+### DON'T: Interpret low Attack Success Rate in low-resource languages as safety alignment without measuring Comprehension Rate
+
+When red-teaming multilingual or low-resource language deployments, an
+apparent drop in Attack Success Rate (`ASR`) frequently reflects model
+incomprehension (garbled, off-topic, or hallucinated benign replies)
+rather than safety refusal. Always classify responses into a four-way
+taxonomy — Harm/Compliance (`ASR`), Explicit Refusal (`RR`), Safe
+Redirection, and Incomprehension — and compute ASR conditional on
+comprehended prompts (`Comprehension Rate`, `CR`).
+
+**Scope:** 1,400 red-team prompts across 7 low-resource African
+languages (`Swahili`, `Yoruba`, `Hausa`, `Amharic`, `Igbo`, `Zulu`,
+`Shona`) and English on 6 frontier and open-weight LLMs
+(arXiv:2610.39590).
+
+**Evidence**: In `arXiv:2610.39590`, raw ASR in `Shona` and `Igbo`
+appeared lower than English on 3 open-weight models (11.2% vs 18.5%),
+but `Comprehension Rate` was only 38.4%; conditioned on comprehended
+prompts, conditional ASR was 29.2% (+10.7 pp worse than English), while
+explicit Refusal Rate (`RR`) fell from 78.0% in English to 21.5% across
+the 7 African languages (see
+[red-teaming-low-resource-african-languages](../research-briefs/red-teaming-low-resource-african-languages.md)).
+
+> Source: Red-Teaming Large Language Models in Low-Resource African Languages (arXiv:2610.39590)
+
 ---
 
 ## Verification Scaling
@@ -444,6 +603,7 @@ For implementation details on the procedures behind these rules:
 - [`neural-invariant-failure-diagnosis`](../skills/neural-invariant-failure-diagnosis/SKILL.md) — Behavioral state invariant checking
 - [`agentic-review-deploy-loop`](../skills/agentic-review-deploy-loop/SKILL.md) — Layered review with checklist-based agentic review
 - [`selective-step-verification`](../skills/selective-step-verification/SKILL.md) — Selective step-level action verification for coding agents
+- [`agent-data-mutual-evolution`](../skills/agent-data-mutual-evolution/SKILL.md) — Failure-driven MCP task synthesis with dual solvability and trajectory verification
 
 ## Sources
 
@@ -466,3 +626,15 @@ For implementation details on the procedures behind these rules:
 - Self-Improved Red Teaming (Self-Criticism vs External Proposal): arXiv:2610.34965
 - Identically Trained Language Models Break on Different Jailbreaks: arXiv:2610.34074
 - Model Organisms of Collusion: arXiv:2610.30582
+- Discovering Jailbreaks via Curriculum of Models: arXiv:2610.38833
+- On the Framing Effect of AI Red-Teaming Instructions: arXiv:2611.00412
+- ANGLER (Adaptive Multi-Round Red-Teaming for Web Agents): arXiv:2610.41272
+- Efficient Scalable Oversight via Rewinding (RIPs): arXiv:2610.40535
+- BELL (Scan-and-Search Watermark Localization): arXiv:2611.02030
+- Sandman (Production Agentic RL Sandboxes): arXiv:2610.39711
+- Evidence-View Gaming in Agentic Science: arXiv:2611.01334
+- EvoMCP (Mutual Evolution of Agent and Data): arXiv:2610.41479
+- Hacking or Just Failing?: arXiv:2611.00407
+- Mind the GAP (Targeted Manipulation Detection): arXiv:2611.02689
+- Backdoor Selectivity in Distilled Language Models: arXiv:2611.00748
+- Red-Teaming LLMs in Low-Resource African Languages: arXiv:2610.39590

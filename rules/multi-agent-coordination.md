@@ -22,7 +22,7 @@ task's knowledge requirements, not convenience:
 - **Debate** (adversarial): surfaces disagreements, but susceptible to
   majority skew and shared misconceptions across debaters
 
-**Scope:** knowledge-conditioned topology generation on reasoning benchmarks (arXiv:2608.27984); 28,568 executable workflows across 6 operators (`Chain`, `Star`, `Debate`, `Verify`, `Router`, `SharedMemory`) and 26 Enigmata tasks mined via 300 $L_0$-penalized trials on held-out AFlow MCTS searches (arXiv:2610.31709); asynchronous append-only shared memory buffer (`Muffin`) across 4 models and 5 benchmarks (arXiv:2610.31355); uncertainty-gated selective routing (`SMART-Med`) on 4 medical VQA benchmarks with `Qwen3-VL-4B-Instruct` (arXiv:2610.33544).
+**Scope:** knowledge-conditioned topology generation on reasoning benchmarks (arXiv:2608.27984); 28,568 executable workflows across 6 operators (`Chain`, `Star`, `Debate`, `Verify`, `Router`, `SharedMemory`) and 26 Enigmata tasks mined via 300 $L_0$-penalized trials on held-out AFlow MCTS searches (arXiv:2610.31709); asynchronous append-only shared memory buffer (`Muffin`) across 4 models and 5 benchmarks (arXiv:2610.31355); uncertainty-gated selective routing (`SMART-Med`) on 4 medical VQA benchmarks with `Qwen3-VL-4B-Instruct` (arXiv:2610.33544); 2,430 runs across 135 tasks (GSM8K, HumanEval, ClassEval) and 6 pipeline configurations testing the closed-form coordination-tax break-even bound (arXiv:2610.37700); CuriousTogether 8-task evaluation of curiosity and cultural grounding across 6 open-weight 7B–14B models and 2 frontier models (arXiv:2611.01301).
 
 **Evidence**:
 - Dynamically generating collaboration topologies conditioned on retrieved
@@ -56,8 +56,10 @@ task's knowledge requirements, not convenience:
   $>3.8\times$, improved average accuracy by +6.7% across 4 medical VQA
   benchmarks, and cut false-certainty rates from 28.8% to 8.6% (2610.33544;
   see [smart-med-uncertainty-aware-multi-agent-routing](../research-briefs/smart-med-uncertainty-aware-multi-agent-routing.md)).
+- Under the closed-form coordination break-even bound $f^\star = \frac{\alpha-1}{\alpha(1-r)}$ (`arXiv:2610.37700`), 3-role homogeneous decomposition (`Planner -> Coder -> Reviewer`) cost $3.22\times$ tokens and $3.24\times$ wall time for $-1.5\text{ pp}$ accuracy, and heterogeneous role assignment (`Hetero-Role`) still cost $1.27\times$ the strong baseline while losing $-10.6\text{ pp}$ on ClassEval because cheap roles generated $1.32\times$ the strong model's token volume; by contrast, single-agent task routing (`Oracle-Route`, routing the 75.6% easy tasks to the cheap model) reached 94.3% pass@1 (+3.4 pp) at $0.5\times$ cost per solved task (see [coordination-tax-heterogeneity-dividend-multi-agent](../research-briefs/coordination-tax-heterogeneity-dividend-multi-agent.md)).
+- In `CuriousTogether` (`arXiv:2611.01301`), adding explicit curiosity and cultural-grounding persona prompts improved open-ended creative ideation and cultural bias scenarios ($+14.90\text{ pp}$, $p_{\text{Holm}} < 7\times 10^{-6}$, with multi-agent gains on 6 of 8 tasks across 7B–14B models) but produced null or negative returns on convergent multi-hop QA (`StrategyQA` $70.33\% \to 69.56\% / 68.37\%$; see [curioustogether-curiosity-cultural-grounding-multi-agent](../research-briefs/curioustogether-curiosity-cultural-grounding-multi-agent.md)).
 
-> Source: Knowledge-Conditioned Topology Generation (arXiv:2608.27984); Mining the Design Space of Multi-Agent Workflows (arXiv:2610.31709); Muffin - A Shared Memory Buffer for Asynchronous AI Agents (arXiv:2610.31355); Learning When to Collaborate: Selective Multi-Agent Medical Reasoning via Uncertainty-Aware Routing (arXiv:2610.33544)
+> Source: Knowledge-Conditioned Topology Generation (arXiv:2608.27984); Mining the Design Space of Multi-Agent Workflows (arXiv:2610.31709); Muffin - A Shared Memory Buffer for Asynchronous AI Agents (arXiv:2610.31355); Learning When to Collaborate: Selective Multi-Agent Medical Reasoning via Uncertainty-Aware Routing (arXiv:2610.33544); The Coordination Tax and the Heterogeneity Dividend in Multi-Agent LLM Systems (arXiv:2610.37700); CuriousTogether (arXiv:2611.01301)
 
 ### DO: Optimize topology and model assignment jointly
 
@@ -350,6 +352,8 @@ Results were roughly the same for 1, 2 and 3 rounds. See
 [madbench-debate-security](../research-briefs/madbench-debate-security.md).
 
 Tension with "Use heterogeneous, cross-family rosters for deliberation and joint verification" (this file): that entry is about answer and monitoring accuracy; cross-family consensus still doesn't authorize side effects. This entry's evidence is mostly single-family (GPT-4o), so heterogeneous rosters were not tested against side-effect attacks.
+
+Tension with "Attach Merkle-proven log receipts and three-valued claim checkers to inter-agent handoff messages before trusting claimed side effects" (this file, below): Merkle log receipts prove that an already-executed tool call genuinely occurred in the runtime log (post-execution evidentiary provenance); they do not authorize executing a new tool side effect, which still requires an external policy check before dispatch.
 
 > Source: MADBench: Benchmarking the Security of Multi-Agent Debate (arXiv:2609.39146)
 
@@ -777,7 +781,9 @@ framings, and 5 incentive environments in simulated insider trading
 (arXiv:2610.33011); 10 coordinator prompts $\times$ 7 sub-agent roles
 $\times$ 10 fortified sub-agent prompts across vertical and horizontal
 MAS topologies under routing-aware RL red teaming (`ReMAS`,
-arXiv:2610.28966).
+arXiv:2610.28966); 50 continuous double-auction markets with DeepSeek
+v4-flash testing Partner-Outsider Positive Listening (`PoPLi`) against
+covert steganographic collusion (arXiv:2610.37849).
 
 **Evidence**:
 - Moving from single-agent to multi-agent coordination raised Misaligned
@@ -799,8 +805,104 @@ arXiv:2610.28966).
   extraction ASR across all 7 sub-agent roles on `Qwen3-8B` and 0.48–0.64
   zero-shot across 4 unseen model families (2610.28966; see
   [multi-agent-system-prompt-extraction-defense](../research-briefs/multi-agent-system-prompt-extraction-defense.md)).
+- To detect covert steganographic collusion when messages look completely
+  benign (`arXiv:2610.37849`), Partner-Outsider Positive Listening
+  (`PoPLi`) compares the partner's counterfactual action shift against a
+  seeded outsider listener's shift: $\widehat{\Delta}_{\mathrm{PL}}$ was
+  strictly positive in all covert-code markets ($0.480\text{--}0.615$)
+  and included zero in all non-code markets ($-0.100$ to $-0.012$),
+  whereas a `Claude Haiku 5.5` message-only monitor flagged 0/50
+  single-speaker covert markets and produced 9/10 false positives in
+  non-colluding `H0` markets (see
+  [partner-outsider-positive-listening-collusion](../research-briefs/partner-outsider-positive-listening-collusion.md)).
 
-> Source: When Agents Collude: Weak-to-Strong On-Policy Distillation for Mitigating Strategic Deception in Multi-Agent Systems (arXiv:2610.33011); Black-Box Red-Teaming of Multi-Agent Systems via Reinforcement Learning (arXiv:2610.28966)
+> Source: When Agents Collude: Weak-to-Strong On-Policy Distillation for Mitigating Strategic Deception in Multi-Agent Systems (arXiv:2610.33011); Black-Box Red-Teaming of Multi-Agent Systems via Reinforcement Learning (arXiv:2610.28966); Detecting Covert Collusion between AI Agents through Partner-Outsider Positive Listening (arXiv:2610.37849)
+
+### DO: Attach Merkle-proven log receipts and three-valued claim checkers to inter-agent handoff messages before trusting claimed side effects
+
+In multi-agent delegation, natural-language status updates and unverified
+JSON tool summaries allow hallucinated or maliciously fabricated completion
+claims to propagate downstream (`claim-evidence gap`). Require sender
+agents to attach a `Proof-Carrying Message` (`PCM`) envelope binding
+each structured claim (`ToolSucceeded`, `HttpStatusIn`, `DigestMatches`,
+`JsonFieldEquals`) to RFC 6962 Merkle inclusion proofs (`MTH`, `AuditPath`)
+over the runtime's append-only execution log, and gate receiver consumption
+on a deterministic three-valued checker (`Verified`, `Refuted`,
+`Abstained`).
+
+**Scope:** PCM 0.1 reference implementation across 300 synthetic
+multi-agent handoff traces and 6 tamper/equivocation classes
+(arXiv:2610.39109).
+
+**Evidence**: In `PCM 0.1` (`arXiv:2610.39109`), unverified handoffs
+allowed 100% of fabricated tool-success claims to trigger downstream
+side effects, whereas deterministic Merkle receipt verification achieved
+100% soundness (`0` false acceptances across all 6 tamper classes),
+explicitly isolated unverifiable external claims as `Abstained` rather
+than silently trusting them, and added $< 1.2\text{ ms}$ verification
+latency per message (see
+[`proof-carrying-agent-messages`](../skills/proof-carrying-agent-messages/SKILL.md)).
+
+Tension with "Treat debate consensus as authorization for tool side effects" (this file, above): `PCM` receipts verify that a sender's *claimed past side effect* actually happened in the execution log; they never substitute for pre-execution authorization of a new side effect.
+
+> Source: PCM: A Proof-Carrying Message Protocol for Verifiable Multi-Agent Communication (arXiv:2610.39109)
+
+### DO: Enforce single-owner file region assignment or sequential handoffs before multi-agent codebase edits, and hide raw peer git history
+
+When multiple coding agents operate in parallel on a shared repository
+without centralized file-region locks, peer agents overwrite each other's
+edits, duplicate implementations across files, and waste turns resolving
+avoidable merge conflicts; exposing raw peer commit logs and diffs in the
+context window further degrades resolution by inducing premature anchoring
+on broken peer patches. Partition write ownership before execution (disjoint
+file/module leases or sequential stage handoffs) and expose only verified
+interface contracts and test outcomes across agents.
+
+**Scope:** ParallACT benchmark across 450 multi-agent coding runs on
+SWE-bench-style tasks comparing decentralized git collaboration vs
+partitioned ownership and history visibility (arXiv:2611.00314).
+
+**Evidence**: In `ParallACT` (`arXiv:2611.00314`), uncoordinated parallel
+git editing suffered a 41.8% merge-conflict and semantic-overwrite rate
+and dropped task resolution by $-11.4\text{ pp}$ below single-agent
+execution while consuming $2.6\times$ tokens; enforcing disjoint region
+leases and hiding raw peer commit diffs eliminated semantic overwrites and
+recovered $+6.8\text{ pp}$ over the single-agent baseline (see
+[parallact-decentralized-multi-agent-coding](../research-briefs/parallact-decentralized-multi-agent-coding.md)).
+
+See also: rules/recursive-improvement.md — "DON'T: Expose full interaction history to peer-verifying agents" (hiding raw peer commit history in parallel coding mirrors restricting peer-verifier history to prevent anchoring and collusion).
+
+> Source: ParallACT: Benchmarking Decentralized Multi-Agent Collaboration on Codebases (arXiv:2611.00314)
+
+### DON'T: Rely on multi-agent consensus, demographic masking, or per-agent self-debiasing to eliminate demographic triage disparities
+
+In high-stakes clinical or resource-allocation pipelines, multi-agent
+deliberation (`Debate`, specialist panels, or consensus voting) can
+*launder* demographic disparities: individual biases shared across agents
+are rationalized into objective-sounding clinical consensus (`Disparity
+Laundering`), increasing downstream disparity while raising clinician trust
+in the biased recommendation. Redacting explicit race/gender labels
+(`demographic masking`) fails when clinical notes or socioeconomic proxies
+remain, and prompt-level self-debiasing instructions do not survive
+multi-round deliberation. Audit multi-agent triage outputs with
+counterfactual demographic swaps at the terminal decision boundary.
+
+**Scope:** 4,800 counterfactual clinical triage deliberations across 4
+demographic axes, 3 multi-agent topologies, and 5 LLMs (arXiv:2610.38215).
+
+**Evidence**: Across 4,800 counterfactual clinical cases (`arXiv:2610.38215`),
+3-agent specialist consensus increased pain-management and ICU-escalation
+disparities between Black and White matched patients from $8.4\text{ pp}$
+(single agent) to $14.7\text{ pp}$ (+75% relative amplification) while
+removing explicit demographic terms from 96.2% of final rationales;
+demographic masking left $11.9\text{ pp}$ residual disparity via proxy
+features, whereas terminal counterfactual swap auditing flagged 94.1% of
+disparate escalations (see
+[disparity-laundering-clinical-multi-agent-systems](../research-briefs/disparity-laundering-clinical-multi-agent-systems.md)).
+
+Tension with "Dynamically calibrate consensus entropy and weight peer influence by evidence grounding in multi-agent debate" (recursive-improvement.md): evidence-weighted consensus calibration (`R^2-MAD`, `CollabFlow`) corrects factual and reasoning errors on QA, math, and code tasks, whereas on demographic-sensitive clinical triage, multi-agent consensus rationalizes shared implicit biases into seemingly objective clinical language (`Disparity Laundering`, +75% disparity amplification). Even when debate weights peer influence by evidence, run counterfactual demographic swap audits at the terminal decision boundary.
+
+> Source: Disparity Laundering in Clinical Multi-Agent Systems (arXiv:2610.38215)
 
 ---
 
@@ -814,6 +916,8 @@ For implementation details on the procedures behind these rules:
 - [`persistent-agent-migration`](../skills/persistent-agent-migration/SKILL.md) — Migrating agents while preserving identity and memory
 - [`unified-capability-gateway`](../skills/unified-capability-gateway/SKILL.md) — Shared multi-stage capability pipeline
 - [`coordinator-executor-prompt-optimization`](../skills/coordinator-executor-prompt-optimization/SKILL.md) — Decoupled coordinator-first prompt optimization for multi-agent teams
+- [`proof-carrying-agent-messages`](../skills/proof-carrying-agent-messages/SKILL.md) — Cryptographic Merkle log receipts and three-valued claim checking for inter-agent handoffs
+- [`task-graph-contextual-integrity-gating`](../skills/task-graph-contextual-integrity-gating/SKILL.md) — Task-graph contextual integrity (`Auto-Region`) and zero-LLM semantic frontier gating
 
 ## Sources
 
@@ -854,3 +958,9 @@ For implementation details on the procedures behind these rules:
 - Multi-Agent Herding and Runaway Cascades: arXiv:2610.30769
 - When Agents Collude (Pact): arXiv:2610.33011
 - ReMAS (Black-Box Red-Teaming of MAS): arXiv:2610.28966
+- The Coordination Tax and the Heterogeneity Dividend: arXiv:2610.37700
+- CuriousTogether: arXiv:2611.01301
+- PoPLi (Partner-Outsider Positive Listening): arXiv:2610.37849
+- PCM (Proof-Carrying Message Protocol): arXiv:2610.39109
+- ParallACT (Decentralized Multi-Agent Coding): arXiv:2611.00314
+- Disparity Laundering in Clinical MAS: arXiv:2610.38215

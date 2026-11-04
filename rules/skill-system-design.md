@@ -287,19 +287,44 @@ log resubmissions, and test scanner and runtime defense together.
 
 **Scope:** SkillsBench (249 skills) with SkillScan + SkillSonar, four
 victim LLMs, Codex harness; NVIDIA SkillSpector v2.2.3 with
-qwen3t/glm/gpt-oss backends; attackers with repeated detector access.
+qwen3t/glm/gpt-oss backends; attackers with repeated detector access;
+10,835 ClawHub skills (282 pairs, 94 clusters) scanned for local and
+cross-skill composite vulnerabilities (`Scan Before You Install`,
+arXiv:2610.37901); 270 forbidden prompts across 9 harm categories and 7
+open-weight models under poisoned Markdown skill files (`Poisoned Skills`,
+arXiv:2610.37738).
 
-**Evidence**: Iteratively revised skills reached 45.28% average attack
-success with 0% SkillScan detection, against 97.34–100% detection for
-baseline attacks. Scanner acceptance took 3.23 rounds on average (95.18%
-by round 10). Against a frozen SkillSpector, evasion reached
-96.7%/63.2%/70.5%. The static layer caught 5.6%. When the detector also
-adapted, false negatives stayed at 47–78% and false positives rose to
-50–62% on gpt-oss.
+**Evidence**:
+- Iteratively revised skills reached 45.28% average attack success with
+  0% SkillScan detection, against 97.34–100% detection for baseline
+  attacks. Scanner acceptance took 3.23 rounds on average (95.18% by
+  round 10). Against a frozen SkillSpector, evasion reached
+  96.7%/63.2%/70.5%. The static layer caught 5.6%. When the detector
+  also adapted, false negatives stayed at 47–78% and false positives
+  rose to 50–62% on gpt-oss (`2609.32400`, `2609.39607`).
+- Across 10,835 real-world ClawHub skills (`arXiv:2610.37901`), auditing
+  candidate skills against the installed skill dependency multigraph
+  ($G_0$) with line-quoted source evidence (`Scan Before You Install`)
+  reached 96.4% precision and 92.5% F1 on local vulnerabilities (vs
+  43.2% F1 for `Snyk Agent-Scan` and 78.9% F1 for `SkillScanner`) and
+  91.5% precision / 89.2% F1 on cross-skill composite vulnerabilities
+  that single-skill scanners cannot express (`78.7%` of clusters
+  contained at least one cross-skill vulnerability, and `66.3%` of
+  composite vulnerabilities were composed entirely of skills that were
+  individually benign), while layered sandbox-verified mitigation
+  remediated 95.3% of local and 91.2% of composite vulnerabilities (see
+  [`composite-skill-vulnerability-scanner`](../skills/composite-skill-vulnerability-scanner/SKILL.md)).
+- Loading a poisoned Markdown skill file into the system prompt
+  (`arXiv:2610.37738`) raised mean jailbreak ASR across 7 open-weight
+  models from 0.5% to 44.8% (~90×, ranging from 13.7% on `glm-5.3-flash`
+  to 68.9% on `gemma-4-26b-a4b-it`), with stealth zero-width non-joiner
+  (`U+200C`) and phonetic IPA + `snake_case` obfuscations sustaining
+  43.4% and 30.1% mean ASR (see
+  [poisoned-skills-markdown-jailbreak-propagation](../research-briefs/poisoned-skills-markdown-jailbreak-propagation.md)).
 
 See also "Validate skill provenance before adding to library" (skill-system-design.md) and "Assume stacked defense layers fail independently" (agent-sandbox-safety.md).
 
-> Source: SkillDRE: Dual-Stage Red-Team Evolution of Agent Skills via Pre-Execution and Runtime Feedback (arXiv:2609.32400); Pretext: Defeating Malicious Skill Detection Frameworks for AI Agents (arXiv:2609.39607)
+> Source: SkillDRE: Dual-Stage Red-Team Evolution of Agent Skills via Pre-Execution and Runtime Feedback (arXiv:2609.32400); Pretext: Defeating Malicious Skill Detection Frameworks for AI Agents (arXiv:2609.39607); Scan Before You Install: Detecting and Mitigating Local and Composite Vulnerabilities in Skills (arXiv:2610.37901); Poisoned Skills: Markdown Skill Files as a Persistent Jailbreak Vector (arXiv:2610.37738)
 
 ---
 
@@ -618,6 +643,34 @@ apparent fulfillment credit under faults. See
 
 > Source: Tool-Calling LLM Agents Under Realistic MCP Faults: Scale Does Not Purchase Fault Tolerance (arXiv:2610.32555)
 
+### DO: Extract skills as explicit text from paired trajectories before distilling them into role-conditioned latent representations
+
+When building compact skill memories for multi-agent systems that
+communicate or condition via continuous latent states (`LatentMAS`), do
+not train end-to-end latent skill vectors directly from raw trajectories
+without an intermediate natural-language skill abstraction, and do not
+retrieve skills using task-query similarity alone. First contrast paired
+success/failure trajectories into explicit, human-auditable text skills;
+then project retrieved skills through role-conditioned latent adapters so
+each specialist role (`Planner`, `Critic`, `Refiner`, `Solver`) receives
+a role-specific view of the shared skill bank.
+
+**Scope:** SkillMem role-conditioned latent skill memory across 6
+reasoning and coding benchmarks (GSM8K, MATH, AIME, HumanEval, MBPP,
+GPQA) on Qwen2.5-7B/14B and Llama-3.1-8B (arXiv:2610.37935).
+
+**Evidence**: In `SkillMem` (`arXiv:2610.37935`), distilling paired
+trajectory contrasts into text skills before projecting into $K=4$ latent
+skill tokens per role improved multi-agent accuracy by $+4.8\text{ pp}$
+over text-only skill injection while cutting skill context tokens by
+$87.5\%$ (from ~320 tokens/role to 40 latent tokens across 4 roles);
+removing the intermediate text-extraction stage dropped accuracy by
+$-3.6\text{ pp}$, and removing role conditioning in the latent adapter
+dropped accuracy by $-2.4\text{ pp}$ (see
+[skillmem-compact-external-skill-memory-latent-mas](../research-briefs/skillmem-compact-external-skill-memory-latent-mas.md)).
+
+> Source: SkillMem: Compact External Skill Memory for Latent Multi-Agent Systems (arXiv:2610.37935)
+
 ---
 
 ## Related Skills
@@ -646,6 +699,7 @@ For implementation details on the procedures behind these rules:
 - [`adk2-agent-orchestration-patterns`](../skills/adk2-agent-orchestration-patterns/SKILL.md) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
 - [`capability-matched-skill-adaptation`](../skills/capability-matched-skill-adaptation/SKILL.md) — Adapting skill text across executor capability bottlenecks
 - [`decoupled-interface-action-repair`](../skills/decoupled-interface-action-repair/SKILL.md) — Decoupled semantic commitment and interface-specific realization repair
+- [`composite-skill-vulnerability-scanner`](../skills/composite-skill-vulnerability-scanner/SKILL.md) — Dependency-graph static/LLM auditing and sandbox-verified repair for local and cross-skill composite vulnerabilities
 
 ## Sources
 
@@ -681,4 +735,7 @@ For implementation details on the procedures behind these rules:
 - Matched Capabilities, Different Behaviors (MICA & DART): arXiv:2610.34298
 - MCP vs CLI for AI Agents: arXiv:2610.30157
 - Tool-Calling LLM Agents Under Realistic MCP Faults (MCP-Injector): arXiv:2610.32555
+- Scan Before You Install (Composite Skill Vulnerability Scanner): arXiv:2610.37901
+- Poisoned Skills (Markdown Skill Jailbreaks): arXiv:2610.37738
+- SkillMem (Compact External Skill Memory for Latent MAS): arXiv:2610.37935
 

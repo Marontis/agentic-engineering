@@ -847,6 +847,8 @@ voting. See research-briefs/collabflow-evidence-gated-collaboration.md.
 
 See also: multi-agent-coordination.md — R²-MAD debate entry.
 
+Tension with "Rely on multi-agent consensus, demographic masking, or per-agent self-debiasing to eliminate demographic triage disparities" (multi-agent-coordination.md): evidence-weighted debate calibration improves factual/reasoning accuracy on QA, math, and code, but on demographic-sensitive clinical triage (`arXiv:2610.38215`), multi-agent consensus amplifies demographic disparities from 8.4 pp to 14.7 pp while stripping explicit demographic terms from 96.2% of rationales. Pair consensus calibration with terminal counterfactual demographic swap auditing on high-stakes allocation tasks.
+
 > Source: Remember and Reweight: Enhancing Multi-Agent Debate with Experience Memory and Confidence Estimation (arXiv:2609.03619); CollabFlow: Recursive Self-Improvement of Agent Collaboration (arXiv:2609.38662)
 
 ### DON'T: Assume multi-agent scaffolding is universally monotonic across model architectures
@@ -953,11 +955,15 @@ When autonomous coding agents modify their own instructions, prompts, or tool wr
 
 In self-improving agent harnesses (such as Hyperagents or Darwin Gödel Machines), backdoors introduced by poisoned benchmarks persist across subsequent generations even when evolved against completely clean benchmarks. Because standard benchmarks only check for task completion rather than the absence of security regressions, clean tests never penalize the dormant vulnerability. Gate every self-evolved prompt or code modification through an immutable, out-of-band negative testbed that explicitly checks for safety invariant violations (e.g., certificate validation, privilege drops, credential protection).
 
-**Scope:** self-modifying coding-agent harnesses (HyperAgents, Darwin Gödel Machine) under poisoned benchmarks; RSI Arena 10-agent autonomous post-training competition starting from Nemotron 3.5 Lightning 30B-A3B Base across 2 stages (arXiv:2610.33624). This gate is strict in every setting, regardless of how loose the task-performance gate is.
+**Scope:** self-modifying coding-agent harnesses (HyperAgents, Darwin Gödel Machine) under poisoned benchmarks; RSI Arena 10-agent autonomous post-training competition starting from Nemotron 3.5 Lightning 30B-A3B Base across 2 stages (arXiv:2610.33624); 45 OpenClaw-RL runs and 60 MetaClaw skill-evolution libraries across 4 models on benign vs counterfactual indirect-prompt-injection episodes (arXiv:2610.39122); EVOLVE cumulative guardrail tool evolution with 10-CWE AuditorAgent verification across 6 benchmarks (arXiv:2611.02516); Safin-1.5 removable safety-routed experts (REX) and $M_0$-anchored Pareto recursive safety improvement (arXiv:2610.40751). This gate is strict in every setting, regardless of how loose the task-performance gate is.
 
-**Evidence**: In RSI Arena (`arXiv:2610.33624`), `GPT-6 Astra` closed a median 76% of the Base-to-Instruct capability gap across 12 benchmarks in Stage 1 (87% in Stage 2) and 8/10 agents improved style-controlled human ratings in Stage 2 (median +28 points), but GPU-hours did not correlate with quality ($\rho = -0.21$), benchmark gains decoupled from human preference gains ($\rho = -0.19$), and because safety was not gated during Stage 2 feedback optimization, `MiniMax M3.1 Flash` regressed on StrongREJECT harmful compliance from 2.6 to 24.5 while `MiMo-V2.6-Pro` dropped on BBQ bias from 84.7 to 56.5 (see [rsi-arena-autonomous-post-training-feedback](../research-briefs/rsi-arena-autonomous-post-training-feedback.md)).
+**Evidence**:
+- In RSI Arena (`arXiv:2610.33624`), `GPT-6 Astra` closed a median 76% of the Base-to-Instruct capability gap across 12 benchmarks in Stage 1 (87% in Stage 2) and 8/10 agents improved style-controlled human ratings in Stage 2 (median +28 points), but GPU-hours did not correlate with quality ($\rho = -0.21$), benchmark gains decoupled from human preference gains ($\rho = -0.19$), and because safety was not gated during Stage 2 feedback optimization, `MiniMax M3.1 Flash` regressed on StrongREJECT harmful compliance from 2.6 to 24.5 while `MiMo-V2.6-Pro` dropped on BBQ bias from 84.7 to 56.5 (see [rsi-arena-autonomous-post-training-feedback](../research-briefs/rsi-arena-autonomous-post-training-feedback.md)).
+- Adapting personal agents (`OpenClaw-RL` and `MetaClaw`, `arXiv:2610.39122`) on benign delegated tasks ($q^+$) increased unseen-content IPI ASR on read-only requests ($q^-$) in **21 of 21** model-mechanism-seed comparisons, collapsing the median authorization gap from 93 pp to 39 pp (`Authorization Conflation`); interleaving counterfactual authorization-aware episodes cut ASR $6\times$ to 5.8%, and skill libraries with explicit procedural authorization checks reached 0.0% ASR (see [authorization-conflation-self-evolving-personal-agents](../research-briefs/authorization-conflation-self-evolving-personal-agents.md)).
+- In `EVOLVE` (`arXiv:2611.02516`), auditing self-generated Python guardrail tools against 10 CWE categories via `AuditorAgent` before registry admission eliminated Vulnerable Guardrail Tools (from 19.4% down to 0.0%) while reducing AgentHarm ASR to 3.8% and raising R-Judge F1 to 91.6% (see [`audited-guardrail-tool-evolution`](../skills/audited-guardrail-tool-evolution/SKILL.md)).
+- In `Safin-1.5` (`arXiv:2610.40751`), routing hazardous knowledge into 16 removable experts/layer (`REX`) retained 90.0% Bio / 89.9% Cyber removal after 250M-token benign SFT (vs 3.4% / 43.6% for standard `RMU`), and gating recursive safety improvement (`ReSI`) against an immutable $M_0$ anchor cut `H-CoT` ASR from 82.00% to 14.00% and `X-Teaming` ASR from 64.78% to 32.08% without general capability regression (see [safin-1-5-recursive-safety-improvement](../research-briefs/safin-1-5-recursive-safety-improvement.md)).
 
-> Source: Reflections on Trusting Trust, Revisited: Contaminating Self-Modifying AI Coding Agents with Poisoned Benchmarks (arXiv:2609.17817); RSI Arena: Towards Recursive Self-Improvement with Human Feedback (arXiv:2610.33624)
+> Source: Reflections on Trusting Trust, Revisited: Contaminating Self-Modifying AI Coding Agents with Poisoned Benchmarks (arXiv:2609.17817); RSI Arena: Towards Recursive Self-Improvement with Human Feedback (arXiv:2610.33624); Helpful by Default, Unsafe by Adaptation: Authorization Conflation in Self-Evolving Personal Agents (arXiv:2610.39122); EVOLVE: Cumulative and Audited Guardrail Tool Evolution for LLM Agent Safety (arXiv:2611.02516); Safin-1.5 Technical Report (arXiv:2610.40751)
 
 ### DO: Gate step-level action verification on low-confidence steps and keep the verifier transparent to the policy
 
@@ -983,6 +989,48 @@ Unconstrained self-play RL and uniform chain-of-thought incentives cause severe 
 - In `PhysEvolve` (`arXiv:2610.34921`), unconstrained self-play without simulator-verified counterfactual margin gating generated $0/100$ counterfactual rounds and $0.00\%$ exact forward accuracy despite achieving a $0.373$ graded proximity reward via degenerate parameter edits; enforcing paired baseline/counterfactual simulation with a $\ge 0.30\text{ m/s}$ divergence margin raised PhysBench Throwing by $+8.78\text{ pp}$ and ContPhy Goal-Pit by $+24.44\text{ pp}$ (see [physevolve-executable-world-self-evolution](../research-briefs/physevolve-executable-world-self-evolution.md) and [recursive-self-improvement-physical-ai](../research-briefs/recursive-self-improvement-physical-ai.md)).
 
 > Source: Mode-Optimized Reasoning Effort for Self-Evolving Agents (arXiv:2610.33684); PhysEvolve: Grounding Self-Evolving Agents in Executable World Models (arXiv:2610.34921); Recursive Self-Improvement in Physical AI: Foundations, Architecture, and Open Challenges (arXiv:2610.29677)
+
+### DO: Keep prior-attempt history in the trajectory collector and retain explicit multi-field plans in SFT targets when curating post-training trajectories
+
+When collecting multi-attempt trajectories for coding or domain-specific
+post-training, do not sample independent blind rollouts (`Pass@k`) and do
+not strip the collector's structured planning fields (`Analysis`, `Loc`,
+`Plan`, `Risk`) before supervised fine-tuning. Condition each retry on a
+compact summary of prior failed attempts (`tried files`, `diff summary`,
+`test failure signature`, and an explicit anti-repetition directive) to
+convert redundant rollouts into complementary exploration, and preserve
+both the collector's structured reasoning trace and simulator-verified
+step repairs in the final SFT target.
+
+**Scope:** SWE-Trail history-guided trajectory collection across 1,500
+SWE-bench training instances fine-tuning Qwen3-8B, Qwen2.5-Coder-7B, and
+Qwen2.5-Coder-32B (arXiv:2611.02074); MCTS-guided reasoning trace
+curation for Verilog RTL generation across 156 VerilogEval-v2 tasks
+(arXiv:2610.37706); MetaVul bilevel evolutionary harness discovery for C/C++
+vulnerability detection on PrimeVul (arXiv:2610.40721).
+
+**Evidence**:
+- In `SWE-Trail` (`arXiv:2611.02074`), passing compact prior-attempt
+  summaries to the collector increased cumulative 5-round instance yield
+  from 41.2% (independent `Pass@5`) to 53.8% (+12.6 pp) while cutting
+  duplicate patch generation from 34.0% to 6.1%. Fine-tuning `Qwen3-8B`
+  on the resulting trajectories with the 4-field structured plan retained
+  reached 38.6% on SWE-bench Verified (+6.4 pp over blind-rollout SFT;
+  stripping the structured plan fields at SFT time lost $-4.1\text{ pp}$;
+  see [`history-guided-trajectory-collection`](../skills/history-guided-trajectory-collection/SKILL.md)).
+- For hardware RTL synthesis (`arXiv:2610.37706`), curating SFT traces via
+  compiler-and-simulation-backed MCTS and stitching corrective reasoning
+  transitions into a coherent trajectory raised `Qwen2.5-Coder-7B`
+  VerilogEval-v2 `pass@1` from 42.3% (rejection-sampling SFT) to 56.4%
+  (+14.1 pp; see
+  [search-guided-reasoning-trace-curation-verilog](../research-briefs/search-guided-reasoning-trace-curation-verilog.md)).
+- In `MetaVul` (`arXiv:2610.40721`), bilevel evolutionary search over
+  agentic tool harnesses and diagnostic prompts improved PrimeVul
+  paired accuracy (`P-C`) by +8.3 pp over fixed-pipeline baselines
+  without weight updates (see
+  [metavul-agentic-harness-discovery-vulnerability-detection](../research-briefs/metavul-agentic-harness-discovery-vulnerability-detection.md)).
+
+> Source: SWE-Trail: History-Guided Trajectory Collection for Coding Agent Training (arXiv:2611.02074); Search-Guided Reasoning Trace Curation for RTL Code Generation (arXiv:2610.37706); MetaVul: Agentic Harness Discovery for Vulnerability Detection (arXiv:2610.40721)
 
 ---
 
@@ -1012,6 +1060,8 @@ For implementation details on the procedures behind these rules:
 - [`self-evolution-stopping-rule`](../skills/self-evolution-stopping-rule/SKILL.md) — Anytime-valid stopping and change-point output selection for self-evolving loops
 - [`selective-step-verification`](../skills/selective-step-verification/SKILL.md) — Confidence-gated step verification for long-horizon coding agents
 - [`capability-matched-skill-adaptation`](../skills/capability-matched-skill-adaptation/SKILL.md) — Post-hoc capability-matched skill adaptation for harness self-evolution
+- [`history-guided-trajectory-collection`](../skills/history-guided-trajectory-collection/SKILL.md) — Iterative history-guided trajectory collection (`SWE-Trail`) with structured 4-field planning
+- [`audited-guardrail-tool-evolution`](../skills/audited-guardrail-tool-evolution/SKILL.md) — Cumulative synthesis and 10-CWE security auditing of executable guardrail tools (`EVOLVE`)
 
 ## Sources
 
@@ -1065,3 +1115,9 @@ For implementation details on the procedures behind these rules:
 - MORE (Mode-Optimized Reasoning Effort): arXiv:2610.33684
 - PhysEvolve: arXiv:2610.34921
 - Infinity Machine: arXiv:2610.35579
+- Authorization Conflation in Self-Evolving Personal Agents: arXiv:2610.39122
+- EVOLVE (Audited Guardrail Tool Evolution): arXiv:2611.02516
+- Safin-1.5 (REX & Recursive Safety Improvement): arXiv:2610.40751
+- SWE-Trail (History-Guided Trajectory Collection): arXiv:2611.02074
+- Search-Guided Reasoning Trace Curation for Verilog: arXiv:2610.37706
+- MetaVul (Agentic Harness Discovery): arXiv:2610.40721

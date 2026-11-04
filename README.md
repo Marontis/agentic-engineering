@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 440+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 480+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -92,6 +92,11 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`historical-constraint-restoration`](skills/historical-constraint-restoration/SKILL.md) | GHOST / STAR-Guard (arXiv:2610.02664) |
 | [`mcp-decode-provenance-binding`](skills/mcp-decode-provenance-binding/SKILL.md) | Decode-Time Provenance Binding for MCP (arXiv:2610.31974) |
 | [`out-of-band-hitl-verification`](skills/out-of-band-hitl-verification/SKILL.md) | I-HITL: Inalienable Human-in-the-Loop (arXiv:2610.35835) |
+| [`composite-skill-vulnerability-scanner`](skills/composite-skill-vulnerability-scanner/SKILL.md) | Scan Before You Install: Local & Composite Skill Vulnerabilities (arXiv:2610.37901) |
+| [`audited-guardrail-tool-evolution`](skills/audited-guardrail-tool-evolution/SKILL.md) | EVOLVE: Cumulative and Audited Guardrail Tool Evolution (arXiv:2611.02516) |
+| [`proof-carrying-agent-messages`](skills/proof-carrying-agent-messages/SKILL.md) | PCM: Proof-Carrying Message Protocol for Multi-Agent Communication (arXiv:2610.39109) |
+| [`cross-interface-route-bound-authorization`](skills/cross-interface-route-bound-authorization/SKILL.md) | Cross-Interface Authorization for AI Computer-Use Agents (arXiv:2610.41397) |
+| [`task-graph-contextual-integrity-gating`](skills/task-graph-contextual-integrity-gating/SKILL.md) | Judging Before Propagation: Task-Graph Contextual Integrity (arXiv:2610.39532) |
 
 #### Self-Improvement & Evaluation
 
@@ -139,6 +144,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`selective-step-verification`](skills/selective-step-verification/SKILL.md) | SWE-VERIFIER (arXiv:2610.30284) |
 | [`coordinator-executor-prompt-optimization`](skills/coordinator-executor-prompt-optimization/SKILL.md) | CEPO Multi-Agent Prompt Optimization (arXiv:2610.34722) |
 | [`capability-matched-skill-adaptation`](skills/capability-matched-skill-adaptation/SKILL.md) | Evolving to Match Capabilities (arXiv:2610.33024) |
+| [`history-guided-trajectory-collection`](skills/history-guided-trajectory-collection/SKILL.md) | SWE-Trail: History-Guided Trajectory Collection for Coding Agents (arXiv:2611.02074) |
+| [`agent-data-mutual-evolution`](skills/agent-data-mutual-evolution/SKILL.md) | EvoMCP: Mutual Evolution of Agent and Data for MCP Tool-Use (arXiv:2610.41479) |
 
 #### Skill Evolution & Knowledge
 
@@ -476,6 +483,42 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`mining-multi-agent-workflow-design-space`](research-briefs/mining-multi-agent-workflow-design-space.md) | Controlled 3,360-configuration study showing heterogeneous agent teams beat homogeneous scaling |
 | [`mcp-vs-cli-tool-integration-analysis`](research-briefs/mcp-vs-cli-tool-integration-analysis.md) | Controlled comparison of CLI speed/token efficiency vs MCP typed schema reliability |
 | [`agent-protocol-handshake-overhead-benchmark`](research-briefs/agent-protocol-handshake-overhead-benchmark.md) | Quantifying discovery and handshake latency across MCP, A2A, ACP, and ANP under cold/warm starts |
+| [`goal-gradient-orthogonalization-over-refusal`](research-briefs/goal-gradient-orthogonalization-over-refusal.md) | Projecting out benign-utility gradient conflicts cuts safety fine-tuning over-refusal by 70%+ |
+| [`j-anchor-prefill-refusal-restoration`](research-briefs/j-anchor-prefill-refusal-restoration.md) | Refusal-anchor steering restores safety refusal within 4–8 tokens under affirmative prefill attacks |
+| [`sandman-production-agentic-rl-sandboxes`](research-briefs/sandman-production-agentic-rl-sandboxes.md) | Two-check preflight certification and byte-manifest sandbox reset speed up agentic RL grading 14.2× |
+| [`jailbreak-connectivity-mllm-defensive-lessons`](research-briefs/jailbreak-connectivity-mllm-defensive-lessons.md) | Connected low-loss manifolds between MLLM visual jailbreaks explain why point-signature filters fail |
+| [`bell-budgeted-watermark-localization`](research-briefs/bell-budgeted-watermark-localization.md) | Two-stage scan-and-search with length-weighted e-BH localizes watermarks under strict FWER/FDR control |
+| [`secpo-adversarial-training-prompt-injection`](research-briefs/secpo-adversarial-training-prompt-injection.md) | On-policy security preference optimization against adaptive prompt injections on AgentDojo & InjecAgent |
+| [`context-compaction-for-world-models`](research-briefs/context-compaction-for-world-models.md) | Compacting trajectories into typed entity-state graphs preserves 96.4% of preconditions across compaction |
+| [`red-teaming-instruction-framing-effects`](research-briefs/red-teaming-instruction-framing-effects.md) | Red-team prompt framing drives 61.4% of systematic ASR variance across 61,584 factorial PAIR runs |
+| [`mcp-tool-poisoning-cross-framework-study`](research-briefs/mcp-tool-poisoning-cross-framework-study.md) | 12-framework MCP study showing flat tool namespaces enable 73.4% cross-server shadowing ASR |
+| [`partner-outsider-positive-listening-collusion`](research-briefs/partner-outsider-positive-listening-collusion.md) | Partner-outsider counterfactual action divergence detects steganographic multi-agent collusion |
+| [`search-guided-reasoning-trace-curation-verilog`](research-briefs/search-guided-reasoning-trace-curation-verilog.md) | Compiler-in-the-loop MCTS trace stitching boosts Verilog RTL generation SFT pass@1 by +14.1 pp |
+| [`angler-verifier-grounded-web-agent-benchmarking`](research-briefs/angler-verifier-grounded-web-agent-benchmarking.md) | Multi-round web-agent red-teaming exposing a 30+ pp gap between UI click-through and verified terminal ASR |
+| [`typed-decision-model-adversarial-suffix-eval`](research-briefs/typed-decision-model-adversarial-suffix-eval.md) | Typed 5-class failure taxonomy separating true harmful compliance from incoherence under suffix attacks |
+| [`snyk-vulnbench-sast-vs-ai-security-agents`](research-briefs/snyk-vulnbench-sast-vs-ai-security-agents.md) | SAST and AI security agents share only 31% overlap on real repos; combining both reaches 73.8% recall |
+| [`poisoned-skills-markdown-jailbreak-propagation`](research-briefs/poisoned-skills-markdown-jailbreak-propagation.md) | Poisoned Markdown skill files raise open-weight jailbreak ASR ~90× via system-prompt authority |
+| [`rewindable-interactive-proofs-scalable-oversight`](research-briefs/rewindable-interactive-proofs-scalable-oversight.md) | Rewindable interactive proofs cut scalable oversight oracle queries by 840,000× without truthful-prover assumptions |
+| [`authorization-conflation-self-evolving-personal-agents`](research-briefs/authorization-conflation-self-evolving-personal-agents.md) | Benign task adaptation erodes read-only IPI refusal in 21/21 runs unless counterfactual episodes are interleaved |
+| [`disparity-laundering-clinical-multi-agent-systems`](research-briefs/disparity-laundering-clinical-multi-agent-systems.md) | Multi-agent clinical consensus amplifies demographic triage disparities by +75% while masking biased rationales |
+| [`memharmbench-cross-session-memory-injection`](research-briefs/memharmbench-cross-session-memory-injection.md) | Fragmented cross-session memory payloads bypass write-time filters (64.8% ASR) without read-time provenance gates |
+| [`backdoor-selectivity-distilled-language-models`](research-briefs/backdoor-selectivity-distilled-language-models.md) | Paired control triggers isolate true backdoor survival from general OOD sensitivity in distilled models |
+| [`parallact-decentralized-multi-agent-coding`](research-briefs/parallact-decentralized-multi-agent-coding.md) | Uncoordinated parallel git editing suffers 41.8% conflicts; region leases and hiding peer diffs recover +6.8 pp |
+| [`gap-vulnerability-targeted-manipulation-detection`](research-briefs/gap-vulnerability-targeted-manipulation-detection.md) | Counterfactual user-vulnerability pairs expose +24.3 pp targeted manipulation shifts in multi-turn dialogues |
+| [`etude-tool-update-gap-agent-security`](research-briefs/etude-tool-update-gap-agent-security.md) | Schema-preserving backend updates bypass registration-time MCP metadata pinning 100% of the time |
+| [`safin-1-5-recursive-safety-improvement`](research-briefs/safin-1-5-recursive-safety-improvement.md) | Removable safety-routed experts (REX) and M0-anchored Pareto gates prevent safety erosion during SFT and ReSI |
+| [`curriculum-of-models-jailbreak-evaluation`](research-briefs/curriculum-of-models-jailbreak-evaluation.md) | Cross-family 6-judge evaluation showing single-judge optimism bias and API temperature=0 non-determinism |
+| [`metavul-agentic-harness-discovery-vulnerability-detection`](research-briefs/metavul-agentic-harness-discovery-vulnerability-detection.md) | Bilevel evolutionary search over tool harnesses and prompts boosts PrimeVul paired accuracy by +8.3 pp |
+| [`hacking-or-just-failing-llm-monitor-reward-hacking`](research-briefs/hacking-or-just-failing-llm-monitor-reward-hacking.md) | LLM reward-hacking monitors suffer 34.2% FPR on gap-matched honest failures without state-diff decomposition |
+| [`curioustogether-curiosity-cultural-grounding-multi-agent`](research-briefs/curioustogether-curiosity-cultural-grounding-multi-agent.md) | Curiosity and cultural persona prompts boost divergent ideation (+14.9 pp) but hurt convergent multi-hop QA |
+| [`evidence-view-gaming-agentic-equation-discovery`](research-briefs/evidence-view-gaming-agentic-equation-discovery.md) | Agents game self-selected validation slices by 0.41 R2 unless scored on a harness-locked canonical split |
+| [`auditable-belief-updates-eb-mas-safety-layer`](research-briefs/auditable-belief-updates-eb-mas-safety-layer.md) | Evidence-tagged bounded likelihood updates cut multi-agent belief contamination from 71.43% to 6.50% |
+| [`skillmem-compact-external-skill-memory-latent-mas`](research-briefs/skillmem-compact-external-skill-memory-latent-mas.md) | Text-first skill extraction plus role-conditioned latent projection cuts skill tokens by 87.5% (+4.8 pp accuracy) |
+| [`arcbench-rule-compliance-context-compaction`](research-briefs/arcbench-rule-compliance-context-compaction.md) | Context summarization drops rule compliance from 88.4% to 51.2%; non-compacted pinned rule ledgers restore 91.6% |
+| [`erase-multimodal-prompt-injection-self-distillation`](research-briefs/erase-multimodal-prompt-injection-self-distillation.md) | Self-distilling clean visual representations onto injected images cuts multimodal injection ASR from 68.4% to 3.2% |
+| [`role-spoofing-mechanisms-and-linear-probes`](research-briefs/role-spoofing-mechanisms-and-linear-probes.md) | Delimiter-stripped role spoofing shifts mid-layer authority directions; layer-16 linear probes reach 0.974 AUROC |
+| [`red-teaming-low-resource-african-languages`](research-briefs/red-teaming-low-resource-african-languages.md) | Low raw ASR in low-resource languages masks incomprehension; conditional ASR is +10.7 pp higher than English |
+| [`coordination-tax-heterogeneity-dividend-multi-agent`](research-briefs/coordination-tax-heterogeneity-dividend-multi-agent.md) | Closed-form coordination tax bound showing single-agent difficulty routing beats multi-role decomposition at 0.5× cost |
 
 ---
 

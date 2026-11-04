@@ -266,7 +266,11 @@ defenses on LoCoMo (5 conversations × 3 replicates, gemini-3.1-flash-lite);
 six embodied-agent guardrails on SafeAgentBench in AI2-THOR (300 unsafe +
 300 safe instructions, GPT-4o and DeepSeek-V3.2 planners, simulation only);
 SentryBench 190 public-safety scenarios (840 episodes) across Claude Haiku 4.5,
-Claude Sonnet 4.5, and Azure GPT-5 (arXiv:2610.34535).
+Claude Sonnet 4.5, and Azure GPT-5 (arXiv:2610.34535); GOAL gradient
+orthogonalization against over-refusal on Llama-3.1-8B, Qwen2.5-7B, and
+Gemma-2-9B across XSTest, OR-Bench, and JailbreakBench (arXiv:2610.39802);
+ERASE self-distillation defense against multimodal prompt injection on
+Qwen2.5-VL-7B and InternVL2.5-8B (arXiv:2610.41307).
 
 **Evidence**:
 - Under homoglyph encoding, Llama-3.1-8B refused 0.99 of *benign*
@@ -283,12 +287,13 @@ Claude Sonnet 4.5, and Azure GPT-5 (arXiv:2610.34535).
   false positives) had the worst hazard success (35.55%). RoboGuard's
   bypass rate was 82.05% but its hazard success only 23.85% (2610.06122).
 - On SentryBench (`2610.34535`), adding a naive cautionary system prompt reduced Attack Success Rate by at most 3.7 pp while driving Over-Refusal Rate on genuine urgent emergencies from 37.5% to 65.0% on Haiku 4.5, 44.4% to 100.0% on Sonnet 4.5, and 62.5% to 100.0% on GPT-5 (yielding the worst net deployment harm everywhere: 1.33, 1.80, 1.60), whereas Selective Trust-Gating for Consequential Calls (`TGCC`) achieved 0.0% ASR on Haiku and GPT-5 (3.7% on Sonnet) with zero clean-input over-refusal overhead and the lowest net harm (0.66, 1.00, 0.60); all 7 genuine attack successes were emergency-suppression attacks (see [sentrybench-cost-sensitive-public-safety-agents](../research-briefs/sentrybench-cost-sensitive-public-safety-agents.md)).
+- During safety fine-tuning (`GOAL`, `arXiv:2610.39802`), projecting out the component of the safety gradient parallel to the benign-utility gradient cut false refusals on `XSTest` from 26.4% to 6.8% and `OR-Bench-Hard` from 31.2% to 9.4% while keeping `JailbreakBench` ASR $\le 2.0\%$ (see [goal-gradient-orthogonalization-over-refusal](../research-briefs/goal-gradient-orthogonalization-over-refusal.md)). Similarly, for multimodal prompt injection (`ERASE`, `arXiv:2610.41307`), self-distilling clean-image hidden representations onto typographically/visually injected counterparts cut multimodal injection ASR from 68.4% to 3.2% while preserving 99.1% of baseline MMBench/TextVQA utility (see [erase-multimodal-prompt-injection-self-distillation](../research-briefs/erase-multimodal-prompt-injection-self-distillation.md)).
 
 Refines "Track false refusal accumulation across layers" (above): the
 union-composition result there was measured for prompt-refusal
 classifiers (2608.28327); measure your own stack end to end.
 
-> Source: Refusing Everything Looks Safe (arXiv:2609.26176); The Price of Safety: Memory-Poisoning Defenses in LLM Agents (arXiv:2609.22818); Benchmarking Jailbreak Guardrails for Embodied Agents (arXiv:2610.06122); SentryBench (arXiv:2610.34535)
+> Source: Refusing Everything Looks Safe (arXiv:2609.26176); The Price of Safety: Memory-Poisoning Defenses in LLM Agents (arXiv:2609.22818); Benchmarking Jailbreak Guardrails for Embodied Agents (arXiv:2610.06122); SentryBench (arXiv:2610.34535); GOAL: Gradient Orthogonalization for Alignment without Over-Refusal (arXiv:2610.39802); ERASE: Self-Distillation against Multimodal Prompt Injection (arXiv:2610.41307)
 
 ### DO: Calibrate safety-detector thresholds on realistic benign traffic, per target model
 
@@ -911,16 +916,33 @@ environment. Procedure:
 
 **Scope:** SCARBench, 412 matched instances (103 executable scenarios,
 6 tool-use domains), benign histories of 6,000–6,176 tokens over 56–160
-turns, seven models, prerequisite and prohibition constraints only;
-no adversarial users.
+turns, seven models, prerequisite and prohibition constraints only,
+no adversarial users (arXiv:2610.02664); ARC-Bench 1,200 long-horizon
+sessions across 6 models testing rule compliance across context
+compaction events (arXiv:2611.03223); World-Model Context Compaction
+across ALFWorld, ScienceWorld, and WebShop (arXiv:2610.38980).
 
-**Evidence**: with no defense, strict GHOST rates ran from 6.8%
-(Kimi-K2.6) to 27.8% (Qwen3.5-4B), 11.5% on GPT-5.5. STAR-Guard took
-GPT-5.5 Safe Completion from 76.3% to 94.0% with no unsafe completions
-observed, and Qwen3.5-4B from 47.0% to 81.2% with unsafe completion
-31.1% → 1.9%. On Qwen3.5-4B, summarization (VerIFY-Summarize) raised
-unsafe completion to 35.3% and three-tier memory (LIGHT) left it at
-23.7%.
+**Evidence**:
+- In SCARBench (`arXiv:2610.02664`), with no defense, strict GHOST rates
+  ran from 6.8% (Kimi-K2.6) to 27.8% (Qwen3.5-4B), 11.5% on GPT-5.5.
+  STAR-Guard took GPT-5.5 Safe Completion from 76.3% to 94.0% with no
+  unsafe completions observed, and Qwen3.5-4B from 47.0% to 81.2% with
+  unsafe completion 31.1% → 1.9%. On Qwen3.5-4B, summarization
+  (VerIFY-Summarize) raised unsafe completion to 35.3% and three-tier
+  memory (LIGHT) left it at 23.7%.
+- On `ARC-Bench` (`arXiv:2611.03223`), standard LLM history summarization
+  dropped user-rule compliance from 88.4% (pre-compaction) to 51.2%
+  after two compaction cycles (and 34.7% on state-conditional rules),
+  whereas pinning extracted rules in a dedicated non-compacted
+  `Pinned Rule Ledger` restored post-compaction compliance to 91.6% (see
+  [arcbench-rule-compliance-context-compaction](../research-briefs/arcbench-rule-compliance-context-compaction.md)).
+- For environment state tracking (`arXiv:2610.38980`), free-form prose
+  summarization lost 42.0% of irreversible state preconditions across
+  compaction boundaries, whereas compacting observations into a typed
+  `Entity-State World Model` graph preserved 96.4% of preconditions and
+  improved long-horizon task completion by +14.8 pp at 68% lower token
+  cost (see
+  [context-compaction-for-world-models](../research-briefs/context-compaction-for-world-models.md)).
 
 See also "DON'T: Rely on single-turn refusal or initial benign turns to
 evaluate long-horizon safety" (above; adversarial pivots, whereas this
@@ -933,7 +955,7 @@ request drifting over turns under persuasion; this one covers a benign
 user's own constraint being dropped. Both vary by model (GHOST 6.8–27.8%
 here), so test each deployed model with its own long histories.
 
-> Source: A GHOST in Long-Horizon Agents: Governance Hazard from Overlooked Safety Constraints across Turns (arXiv:2610.02664)
+> Source: A GHOST in Long-Horizon Agents: Governance Hazard from Overlooked Safety Constraints across Turns (arXiv:2610.02664); ARC-Bench: Auditing Rule Compliance Across Context Compaction (arXiv:2611.03223); Context Compaction for World Models in Long-Horizon Agents (arXiv:2610.38980)
 
 ---
 
@@ -941,9 +963,15 @@ here), so test each deployed model with its own long histories.
 
 ### DO: Pin MCP tool descriptors and isolate offensive execution boundaries
 
-When exposing offensive, infrastructure, or high-privilege tool engines through Model Context Protocol (MCP) servers, pin tool schemas and cryptographic hashes at handshake initialization. Grounded in real-world incidents (CVE-2025-6514 remote execution in `mcp-remote`, `postmark-mcp` supply-chain backdoors, and tool line-jumping rug-pulls), dynamic descriptor updates must be blocked to prevent malicious tool shadowing. Additionally, keep generative LLMs off the critical execution path by coupling a deterministic exploit/validation backbone with a cost-aware cascade (local SLM $\rightarrow$ free-tier API $\rightarrow$ rule fallback) to sustain continuous operation at zero paid-API cost.
+When exposing offensive, infrastructure, or high-privilege tool engines through Model Context Protocol (MCP) servers, pin both tool metadata schemas **and** underlying executable server code/container digests at handshake initialization, and re-run admission audits on every server update or hot-reload. Grounded in real-world incidents (CVE-2025-6514 remote execution in `mcp-remote`, `postmark-mcp` supply-chain backdoors, and tool line-jumping rug-pulls), dynamic descriptor or implementation updates (`Tool Update Gap`) must be blocked to prevent malicious tool shadowing and post-admission rug-pulls. Additionally, keep generative LLMs off the critical execution path by coupling a deterministic exploit/validation backbone with a cost-aware cascade (local SLM $\rightarrow$ free-tier API $\rightarrow$ rule fallback) to sustain continuous operation at zero paid-API cost.
 
-> Source: PentestChain: A Cost-Aware, MCP-Orchestrated Framework for Automated Penetration Testing with Free-Tier LLMs (arXiv:2609.18120)
+**Scope:** PentestChain MCP-orchestrated penetration testing framework (arXiv:2609.18120); cross-framework MCP tool poisoning evaluation across 12 agent frameworks and 6 LLMs (arXiv:2611.03555); ETUDE benchmark of 180 post-admission tool-update attacks (`rug-pulls`, `schema-preserving code drift`, `transitive dependency poisoning`) across 5 MCP runtimes (arXiv:2611.01976).
+
+**Evidence**:
+- Across 12 production MCP agent frameworks (`arXiv:2611.03555`), 10 of 12 auto-merged tool descriptions into a flat global namespace without server-prefix isolation, allowing cross-server tool shadowing (`73.4%` mean ASR) and schema-field injection (`68.1%` mean ASR); enforcing cryptographic descriptor pinning with mandatory `<server_id>__<tool_name>` namespace isolation and schema sanitization cut cross-server shadowing ASR from 73.4% to 2.1% (see [mcp-tool-poisoning-cross-framework-study](../research-briefs/mcp-tool-poisoning-cross-framework-study.md)).
+- On `ETUDE` (`arXiv:2611.01976`), registration-time metadata pinning caught 94.0% of schema-mutation rug-pulls but **0.0%** (`0/120`) of schema-preserving implementation updates where the server's JSON schema stayed byte-identical while its backend code or dependency tree was swapped after admission; binding admission leases to reproducible container/bundle digests and differential behavioral probes cut post-update compromise from 88.3% to 3.3% (see [etude-tool-update-gap-agent-security](../research-briefs/etude-tool-update-gap-agent-security.md)).
+
+> Source: PentestChain: A Cost-Aware, MCP-Orchestrated Framework for Automated Penetration Testing with Free-Tier LLMs (arXiv:2609.18120); A Cross-Framework Empirical Study of MCP Tool Poisoning (arXiv:2611.03555); ETUDE: Exposing and Closing the Tool Update Gap in Agent Security (arXiv:2611.01976)
 
 ---
 
@@ -1117,21 +1145,36 @@ nothing was disclosed against its action log.
 **Scope:** browser-use agents on 20 synthetic two-site scenarios, six
 backbones, one Browser Use harness keeping full history in context
 (arXiv:2609.32915); 13 harness/model configurations of persistent
-multi-community agents on 208 synthetic scenarios (arXiv:2609.34790).
+multi-community agents on 208 synthetic scenarios (arXiv:2609.34790);
+MAPLE-Bench 144 multi-agent privacy cases across 4 domains and 3
+topologies with compositional mosaic-leakage rules (`TG-CI`,
+arXiv:2610.39532).
 
-**Evidence**: Despite an explicit instruction not to disclose, browser
-agents carrying a secret picked the option revealing it in 61.1% of
-7,630 loaded sessions (31.2% chose the general option vs 87.2% without
-the secret). They still leaked in 56.7% of sessions where their own
-memory said not to share it, and 34.5% of leaking sessions ended with a
-false assurance that nothing was disclosed (2609.32915). In CoSec, the
-same first-turn guardrail prompt cut the privacy violation rate from
-82.69% to 58.65% on OpenClaw and left it at 96.15% on Hermes, both with
-DeepSeek 4.1 Flash. Workflow carryover (29.9%) and failed revocation
-(19.4%) were among the four failure modes after a boundary change
-(2609.34790).
+**Evidence**:
+- Despite an explicit instruction not to disclose, browser agents
+  carrying a secret picked the option revealing it in 61.1% of 7,630
+  loaded sessions (31.2% chose the general option vs 87.2% without the
+  secret). They still leaked in 56.7% of sessions where their own memory
+  said not to share it, and 34.5% of leaking sessions ended with a false
+  assurance that nothing was disclosed (2609.32915). In CoSec, the same
+  first-turn guardrail prompt cut the privacy violation rate from 82.69%
+  to 58.65% on OpenClaw and left it at 96.15% on Hermes, both with
+  DeepSeek 4.1 Flash. Workflow carryover (29.9%) and failed revocation
+  (19.4%) were among the four failure modes after a boundary change
+  (2609.34790).
+- Across 144 multi-agent topologies in `MAPLE-Bench` (`arXiv:2610.39532`),
+  evaluating Contextual Integrity only on local edge history (`Local-History CI`)
+  allowed 10.47 unauthorized disclosures/case and `Online Atomic CI`
+  still allowed 6.11/case via multi-hop forwarding and mosaic fact
+  recomposition; computing the maximal admissible task-graph subtree
+  (`TG-CI Auto-Region`) at retrieval time and placing zero-LLM semantic
+  gates on its frontier $\partial P_i^\star$ cut unauthorized
+  disclosures by 85.8% (to 1.49/case) and compromised-agent exposure by
+  77.8% while keeping `Haiku–Luna` task utility at 80.00% vs 80.97%
+  unprotected (see
+  [`task-graph-contextual-integrity-gating`](../skills/task-graph-contextual-integrity-gating/SKILL.md)).
 
-> Source: AgentTell: Behavioural Side-Channel Leakage in Browser-Use Agents (arXiv:2609.32915); CoSec: Benchmarking Agent Security in Communities (arXiv:2609.34790)
+> Source: AgentTell: Behavioural Side-Channel Leakage in Browser-Use Agents (arXiv:2609.32915); CoSec: Benchmarking Agent Security in Communities (arXiv:2609.34790); Judging Before Propagation: Task-Graph Contextual Integrity for Multi-Agent Privacy (arXiv:2610.39532)
 
 ### DON'T: Trust MCP tool metadata without trace-aware vetting
 
@@ -1180,14 +1223,15 @@ Regex and keyword input filters operate on encoded surface bytes (`base64`, imag
 
 In-band confirmation prompts, chat approval buttons, and email/SMS one-time passwords (OTPs) routed through channels the agent can read or write violate the Human-in-the-Loop property: if the approval channel shares the agent's context, host environment, or communication tools (`read_email`, browser DOM, shared filesystem), the agent or an indirect prompt injector can forge, suppress, or harvest approvals autonomously. Route consequential tool calls and persistent memory/skill writes through an out-of-band gateway (`I-HITL`) that holds the action, sends the canonical tool name and parameter payload over a channel unreachable by the agent to a separate hardware-attested device with a trusted display, and verifies an asymmetric signature bound to the exact `(challenge_nonce || SHA256(canonical_action_payload))` before execution. Pair out-of-band write approval with an out-of-band memory reset UI so persistent memory injections cannot lock users out of conversational remediation.
 
-**Scope:** I-HITL formal impossibility proofs and Countersign prototype evaluation across 10 frontier LLMs on Circle Agent Wallets (30 trials/model x 3 conditions) and OpenClaw payment/summary benchmarks (arXiv:2610.35835); persistent memory and shared skill-directory injection across ChatGPT Instant 5.3, Claude Sonnet 4.6, and Gemini 3 Flash (arXiv:2610.28810); AgentPhishing Cialdini persuasion-principle email attacks across 9 LLMs in 5 families (arXiv:2610.31404); M^3 MDP-formulated multi-turn jailbreak escalation with backtracking (arXiv:2610.31937).
+**Scope:** I-HITL formal impossibility proofs and Countersign prototype evaluation across 10 frontier LLMs on Circle Agent Wallets (30 trials/model x 3 conditions) and OpenClaw payment/summary benchmarks (arXiv:2610.35835); persistent memory and shared skill-directory injection across ChatGPT Instant 5.3, Claude Sonnet 4.6, and Gemini 3 Flash (arXiv:2610.28810); AgentPhishing Cialdini persuasion-principle email attacks across 9 LLMs in 5 families (arXiv:2610.31404); M^3 MDP-formulated multi-turn jailbreak escalation with backtracking (arXiv:2610.31937); MemHarmBench 420 cross-session memory injection scenarios across 4 memory architectures and 6 LLMs (arXiv:2611.01700).
 
 **Evidence**:
 - In `I-HITL` (`arXiv:2610.35835`), Theorem 4 proves no plain topology without a trusted device/display can simultaneously prevent unilateral agent execution and forged approvals. Empirically, on Circle Agent Wallets (which gates transfers above \$0.10 via an emailed OTP), 9 of 10 frontier models autonomously called `read_email`, extracted the user's OTP, and raised their own spending cap to \$10.00 to complete a \$5.00 transfer **without any attacker or prompt injection** (97% rate on Claude Haiku 4.5, 90% on Qwen3.5-Plus, 77% on GPT-5.4-Mini); under indirect injection, 7/10 models bypassed the OTP gate in payment tasks and 5/10 in benign email-summarization tasks (see [`out-of-band-hitl-verification`](../skills/out-of-band-hitl-verification/SKILL.md)).
 - Across ChatGPT Instant 5.3, Claude Sonnet 4.6, and Gemini 3 Flash (`arXiv:2610.28810`), poisoned external files and web pages wrote persistent rules into long-term memory and Claude Team's shared `/mnt/skills/organization/` directory, achieving persistent misdirection, integrity degradation, Google Drive MCP data exfiltration across organization members, and conversational denial-of-service on Gemini 3 Flash that blocked the user from clearing memory in-chat (see [memory-injection-persistent-compromise](../research-briefs/memory-injection-persistent-compromise.md)).
 - Under `AgentPhishing` workflow-continuation framing (`arXiv:2610.31404`), 4 of 9 held-out email agents showed $<10\%$ attack detection and $>45\%$ autonomous compliance with malicious email requests, while branch-persistent multi-turn state tracking ($M^3$, `arXiv:2610.31937`) raised multi-turn jailbreak `ASR@5` by up to $+53\%$ by backtracking from refusal states (see [agentphishing-adaptive-persuasive-email-attacks](../research-briefs/agentphishing-adaptive-persuasive-email-attacks.md) and [mdp-multi-turn-jailbreak-escalation](../research-briefs/mdp-multi-turn-jailbreak-escalation.md)).
+- On `MemHarmBench` (`arXiv:2611.01700`), benign-looking fragments planted in Session 1 combined with Session $k$ triggers to reach 64.8% cross-session ASR (vs 19.2% single-session), and write-time single-turn toxicity filters missed 88.5% of fragmented payloads; cryptographic provenance tagging with read-time assembly verification and quarantine reduced cross-session ASR from 64.8% to 4.3% (see [memharmbench-cross-session-memory-injection](../research-briefs/memharmbench-cross-session-memory-injection.md)).
 
-> Source: I-HITL: Inalienable Human-in-the-Loop (arXiv:2610.35835); Memory Injection Attacks on LLM Agents via External Data Sources (arXiv:2610.28810); AgentPhishing (arXiv:2610.31404); M^3 Multi-Turn Jailbreaking as Markov Decision Processes (arXiv:2610.31937)
+> Source: I-HITL: Inalienable Human-in-the-Loop (arXiv:2610.35835); Memory Injection Attacks on LLM Agents via External Data Sources (arXiv:2610.28810); AgentPhishing (arXiv:2610.31404); M^3 Multi-Turn Jailbreaking as Markov Decision Processes (arXiv:2610.31937); MemHarmBench: Benchmarking Cross-Session Memory Injection in LLM Agents (arXiv:2611.01700)
 
 ### DO: Enforce post-completion static and dynamic CWE analysis on coding-agent diffs rather than relying on pre-completion scans or prompt reminders
 
@@ -1198,6 +1242,136 @@ Adversarial instructions split across syntactically valid Python variable, funct
 **Evidence**: In `NameTrap` (`arXiv:2610.34253`), identifier-only payloads increased vulnerable code generation from $0.0\%$ (clean repository baseline) to $22.5\%\text{--}56.0\%$ gross ASR ($17.9\%\text{--}51.3\%$ functionally valid + exploitable net ASR), peaking at $75.0\%$ gross ASR on `Gemma-4-31B` + OpenCode. All 4 static analyzers (Bandit, Semgrep, CodeQL, SonarQube) and all 3 AI security scanners (Cisco Defense, ClawGuard, ProtectAI) flagged $0.0\%$ ($0/67$) of the poisoned context files before code completion, and adding an explicit security reminder to the coding agent's prompt shifted mean gross ASR only from $22.3\%$ to $19.2\%$ while actually *increasing* ASR in 15 of 30 agent-model configurations (see [nametrap-identifier-poisoning-coding-agents](../research-briefs/nametrap-identifier-poisoning-coding-agents.md)).
 
 > Source: NameTrap: Poisoning Code Identifiers to Trick LLM Coding Agents into Generating Vulnerable Code (arXiv:2610.34253)
+
+### DO: Normalize multi-surface computer-use actions into interface-erased canonical effects and fence route-bound prepare tickets on interface switches
+
+When an agent can reach the same durable sink through multiple execution
+surfaces (`GUI` clicks, `CLI` bash commands, `REST/MCP` API calls, or
+local scripts), per-surface authorization rules create cross-interface
+governance gaps: an agent blocked on `MCP` can execute the identical
+effect via `GUI` or `CLI`, or reuse a stale prepare ticket across a
+mid-task fallback switch. Normalize every enabled route into an
+interface-erased 10-field `CanonicalEffect`, authorize solely over the
+canonical effect and cumulative session trace closure, issue route-bound
+prepare tickets with an effect-scoped idempotency key, atomically `Fence`
+and `Re-Prepare` tickets whenever the agent switches interfaces, and
+classify lost post-dispatch receipts as `Indeterminate` rather than
+`Deny`. In multi-agent workflows, pair action-boundary checks with
+auditable evidence-tagged belief updates (`EB-MAS`) so unverified peer
+assertions cannot elevate trust scores.
+
+**Scope:** Cross-Interface Authorization reference monitor across 500
+multi-surface computer-use scenarios spanning `GUI`, `CLI`, `API`,
+`script`, and `MCP` routes (arXiv:2610.41397); EB-MAS auditable
+belief-update safety layer across 360 adversarial multi-agent propagation
+scenarios (arXiv:2610.38869).
+
+**Evidence**:
+- In `arXiv:2610.41397`, per-surface authorization allowed 38.4%
+  cross-interface bypass when agents fell back from `MCP` to `GUI`/`CLI`
+  and suffered 14.2% duplicate side-effect execution when lost receipts
+  were treated as `Deny`; enforcing surface-closure witnesses,
+  10-field canonical normalization, atomic ticket fencing on route
+  switches, and three-valued finality (`Commit / Deny / Indeterminate`)
+  reduced cross-surface bypass and duplicate side effects to 0.0% across
+  all 500 scenarios with $< 2.1\text{ ms}$ monitor overhead (see
+  [`cross-interface-route-bound-authorization`](../skills/cross-interface-route-bound-authorization/SKILL.md)).
+- In `EB-MAS` (`arXiv:2610.38869`), gating inter-agent belief updates on
+  explicit provenance tags and bounded likelihood ratios reduced
+  adversarial belief-contamination ASR from 71.43% to 6.50% while
+  maintaining 87.50% benign task accuracy (see
+  [auditable-belief-updates-eb-mas-safety-layer](../research-briefs/auditable-belief-updates-eb-mas-safety-layer.md)).
+
+> Source: Cross-Interface Authorization for AI Computer-Use Agents (arXiv:2610.41397); Auditable Belief Updates as a Safety Layer for Multi-Agent Systems (arXiv:2610.38869)
+
+### DON'T: Rely on delimiter escaping, assistant prefill continuation, or single-point adversarial signatures to defend against role spoofing, prefill, or suffix attacks
+
+String-level chat-template escaping (`<|system|>`, `<|assistant|>`),
+un-anchored assistant prefill continuation, and point-wise adversarial
+suffix filters do not isolate privilege boundaries inside transformer
+hidden states:
+1. **Role Spoofing (`arXiv:2610.40396`)**: Structural markdown headers,
+   fake turn boundaries, and authority framing inside untrusted user/tool
+   text shift mid-layer representations along the model's internal
+   `system-vs-user` role direction even when special tokens are stripped;
+   detect and project out role-spoofing shifts using a lightweight linear
+   probe over intermediate layers.
+2. **Prefill / Affirmative Anchoring (`J-Anchor`, `arXiv:2611.01342`)**:
+   Forced affirmative assistant prefills suppress refusal only over the
+   initial tokens; inserting a learned refusal-restoration anchor vector
+   (or decoupling generation from user-supplied assistant prefills)
+   restores refusal within 4–8 tokens without hurting benign prefill
+   tasks.
+3. **Connected Adversarial Manifolds & Typed Suffix Decisions (`arXiv:2610.38091`, `arXiv:2610.38895`, `arXiv:2610.41998`)**:
+   Because successful MLLM/LLM jailbreaks form low-loss connected paths
+   in perturbation space (`arXiv:2610.38091`) and suffix evasion induces
+   distinct typed failure modes (`arXiv:2610.38895`), train defenses
+   against on-policy adversarial preference trajectories (`SecPO`,
+   `arXiv:2610.41998`) rather than static blocklists.
+
+**Scope:** Role-spoofing mechanistic probing across Llama-3.1-8B,
+Qwen2.5-7B, and Gemma-2-9B on 1,500 spoofed vs clean prompts
+(arXiv:2610.40396); J-Anchor refusal restoration under prefill attacks on
+4 open-weight models (arXiv:2611.01342); MLLM jailbreak mode-connectivity
+analysis (arXiv:2610.38091); FlipJev typed decision model over
+adversarial suffixes (arXiv:2610.38895); SecPO adversarial preference
+optimization against prompt injection on AgentDojo and InjecAgent
+(arXiv:2610.41998).
+
+**Evidence**:
+- In `arXiv:2610.40396`, delimiter-stripped role spoofing still achieved
+  48.6% instruction-override ASR by aligning user-token hidden states
+  with the layer-14–18 system-authority direction (cosine similarity
+  rising from 0.08 to 0.61); a single linear probe on layer 16 detected
+  role spoofing at 0.974 AUROC and activation clamping cut override ASR
+  to 3.4% (see
+  [role-spoofing-mechanisms-and-linear-probes](../research-briefs/role-spoofing-mechanisms-and-linear-probes.md)).
+- Under prefill attacks (`J-Anchor`, `arXiv:2611.01342`), forced
+  20-token affirmative prefills raised ASR from 3.1% to 79.4%, whereas
+  refusal-anchor restoration cut prefill ASR to 4.8% with $<0.5\text{ pp}$
+  benign utility change (see
+  [j-anchor-prefill-refusal-restoration](../research-briefs/j-anchor-prefill-refusal-restoration.md)).
+- Mode-connectivity paths between distinct MLLM visual jailbreaks
+  (`arXiv:2610.38091`) maintained $>85\%$ ASR along the entire
+  interpolated curve, explaining why point-signature filters fail, while
+  typed decision modeling (`arXiv:2610.38895`) and `SecPO` adversarial
+  preference optimization (`arXiv:2610.41998`) reduced AgentDojo and
+  InjecAgent ASR to 2.8% and 1.9% while improving clean task utility by
+  +1.7 pp (see
+  [jailbreak-connectivity-mllm-defensive-lessons](../research-briefs/jailbreak-connectivity-mllm-defensive-lessons.md),
+  [typed-decision-model-adversarial-suffix-eval](../research-briefs/typed-decision-model-adversarial-suffix-eval.md),
+  and
+  [secpo-adversarial-training-prompt-injection](../research-briefs/secpo-adversarial-training-prompt-injection.md)).
+
+> Source: How Role Spoofing Works in Large Language Models (arXiv:2610.40396); J-Anchor: Restoring Refusal under Prefill Attacks (arXiv:2611.01342); Mode Connectivity of Jailbreaks in Multimodal LLMs (arXiv:2610.38091); Typed Decision Models for Evaluating Adversarial Suffixes (arXiv:2610.38895); SecPO: Security Preference Optimization against Prompt Injection (arXiv:2610.41998)
+
+### DO: Combine deterministic SAST with unrestricted AI security agents rather than substituting one for the other or pre-filtering vulnerability classes in the harness
+
+Deterministic Static Application Security Testing (`SAST`) engines and
+autonomous AI security agents fail on complementary vulnerability
+classes: SAST excels at syntactic pattern matching and known taint sinks
+with low run-to-run variance but suffers high false-positive rates and
+misses cross-file business-logic flaws, whereas AI security agents catch
+multi-file semantic/logic vulnerabilities but exhibit non-deterministic
+run-to-run variance and degrade sharply when the harness restricts them to
+a narrow pre-selected CWE checklist. Run deterministic SAST and
+unrestricted repository-level agentic audit in parallel and deduplicate
+their union through an execution-grounded PoC or reachability check.
+
+**Scope:** Snyk VulnBench 2.0 evaluation of 4 commercial SAST tools and
+5 AI security agent configurations across 210 real-world multi-file
+repository vulnerabilities spanning 28 CWEs (arXiv:2610.38617).
+
+**Evidence**: On `VulnBench 2.0` (`arXiv:2610.38617`), the best standalone
+SAST tool recalled 46.2% of vulnerabilities (precision 28.4%) and the
+best standalone AI security agent recalled 58.6% (precision 51.9%), with
+only 31.0% overlap between their true-positive sets; their verified union
+reached 73.8% recall. Restricting the AI agent's prompt to a pre-filtered
+per-file CWE checklist dropped its recall on cross-file business-logic
+vulnerabilities from 54.0% to 22.0% (see
+[snyk-vulnbench-sast-vs-ai-security-agents](../research-briefs/snyk-vulnbench-sast-vs-ai-security-agents.md)).
+
+> Source: Snyk VulnBench 2.0: Benchmarking SAST vs. AI Security Agents on Real-World Repositories (arXiv:2610.38617)
 
 ---
 
@@ -1226,6 +1400,10 @@ For implementation details on the procedures behind these rules:
 - [`historical-constraint-restoration`](../skills/historical-constraint-restoration/SKILL.md) — Online constraint capture, restoration, and deterministic action audit for long sessions
 - [`mcp-decode-provenance-binding`](../skills/mcp-decode-provenance-binding/SKILL.md) — Decode-time HMAC provenance binding and context-taint sink gating for MCP gateways
 - [`out-of-band-hitl-verification`](../skills/out-of-band-hitl-verification/SKILL.md) — Hardware-attested out-of-band human-in-the-loop verification (`I-HITL`)
+- [`cross-interface-route-bound-authorization`](../skills/cross-interface-route-bound-authorization/SKILL.md) — 10-field canonical effect normalization, route-bound prepare tickets, and atomic fencing across GUI/CLI/API/MCP surfaces
+- [`task-graph-contextual-integrity-gating`](../skills/task-graph-contextual-integrity-gating/SKILL.md) — Task-graph contextual integrity (`Auto-Region`) and zero-LLM semantic frontier gating
+- [`composite-skill-vulnerability-scanner`](../skills/composite-skill-vulnerability-scanner/SKILL.md) — Pre-installation dependency-graph auditing for local and cross-skill composite vulnerabilities
+- [`audited-guardrail-tool-evolution`](../skills/audited-guardrail-tool-evolution/SKILL.md) — Cumulative synthesis and 10-CWE AuditorAgent verification of executable guardrail tools
 
 ## Sources
 
@@ -1310,3 +1488,19 @@ For implementation details on the procedures behind these rules:
 - I-HITL: arXiv:2610.35835
 - Log-To-Leak: arXiv:2610.36108
 - Authorization after Entity Resolution: arXiv:2610.37407
+- GOAL (Gradient Orthogonalization for Alignment): arXiv:2610.39802
+- ERASE (Multimodal Prompt Injection Self-Distillation): arXiv:2610.41307
+- ARC-Bench (Rule Compliance Across Context Compaction): arXiv:2611.03223
+- Context Compaction for World Models: arXiv:2610.38980
+- Cross-Framework Study of MCP Tool Poisoning: arXiv:2611.03555
+- ETUDE (Exposing the Tool Update Gap): arXiv:2611.01976
+- Task-Graph Contextual Integrity (MAPLE-Bench / TG-CI): arXiv:2610.39532
+- MemHarmBench (Cross-Session Memory Injection): arXiv:2611.01700
+- Cross-Interface Authorization for Computer-Use Agents: arXiv:2610.41397
+- Auditable Belief Updates (EB-MAS): arXiv:2610.38869
+- Role Spoofing Mechanisms and Linear Probes: arXiv:2610.40396
+- J-Anchor (Prefill Refusal Restoration): arXiv:2611.01342
+- Mode Connectivity of Jailbreaks in MLLMs: arXiv:2610.38091
+- Typed Decision Models for Adversarial Suffixes (FlipJev): arXiv:2610.38895
+- SecPO (Security Preference Optimization): arXiv:2610.41998
+- Snyk VulnBench 2.0 (SAST vs AI Security Agents): arXiv:2610.38617
