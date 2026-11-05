@@ -904,6 +904,30 @@ Tension with "Dynamically calibrate consensus entropy and weight peer influence 
 
 > Source: Disparity Laundering in Clinical Multi-Agent Systems (arXiv:2610.38215)
 
+### DO: Decouple multi-agent resilience into sidecar proxies with consumer-conditioned reflection and role-based failover
+
+Do not embed retry logic, peer discovery, and output-format repair inside each specialist agent's reasoning prompt. In long multi-agent DAGs, an upstream agent's output can be syntactically valid yet unusable by its specific downstream consumer (`semantic mismatch`), and mid-task node crashes stall the entire pipeline if recovery requires orchestrator replanning. Deploy a service-mesh architecture (`MA-Mesh`) that attaches a lightweight **sidecar proxy** to every agent node:
+1. **Consumer-Conditioned Pre-Forward Gate**: Before forwarding an upstream output $y_u$ to downstream consumer $v$, the proxy checks $y_u$ against $v$'s declared input contract and triggers a localized **consumer-conditioned reflection** loop when fields or invariants required by $v$ are missing.
+2. **Role-Based Hot Failover**: Maintain a registry of role-equivalent standby agents and checkpoint intermediate handoff payloads in the mesh control plane so node timeouts or repetitive reflection failures trigger transparent role-level failover without restarting the upstream DAG. Procedure: [`service-mesh-agent-self-healing`](../skills/service-mesh-agent-self-healing/SKILL.md).
+
+**Scope:** MA-Mesh service-mesh control plane across 4 multi-agent benchmarks (coding, financial analysis, tool workflows, multi-hop QA) under injected node faults, schema drift, and semantic handoff mismatches (arXiv:2611.06389).
+
+**Evidence**: Across fault-injected multi-agent workflows (`arXiv:2611.06389`), `MA-Mesh` sidecar proxies with consumer-conditioned reflection and role-based failover improved end-to-end task completion by +19.4 pp over standard orchestrator retry baselines and reduced recovery token overhead by 58.2%, recovering 91.7% of semantic handoff mismatches within a single localized reflection turn without restarting upstream nodes.
+
+> Source: MA-Mesh: Resilient Multi-Agent Collaboration via Role-based Self-Healing (arXiv:2611.06389)
+
+### DO: Trigger mid-trace retrieval and specialist recruitment via an external non-answering Challenger with isolated channels
+
+When a multi-agent team tackles knowledge-intensive or clinical reasoning tasks, upfront static specialist recruitment misses emergent knowledge gaps that only appear mid-reasoning, while allowing specialist agents to critique each other on a shared scratchpad induces conformity cascades and premature answer lock-in. Supervise reasoning with an external **non-answering Challenger meta-agent** that monitors intermediate reasoning traces for unverified leaps, differential omissions, or contradiction signals:
+1. **Challenge-Triggered Recruitment**: Only when the Challenger flags a specific epistemic gap does the harness formulate a targeted retrieval query or recruit a narrow domain specialist to address that exact gap.
+2. **Channel Isolation**: The Challenger is structurally prohibited from proposing a final answer or voting, and recruited specialists return scoped evidence capsules over isolated point-to-point channels rather than reading the peer group's tentative conclusion. Procedure: [`challenge-aware-knowledge-recruitment`](../skills/challenge-aware-knowledge-recruitment/SKILL.md).
+
+**Scope:** Challenge-Aware Knowledge Recruitment across 5 medical and scientific multi-agent reasoning benchmarks (MedQA, MedMCQA, PubMedQA, MMLU-Medical, ClinicalBench) on Qwen2.5 and GPT-4o backbones (arXiv:2611.05393).
+
+**Evidence**: In `arXiv:2611.05393`, supervising multi-agent reasoning with an external non-answering Challenger and challenge-triggered specialist recruitment improved diagnostic accuracy by +6.8 pp over static specialist panels and +5.1 pp over free-form multi-agent debate while reducing specialist token consumption by 41.3%. Allowing the Challenger to suggest candidate answers or exposing tentative group consensus to recruited specialists degraded accuracy by 3.4 pp due to confirmation bias.
+
+> Source: Challenge-Aware Knowledge Recruitment with Meta-Agent Supervision for Medical Multi-Agent Reasoning (arXiv:2611.05393)
+
 ---
 
 ## Related Skills
@@ -918,6 +942,8 @@ For implementation details on the procedures behind these rules:
 - [`coordinator-executor-prompt-optimization`](../skills/coordinator-executor-prompt-optimization/SKILL.md) — Decoupled coordinator-first prompt optimization for multi-agent teams
 - [`proof-carrying-agent-messages`](../skills/proof-carrying-agent-messages/SKILL.md) — Cryptographic Merkle log receipts and three-valued claim checking for inter-agent handoffs
 - [`task-graph-contextual-integrity-gating`](../skills/task-graph-contextual-integrity-gating/SKILL.md) — Task-graph contextual integrity (`Auto-Region`) and zero-LLM semantic frontier gating
+- [`service-mesh-agent-self-healing`](../skills/service-mesh-agent-self-healing/SKILL.md) — Sidecar proxy mesh with consumer-conditioned reflection and role-based hot failover (`MA-Mesh`)
+- [`challenge-aware-knowledge-recruitment`](../skills/challenge-aware-knowledge-recruitment/SKILL.md) — External non-answering Challenger supervision with mid-trace retrieval and isolated specialist recruitment
 
 ## Sources
 
@@ -963,4 +989,7 @@ For implementation details on the procedures behind these rules:
 - PoPLi (Partner-Outsider Positive Listening): arXiv:2610.37849
 - PCM (Proof-Carrying Message Protocol): arXiv:2610.39109
 - ParallACT (Decentralized Multi-Agent Coding): arXiv:2611.00314
+- Disparity Laundering in Clinical Multi-Agent Systems: arXiv:2610.38215
+- MA-Mesh (Role-Based Self-Healing Multi-Agent Mesh): arXiv:2611.06389
+- Challenge-Aware Knowledge Recruitment: arXiv:2611.05393
 - Disparity Laundering in Clinical MAS: arXiv:2610.38215

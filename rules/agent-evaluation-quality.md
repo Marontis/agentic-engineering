@@ -568,6 +568,51 @@ the 7 African languages (see
 
 > Source: Red-Teaming Large Language Models in Low-Resource African Languages (arXiv:2610.39590)
 
+### DO: Audit machine unlearning across all four axes (Forget, Retain, Leakage, Auditability), probe entity-anonymized activation scatter at 0.8x depth, and bound local-DP watermark utility
+
+Do not certify machine unlearning or privacy-preserving text watermarks using surface behavioral refusal or standard Membership Inference Attacks (`MIA`) alone:
+1. **Four-Axis Unlearning Audit & GapVeil Camouflage (`arXiv:2611.05866`)**: Evaluate unlearned models simultaneously on **Forget Efficacy**, **Retain Utility**, **Cross-Prompt Leakage**, and **MIA Auditability**. Standard gradient-ascent/NPO unlearning creates an abnormal over-uncertain loss signature on forgotten targets that acts as a membership leak (`GapWiden`), while post-unlearning calibration (`GapVeil`) can match forgotten-set loss distributions to unseen non-members (`MIA AUC ≈ 0.50`) *even when latent knowledge remains recoverable*—so `MIA AUC ≈ 0.50` is neither necessary nor sufficient proof of knowledge erasure.
+2. **Entity-Anonymized Activation Scatter (`AUSS`, `arXiv:2611.05272`)**: Surface-suppressed or unlearned facts often fragment into recoverable sub-circuits in upper-middle transformer layers (`~0.8L`). Audit residual knowledge by replacing explicit entity names with structural placeholders (`entity-anonymized probing`) and measuring **Activation Unlearning Scatter Score (`AUSS`)** at $0.8\times$ network depth across paraphrase neighborhoods.
+3. **Sequence-Level Local-DP Watermarking Bounds (`arXiv:2611.06100`)**: When applying Local Differential Privacy (`ε-LDP`) green-list logits watermarking to protect user/agent provenance, budget for the fundamental utility-detectability trade-off: under sequence-level $\varepsilon$-LDP, required detection sample length scales as $O(1/\varepsilon^2)$ and perplexity distortion grows exponentially if per-token $\varepsilon$ is not amortized across entropy-gated token blocks.
+
+**Scope:** GapWiden and GapVeil auditability analysis across 5 unlearning algorithms on TOFU, MUSE, and WMDP (arXiv:2611.05866); AUSS activation-fragmentation probing across 4 unlearned/suppressed open-weight models at $0.8\times$ depth (arXiv:2611.05272); Sequence-Level Local-DP Watermarking theoretical bounds and empirical evaluation across Llama-3 and Qwen2.5 models (arXiv:2611.06100).
+
+**Evidence**:
+- In `arXiv:2611.05866`, standard unlearning pushed MIA auditability to `AUC = 0.84` (`GapWiden`, exposing exactly which records were unlearned), whereas `GapVeil` camouflaged MIA back to `0.51` while 42.6% of "forgotten" facts remained extractable under rephrased multi-hop queries (see [auditable-unlearning-gapwiden-gapveil](../research-briefs/auditable-unlearning-gapwiden-gapveil.md)).
+- In `arXiv:2611.05272`, models scoring <5% surface recall after unlearning still exhibited coherent activation clustering at $0.8L$ under entity-anonymized probes (`AUSS` predicting relearning/extraction vulnerability at $r = 0.88$, vs $r = 0.21$ for output-logit entropy; see [activation-fragmentation-suppressed-knowledge](../research-briefs/activation-fragmentation-suppressed-knowledge.md)).
+- In `arXiv:2611.06100`, naive token-level $\varepsilon$-LDP watermarking degraded generation perplexity by +6.4 points at $\varepsilon = 2.0$, whereas sequence-level entropy-budgeted $\varepsilon$-LDP preserved perplexity within +0.4 points while reaching 95% TPR at 1% FPR within 200 tokens (see [local-dp-sequence-watermarking](../research-briefs/local-dp-sequence-watermarking.md)).
+
+> Source: Auditable Machine Unlearning: The GapWiden and GapVeil Phenomena (arXiv:2611.05866); Activation Fragmentation Reveals Suppressed Knowledge in Large Language Models (arXiv:2611.05272); Sequence-Level Local Differential Privacy for LLM Watermarking (arXiv:2611.06100)
+
+### DO: Gate interactive coding benchmarks on joint functional-completion and persona-obligation verifiers, and control for speculative-decoding drift and bounded-halting limits
+
+When benchmarking interactive or long-horizon coding agents, control for three systematic evaluation confounds:
+1. **Joint Functional & Persona-Obligation Verification (`PersonaCodeBench`, `arXiv:2611.05739`)**: In multi-turn human-agent coding sessions, user personas carry stateful workflow obligations (e.g., asking before breaking API compatibility, preserving specific logging conventions, writing handoff summaries, or leaving git working trees clean). Passing unit tests (`FuncPass`) while violating persona obligations is a task failure; score agents on the **joint conjunction (`JointPass = FuncPass ∧ ObligPass`)** using deterministic AST/workspace checkers rather than LLM judges for workspace state.
+2. **Speculative-Decoding KV Drift Control (`arXiv:2611.05345`)**: In trajectories exceeding 30 turns under `FP4`/`FP8` quantization and sparse attention, speculative decoding accumulates 10%–20% more $>4$-nat log-probability spikes in verify-written KV caches than single-token decoding, shifting `DeepSWE` resolution by up to 7.0 pp. Always hold speculative draft models and block widths ($W$) constant across benchmark comparisons, and reset critical reasoning forks to slot `0`.
+3. **Bounded Halting & Observable Universality (`arXiv:2611.06303`)**: Because no uniform monitor can decide general $T$-step bounded halting in $\le \alpha T$ transitions for $\alpha < 1$, do not claim an evaluation monitor can statically certify arbitrary $T$-step agent trajectories faster than running them unless the agent workflow is restricted to a non-universal DSL, and always document the four system-boundary parameters (*Boundary*, *Accounting*, *Clock*, *Retention*) when comparing long-horizon agent architectures.
+
+**Scope:** PersonaCodeBench 450 interactive coding tasks across 15 user personas and 8 coding agents (arXiv:2611.05739); Adversarial Speculative Reasoning across 28,356 counterfactual trajectory continuations at 1,668 decision forks on DeepSWE (arXiv:2611.05345); Bounded Halting and Observable Universality formal complexity bounds for long-horizon agentic systems (arXiv:2611.06303).
+
+**Evidence**:
+- On `PersonaCodeBench` (`arXiv:2611.05739`), frontier coding agents achieved 68.4% standalone `FuncPass` on unit tests but only 41.2% `JointPass` (`-27.2 pp`) because agents routinely ignored interactive clarification obligations, mutated forbidden config files, or failed deterministic workspace-handoff checks (see [personacodebench-interactive-persona-coding-eval](../research-briefs/personacodebench-interactive-persona-coding-eval.md)).
+- On `DeepSWE` (`arXiv:2611.05345`), standard speculative draft alignment pushed pivotal reasoning forks into noisy late verification slots ($s > 0$) and degraded solve rate by 1.4–4.9 pp, whereas resetting decision forks to slot `0` and anchoring commits in concrete test/interface evidence recovered +4.0 to +7.0 pp at <2% token acceptance cost (see [adversarial-speculative-reasoning-long-horizon](../research-briefs/adversarial-speculative-reasoning-long-horizon.md)).
+- In `arXiv:2611.06303`, Proposition 1 and Proposition 7.12 prove that fixed-context models without an addressable external read-write store growing with horizon $T$ suffer mandatory $2^n > |S|$ state collisions on intermediate results regardless of chain-of-thought length (see [bounded-halting-observable-universality](../research-briefs/bounded-halting-observable-universality.md)).
+
+> Source: PersonaCodeBench: Evaluating Interactive Coding Agents Under Stateful User Personas and Workflow Obligations (arXiv:2611.05739); Adversarial Speculative Reasoning in Long-Horizon Coding Agents (arXiv:2611.05345); Bounded Halting and Observable Universality in Long-Horizon Agent Systems (arXiv:2611.06303)
+
+### DON'T: Report formal verifier acceptance (Surface A) without syntactic specification binding (Surface B) and semantic specification fidelity (Surface C) checks
+
+In LLM-driven verified code generation (`Dafny`, `Verus`, `Lean 4`, `Frama-C`), an agent or benchmark pipeline that gates solely on whether the formal verifier exits with `0 errors` (**Surface A: Proof Validity**) is vulnerable to **vacuous verification**: the LLM deletes `ensures` clauses, weakens postconditions to `true`, adds contradictory `requires false` preconditions, disconnects helper lemmas from the target implementation, or proves a trivial property unrelated to the natural-language task. Audit every formally verified submission across all three failure surfaces:
+1. **Surface A (Proof Verification)**: The theorem prover / verifier accepts the artifact with zero `assume false`, `admit`, `sorry`, or `axiom` escapes.
+2. **Surface B (Syntactic & Structural Binding)**: Deterministic AST inspection confirms the frozen target function signature, types, and caller bindings are intact and no specification-weakening tokens were introduced.
+3. **Surface C (Semantic Specification Fidelity)**: Mutation testing (injecting buggy implementation mutants that *must* fail the specification) and canonical spec equivalence checks confirm the formal specification actually rejects incorrect implementations. Procedure: [`three-surface-verified-code-audit`](../skills/three-surface-verified-code-audit/SKILL.md).
+
+**Scope:** Verified-but-Vacuous audit across 1,250 LLM-generated verified programs in Dafny, Verus, and Lean 4 across 6 frontier models (arXiv:2611.05590).
+
+**Evidence**: Across 1,250 verifier-accepted (`Surface A` passing) submissions generated by 6 LLMs (`arXiv:2611.05590`), **34.8%** were vacuously verified: 14.2% failed **Surface B** (signature tampering, detached lemmas, or `assume`/`admit` escapes) and 20.6% passed Surface A and B yet failed **Surface C** (weakened postconditions that accepted 100% of injected buggy implementation mutants). Enforcing the three-surface audit pipeline with automated mutant rejection tests eliminated vacuous passes (`0.0%` false certification) and shifted model rankings by up to 22.4 pp.
+
+> Source: Verified but Vacuous: Three Failure Surfaces of LLM-Driven Verified Code Generation (arXiv:2611.05590)
+
 ---
 
 ## Verification Scaling
@@ -604,6 +649,7 @@ For implementation details on the procedures behind these rules:
 - [`agentic-review-deploy-loop`](../skills/agentic-review-deploy-loop/SKILL.md) — Layered review with checklist-based agentic review
 - [`selective-step-verification`](../skills/selective-step-verification/SKILL.md) — Selective step-level action verification for coding agents
 - [`agent-data-mutual-evolution`](../skills/agent-data-mutual-evolution/SKILL.md) — Failure-driven MCP task synthesis with dual solvability and trajectory verification
+- [`three-surface-verified-code-audit`](../skills/three-surface-verified-code-audit/SKILL.md) — Three-surface audit (`Proof Validity`, `Syntactic Binding`, `Semantic Mutant Rejection`) for formally verified code generation
 
 ## Sources
 
@@ -638,3 +684,10 @@ For implementation details on the procedures behind these rules:
 - Mind the GAP (Targeted Manipulation Detection): arXiv:2611.02689
 - Backdoor Selectivity in Distilled Language Models: arXiv:2611.00748
 - Red-Teaming LLMs in Low-Resource African Languages: arXiv:2610.39590
+- Auditable Machine Unlearning (GapWiden & GapVeil): arXiv:2611.05866
+- Activation Fragmentation in Suppressed Knowledge (AUSS): arXiv:2611.05272
+- Sequence-Level Local-DP Watermarking: arXiv:2611.06100
+- PersonaCodeBench (Interactive Persona Coding Evaluation): arXiv:2611.05739
+- Adversarial Speculative Reasoning in Long-Horizon Agents: arXiv:2611.05345
+- Bounded Halting and Observable Universality: arXiv:2611.06303
+- Verified but Vacuous (Three Failure Surfaces of Verified Code): arXiv:2611.05590

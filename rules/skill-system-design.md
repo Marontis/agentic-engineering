@@ -292,7 +292,9 @@ qwen3t/glm/gpt-oss backends; attackers with repeated detector access;
 cross-skill composite vulnerabilities (`Scan Before You Install`,
 arXiv:2610.37901); 270 forbidden prompts across 9 harm categories and 7
 open-weight models under poisoned Markdown skill files (`Poisoned Skills`,
-arXiv:2610.37738).
+arXiv:2610.37738); LatentTriad pre-action hidden-state probing across
+13,704 prompts (4,968 benign, 4,968 stealth skill-injected, 3,768 overt
+malicious) on `Qwen3.5-27B` and `Llama-3.1-8B-Instruct` (arXiv:2611.05088).
 
 **Evidence**:
 - Iteratively revised skills reached 45.28% average attack success with
@@ -321,10 +323,19 @@ arXiv:2610.37738).
   (`U+200C`) and phonetic IPA + `snake_case` obfuscations sustaining
   43.4% and 30.1% mean ASR (see
   [poisoned-skills-markdown-jailbreak-propagation](../research-briefs/poisoned-skills-markdown-jailbreak-propagation.md)).
+- In `LatentTriad` (`arXiv:2611.05088`), stealth skill injections that
+  instructed the agent to hide malicious commands behind benign text
+  bypassed output-level safety monitors in 65.4% (`Qwen3.5-27B`) and
+  63.4% (`Llama-3.1-8B`) of cases (`Execution-Without-Disclosure`), yet a
+  pre-action linear probe at the final pre-generation token (`t_pre`) at
+  layer $0.5L$ separated Benign, Stealth-Skill-Injected, and Overt
+  Malicious states with 99.6% macro-AUC (`97.9%` TPR at `1%` FPR on
+  stealth injections) before any tool call executed (see
+  [latenttriad-pre-action-skill-risk-representations](../research-briefs/latenttriad-pre-action-skill-risk-representations.md)).
 
 See also "Validate skill provenance before adding to library" (skill-system-design.md) and "Assume stacked defense layers fail independently" (agent-sandbox-safety.md).
 
-> Source: SkillDRE: Dual-Stage Red-Team Evolution of Agent Skills via Pre-Execution and Runtime Feedback (arXiv:2609.32400); Pretext: Defeating Malicious Skill Detection Frameworks for AI Agents (arXiv:2609.39607); Scan Before You Install: Detecting and Mitigating Local and Composite Vulnerabilities in Skills (arXiv:2610.37901); Poisoned Skills: Markdown Skill Files as a Persistent Jailbreak Vector (arXiv:2610.37738)
+> Source: SkillDRE: Dual-Stage Red-Team Evolution of Agent Skills via Pre-Execution and Runtime Feedback (arXiv:2609.32400); Pretext: Defeating Malicious Skill Detection Frameworks for AI Agents (arXiv:2609.39607); Scan Before You Install: Detecting and Mitigating Local and Composite Vulnerabilities in Skills (arXiv:2610.37901); Poisoned Skills: Markdown Skill Files as a Persistent Jailbreak Vector (arXiv:2610.37738); LatentTriad: Pre-Action Latent Risk Representations for Stealth Skill Injection (arXiv:2611.05088)
 
 ---
 
@@ -454,7 +465,9 @@ changed lines and 6,000 added characters; RRSI: agentic-workspace,
 coding and design benchmarks); 2609.08175 is theoretical with one
 DS-1000 illustration; $\text{Skill}^\infty$ across 83 SkillsBench tasks
 (arXiv:2610.35434); RSIV-Harness across 640 ODAC-Vis conversational
-visualization tasks (arXiv:2610.35316).
+visualization tasks (arXiv:2610.35316); Meta$^2$ offline contrastive
+meta-skill precomputation + bounded online harness evolution on ScienceWorld,
+ALFWorld, and BabyAI (arXiv:2611.05139).
 
 In $\text{Skill}^\infty$ (arXiv:2610.35434), the seed meta-skill $m_0$
 selected tied newer candidates 83% of the time without progress on the
@@ -471,6 +484,12 @@ Executability by +28.02 points (64.98% to 93.00%) and Chart Structure by
 stability rules dropped all 6 metrics, including −9.73 points on
 Executability and −9.53 points on Chart Structure (see
 [rsiv-harness-conversational-visualization](../research-briefs/rsiv-harness-conversational-visualization.md)).
+In $\text{Meta}^2$ (arXiv:2611.05139), precomputing reusable domain priors
+and workflow meta-skills offline via contrastive trajectory synthesis and
+restricting online test-time evolution to bounded skill-conditioned harness
+patches raised long-horizon task success by +11.4 pp over online-only
+reflection while cutting online adaptation rollouts by 62.5% (see
+[`contrastive-meta-skill-harness-evolution`](../skills/contrastive-meta-skill-harness-evolution/SKILL.md)).
 
 Tension with "DO: Make the improvement mechanism part of the agent's
 editable source" (recursive-improvement.md): resolved by scope — the
@@ -481,7 +500,7 @@ tests and permissions stay outside.
 > Source: RobustSGPO (arXiv:2609.09646); RRSI (arXiv:2609.24972);
 > A Theory of Reliable Self-Evolution for Agent Harnesses (arXiv:2609.08175);
 > Skill$^{\infty}$: Recursive Self-Improvement for Agent Skill Optimization (arXiv:2610.35434);
-> RSIV-Harness (arXiv:2610.35316)
+> RSIV-Harness (arXiv:2610.35316); Meta$^2$: Precomputing Reusable Knowledge for Online Harness Evolution in Long-Horizon Agents (arXiv:2611.05139)
 
 ---
 
@@ -671,6 +690,30 @@ dropped accuracy by $-2.4\text{ pp}$ (see
 
 > Source: SkillMem: Compact External Skill Memory for Latent Multi-Agent Systems (arXiv:2610.37935)
 
+### DO: Induce tool dependency graphs via counterfactual sandbox execution and cap retrieval propagation at one hop with top-2 providers per input
+
+When organizing large executable tool libraries (`100–1,000+` tools), do not rely on static LLM description matching or unconstrained multi-hop graph traversal to discover prerequisite producer tools (` tool A`'s output feeds `tool B`'s required parameter). Induce the **Tool Dependency Graph (TDG)** programmatically (`LIBRA`):
+1. **Counterfactual Execution Verification**: After candidate schema alignment between producer outputs and consumer inputs, run a counterfactual sandbox check — execute the consumer tool with vs without the producer's concrete output (or with a type-matched dummy value) and retain the dependency edge only if real execution succeeds and the dummy/omitted call fails.
+2. **Bounded 1-Hop, Top-2 Retrieval Propagation**: At query time, retrieve initial seed tools by query similarity and expand prerequisite providers by **at most 1 hop**, retaining at most the **top-2 highest-scoring provider tools per required input parameter**. Expanding beyond 1 hop or injecting unconstrained neighbors degrades tool-calling accuracy via distractor bloat. Procedure: [`counterfactual-tool-dependency-induction`](../skills/counterfactual-tool-dependency-induction/SKILL.md).
+
+**Scope:** LIBRA programmatic tool library induction and dependency-aware retrieval across ToolBench, RestBench, and StableToolBench (`1,600+` APIs) on Qwen2.5 and GPT-4o agents (arXiv:2611.05445).
+
+**Evidence**: In `LIBRA` (`arXiv:2611.05445`), pruning schema-inferred dependency edges via counterfactual sandbox execution removed 38.6% false-positive edges and lifted prerequisite tool recall@5 from 68.2% (dense embedding retrieval) to 89.4%. Bounding graph expansion to 1 hop and top-2 providers per input improved end-to-end multi-tool pass rate by +9.8 pp over flat top-$k$ retrieval, whereas 2-hop unconstrained expansion increased context tokens by $2.7\times$ and dropped pass rate by $-4.3\text{ pp}$.
+
+> Source: LIBRA: Programmatic Induction of Executable Tool Libraries (arXiv:2611.05445)
+
+### DO: Project host-verified substrate state telemetry into operational tool selection rather than using static schemas or neutral placeholders
+
+Tool-using agents routinely fail when environment substrate conditions change mid-session (e.g., quota exhaustion, rate-limit backoff windows, degraded endpoint latency, read-only filesystem mounts, or expired auth scopes) because static tool schemas never reflect live operational health. Do not rely on the agent to infer substrate health from failed tool calls, and do not inject unverified or neutral placeholder telemetry (`status: unknown` / `quota: N/A`), which systematically induces over-cautious abstention or unnecessary fallback thrashing:
+1. **Host-Verified Substrate State Telemetry (`SST`)**: Have the harness probe and attach a compact, deterministic `SST` block (`availability`, `remaining_quota`, `p95_latency_ms`, `auth_scope_state`, `recommended_route`) verified by the host runtime prior to action selection.
+2. **Operational Control Policy**: Train or prompt the router to switch from degraded primary tools to verified fallback tools or batching strategies only when host-verified `SST` crosses explicit operational thresholds, omitting telemetry fields entirely when no verified probe exists. Procedure: [`verified-telemetry-tool-routing`](../skills/verified-telemetry-tool-routing/SKILL.md).
+
+**Scope:** Agent Harness Awareness / Substrate State Telemetry (`SST`) across 1,800 tool-routing episodes under quota, latency, and permission perturbations across 5 LLMs (arXiv:2611.05391).
+
+**Evidence**: In `arXiv:2611.05391`, injecting host-verified `SST` into the harness raised operational tool-routing accuracy under degraded substrate conditions from 51.4% (static schema baseline) to 88.7% and cut wasted failed tool invocations by 73.6%. Conversely, injecting neutral placeholder telemetry when substrate probes were unavailable dropped benign primary-tool utilization by 19.2 pp compared to omitting the unverified fields.
+
+> Source: Agent Harness Awareness: Turning Verified Telemetry into Operational Control for Tool-Using Agents (arXiv:2611.05391)
+
 ---
 
 ## Related Skills
@@ -700,6 +743,9 @@ For implementation details on the procedures behind these rules:
 - [`capability-matched-skill-adaptation`](../skills/capability-matched-skill-adaptation/SKILL.md) — Adapting skill text across executor capability bottlenecks
 - [`decoupled-interface-action-repair`](../skills/decoupled-interface-action-repair/SKILL.md) — Decoupled semantic commitment and interface-specific realization repair
 - [`composite-skill-vulnerability-scanner`](../skills/composite-skill-vulnerability-scanner/SKILL.md) — Dependency-graph static/LLM auditing and sandbox-verified repair for local and cross-skill composite vulnerabilities
+- [`contrastive-meta-skill-harness-evolution`](../skills/contrastive-meta-skill-harness-evolution/SKILL.md) — Offline contrastive meta-skill precomputation paired with bounded online harness evolution (`Meta^2`)
+- [`counterfactual-tool-dependency-induction`](../skills/counterfactual-tool-dependency-induction/SKILL.md) — Counterfactual sandbox verification of tool dependency graphs with 1-hop top-2 retrieval (`LIBRA`)
+- [`verified-telemetry-tool-routing`](../skills/verified-telemetry-tool-routing/SKILL.md) — Host-verified Substrate State Telemetry (`SST`) projection and operational tool routing
 
 ## Sources
 
@@ -738,4 +784,8 @@ For implementation details on the procedures behind these rules:
 - Scan Before You Install (Composite Skill Vulnerability Scanner): arXiv:2610.37901
 - Poisoned Skills (Markdown Skill Jailbreaks): arXiv:2610.37738
 - SkillMem (Compact External Skill Memory for Latent MAS): arXiv:2610.37935
+- LatentTriad (Pre-Action Latent Risk Representations): arXiv:2611.05088
+- Meta$^2$ (Precomputing Reusable Knowledge for Online Harness Evolution): arXiv:2611.05139
+- LIBRA (Programmatic Induction of Executable Tool Libraries): arXiv:2611.05445
+- Agent Harness Awareness (Verified Telemetry into Operational Control): arXiv:2611.05391
 

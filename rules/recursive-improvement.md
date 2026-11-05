@@ -414,15 +414,50 @@ accepting.
 
 **Scope:** HarnessLens propose-and-verify harness evolution; the
 ER-Audit evidence is from verifiers (gpt-oss-20B, Qwen3.5-9B,
-Llama3.1-8B) fine-tuned on debate transcripts, QuALITY-H and GPQA-H.
+Llama3.1-8B) fine-tuned on debate transcripts, QuALITY-H and GPQA-H;
+Artifact-to-Capability diagnosis across 360 coding-agent submissions on
+SWE-bench and MLE-bench (arXiv:2611.04952); CompressionBench evaluation
+of quantized/pruned LLMs across 8 single-turn vs long-horizon agentic
+benchmarks (arXiv:2611.06858); EnzymeRSI dual-loop biochemical design
+with wet-lab/high-fidelity oracle anchoring (arXiv:2611.06321);
+LegalEvolver rubric-guided query evolution across 1,400 multi-statute
+legal reasoning tasks (arXiv:2611.06381).
 
-**Evidence (arXiv:2609.32361):** a gpt-oss-20B verifier fine-tuned on
-adversarial debate transcripts beat the honest-trained one on both
-monitored (80.63% vs 79.73%) and hidden (63.96% vs 59.91%) QuALITY-H
-accuracy, yet a paraphrase audit found degradation counterexamples on
-103 vs 90 of 222 hidden questions.
+**Evidence**:
+- **ER-Audit (`arXiv:2609.32361`)**: a gpt-oss-20B verifier fine-tuned on
+  adversarial debate transcripts beat the honest-trained one on both
+  monitored (80.63% vs 79.73%) and hidden (63.96% vs 59.91%) QuALITY-H
+  accuracy, yet a paraphrase audit found degradation counterexamples on
+  103 vs 90 of 222 hidden questions.
+- **Artifact-to-Capability Diagnosis (`arXiv:2611.04952`)**: across 360
+  agent submissions, aggregate pass-rate changes masked orthogonal shifts
+  across 5 underlying capability axes (localization, specification
+  grounding, boundary handling, tool hygiene, verification completeness);
+  29.4% of modifications with neutral or +0.5 pp aggregate change
+  simultaneously improved one capability axis by >8 pp while regressing
+  another by >7 pp (see
+  [artifact-to-capability-diagnosis](../research-briefs/artifact-to-capability-diagnosis.md)).
+- **CompressionBench (`arXiv:2611.06858`)**: 4-bit weight-and-activation
+  quantization (`W4A4`) and 50% structured pruning retained 96–98% of
+  dense accuracy on static single-turn QA/math benchmarks (`MMLU`,
+  `GSM8K`) yet collapsed by 21.4–38.7 pp on multi-turn agentic tool-use
+  and coding benchmarks (`SWE-bench Verified`, `BFCL-Multi`, `OSWorld`)
+  due to compounding schema-formatting and state-tracking errors over
+  15+ turns (see
+  [compressionbench-agent-llm-compression](../research-briefs/compressionbench-agent-llm-compression.md)).
+- **EnzymeRSI & LegalEvolver (`arXiv:2611.06321`, `arXiv:2611.06381`)**:
+  in `EnzymeRSI`, inner-loop fast surrogate optimization without outer
+  high-fidelity physics/assay re-anchoring drifted into 64.0%
+  biochemically non-functional local optima despite monotonically rising
+  surrogate scores; in `LegalEvolver`, optimizing query-evolution prompts
+  on aggregate rubric averages allowed high-frequency statute classes to
+  mask a 19.2 pp regression on minority exception clauses until
+  per-criterion floor constraints were enforced (see
+  [enzymersi-dual-loop-enzyme-design](../research-briefs/enzymersi-dual-loop-enzyme-design.md)
+  and
+  [legalevolver-rubric-guided-query-evolution](../research-briefs/legalevolver-rubric-guided-query-evolution.md)).
 
-> Source: arXiv:2608.27311; Black-Box Auditing of Epistemic Reliability in Multi-Agent Debate Distillation (arXiv:2609.32361)
+> Source: arXiv:2608.27311; Black-Box Auditing of Epistemic Reliability in Multi-Agent Debate Distillation (arXiv:2609.32361); From Artifacts to Capabilities: Diagnosing Agent Modifications Beyond Aggregate Scores (arXiv:2611.04952); CompressionBench: Benchmarking Compressed LLMs as Autonomous Agents (arXiv:2611.06858); EnzymeRSI: Dual-Loop Recursive Self-Improvement for Computational Enzyme Design (arXiv:2611.06321); LegalEvolver: Rubric-Guided Evolutionary Search for Complex Legal Reasoning (arXiv:2611.06381)
 
 ### DON'T: Register self-generated capabilities on their discovery gain
 
@@ -726,7 +761,9 @@ NPO, ESPO, SkillLift, RSIAgent and skill-evolution rules assume that setting.
 **Scope:** open-weight models where rejection-sampling weight updates are
 available (WHALE); GRPO with prompt-scaffold edits every 5 RL steps on
 AIME 2025 and LiveCodeBench v6, Qwen3.5-4B to Qwen3.8-27B, single seed
-(COEVO).
+(COEVO); JHiMA-WebRL joint hierarchical multi-agent web RL coupling
+high-level subgoal planner updates with low-level DOM/grounding executor
+updates on WebArena and Mind2Web (arXiv:2611.05263).
 
 **Evidence**: Either component can become the bottleneck for the other. WHALE
 alternates updating model weights (via rejection sampling) and searching harness
@@ -737,8 +774,15 @@ COEVO beat fixed-prompt RL at every scale tested (e.g. 9B AIME
 Average@12 65.56% vs 61.39%), and steering prompt edits by policy
 entropy and attention beat reward-driven prompt co-evolution (44.3% vs
 41.6%, 4B).
+In `JHiMA-WebRL` (`arXiv:2611.05263`), training a hierarchical planner and
+executor with decoupled single-layer rewards caused credit-assignment
+oscillation (planner subgoals drifted beyond executor grounding capacity),
+whereas joint hierarchical RL with completion-gated subgoal credit and
+curriculum warmup improved WebArena task success from 31.4% (flat RL) and
+36.8% (planner-only RL) to 46.2% (see
+[jhima-webrl-joint-hierarchical-rl](../research-briefs/jhima-webrl-joint-hierarchical-rl.md)).
 
-> Source: WHALE (arXiv:2609.00196); COEVO: Co-Evolving Context and Parameters for Recursive Self-Improvement (arXiv:2609.33398)
+> Source: WHALE (arXiv:2609.00196); COEVO: Co-Evolving Context and Parameters for Recursive Self-Improvement (arXiv:2609.33398); JHiMA-WebRL: Joint Hierarchical Multi-Agent Reinforcement Learning for Web Navigation (arXiv:2611.05263)
 
 ---
 
@@ -1032,6 +1076,20 @@ vulnerability detection on PrimeVul (arXiv:2610.40721).
 
 > Source: SWE-Trail: History-Guided Trajectory Collection for Coding Agent Training (arXiv:2611.02074); Search-Guided Reasoning Trace Curation for RTL Code Generation (arXiv:2610.37706); MetaVul: Agentic Harness Discovery for Vulnerability Detection (arXiv:2610.40721)
 
+### DO: Optimize full multi-file agent harnesses via execution-driven MCTS and gate memory harness evolution across disjoint splits and readers
+
+When evolving multi-component agent harnesses (system prompts, tool wrappers, memory schemas, and verification hooks) or two-timescale memory harnesses (write/compaction rules + read/retrieval policies):
+1. **Execution-Driven MCTS over Full Harnesses (`HarnessFlow`, `arXiv:2611.06254`)**: Rather than mutating prompts in isolation or running greedy single-lineage edits, represent each complete multi-file harness configuration as a node in a Monte Carlo Tree Search (`MCTS`) tree, guide expansion via contrastive execution-trace failure diagnosis, and backpropagate validation rewards with UCT exploration so complementary prompt + tool + verifier edits can be discovered jointly. Procedure: [`mcts-full-harness-optimization`](../skills/mcts-full-harness-optimization/SKILL.md).
+2. **Two-Timescale Memory Harness Gating (`Reglos`, `arXiv:2611.06049`)**: When evolving memory ingestion/extraction harnesses (slow timescale) alongside runtime retrieval/reader policies (fast timescale), always pair structural write-schema changes with an explicit bitemporal reader policy (`valid_time` vs `transaction_time`), and gate candidate memory harnesses across **disjoint benchmark splits and distinct reader models** before committing, so write schemas do not overfit to a single reader'squirks. Always pass the selected harness candidate through "DO: Pass every self-modification through one acceptance gate".
+
+**Scope:** HarnessFlow MCTS-guided full-harness optimization across SWE-bench Verified, GAIA, and BFCL on Qwen2.5-Coder-32B, DeepSeek-V3, and GPT-4o-mini (arXiv:2611.06254); Reglos two-timescale memory harness evolution across LoCoMo, LongMemEval, and bitemporal enterprise memory streams (arXiv:2611.06049).
+
+**Evidence**:
+- In `HarnessFlow` (`arXiv:2611.06254`), MCTS over joint prompt + tool-wrapper + verification-hook edits improved task resolution by +8.9 pp on SWE-bench Verified and +11.2 pp on GAIA over prompt-only evolutionary baselines (`OPRO`, `ADAS`), with ablation of multi-component joint mutations losing 5.4 pp.
+- In `Reglos` (`arXiv:2611.06049`), evolving memory write schemas without updating the bitemporal reader policy degraded temporal fact QA by -7.8 pp on state-supersession queries, whereas two-timescale co-evolution gated across disjoint splits and cross-family readers improved LongMemEval accuracy by +10.6 pp and cut stale-fact retrieval errors by 63.4% (see [reglos-two-timescale-memory-harness-evolution](../research-briefs/reglos-two-timescale-memory-harness-evolution.md)).
+
+> Source: HarnessFlow: MCTS-Guided Harness Optimization for LLM Agents (arXiv:2611.06254); Reglos: Two-Timescale Memory Harness Evolution for Long-Horizon Agents (arXiv:2611.06049)
+
 ---
 
 ## Related Skills
@@ -1062,6 +1120,8 @@ For implementation details on the procedures behind these rules:
 - [`capability-matched-skill-adaptation`](../skills/capability-matched-skill-adaptation/SKILL.md) — Post-hoc capability-matched skill adaptation for harness self-evolution
 - [`history-guided-trajectory-collection`](../skills/history-guided-trajectory-collection/SKILL.md) — Iterative history-guided trajectory collection (`SWE-Trail`) with structured 4-field planning
 - [`audited-guardrail-tool-evolution`](../skills/audited-guardrail-tool-evolution/SKILL.md) — Cumulative synthesis and 10-CWE security auditing of executable guardrail tools (`EVOLVE`)
+- [`mcts-full-harness-optimization`](../skills/mcts-full-harness-optimization/SKILL.md) — Execution-driven MCTS over multi-file agent harnesses (`HarnessFlow`)
+- [`contrastive-meta-skill-harness-evolution`](../skills/contrastive-meta-skill-harness-evolution/SKILL.md) — Offline contrastive meta-skill precomputation paired with bounded online harness evolution (`Meta^2`)
 
 ## Sources
 
@@ -1121,3 +1181,10 @@ For implementation details on the procedures behind these rules:
 - SWE-Trail (History-Guided Trajectory Collection): arXiv:2611.02074
 - Search-Guided Reasoning Trace Curation for Verilog: arXiv:2610.37706
 - MetaVul (Agentic Harness Discovery): arXiv:2610.40721
+- Artifact-to-Capability Diagnosis: arXiv:2611.04952
+- CompressionBench (Compressed LLMs as Autonomous Agents): arXiv:2611.06858
+- EnzymeRSI (Dual-Loop Recursive Self-Improvement): arXiv:2611.06321
+- LegalEvolver (Rubric-Guided Query Evolution): arXiv:2611.06381
+- JHiMA-WebRL (Joint Hierarchical Multi-Agent Web RL): arXiv:2611.05263
+- HarnessFlow (MCTS-Guided Harness Optimization): arXiv:2611.06254
+- Reglos (Two-Timescale Memory Harness Evolution): arXiv:2611.06049

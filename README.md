@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 480+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 510+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -97,6 +97,9 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`proof-carrying-agent-messages`](skills/proof-carrying-agent-messages/SKILL.md) | PCM: Proof-Carrying Message Protocol for Multi-Agent Communication (arXiv:2610.39109) |
 | [`cross-interface-route-bound-authorization`](skills/cross-interface-route-bound-authorization/SKILL.md) | Cross-Interface Authorization for AI Computer-Use Agents (arXiv:2610.41397) |
 | [`task-graph-contextual-integrity-gating`](skills/task-graph-contextual-integrity-gating/SKILL.md) | Judging Before Propagation: Task-Graph Contextual Integrity (arXiv:2610.39532) |
+| [`germline-isolated-tool-execution`](skills/germline-isolated-tool-execution/SKILL.md) | Signed, Sealed, Leaked: Trust Beyond Signature for MCP Toolchains (arXiv:2611.06585) |
+| [`security-aware-context-slicing`](skills/security-aware-context-slicing/SKILL.md) | A.S.E 2.0: Repository Context & Security of LLM-Generated Code (arXiv:2611.06294) |
+| [`ooxml-display-fidelity-extraction`](skills/ooxml-display-fidelity-extraction/SKILL.md) | When File Ingestion Misleads Language Models: OOXML Divergences (arXiv:2611.05806) |
 
 #### Self-Improvement & Evaluation
 
@@ -146,6 +149,9 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`capability-matched-skill-adaptation`](skills/capability-matched-skill-adaptation/SKILL.md) | Evolving to Match Capabilities (arXiv:2610.33024) |
 | [`history-guided-trajectory-collection`](skills/history-guided-trajectory-collection/SKILL.md) | SWE-Trail: History-Guided Trajectory Collection for Coding Agents (arXiv:2611.02074) |
 | [`agent-data-mutual-evolution`](skills/agent-data-mutual-evolution/SKILL.md) | EvoMCP: Mutual Evolution of Agent and Data for MCP Tool-Use (arXiv:2610.41479) |
+| [`mcts-full-harness-optimization`](skills/mcts-full-harness-optimization/SKILL.md) | HarnessFlow: MCTS-Guided Harness Optimization for LLM Agents (arXiv:2611.06254) |
+| [`contrastive-meta-skill-harness-evolution`](skills/contrastive-meta-skill-harness-evolution/SKILL.md) | Meta$^2$: Precomputing Reusable Knowledge for Online Harness Evolution (arXiv:2611.05139) |
+| [`three-surface-verified-code-audit`](skills/three-surface-verified-code-audit/SKILL.md) | Verified but Vacuous: Three Failure Surfaces of Verified Code Generation (arXiv:2611.05590) |
 
 #### Skill Evolution & Knowledge
 
@@ -183,6 +189,9 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`mcp-server-design`](skills/mcp-server-design/SKILL.md) | MCP Server Best Practices & Progressive Discovery |
 | [`agentic-requirements-reverse-engineering`](skills/agentic-requirements-reverse-engineering/SKILL.md) | Code to Requirements (arXiv:2609.22719) |
 | [`decoupled-interface-action-repair`](skills/decoupled-interface-action-repair/SKILL.md) | Matched Capabilities, Different Behaviors: DART & MICA (arXiv:2610.34298) |
+| [`service-mesh-agent-self-healing`](skills/service-mesh-agent-self-healing/SKILL.md) | MA-Mesh: Resilient Multi-Agent Collaboration via Role-based Self-Healing (arXiv:2611.06389) |
+| [`counterfactual-tool-dependency-induction`](skills/counterfactual-tool-dependency-induction/SKILL.md) | LIBRA: Programmatic Induction of Executable Tool Libraries (arXiv:2611.05445) |
+| [`verified-telemetry-tool-routing`](skills/verified-telemetry-tool-routing/SKILL.md) | Agent Harness Awareness: Verified Telemetry into Operational Control (arXiv:2611.05391) |
 
 #### Retrieval & Evidence
 
@@ -196,6 +205,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`cost-aware-hierarchical-analysis`](skills/cost-aware-hierarchical-analysis/SKILL.md) | Cost-Aware Hierarchical Analysis (arXiv:2609.04820) |
 | [`evidence-gated-adversarial-deliberation`](skills/evidence-gated-adversarial-deliberation/SKILL.md) | LabourCrew (arXiv:2609.27814) |
 | [`visual-evidence-workspace`](skills/visual-evidence-workspace/SKILL.md) | VLM-in-Sandbox (arXiv:2609.24362) |
+| [`challenge-aware-knowledge-recruitment`](skills/challenge-aware-knowledge-recruitment/SKILL.md) | Challenge-Aware Knowledge Recruitment with Meta-Agent Supervision (arXiv:2611.05393) |
 
 ### Spec Templates (Project Kickoff)
 
@@ -519,6 +529,25 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`role-spoofing-mechanisms-and-linear-probes`](research-briefs/role-spoofing-mechanisms-and-linear-probes.md) | Delimiter-stripped role spoofing shifts mid-layer authority directions; layer-16 linear probes reach 0.974 AUROC |
 | [`red-teaming-low-resource-african-languages`](research-briefs/red-teaming-low-resource-african-languages.md) | Low raw ASR in low-resource languages masks incomprehension; conditional ASR is +10.7 pp higher than English |
 | [`coordination-tax-heterogeneity-dividend-multi-agent`](research-briefs/coordination-tax-heterogeneity-dividend-multi-agent.md) | Closed-form coordination tax bound showing single-agent difficulty routing beats multi-role decomposition at 0.5× cost |
+| [`local-dp-sequence-watermarking`](research-briefs/local-dp-sequence-watermarking.md) | Sequence-level local differential privacy bounds for LLM watermarking utility vs detectability |
+| [`reglos-two-timescale-memory-harness-evolution`](research-briefs/reglos-two-timescale-memory-harness-evolution.md) | Two-timescale memory harness evolution pairing write schemas with bitemporal reader policies |
+| [`acca-assurance-conditioned-continuous-authorization`](research-briefs/acca-assurance-conditioned-continuous-authorization.md) | Separating assurance evidence validity from contextual applicability with authority-epoch revocation |
+| [`context-compression-refusal-attenuation`](research-briefs/context-compression-refusal-attenuation.md) | Context compression and KV eviction attenuate safety refusal by 18–41 pp unless raw inputs are screened |
+| [`legalevolver-rubric-guided-query-evolution`](research-briefs/legalevolver-rubric-guided-query-evolution.md) | Rubric-guided evolutionary search for multi-statute legal reasoning with per-criterion floor gates |
+| [`enzymersi-dual-loop-enzyme-design`](research-briefs/enzymersi-dual-loop-enzyme-design.md) | Dual-loop recursive self-improvement showing surrogate-only search drifts without high-fidelity re-anchoring |
+| [`safestart-moe-expert-reduction-safety`](research-briefs/safestart-moe-expert-reduction-safety.md) | Preserving full MoE top-k routing on prefill and first 5 decode tokens prevents expert-pruning jailbreaks |
+| [`addition-by-subtraction-safety-alignment`](research-briefs/addition-by-subtraction-safety-alignment.md) | Subtracting dominant refusal directions during SFT reinforces backup safety circuits against adaptive attacks |
+| [`bounded-halting-observable-universality`](research-briefs/bounded-halting-observable-universality.md) | Complexity bounds proving fixed-context agents require growing external state and O(T) verification |
+| [`ma-safediffuser-multi-agent-diffusion-planning`](research-briefs/ma-safediffuser-multi-agent-diffusion-planning.md) | Hard decentralized control-barrier-function projections achieve 0 violations where soft Lagrangian RL stalls |
+| [`adversarial-speculative-reasoning-long-horizon`](research-briefs/adversarial-speculative-reasoning-long-horizon.md) | Speculative-decoding KV drift and late-slot decision forks shift 30+ turn coding benchmarks by up to 7 pp |
+| [`activation-fragmentation-suppressed-knowledge`](research-briefs/activation-fragmentation-suppressed-knowledge.md) | Entity-anonymized activation scatter at 0.8x depth reveals suppressed knowledge missed by output probes |
+| [`jhima-webrl-joint-hierarchical-rl`](research-briefs/jhima-webrl-joint-hierarchical-rl.md) | Joint hierarchical planner-executor RL with completion-gated subgoal credit lifts WebArena to 46.2% |
+| [`artifact-to-capability-diagnosis`](research-briefs/artifact-to-capability-diagnosis.md) | Decomposing agent edits into 5 capability axes exposes >7 pp regressions hidden by flat aggregate scores |
+| [`compressionbench-agent-llm-compression`](research-briefs/compressionbench-agent-llm-compression.md) | W4A4 quantization and 50% pruning retain 96%+ static QA accuracy but lose 21–39 pp on multi-turn agent tasks |
+| [`latenttriad-pre-action-skill-risk-representations`](research-briefs/latenttriad-pre-action-skill-risk-representations.md) | Pre-action hidden states at 0.5x depth detect stealth skill injections (99.6% AUC) that evade output monitors |
+| [`scamworld-web-agent-online-fraud-benchmark`](research-briefs/scamworld-web-agent-online-fraud-benchmark.md) | Browser agents complete 45.7–87.3% of online scams despite flagging suspicious cues in 23–63% of traces |
+| [`auditable-unlearning-gapwiden-gapveil`](research-briefs/auditable-unlearning-gapwiden-gapveil.md) | Standard unlearning leaks membership (GapWiden) while calibration camouflages retained knowledge (GapVeil) |
+| [`personacodebench-interactive-persona-coding-eval`](research-briefs/personacodebench-interactive-persona-coding-eval.md) | Interactive coding agents drop 27.2 pp when scored on joint functional tests and persona workflow obligations |
 
 ---
 
