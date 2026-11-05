@@ -3,6 +3,7 @@
 > **Paper**: [EvoOntology: A Self-Evolving Ontology Layer for Data Agents](https://arxiv.org/abs/2609.15779)
 > **Praxis source**: `src:2609-15779v1`
 > **Primary topic**: Agent Architecture, Protocols & Interoperability / Self-Improvement
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

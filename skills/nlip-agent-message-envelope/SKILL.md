@@ -5,9 +5,13 @@ description: >
   for multi-agent communication across heterogeneous transports (HTTP, WebSocket,
   AMQP), context stores, and tool gateways. Bridges MCP and A2A architectures.
   Derived from the Ecma standard and Xing et al. (arXiv:2609.04135).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # NLIP Semantic Message Envelope & Gateway Integration
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when designing or deploying inter-agent communication, agent gateways,
 or multi-agent orchestration fabrics across heterogeneous frameworks (e.g., LangChain,

@@ -4,6 +4,7 @@
 > - [String: An Agentic OS Where Every App Is a Markdown File](https://arxiv.org/abs/2608.28027)
 > - [CrabOS: An Operating System for Human-AI Co-inhabitation](https://arxiv.org/abs/2608.28165)
 > **Praxis sources**: `src:2608-28027v1`, `src:2608-28165v1`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not Skills? (for String)
 

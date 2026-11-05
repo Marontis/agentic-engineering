@@ -2,6 +2,7 @@
 
 > **Paper**: [When Evidence Shapes Collaboration: Knowledge-Conditioned Topology Generation for Multi-Agent Systems](https://arxiv.org/abs/2608.27984)
 > **Praxis source**: `src:2608-27984v1`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

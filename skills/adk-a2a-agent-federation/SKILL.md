@@ -5,9 +5,13 @@ description: >
   the Agent-to-Agent (A2A) protocol, Agent Card declarations (agent.json), and
   Gemini Enterprise Agent Runtime.
 source: https://codelabs.developers.google.com/codelabs/create-multi-agents-adk-a2a?hl=en
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # ADK Agent-to-Agent (A2A) Federation
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building multi-agent architectures where specialist agents run as
 independent microservices or in dedicated runtime environments, communicating over the

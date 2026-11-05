@@ -3,6 +3,8 @@
 > Fill in this template when architecting a multi-step agentic workflow using the
 > Google Agent Development Kit (ADK) 2. Each section surfaces research-backed
 > architectural decisions, node archetype trade-offs, and runtime requirements.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

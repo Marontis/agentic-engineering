@@ -9,9 +9,13 @@ description: >-
   trusted-promotion for benign tasks. Derived from "Agentic AI Defense:
   Decode-Time Provenance Binding for MCP" (arXiv:2610.31974).
 source: src:2610-31974
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # MCP Decode-Time Provenance Binding
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use
 

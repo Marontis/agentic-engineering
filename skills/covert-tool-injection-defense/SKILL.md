@@ -5,9 +5,13 @@ description: >
   outputs.  Covers output sanitization, return-anchor detection,
   user-framing separation, and runtime alignment checks.
   Derived from "Will the User Ever Know?" (arXiv:2608.30362).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Covert Tool Injection Defense
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building tool-augmented agents that consume
 external data (search results, API responses, web content) and you

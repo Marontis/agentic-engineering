@@ -9,9 +9,13 @@ description: >
   Derived from "API Secrets Should Never Become Tokens in the LLM's
   Vocabulary" (arXiv:2609.33371).
 source: https://arxiv.org/abs/2609.33371
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Vault-Mediated Credential Injection
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when an agent (chat assistant, coding agent, tool runtime)
 must call authenticated APIs, and you want no secret value to ever appear

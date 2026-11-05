@@ -6,9 +6,13 @@ description: >
   lookups.  Covers cracking sub-agents, speculative structuring,
   and cost-accuracy trade-offs.
   Derived from "Token-Efficient Data Reasoning Agents" (arXiv:2608.31082).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Agentic Data Cracking
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building agents that repeatedly reason over
 unstructured documents and you want to amortize the cost of

@@ -1,5 +1,7 @@
 # ZeroGate: Trust-Preserving Fast Paths for Governed AI Agent Runtimes
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 **Source**: Wang, "ZeroGate: Trust-Preserving Fast Paths for Governed AI
 Agent Runtimes" (arXiv:2609.25443), Sep 2026.
 

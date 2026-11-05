@@ -4,6 +4,7 @@
 > **Authors**: Zhang, Yao, Liu et al. (HKUST, Tsinghua)
 > **Praxis source**: src:2609-35908v1
 > **Status**: Research Brief — defensive lessons for LLM serving caches
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

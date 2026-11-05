@@ -5,9 +5,13 @@ description: >
   actually changes, rather than evaluating all modifications on a fixed
   task set.  Reduces wasted rollouts and improves modification-specific
   signal.  Derived from HarnessLens (arXiv:2608.27311).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Behavior-Aware Verification
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when evolving agent configurations (harnesses, prompts,
 skills, tools) through a propose-and-verify loop.  The key upgrade:

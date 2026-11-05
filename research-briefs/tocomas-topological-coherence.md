@@ -2,6 +2,7 @@
 
 > **Paper**: [Topological Coherence for Self-evolving Multi-agent Systems](https://arxiv.org/abs/2609.37953)
 > **Praxis source**: src:2609-37953v1
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

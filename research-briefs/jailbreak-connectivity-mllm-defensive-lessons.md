@@ -1,6 +1,7 @@
 # Jailbreak Connectivity in Multimodal LLMs: Defensive Lessons
 
 > **Source**: [arXiv:2610.38091](https://arxiv.org/abs/2610.38091) — Xu Zhang, Ziqing Hu, Shuo Han, Ren Wang (Illinois Institute of Technology; Perplexity AI; University of Illinois Chicago), published 2026-10-28. Praxis ID: `src:2610-38091v1`.
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 > [!IMPORTANT]
 > **Defensive-Only Brief**: This document records the threat model, empirical vulnerability surfaces, and defensive implications of continuous adversarial manifolds in Multimodal Large Language Models (MLLMs). It omits offensive optimization recipes and is intended strictly for hardening multimodal agent pipelines and safety filters.

@@ -2,6 +2,7 @@
 
 > **Source**: Stettler, Girardet, Canton et al., arXiv:2609.28693, Sep 2026
 > **Status**: Research Brief — product architecture with a 13-scenario harness (simulated authorization layer)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

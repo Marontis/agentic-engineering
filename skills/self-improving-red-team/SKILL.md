@@ -6,9 +6,13 @@ description: >
   failure-driven strategy discovery, cross-model transfer, and feedback
   loops.  Derived from "SIR: Self-improving Red-teaming for Computer
   Use Agents" (arXiv:2608.30207).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Self-Improving Red-Team
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when testing agent systems and you need adversarial
 evaluation that evolves beyond static attack sets.

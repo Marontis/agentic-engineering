@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.01976](https://arxiv.org/abs/2611.01976) — Shiyu Kan, Yue Qi, Yufei Han, Xinjian Luo, Guojun Xiong, Xiaofeng Gao (2026-11-01)
 > **Praxis Source ID**: `src:2611-01976`
 > **Category**: Research Brief (MCP/Skill Supply-Chain Security, Post-Admission Tool Updates & Defense Evaluation)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

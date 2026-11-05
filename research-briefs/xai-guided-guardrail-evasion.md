@@ -2,6 +2,7 @@
 
 > **Source**: Outeda, Betarte, Campo & Cravero, arXiv:2609.24801, Sep 2026
 > **Status**: Research Brief — exploratory case study (attack/robustness analysis of one classifier)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

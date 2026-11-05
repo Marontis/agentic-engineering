@@ -7,9 +7,13 @@ description: >
   a prompted AI-assisted session. Derived from the AI-Native SDLC Playbook
   (Claude Academy, Anthropic Applied AI).
 source: https://academy.claude.com/courses/ai-native-sdlc-playbook
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Intent-Driven SDLC Planning
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when a raw idea, feature request, or initiative needs to be
 structured before an agentic coding tool begins writing code. The pipeline

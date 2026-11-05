@@ -2,6 +2,7 @@
 
 > **Source**: Sharma, Jiang, Lin & Chen, arXiv:2609.26900, Sep 2026
 > **Status**: Research Brief — evaluation metric and measurement study (AgentDojo, 5 defenses)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

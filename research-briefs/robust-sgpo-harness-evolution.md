@@ -3,6 +3,7 @@
 > **Source**: Zhao, Shi, Zhou et al. (Kuaishou), arXiv:2609.09646 (v2, 20 Sep 2026)
 > **Status**: Research Brief — search-space controls for semantic-gradient harness evolution, one industrial workflow
 > **Praxis source**: `src:2609-09646v1`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

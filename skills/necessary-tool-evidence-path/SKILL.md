@@ -6,9 +6,13 @@ description: >
   pre-call intents with explicit evidence gaps, and verifies post-call
   observation extraction before progressing reasoning. Derived from
   Long et al. (arXiv:2609.03493).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Necessary Tool-Evidence Path (NTEP)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill to optimize tool-using agents (vision-language, code, or
 web-browsing agents) so that every tool invocation acquires verifiable,

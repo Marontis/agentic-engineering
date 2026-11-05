@@ -6,9 +6,13 @@ description: >
   attack generation from taxonomy nodes, coverage tracking, and
   cross-model transfer analysis.
   Derived from "Black-Box Red Teaming of Agentic AI" (arXiv:2609.09647).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Taxonomy-Driven Red Teaming
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when red teaming agentic AI systems and you need
 systematic risk coverage rather than ad-hoc attack generation.

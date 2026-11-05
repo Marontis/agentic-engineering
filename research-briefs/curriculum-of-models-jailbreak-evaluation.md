@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.38833](https://arxiv.org/abs/2610.38833) — Michał Burzyński, Noah T. Rossi, Shomit Basu, Andy Arditi (2026-10-28)
 > **Praxis Source ID**: `src:2610-38833`
 > **Category**: Research Brief (Defensive Red-Teaming Methodology, Sparse-Reward Elicitation & Judge Calibration)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

@@ -6,9 +6,13 @@ description: >
   file editing to eliminate diff misapplication and silent configuration
   corruption in automated GitOps pipelines. Derived from arXiv:2609.00227.
 source: https://arxiv.org/abs/2609.00227
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Deterministic Span Editing
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when an AI agent needs to modify declarative infrastructure
 or structured configuration files (YAML, JSON, TOML, Kubernetes manifests,

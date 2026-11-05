@@ -6,9 +6,13 @@ description: >
   catastrophic forgetting during automated prompt, skill, and tool evolution.
   Derived from HarnessEvolve (arXiv:2609.00829).
 source: https://arxiv.org/abs/2609.00829
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Reference Trajectory Harness Evolution
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when designing or running self-evolving agents that optimize
 their own harnesses (prompts, skills, tools, and execution graphs) based on

@@ -5,9 +5,13 @@ description: >
   Constructs local tool priors, performs contrastive parameter evidence localization, and
   sanitizes only confirmed malicious spans without indiscriminately degrading task utility.
 source: https://arxiv.org/abs/2609.14987
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Pre-Execution Action Auditing (ActGuard)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building tool-using agents that process untrusted external content
 (e.g., search results, web pages, incoming emails, customer documents) where indirect prompt

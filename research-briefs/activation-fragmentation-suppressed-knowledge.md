@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.05272](https://arxiv.org/abs/2611.05272) | `src:2611-05272`
 > **Authors**: Adar Peleg, Dvir Alsheich, Tomer Ashuach, Avi Mendelson (Technion – Israel Institute of Technology)
 > **Date**: 2026-11-03
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Key Findings
 

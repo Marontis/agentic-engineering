@@ -6,9 +6,13 @@ description: >
   retrospective task inference and reward-guided trajectory filtering.
   Derived from "AgentBrew" (arXiv:2609.05837).
 source: https://arxiv.org/abs/2609.05837
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # AgentBrew: Offline Tool-Use Learning from Raw Trajectories
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when training or adapting agents for tool-use in
 environments that provide no pre-defined tasks, no verifiers, no

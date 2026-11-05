@@ -6,9 +6,13 @@ description: >
   Training-free framework for multi-agent orchestration.
   Derived from "ReActNet" (arXiv:2609.05774).
 source: https://arxiv.org/abs/2609.05774
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # ReActNet: Temporal Workflow Graph Compilation
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when orchestrating multi-agent LLM systems where the
 communication topology should be task-conditioned rather than static.

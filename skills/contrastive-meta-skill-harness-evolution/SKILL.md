@@ -6,11 +6,14 @@ description: >-
   `during`, and `end` checkpoints) to guide task-local online harness evolution
   while resetting to the seed harness between tasks. Derived from Meta^2
   (arXiv:2611.05139).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Contrastive Meta-Skill Harness Evolution
 
 > **Source**: [arXiv:2611.05139](https://arxiv.org/abs/2611.05139) — *Meta$^2$: Precomputing Reusable Knowledge for Online Harness Evolution in Long-Horizon Agents* (Yuan et al., 2026) | `src:2611-05139v1`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use This Skill
 

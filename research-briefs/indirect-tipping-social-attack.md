@@ -1,5 +1,7 @@
 # Indirect Tipping: A Social Attack Surface in AI Agent Populations
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 **Source**: Flint et al., "Indirect tipping: a social attack surface in
 AI agent populations" (arXiv:2609.25194), Sep 2026.
 

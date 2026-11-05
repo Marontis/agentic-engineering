@@ -3,6 +3,8 @@
 > Research-backed guardrails for designing, orchestrating, routing, and deploying
 > multi-agent graph workflows with Google Agent Development Kit (ADK) 2. These rules
 > should be active whenever designing, reviewing, or debugging agent workflows.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

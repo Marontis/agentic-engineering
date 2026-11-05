@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.40535](https://arxiv.org/abs/2610.40535) — *Efficient Scalable Oversight via Rewinding* (Guan et al., published 2026-10-29)  
 > **Praxis ID**: `src:2610-40535`  
 > **Tier**: Research Brief
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Summary
 

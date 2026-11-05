@@ -13,9 +13,13 @@ description: >
   Derived from "A GHOST in Long-Horizon Agents: Governance Hazard from
   Overlooked Safety Constraints across Turns" (arXiv:2610.02664).
 source: https://arxiv.org/abs/2610.02664
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Historical Constraint Restoration (STAR-Guard)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when a tool-using agent runs long sessions in which the
 user states an operational safety constraint early ("create a backup

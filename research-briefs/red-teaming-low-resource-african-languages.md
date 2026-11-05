@@ -2,6 +2,7 @@
 
 > **Source**: [arXiv:2610.39590](https://arxiv.org/abs/2610.39590) — Paula Chikaodinaka Anyanwu et al. (AIMS Cameroon, Brown University, CWI, University of Pretoria, University of Hamburg, Bayero University Kano, Imperial College London, 2026-10-29)  
 > **Praxis ID**: `src:2610-39590`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

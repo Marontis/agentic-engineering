@@ -12,9 +12,13 @@ description: >
   Derived from "From Code to Requirements: Agentic Reverse Engineering of
   Business Rules at Enterprise Scale" (arXiv:2609.22719).
 source: https://arxiv.org/abs/2609.22719
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Agentic Requirements Reverse Engineering
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when a service's behavior lives only in its code, tests,
 and configuration, and you need a traceable requirements baseline before

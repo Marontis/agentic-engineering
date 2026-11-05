@@ -2,6 +2,7 @@
 
 > **Source**: [arXiv:2610.40396](https://arxiv.org/abs/2610.40396) — Ezra Edelman, Benjamin Edelman, Surbhi Goel, Eran Malach (University of Pennsylvania, Princeton University, Apple MLR, 2026-10-29)  
 > **Praxis ID**: `src:2610-40396`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

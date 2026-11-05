@@ -9,9 +9,13 @@ description: >
   Derived from "Coding Agents are Strong Prompt Optimizers" (CASD)
   (arXiv:2609.26261).
 source: https://arxiv.org/abs/2609.26261
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Corpus-Scale Prompt Distillation (CASD)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when you have a corpus of agent execution trajectories
 and want to optimize the agent's prompt without iterative search,

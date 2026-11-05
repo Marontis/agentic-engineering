@@ -9,9 +9,13 @@ description: >
   Derived from "Rethinking Multi-Agent Collaboration: When More Is
   Less" (arXiv:2609.19759).
 source: https://arxiv.org/abs/2609.19759
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Semantic-Aware Multi-Agent Delegation (SAIGE)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when deciding whether to use multi-agent collaboration
 or single-agent execution for a given task, and when implementing

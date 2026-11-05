@@ -1,5 +1,7 @@
 # Silent Sabotage: Internal State Triggered Backdoor Attacks on LLM-Powered Robotic Systems
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 **Source**: Obidov et al., "Silent Sabotage: Internal State Triggered
 Backdoor Attacks on LLM-Powered Robotic Systems" (arXiv:2609.26184),
 Sep 2026.

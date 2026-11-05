@@ -3,6 +3,7 @@
 > **Paper**: [ThinkFlow: Self-Evolving Probabilistic Latent Memory for Lifelong Conversational Agents](https://arxiv.org/abs/2609.17010)
 > **Praxis source**: `src:2609-17010v1`
 > **Primary topic**: Agent Memory Systems & Self-Evolution
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

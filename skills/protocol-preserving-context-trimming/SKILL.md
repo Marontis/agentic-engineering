@@ -6,9 +6,13 @@ description: >
   by naive token trimming (recency, relevance, summarization) by protecting dependency
   chains, tool states, and protocol invariants. Derived from Gaggar (arXiv:2609.16461).
 source: https://arxiv.org/abs/2609.16461
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Protocol-Preserving Context Trimming
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when managing context windows in long-horizon, multi-step agentic workflows where uncontrolled context expansion causes latency or cost issues, but naive truncation threatens workflow failure.
 

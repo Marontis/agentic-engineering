@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.35579](https://arxiv.org/abs/2610.35579) — *Infinity Machine: a self-improving AI agent for research* (`src:2610-35579`)
 > **Authors**: Charles Yang et al. (2026)
 > **Category**: Recursive Self-Improvement / Autonomous Research Systems & Verifier Security
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

@@ -5,6 +5,7 @@
 > [arXiv:2609.34463](https://arxiv.org/abs/2609.34463), Sep 2026
 > **Status**: Research Brief, model-training defense evaluated on 7-8B
 > open-weight agents.
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

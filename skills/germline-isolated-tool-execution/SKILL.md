@@ -6,11 +6,14 @@ description: >-
   state slots, and twin-execution tripwire witnesses. Prevents cross-call carry-over
   and within-call item smuggling even on allowed egress channels. Derived from
   Germline (arXiv:2611.06585).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Germline-Isolated Tool Execution
 
 > **Source**: [arXiv:2611.06585](https://arxiv.org/abs/2611.06585) — *Signed, Sealed, Leaked: Trust Beyond Signature for MCP Toolchains* (`src:2611-06585v1`)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use
 

@@ -2,9 +2,13 @@
 name: three-surface-verified-code-audit
 description: Three-surface verification audit for formal-methods and contract-driven code generation. Separates verifier acceptance (Surface A) from syntactic specification binding (Surface B) and semantic specification fidelity (Surface C) to eliminate vacuous proofs and unverified implementations. Derived from Vempaty et al. (arXiv:2611.05590).
 source: src:2611-05590
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Three-Surface Verified Code Audit
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use
 

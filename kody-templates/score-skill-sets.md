@@ -10,6 +10,8 @@ enabled: false
 
 ## Instructions
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 When a PR adds or modifies skill/tool selection logic — the code that decides
 which skills or context documents to load into an agent's prompt — check
 whether it evaluates skills **as a set** or **individually**.

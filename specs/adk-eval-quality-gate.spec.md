@@ -2,6 +2,8 @@
 
 > Fill in this template when designing testing suites, Golden Datasets,
 > LLM-as-a-Judge evaluators, and CI/CD quality gates for Google ADK 2 agents.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

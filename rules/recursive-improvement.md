@@ -3,6 +3,8 @@
 > Research-backed guardrails for building agents that improve their own
 > capabilities. These rules should be active whenever designing,
 > implementing, or evaluating self-modifying or meta-learning agent systems.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

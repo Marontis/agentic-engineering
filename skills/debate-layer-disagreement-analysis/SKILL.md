@@ -5,9 +5,13 @@ description: >
   by decomposing disagreement into layers (factual, interpretive,
   strategic) and using layer-specific resolution strategies.
   Derived from "A Layered Analysis of Disagreement" (arXiv:2609.08016).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Debate Layer Disagreement Analysis
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when running multi-agent LLM debate and you need
 to understand why agents disagree and how to resolve disagreements

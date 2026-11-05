@@ -1,5 +1,7 @@
 # Emergent Collusion in Long-Horizon LLM Agent Interaction
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 **Source**: Shi et al., "Emergent Collusion in Long-Horizon LLM Agent
 Interaction" (arXiv:2609.24967), Sep 2026.
 

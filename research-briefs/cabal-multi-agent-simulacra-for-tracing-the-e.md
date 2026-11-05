@@ -3,6 +3,7 @@
 > **Paper**: [CABAL: Multi-Agent Simulacra for Tracing the Effects of Collusive Bidding in Peer Review](https://arxiv.org/abs/2609.05227)
 > **Praxis source**: `src:2609-05227v1`
 > **Primary topic**: Agent Security Findings & Swarm Governance
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

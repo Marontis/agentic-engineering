@@ -2,6 +2,7 @@
 
 > **Paper**: [MABPD: Multi-Agent Bias Probing & Detection via Structured Argument Debate](https://arxiv.org/abs/2609.04841)
 > **Praxis source**: src:2609-04841
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

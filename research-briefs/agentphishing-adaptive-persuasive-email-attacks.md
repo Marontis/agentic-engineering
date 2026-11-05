@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.31404](https://arxiv.org/abs/2610.31404) — *AgentPhishing: A Benchmark of LLM Email Agents Under Adaptive Attack* (`src:2610-31404`)
 > **Authors**: AgentPhishing Team (2026)
 > **Category**: Agent Security & Defensive Evaluation / Adaptive Social-Engineering Benchmarks
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

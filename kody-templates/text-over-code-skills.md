@@ -10,6 +10,8 @@ enabled: false
 
 ## Instructions
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 When a PR adds or modifies a skill document, check whether the body is
 primarily **natural-language workflow notes** or **executable code**.
 

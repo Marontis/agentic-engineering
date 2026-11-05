@@ -2,6 +2,7 @@
 
 > **Paper**: [Building a research-software catalog with a coding agent: from hackathon prototype to public deployment](https://arxiv.org/abs/2609.04711)
 > **Praxis source**: src:2609-04711
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

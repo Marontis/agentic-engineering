@@ -4,9 +4,13 @@ description: >
   Calibrate multi-agent debate (MAD) systems against shared misconceptions
   and majority skew using experience memory retrieval and dynamic confidence
   reweighting. Derived from R^2-MAD (arXiv:2609.03619).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Debate Consensus Memory Calibration
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when designing or deploying multi-agent debate (MAD) systems,
 agent ensembles, or peer-review reflection loops to prevent premature groupthink,

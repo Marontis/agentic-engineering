@@ -12,9 +12,13 @@ description: >
   Apple's Core, Volume 1: User Mode" (2nd Edition, OS Internals series)
   and Patrick Wardle's "The Art of Mac Malware" & annual retrospective research.
 source: http://newosxbook.com/ ; https://taomm.org/ ; https://objective-see.org/
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # macOS Reverse Engineering & User-Mode Binary Analysis
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when analyzing, auditing, debugging, or reverse-engineering macOS and iOS user-mode executables, dynamic libraries (`.dylib`), application bundles (`.app`), installer packages, and system services.
 

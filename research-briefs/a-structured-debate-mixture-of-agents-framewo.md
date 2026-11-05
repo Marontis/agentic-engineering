@@ -3,6 +3,7 @@
 > **Paper**: [A Structured Debate-Mixture-of-Agents Framework for Complex Clinical Diagnostic Decision Support](https://arxiv.org/abs/2609.05069)
 > **Praxis source**: `src:2609-05069v1`
 > **Primary topic**: Agent Self-Improvement & Harness Engineering
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

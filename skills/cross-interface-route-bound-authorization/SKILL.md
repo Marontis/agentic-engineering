@@ -5,9 +5,13 @@ description: >-
   ticket fencing, and cumulative trace-closure checks for computer-use agents
   operating across GUI, CLI, API, script, and MCP surfaces. Derived from Zhu
   and Wang (arXiv:2610.41397).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Cross-Interface Route-Bound Authorization
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when designing or hardening authorization gates for hybrid computer-use agents that can reach the same durable sink (`documents`, `messaging`, `calendar`, `tickets`, `ledger`, `access`) through multiple execution interfaces (`GUI`, `CLI`, `API`, `script`, `MCP`). Interface-local guards (`33.3%` coverage) and stateless action-time normalizers (`83.1%` coverage) fail when an agent switches surfaces mid-plan, acts on stale UI/environment bindings, or recomposes data read on one surface into an outbound action on another.
 

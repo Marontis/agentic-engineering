@@ -4,6 +4,8 @@
 > multi-agent systems. These rules should be active whenever building
 > agent swarms, orchestration topologies, or inter-agent communication
 > protocols.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

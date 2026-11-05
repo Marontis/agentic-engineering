@@ -9,6 +9,8 @@ tags: [architecture, documentation, adr]
 
 # Require ADR Cost Section
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 Every Architecture Decision Record (ADR) must explicitly state its costs and trade-offs. An ADR that lists only benefits is incomplete and hides residual risk.
 
 This rule enforces the "Bad, and accepted" section requirement from Attestation-Driven Development (ADD). Writing down the intended negative consequences (e.g., "an upstream that is unreachable now fails reads it could have served from cache") distinguishes a deliberate trade-off from an oversight.

@@ -4,6 +4,8 @@
 > humans, solicit feedback, manage cognitive load, and structure
 > handoff points. These rules should be active whenever building
 > approval workflows, review interfaces, or human-in-the-loop systems.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

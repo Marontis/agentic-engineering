@@ -2,6 +2,7 @@
 
 > **Paper**: [A Translational Note on AI Safety Evaluation](https://arxiv.org/abs/2609.06573)
 > **Praxis source**: src:2609-06573
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

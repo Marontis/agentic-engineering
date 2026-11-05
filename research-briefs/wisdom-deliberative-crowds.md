@@ -2,6 +2,7 @@
 
 > **Source**: Barrera-Lemarchand, Sigman & Navajas, arXiv:2609.22497, Sep 2026
 > **Status**: Research Brief — controlled empirical study (4 domains, heterogeneous vs clone groups)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

@@ -12,9 +12,13 @@ related_skills:
   - skill-design-methodology
   - agent-self-improvement-loop
   - iterative-instruction-refinement
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Knowledge Compounding Loop
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 How to accumulate durable, structured knowledge from agent execution
 experience — so that skill evolution builds on an increasingly well-supported

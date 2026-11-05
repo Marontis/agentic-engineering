@@ -9,9 +9,13 @@ description: >
   Derived from "Authorization Revocation for Long-Running AI Agents"
   (arXiv:2609.21284).
 source: https://arxiv.org/abs/2609.21284
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Authorization Revocation for Long-Running AI Agents
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when revoking access for an agent that has delegated
 tasks, queued callbacks, or holds credentials across multiple

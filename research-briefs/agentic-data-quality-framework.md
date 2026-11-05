@@ -3,6 +3,7 @@
 > **Paper**: [What Makes Good Agentic Data? An ACE Lens on Data Generation for LLM Agents](https://arxiv.org/abs/2608.27260)
 > **Authors**: Zeng, Xu, Zhang, Wu, Wang, et al. (Huawei / SJTU / Northwestern / HIT)
 > **Praxis source**: `src:2608-27260`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

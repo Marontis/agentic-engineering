@@ -3,6 +3,7 @@
 > **Paper**: [BusMA: A Bus Communication Substrate for Multi-Agent Systems](https://arxiv.org/abs/2609.15054)
 > **Praxis source**: `src:2609-15054v1`
 > **Primary topic**: Agent Architecture, Protocols & Interoperability
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

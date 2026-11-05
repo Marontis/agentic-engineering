@@ -8,9 +8,13 @@ description: >
   top-ranked candidate without modifying policy prompting. Derived from
   SWE-Verifier (arXiv:2610.30284).
 source: https://arxiv.org/abs/2610.30284
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Selective Step-Level Action Verification (SWE-Verifier)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use
 

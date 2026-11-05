@@ -4,6 +4,7 @@
 > **Praxis source**: src:2609-36576v1
 > **Status**: Research Brief, defensive lessons only. Attack construction,
 > payloads and optimization details are deliberately omitted.
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

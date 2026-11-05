@@ -3,6 +3,8 @@
 > Fill in this template when designing a skill memory system for LLM agents.
 > Each section surfaces research-backed decision points for skill authoring,
 > storage, retrieval, and selection.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

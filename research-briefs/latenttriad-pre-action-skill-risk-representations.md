@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.05088](https://arxiv.org/abs/2611.05088) | `src:2611-05088`
 > **Authors**: Zhe Yu, Yi Liu, Ying Zhang, Simin Chen
 > **Category**: Research Brief (Agent Security / Malicious Skill Detection / Internal Representation Probing)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Overview
 

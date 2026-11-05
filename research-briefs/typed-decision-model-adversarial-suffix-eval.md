@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.38895](https://arxiv.org/abs/2610.38895) — *FlipJev: Fast Black-Box Red Teaming Finds Universal Adversarial Suffixes for Typed Decision Models* (Liu et al., published 2026-10-28)  
 > **Praxis ID**: `src:2610-38895`  
 > **Tier**: Research Brief (Defensive Evaluation & Guardrail Hardening)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Summary
 

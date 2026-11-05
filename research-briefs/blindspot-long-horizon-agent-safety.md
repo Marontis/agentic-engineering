@@ -3,6 +3,7 @@
 > **Paper**: [BLINDSPOT: A Benchmark for Safety and Refusal Calibration in Long-Horizon Tool-Using Agents](https://arxiv.org/abs/2609.16305)
 > **Praxis source**: `src:2609-16305v1`
 > **Primary topic**: Red Teaming & Safety
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

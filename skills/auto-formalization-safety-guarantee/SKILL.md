@@ -8,9 +8,13 @@ description: >
   Derived from "MAGS: Multi-agent Auto-formalization Guarantees Safety
   for Agentic Outputs" (arXiv:2609.19391).
 source: https://arxiv.org/abs/2609.19391
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Auto-Formalization Safety Guarantee (MAGS)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when agent-generated code must satisfy safety properties
 that testing alone cannot guarantee — and you want machine-checkable

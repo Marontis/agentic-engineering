@@ -3,6 +3,7 @@
 > **Paper**: [Decoupling Planning and Control for Instructable Agents](https://arxiv.org/abs/2608.26788) (COLM 2026)
 > **Authors**: Tang, Allen, van Steenkiste, Dasgupta, Suhr (UC Berkeley / UBC / Google DeepMind)
 > **Praxis source**: `src:2608-26788`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

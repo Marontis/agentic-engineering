@@ -5,11 +5,14 @@ description: >-
   with strict visual display fidelity to prevent silent content omissions,
   hidden-content prompt injections, number-format inversions, and spatial
   reading-order scrambles. Derived from Prism (arXiv:2611.05806).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # OOXML Display-Fidelity Extraction
 
 > **Source**: [arXiv:2611.05806](https://arxiv.org/abs/2611.05806) — *When File Ingestion Misleads Language Models: Measuring and Mitigating Divergences in Office Documents* (Li, 2026) | `src:2611-05806v1`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use This Skill
 

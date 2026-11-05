@@ -7,9 +7,13 @@ description: >
   immunization of reward hacking in self-evolving language models"
   (arXiv:2609.04665).
 source: https://arxiv.org/abs/2609.04665
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Reward Hacking Detection & Immunization (HackProbe)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when running self-evolving agent loops that propose
 candidate updates and keep whatever raises a visible score—any setup

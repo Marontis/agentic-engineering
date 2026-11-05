@@ -5,9 +5,13 @@ description: >
   utilization).  Covers object-type heterogeneity, content accounting,
   object-aware compression, and retrieval-based memory management.
   Derived from "Measure Before You Manage" (arXiv:2608.31057).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Agent Working Memory Evaluation
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when evaluating or improving how coding agents
 manage the code and context loaded into their context window.

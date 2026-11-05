@@ -2,6 +2,7 @@
 
 > **Paper**: [The Rise of Verbal Reinforcement Learning](https://arxiv.org/abs/2609.01597)
 > **Praxis source**: src:2609-01597v1
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

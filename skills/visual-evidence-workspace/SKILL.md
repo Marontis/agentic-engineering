@@ -11,9 +11,13 @@ description: >
   Derived from "VLM-in-Sandbox: Visual Workspaces for Agentic Visual
   Reasoning" (arXiv:2609.24362).
 source: https://arxiv.org/abs/2609.24362
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Visual Evidence Workspace for Sandboxed VLM Agents
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when a vision-language agent runs tools (Python, shell,
 image editors) that produce new images as intermediate evidence, and

@@ -3,6 +3,7 @@
 > **Source**: Sheta, Deuja, Masoudi, Fang, "Does the Unsafe Gradient Survive a Conversation? On the Fragility of Gradient-Based Jailbreak Detection in Multi-Turn Dialogue", [arXiv:2609.36849](https://arxiv.org/abs/2609.36849), Sep 2026 (LAMPS '26)
 > **Status**: Research Brief, defensive evaluation study. Read from the PDF
 > (no HTML version).
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

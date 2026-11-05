@@ -3,6 +3,7 @@
 > **Paper**: [From Language Models to World-Acting Systems: Progress and Limits of Agentic AI across Digital, Social, Virtual, and Physical Environments](https://arxiv.org/abs/2609.04894)
 > **Praxis source**: `src:2609-04894v1`
 > **Primary topic**: Agent Sandboxing & Execution Security
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

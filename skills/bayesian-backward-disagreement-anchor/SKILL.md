@@ -6,9 +6,13 @@ description: >
   to divergent evidence interpretations and anchors resolution
   in probabilistic consistency rather than majority vote.
   Derived from "When Agents Disagree" (arXiv:2609.11709).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Bayesian Backward Disagreement Anchor
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when multiple agents disagree on a conclusion
 and you have no ground-truth labels to decide who is right.

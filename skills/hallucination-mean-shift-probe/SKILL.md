@@ -6,9 +6,13 @@ description: >
   selection, probe training, multi-layer aggregation (LayerMix),
   and deployment as a zero-cost quality gate.
   Derived from "The Hallucination Signal Is a Mean Shift" (arXiv:2608.28930).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Hallucination Mean-Shift Probe
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when you need to detect whether an LLM is
 hallucinating, and you have access to hidden-state activations

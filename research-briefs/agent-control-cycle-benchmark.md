@@ -2,6 +2,7 @@
 
 > **Paper**: [LoopArena: Benchmarking LLM Agents in Iterative Multi-Step Coding Tasks](https://arxiv.org/abs/2608.28281)
 > **Praxis source**: `src:2608-28281v1`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

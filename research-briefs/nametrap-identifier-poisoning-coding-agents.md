@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.34253](https://arxiv.org/abs/2610.34253) — Yichen Li, Yifan Zhang, Zexin Wang, et al. (2026)
 > **Praxis Source ID**: `src:2610-34253`
 > **Category**: Research Brief (Defensive Vulnerability Analysis & Coding Agent Supply-Chain Security)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

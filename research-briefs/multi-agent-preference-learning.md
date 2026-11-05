@@ -3,6 +3,7 @@
 > **Paper**: [Improving LLM Collaboration via Multi-Agent Preference Learning](https://arxiv.org/abs/2609.32827)
 > **Praxis source**: src:2609-32827v1
 > **Status**: Research Brief. Training method for small cooperative multi-agent systems.
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

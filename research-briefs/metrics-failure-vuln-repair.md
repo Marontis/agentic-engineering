@@ -1,5 +1,7 @@
 # Metrics Failure in LLM-Based Code Vulnerability Repair
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 **Source**: Nepal et al., "Metrics Failure in LLM-Based Code Vulnerability
 Repair: An Empirical Study and a Change-Aware Screen"
 (arXiv:2609.26749), Sep 2026.

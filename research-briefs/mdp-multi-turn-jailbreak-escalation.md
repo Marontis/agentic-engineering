@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.31937](https://arxiv.org/abs/2610.31937) — *"$M^3$: A Multi-LLM System for Multi-Turn Jailbreaking as a Markov Decision Process"* (Oct 2026)
 > **Praxis Source ID**: `src:2610-31937`
 > **Tier**: Research Brief (Defensive Security Analysis)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

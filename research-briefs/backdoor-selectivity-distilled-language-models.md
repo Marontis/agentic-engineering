@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.00748](https://arxiv.org/abs/2611.00748) — Dipto Sumit, Sanzar Rahman, Ramisa Faria Puspita, Samiha Fairooz Urbi, Farig Sadeque (2026-10-31)
 > **Praxis Source ID**: `src:2611-00748`
 > **Category**: Research Brief (Model Distillation Security, Backdoor Selectivity & Audit Methodology)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

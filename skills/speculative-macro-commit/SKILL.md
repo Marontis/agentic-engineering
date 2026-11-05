@@ -6,9 +6,13 @@ description: >
   cached steps when the authoritative actor verifies the chain prefix.
   Derived from Speculative Macro Commit (arXiv:2609.03236).
 source: https://arxiv.org/abs/2609.03236
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Speculative Macro Commit
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when designing or optimizing tool-using LLM agent runtimes to reduce
 end-to-end wall-clock latency in sequential multi-turn action loops.

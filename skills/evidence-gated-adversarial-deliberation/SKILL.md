@@ -11,9 +11,13 @@ description: >
   Derived from "LabourCrew: Multi-Agent RAG for Adversarial
   Deliberation and Statutory Reasoning" (arXiv:2609.27814).
 source: https://arxiv.org/abs/2609.27814
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Evidence-Gated Adversarial Deliberation
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when a multi-agent RAG system argues both sides of a
 question over a corpus of structured source text and must release only

@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.35930](https://arxiv.org/abs/2610.35930) — Arnesh Batra, Aniket Khandelwal, Jashn Khemani, Krish Thukral, Arush Gumber, Denis Federico Lim, Ujwal Kumar, Phan Xuan Tan (2026)
 > **Praxis Source ID**: `src:2610-35930`
 > **Category**: Research Brief (Multi-Agent Debate Causality, Internal Routing & Effective Voter Independence)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

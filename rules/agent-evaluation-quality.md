@@ -4,6 +4,8 @@
 > agent systems, and designing quality gates. These rules should be
 > active whenever building evaluation harnesses, automated reviewers,
 > LLM-as-judge pipelines, or benchmark suites.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

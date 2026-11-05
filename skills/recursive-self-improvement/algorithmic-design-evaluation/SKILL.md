@@ -10,9 +10,13 @@ category: recursive-self-improvement
 source: https://arxiv.org/pdf/2608.20318
 related_skills:
   - hyperagent-self-improvement
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Algorithmic Design Evaluation
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Skill for measuring whether an AI agent is doing real algorithmic work —
 changing how a model learns — versus adjusting execution parameters within a

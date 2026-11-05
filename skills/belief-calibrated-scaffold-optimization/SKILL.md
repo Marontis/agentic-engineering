@@ -5,9 +5,13 @@ description: >
   agent scaffold optimization. Calibrates beliefs against rollout outcomes to prevent
   repeating refuted hypotheses. Derived from BCO (arXiv:2609.01861).
 source: https://arxiv.org/abs/2609.01861
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Belief-Calibrated Scaffold Optimization
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when using an LLM coding agent to iteratively optimize agent scaffolds,
 prompts, tools, or orchestration workflows based on evaluation traces.

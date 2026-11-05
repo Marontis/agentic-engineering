@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.01700](https://arxiv.org/abs/2611.01700) — Zhihua Wang, Yunhao Feng, Yifeng Gao, Rui Pan, Baiheng Zhao, Zixing Chen, Xingjun Ma (2026-11-01)
 > **Praxis Source ID**: `src:2611-01700`
 > **Category**: Research Brief (Memory-Persistent Agent Security & Cross-Session Prompt Injection Benchmark)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

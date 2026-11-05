@@ -5,9 +5,13 @@ description: >
   in Google Agent Development Kit (ADK) workflows using LongRunningFunctionTool,
   pending call receipts, external background daemons, and FunctionResponse matching.
 source: https://codelabs.developers.google.com/codelabs/vibe-studio-lab/instructions
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # ADK Asynchronous Long-Running Tool Resumption
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when an agent in an ADK workflow must initiate external tasks that take
 seconds to hours (video generation, batch inference, model fine-tuning, complex data

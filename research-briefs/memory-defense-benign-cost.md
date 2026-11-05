@@ -3,6 +3,7 @@
 > **Source**: Bhowmik, arXiv:2609.22818, Sep 2026
 > **Status**: Research Brief — replicated measurement study (benign traffic only)
 > **Praxis source**: src:2609-22818v1
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

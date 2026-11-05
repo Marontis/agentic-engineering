@@ -1,5 +1,7 @@
 # Kody rule templates — ranked index
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 These are **templates**, not finished rules. Each has correct YAML frontmatter,
 a detection procedure, and placeholder examples. To use:
 

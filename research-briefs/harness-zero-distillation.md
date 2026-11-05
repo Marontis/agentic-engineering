@@ -1,5 +1,7 @@
 # Harness-Zero: Harness Distillation via Agent-as-Harness
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 **Source**: Ye et al., "Harness-Zero: Harness Distillation via
 Agent-as-Harness" (arXiv:2609.24974), Sep 2026.
 

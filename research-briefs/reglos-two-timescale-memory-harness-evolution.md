@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.06049](https://arxiv.org/abs/2611.06049) | `src:2611-06049v1`
 > **Authors**: Sen Yang, Jiaduo Lin, Zehong Huang, Wen Liu (Reglos.ai)
 > **Date**: November 2026
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Executive Summary
 

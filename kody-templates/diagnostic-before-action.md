@@ -10,6 +10,8 @@ enabled: false
 
 ## Instructions
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 When a PR adds or modifies self-improvement or optimization logic in an agent
 system, check whether the agent **measures before changing**.
 

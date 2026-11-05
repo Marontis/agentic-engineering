@@ -7,9 +7,13 @@ description: >
   Derived from "Break It Down, Pass It On" (arXiv:2608.20274) and validated
   against the Praxis ingestion pipeline's own skill library.
 source: https://arxiv.org/pdf/2608.20274
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Skill Design Methodology
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 A meta-skill for designing agent skills that actually transfer. Use this
 before writing any new skill, and periodically to audit an existing library.

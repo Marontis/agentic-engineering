@@ -4,6 +4,7 @@
 > of Multi-Agent Debate", [arXiv:2609.39146](https://arxiv.org/abs/2609.39146), Sep 2026
 > **Status**: Research Brief, benchmark and measurement study. Recorded as
 > defensive lessons; attack payloads are omitted.
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

@@ -2,6 +2,7 @@
 
 > **Source**: Min et al., arXiv:2609.21484, Sep 2026
 > **Status**: Research Brief — no transferable standalone procedure
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

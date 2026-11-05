@@ -3,6 +3,7 @@
 > **Paper**: [Black-Box Auditing of Epistemic Reliability in Multi-Agent Debate Distillation](https://arxiv.org/abs/2609.32361)
 > **Praxis source**: src:2609-32361v1
 > **Code**: https://github.com/CSIRO-CQS-AI-alignment-Team/Epistemic-Reliability-Auditor
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

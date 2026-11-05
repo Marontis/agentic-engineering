@@ -7,9 +7,13 @@ description: >
   algorithms, SLM-based agent architectures, sandbox-aware prompting,
   and compensating transactions for stateful APIs.
 source: https://arxiv.org/pdf/2512.12806
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Transactional Coding Sandbox
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Skill for wrapping AI coding agent tool calls in atomic transactions with
 filesystem snapshot isolation, providing guaranteed rollback when commands fail

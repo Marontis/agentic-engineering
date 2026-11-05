@@ -1,6 +1,7 @@
 # Self-Evolving Static Analysis via LLM Pseudo-Labeling
 
 > Source: `src:2610-30184` — "Self-Evolving Static Analysis via LLM Pseudo-Labeling" (arXiv:2610.30184, 2026)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Classification: Research Brief (Contextual Knowledge)
 

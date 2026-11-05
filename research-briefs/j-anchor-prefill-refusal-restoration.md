@@ -1,6 +1,7 @@
 # J-Anchor: Defending Against Prefill Attacks via J-Space Selective Refusal Restoration
 
 > **Source**: [arXiv:2611.01342](https://arxiv.org/abs/2611.01342) — Running Yang, Beidi Zhao, Xiaoxiao Li (University of British Columbia; Vector Institute), published 2026-10-31. Praxis ID: `src:2611-01342v1`.
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Summary
 

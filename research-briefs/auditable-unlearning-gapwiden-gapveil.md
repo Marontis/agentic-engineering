@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.05866](https://arxiv.org/abs/2611.05866) | `src:2611-05866`
 > **Authors**: Piyush Tiwary, Anushka Srivastava, Prathosh A.P
 > **Category**: Research Brief (Machine Unlearning / Privacy & Auditability / Inference-Time Rejection Sampling)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Overview
 

@@ -3,6 +3,7 @@
 > **Source**: Cheap to Hypothesize, Costly to Verify: The Defense Surface of Agentic Vulnerability Discovery, [arXiv:2609.35909](https://arxiv.org/abs/2609.35909), Sep 2026
 > **Status**: Research Brief, defensive technique with evaluation. No attack
 > procedure is recorded here.
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

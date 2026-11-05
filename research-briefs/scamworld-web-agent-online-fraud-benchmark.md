@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.04879](https://arxiv.org/abs/2611.04879) | `src:2611-04879`
 > **Authors**: Yutao Wu, Xiao Liu, Ming Wen, Hanxun Huang, Jun Wang, Xingjun Ma
 > **Category**: Research Brief (Web Agent Security / Online Fraud Benchmarking / Knowing-Doing Gap)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Overview
 

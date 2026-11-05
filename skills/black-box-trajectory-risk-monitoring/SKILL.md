@@ -5,9 +5,13 @@ description: >
   using observable Macro/Micro trajectory features and key-step boundary detection,
   without requiring internal model logits. Derived from Pan et al. (arXiv:2609.02057).
 source: https://arxiv.org/abs/2609.02057
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Black-Box Trajectory Risk Monitoring
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when monitoring deployed web, CLI, or API agents in production or
 evaluations where proprietary API models do not expose internal log probabilities or

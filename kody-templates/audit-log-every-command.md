@@ -10,6 +10,8 @@ enabled: true
 
 ## Instructions
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 When a PR adds or modifies code that executes commands on behalf of an agent,
 check whether every execution path produces an audit log entry with the
 required fields.

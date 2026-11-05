@@ -2,6 +2,7 @@
 
 > **Paper**: [Post-Training Ternarization of Qwen3-4B: Capability, Effective Bit Budget, Storage Compression, and Deployment](https://arxiv.org/abs/2609.01962)
 > **Praxis source**: src:2609-01962v1
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

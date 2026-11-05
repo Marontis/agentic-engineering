@@ -4,6 +4,7 @@
 > **Authors**: Luo, Huang, Guo et al. (Notre Dame and others)
 > **Praxis source**: src:2609-33763v1
 > **Status**: Research Brief — benchmark and evaluation method (defensive: repair, not exploitation)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

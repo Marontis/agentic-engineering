@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.30769](https://arxiv.org/abs/2610.30769) —Joshua C. Peterson, Thomas L. Griffiths, et al. (2026)
 > **Praxis Source ID**: `src:2610-30769`
 > **Category**: Research Brief (Multi-Agent Collective Dynamics & Social Cascade Failure Modes)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

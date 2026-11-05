@@ -7,9 +7,13 @@ description: >
   and Dynamic Workflows (runtime parallel_worker fan-out, recursive ctx.run_node).
   Includes the 1-question decision tree and composition rules.
   Derived from Google Cloud Tech "Graph Engineering with ADK" and official Codelab.
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # ADK 2 Agent Orchestration Patterns
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill to design, architect, and implement multi-agent systems using the
 three foundational orchestration pillars of the Google Agent Development Kit (ADK) 2.

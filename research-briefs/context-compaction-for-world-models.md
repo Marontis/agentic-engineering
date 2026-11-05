@@ -1,6 +1,7 @@
 # Context Compaction for World Models
 
 > Source: `src:2610-38980` — "Context Compaction for World Models" (arXiv:2610.38980, 2026)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Classification: Research Brief (Contextual Knowledge)
 

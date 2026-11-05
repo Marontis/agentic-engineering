@@ -10,9 +10,13 @@ description: >
   Derived from "Recursive Self-Improvement of AI Research Agents"
   (AIDE², arXiv:2609.26457).
 source: https://arxiv.org/abs/2609.26457
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Recursive Self-Improvement Loop (AIDE²)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building a system where an AI research agent
 improves its own implementation through iterated self-modification,

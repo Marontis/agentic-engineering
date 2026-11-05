@@ -9,9 +9,13 @@ description: >
   with an outside judge.
   Derived from "False Frontiers: Diagnosing and Mitigating Co-Cheating in Self-Evolving Search Agents" (arXiv:2609.39102).
 source: https://arxiv.org/abs/2609.39102
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Source-Disjoint Proposer Feedback (CrossFit)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when a self-evolving loop generates its own training tasks
 from a corpus (a proposer writes questions from source documents, a solver

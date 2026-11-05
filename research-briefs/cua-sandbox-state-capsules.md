@@ -4,6 +4,7 @@
 > **Authors**: Yan, Jiao, Liu et al. (A*STAR, HKUST, NUS, NTU and others)
 > **Praxis source**: src:2609-32750v1
 > **Status**: Research Brief — systems paper on environment infrastructure
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

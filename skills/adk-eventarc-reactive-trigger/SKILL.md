@@ -4,9 +4,13 @@ description: >
   Trigger asynchronous Google ADK agent workflows reactively from Google Cloud Eventarc events
   including Cloud Storage uploads, Pub/Sub messages, and Cloud Audit Logs.
 source: https://codelabs.developers.google.com/next26/eventarc-ai-agents?hl=en
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # ADK Eventarc Reactive Agent Triggers
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when an ADK agent should execute asynchronously in response to enterprise
 cloud events (e.g., a file uploaded to Cloud Storage, an event published to Pub/Sub, a new

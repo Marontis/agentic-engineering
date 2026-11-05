@@ -9,9 +9,13 @@ description: >
   Derived from "Measuring the Serving Stack Instead of the Model"
   (arXiv:2609.26693).
 source: https://arxiv.org/abs/2609.26693
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Serving-Stack Evaluation Checklist
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when evaluating agent tool-use performance on local
 serving stacks (Ollama, llama.cpp, vLLM, SGLang) and you need to

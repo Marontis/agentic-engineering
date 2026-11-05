@@ -3,6 +3,7 @@
 > **Paper**: [World Model Science: Self-Organized Criticality, Weak Chaos, and Metastable Belief Dynamics in Long-Horizon LLM Agents](https://arxiv.org/abs/2609.17419)
 > **Praxis source**: `src:2609-17419v1`
 > **Primary topic**: Agent Self-Improvement & Failure Dynamics
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

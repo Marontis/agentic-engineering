@@ -2,6 +2,7 @@
 
 > **Source**: Zhou, Adeseye, Hakkala, Virtanen & Isoaho, arXiv:2609.24710, Sep 2026
 > **Status**: Research Brief — controlled comparison of reasoning topologies
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

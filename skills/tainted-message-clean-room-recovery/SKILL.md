@@ -9,9 +9,13 @@ description: >
   Derived from "Policy-Backed Selective Regeneration under Tainted
   Inter-Agent Communication" (arXiv:2609.26072).
 source: https://arxiv.org/abs/2609.26072
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Tainted Message Clean-Room Recovery (ESC-CR)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when a multi-agent system must handle inter-agent
 messages that may contain unauthorized instructions mixed with

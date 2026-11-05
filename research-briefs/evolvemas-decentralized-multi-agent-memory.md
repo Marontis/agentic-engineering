@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.34450](https://arxiv.org/abs/2610.34450) — Zihan Wang, Yiming Wang,ashtosh Sharma, et al. (2026)
 > **Praxis Source ID**: `src:2610-34450`
 > **Category**: Research Brief (Decentralized Multi-Agent Memory Governance & Test-Time Evolution)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

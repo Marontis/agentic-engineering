@@ -7,9 +7,13 @@ description: >
   Derived from "ResidualAuth" (arXiv:2609.08062); approval replay evidence
   from "When Consent Outlives Context" (arXiv:2609.33910).
 source: https://arxiv.org/abs/2609.08062
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # ResidualAuth: Authorization State Preservation under Revocation
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building agents that hold delegated credentials (OAuth
 tokens, API keys, session cookies) and must handle revocation, expiry, or

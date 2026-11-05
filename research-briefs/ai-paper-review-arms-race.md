@@ -2,6 +2,7 @@
 
 > **Paper**: [The Emerging AI Paper-Review Arms Race: Adversarial Co-Evolution in Scholarly Publishing](https://arxiv.org/abs/2609.07713)
 > **Praxis source**: src:2609-07713
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

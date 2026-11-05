@@ -3,6 +3,7 @@
 > **Paper**: [A Verifier-Guided Explainable Reasoning Framework with Gold-Anchored QLoRA, Task-Aware Mixture-of-Experts, and Group-Relative RLVR](https://arxiv.org/abs/2609.05221)
 > **Praxis source**: `src:2609-05221v1`
 > **Primary topic**: Agent Self-Improvement & Harness Engineering
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

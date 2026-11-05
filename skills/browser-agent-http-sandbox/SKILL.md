@@ -6,9 +6,13 @@ description: >
   Covers agent sitemaps, policy selection/instantiation, HTTP interception,
   ambient authority restriction, and prompt injection defense.
 source: https://arxiv.org/pdf/2512.12594
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Browser Agent HTTP Sandbox
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Skill for building security frameworks around browser-using AI agents (BUAs)
 that interact with websites through clicks, scrolling, typing, and navigation.

@@ -4,6 +4,7 @@
 > **Status**: Research Brief, defensive lessons only. The report evaluates a
 > model's behaviour; this brief records what deployers should take from it
 > and deliberately omits attack details (see the repo's `AGENTS.md`).
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

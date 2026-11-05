@@ -5,9 +5,13 @@ description: >
   using centroid-based routing over embedded policy regimes.  Reduces
   rule-bloat overhead while maintaining safety coverage.
   Derived from "Which Rules Matter Now?" (arXiv:2608.30757).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Policy-Centroid Routing
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when your agent has a large rule set and you need to
 select which rules are relevant to a given action before evaluation,

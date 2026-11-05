@@ -9,9 +9,13 @@ description: >
   constraints (budget, schedule) in a replayable environment.
   Derived from "HyperMCTS: Hypergraph-Augmented MCTS for Long-Horizon LLM Agents" (arXiv:2609.33920).
 source: https://arxiv.org/abs/2609.33920
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Cross-Trajectory Decision-Group Priors for Agent MCTS
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when an LLM agent already runs (or could run) Monte
 Carlo Tree Search over tool-use trajectories, each rollout is expensive,

@@ -3,6 +3,7 @@
 > **Source**: Wu, Cekinmez, Liao, Narasimhan, Griffiths (Princeton), arXiv:2609.30028, Sep 2026
 > **Status**: Research Brief — controlled empirical study of deceptive agents in multi-agent deliberation
 > **Praxis source**: src:2609-30028v1
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

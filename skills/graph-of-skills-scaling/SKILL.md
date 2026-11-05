@@ -5,9 +5,13 @@ description: >
   self-evolution.  Covers hybrid seed retrieval, reverse-aware diffusion,
   topology/edge/node updates, and training-free deterministic evolution.
   Derived from SE-GoS (arXiv:2609.08228).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Graph-of-Skills Scaling
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when your agent's skill library is growing beyond
 flat retrieval and you need graph-structured organization that

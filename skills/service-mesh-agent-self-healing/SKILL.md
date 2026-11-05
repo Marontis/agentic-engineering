@@ -7,11 +7,14 @@ description: >-
   Failover to heal from agent crashes, corrupted prompts, noisy tools, and
   adversarial outputs without global re-orchestration. Derived from MA-Mesh
   (arXiv:2611.06389).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Service-Mesh Agent Self-Healing
 
 > **Source**: [arXiv:2611.06389](https://arxiv.org/abs/2611.06389) — *MA-Mesh: Resilient Multi-Agent Collaboration via Role-based Self-Healing* (`src:2611-06389v1`)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use
 

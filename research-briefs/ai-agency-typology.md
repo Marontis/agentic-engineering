@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2608.20041](https://arxiv.org/abs/2608.20041)
 > **Praxis node**: `src:arxiv-2608-20041`
 > **Type**: Reference — governance/philosophy context, not a procedural skill
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Keep This
 

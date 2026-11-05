@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.31000](https://arxiv.org/abs/2610.31000) — *SecLog-Bench: A Scalable Benchmark for Cybersecurity Log Reasoning with Scaffolded Evidence* (`src:2610-31000`)
 > **Authors**: SecLog-Bench Team (2026)
 > **Category**: Agent Evaluation & Cybersecurity / Multi-Source Log Reasoning & Verdict-Reasoning Misalignment
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

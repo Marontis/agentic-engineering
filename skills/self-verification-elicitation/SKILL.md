@@ -6,9 +6,13 @@ description: >
   outputs before committing to final answers.
   Derived from "Eliciting Self-Verification in Multimodal Reasoning
   Agents" (arXiv:2609.08025).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Self-Verification Elicitation
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building reasoning agents that need to catch
 their own errors before producing final outputs.

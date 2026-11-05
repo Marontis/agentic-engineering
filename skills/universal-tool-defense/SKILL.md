@@ -8,9 +8,13 @@ description: >
   static-benchmark settings (not tested against adaptive, defense-aware attackers).
   Derived from Li & Wang (arXiv:2609.16098).
 source: https://arxiv.org/abs/2609.16098
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Universal Tool Defense for LLM Agents
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when deploying tool-using LLM agents in environments where tools, tool descriptions, execution environments, or tool outputs may be untrusted, dynamic, or exposed to adversarial manipulation.
 

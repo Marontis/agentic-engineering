@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.40751](https://arxiv.org/abs/2610.40751) — Jingnan Zheng, Cheng Jin, Ming Zhang, Huan Sun, et al. (Safin Team, Shanghai AI Laboratory, 2026-10-29)
 > **Praxis Source ID**: `src:2610-40751`
 > **Category**: Research Brief (Safety-Native MoE Architecture, Recursive Safety Improvement & Neuro-Symbolic Formal Reasoning)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

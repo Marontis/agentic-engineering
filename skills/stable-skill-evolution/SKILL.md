@@ -5,9 +5,13 @@ description: >
   adaptive learning rates.  Prevents catastrophic forgetting and
   oscillation during iterative skill updates.
   Derived from SkillAdam (arXiv:2609.08944).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Stable Skill Evolution
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when evolving an agent's skill library iteratively
 and you need to prevent oscillation, catastrophic forgetting, or

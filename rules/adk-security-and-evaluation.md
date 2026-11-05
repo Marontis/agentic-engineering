@@ -3,6 +3,8 @@
 > Research-backed guardrails for securing, hardening, evaluating, and deploying
 > agentic systems using the Google Agent Development Kit (ADK) 2, Google Cloud Model Armor,
 > Sensitive Data Protection (SDP), and Agent-to-Agent (A2A) protocols.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

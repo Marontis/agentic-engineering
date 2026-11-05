@@ -10,6 +10,8 @@ enabled: true
 
 ## Instructions
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 When a PR adds or modifies network access control for an agent system — a
 proxy configuration, a domain filter, a URL validator, or a firewall rule —
 check whether the policy is an **allowlist** (block by default, explicitly

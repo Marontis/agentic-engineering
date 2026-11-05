@@ -2,6 +2,7 @@
 
 > **Source**: Gong, Bi, Yao, Liang, Xiang & Guo, arXiv:2609.31186, Sep 2026
 > **Status**: Research Brief — conceptual taxonomy and evaluation framework (no new experiments)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

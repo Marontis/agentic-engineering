@@ -3,6 +3,7 @@
 > **Paper**: [Mo' Models, Mo' Problems: How to best select model pools when designing Multi-Agent Systems](https://arxiv.org/abs/2609.17306)
 > **Praxis source**: `src:2609-17306v1`
 > **Primary topic**: Multi-Agent System Design & Model Selection
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

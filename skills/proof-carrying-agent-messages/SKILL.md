@@ -8,9 +8,13 @@ description: >
   attestation tiers, person-rooted attenuating grant chains, restart-safe bounded
   replay protection, and parser-differential-free strict readings. Derived from
   Ghosh (arXiv:2610.39109).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Proof-Carrying Agent Messages (PCM)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 When one LLM agent tells another that *"the tests passed"*, *"I fetched the order from `api.example.com`"*, or *"Alice approved this \$120 refund"*, transport authentication (TLS, signed A2A Agent Cards, RFC 9421 HTTP signatures) only proves **who sent the message**—and a prompt-injected or hallucinating sender happily signs its own lie. Even stacking payment mandates (AP2), transparency receipts (SCITT), and HTTP replay checks (RFC 9421) still accepts **`51.3%` (`365/712`)** of false inter-agent claims.
 

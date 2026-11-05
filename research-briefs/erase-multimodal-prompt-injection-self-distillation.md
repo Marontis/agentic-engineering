@@ -2,6 +2,7 @@
 
 > **Source**: [arXiv:2610.41307](https://arxiv.org/abs/2610.41307) — Shuo Hong, Jiaxin Ma, Xidi Cai, Qianli Ma (South China University of Technology, 2026-10-30)  
 > **Praxis ID**: `src:2610-41307`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

@@ -1,6 +1,7 @@
 # Revisiting Over-refusal in Safety-aligned Large Language Models: A Representation and Optimization Perspective (GOAL)
 
 > **Source**: [arXiv:2610.39802](https://arxiv.org/abs/2610.39802) — Chao Chen, Pengyang Shao, Wei Qin, Shijie Hao, Fei Shen, Richang Hong (Hefei University of Technology; National University of Singapore), published 2026-10-29. Praxis ID: `src:2610-39802v1`.
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Summary
 

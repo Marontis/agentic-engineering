@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.35434](https://arxiv.org/abs/2610.35434) — *Skill$^{\infty}$: Recursive Self-Improvement for Agent Skill Optimization* (`src:2610-35434`)
 > **Authors**: Yitao Liang et al. (2026)
 > **Category**: Agent Skill Evolution / Recursive Meta-Skill Optimization
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

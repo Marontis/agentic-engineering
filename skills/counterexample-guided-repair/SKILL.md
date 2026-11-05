@@ -5,9 +5,13 @@ description: >
   counterexample witnesses from an executable oracle, followed by targeted robustness
   probing. Derived from A-CEGIS (arXiv:2609.02892).
 source: https://arxiv.org/abs/2609.02892
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Counterexample-Guided Repair
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when designing agent self-correction loops for formal, executable, or
 syntactically constrained artifacts (e.g., regular expressions, SQL queries, code snippets,

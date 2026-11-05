@@ -1,5 +1,7 @@
 # VACS: Value-Aligned Compositional Shielding for Multi-Agent Reasoning
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 **Source**: Zhang et al., "VACS: Value-Aligned Compositional Shielding
 for Multi-Agent Reasoning" (arXiv:2609.26135), Sep 2026.
 

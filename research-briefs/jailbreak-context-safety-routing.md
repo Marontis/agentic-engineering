@@ -3,6 +3,7 @@
 > **Paper**: [Jailbreak Context Lingers: Divergent Safety Routing and Its Cross-Task Predictability in Tool Agents](https://arxiv.org/abs/2609.34686)
 > **Praxis source**: src:2609-34686v1
 > **Status**: Research Brief, defensive lessons only. No jailbreak content is reproduced here.
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

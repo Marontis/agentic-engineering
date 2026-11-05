@@ -8,11 +8,14 @@ description: >-
   encumbered key enrollment, trusted intent display (WYSIWYS), and
   payload-bound physical confirmation. Derived from I-HITL / Countersign
   (arXiv:2610.35835).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Out-of-Band Human-in-the-Loop Verification
 
 > Source: `src:2610-35835` — Breckenridge et al., "I-HITL: Inalienable Human-in-the-Loop" (arXiv:2610.35835, 2026)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use
 

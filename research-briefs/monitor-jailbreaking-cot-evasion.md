@@ -3,6 +3,7 @@
 > **Source**: Schulz, arXiv:2609.31121, Sep 2026
 > **Status**: Research Brief — RL training study of CoT-monitor evasion, with a paraphrase defense
 > **Praxis source**: src:2609-31121v1
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

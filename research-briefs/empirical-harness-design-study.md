@@ -2,6 +2,7 @@
 
 > **Source**: Fan et al., arXiv:2609.20804, Sep 2026
 > **Status**: Research Brief — empirical study of harness components
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

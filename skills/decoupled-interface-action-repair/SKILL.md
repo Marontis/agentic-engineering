@@ -11,9 +11,13 @@ description: >
   Derived from "Matched Capabilities, Different Behaviors: A Controlled Study
   of MCP and CLI Interfaces for Language Agents" (arXiv:2610.34298).
 source: https://arxiv.org/abs/2610.34298
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Decoupled Interface Action Realization and Targeted Repair (DART & MICA)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when an interactive language agent accesses capabilities through
 structured tool calls (MCP) or command-line interfaces (CLI) and suffers from

@@ -5,9 +5,13 @@ description: >
   abstracting raw logs into structured behavioral states and checking neural
   invariants. Derived from AgentScope (arXiv:2609.02371).
 source: https://arxiv.org/abs/2609.02371
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Neural-Invariant Failure Diagnosis
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when diagnosing failed agent trajectories, performing post-mortem root-cause
 analysis on complex multi-turn rollouts, or localizing bugs in autonomous agent harnesses.

@@ -1,6 +1,7 @@
 # Search-Guided Reasoning Trace Curation for Verilog Generation
 
 > Source: `src:2610-37706` — "Search-Guided Reasoning Trace Curation for Verilog Generation" (arXiv:2610.37706, 2026)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Classification: Research Brief (Contextual Knowledge)
 

@@ -10,6 +10,8 @@ enabled: true
 
 ## Instructions
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 When a PR adds or modifies agent execution code that writes to the filesystem
 (creates, modifies, or deletes files/directories), check whether a
 snapshot/checkpoint is created **before** the write and whether rollback logic

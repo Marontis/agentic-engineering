@@ -6,9 +6,13 @@ description: >
   collaborate.  Covers DID-based identity, capability delegation,
   and cross-federation trust.
   Derived from PRIMUS (arXiv:2609.07910).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Multi-Agent Federation Governance
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building systems where agents from different
 organizations or trust domains must collaborate while maintaining

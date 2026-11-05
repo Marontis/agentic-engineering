@@ -8,9 +8,13 @@ description: >
   Optionally feed unsafe verdicts back as constraints for a retry.
   Derived from "SCOUT: Synergizing Reasoning and Tool-Use for Computer-Use Safety" (arXiv:2609.36201).
 source: https://arxiv.org/abs/2609.36201
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Rubric-First Safety Probing (SCOUT)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when you need a post-hoc verdict on a computer-use agent's
 trajectory (task completed? anything harmed?) and screenshots or logs alone

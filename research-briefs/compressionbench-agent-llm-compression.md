@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.06858](https://arxiv.org/abs/2611.06858) | `src:2611-06858v1`
 > **Authors**: Xinrui Zhong, Zhifeng Li, Zhiming Wang, Yongqi Liu, Shanglin Yang, Yang Zhou, Zikun Li, Zhuoming Chen, Beidi Chen (Carnegie Mellon University)
 > **Category**: `cs.LG` / `cs.AI` (Autonomous Coding Agents / Model Compression & Quantization Benchmark)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

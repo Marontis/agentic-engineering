@@ -8,9 +8,13 @@ description: >
   Derived from "Selection-Invariant Communication Compilers for
   Privacy-Aware Multi-Agent LLM Workflows" (arXiv:2609.26076).
 source: https://arxiv.org/abs/2609.26076
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Selection-Invariant Agent Communication (SICC)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building multi-agent workflows where intermediate
 messages could leak private state through the *form* of authorized

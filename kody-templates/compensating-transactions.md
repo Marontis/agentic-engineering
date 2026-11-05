@@ -10,6 +10,8 @@ enabled: true
 
 ## Instructions
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 When a PR adds or modifies code in an agent execution path that makes an
 external API call (HTTP POST/PUT/DELETE, email send, database write to an
 external service, message queue publish), check whether a compensating

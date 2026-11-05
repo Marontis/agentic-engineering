@@ -2,6 +2,7 @@
 
 > **Source**: Cai, Zhang, Nie, Ran, Zheng, Song, Tian, Guo, Xue, arXiv:2609.08175 (v2, 28 Sep 2026)
 > **Status**: Research Brief — theory of when a self-evolved harness can be adopted, with one DS-1000 illustration
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

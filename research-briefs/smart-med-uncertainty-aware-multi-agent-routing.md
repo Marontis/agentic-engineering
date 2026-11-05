@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.33544](https://arxiv.org/abs/2610.33544) — *Learning When to Collaborate: Selective Multi-Agent Medical Reasoning via Uncertainty-Aware Routing* (`src:2610-33544`)
 > **Authors**: Jiacheng Hou, Xueliang Cui, Dan Lu, Ruxin Wang (Tsinghua SIGS, SUSTech, SUAT, West China Hospital, SIAT CAS, 2026)
 > **Category**: Multi-Agent Coordination / Uncertainty-Aware Routing & Selective Collaboration
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

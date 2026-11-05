@@ -4,6 +4,7 @@
 > **Authors**: Genoria AI Team, Yuejie Hou, Lixiang Yang, Yisi Liu, Weiting Tang, Yueyuxiao Yang, Meng Yang (Genoria AI)
 > **Date**: November 2026
 > **Categories**: cs.AI, q-bio.BM, cs.LG
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

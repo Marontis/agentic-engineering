@@ -6,9 +6,13 @@ description: >
   per-instance delta encoding, and memory-budget-aware eviction.
   Derived from "Memory Compression for High-Fanout Agent Sandboxes"
   (arXiv:2609.11294).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # High-Fanout Sandbox Memory Compression
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when running an agent across many parallel sandbox
 instances and memory consumption is the bottleneck.

@@ -10,6 +10,8 @@ enabled: false
 
 ## Instructions
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 When a PR adds or modifies a skill document (SKILL.md or equivalent), check
 whether it describes **one reusable procedure** or an entire end-to-end
 workflow.

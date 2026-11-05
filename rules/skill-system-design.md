@@ -3,6 +3,8 @@
 > Research-backed guardrails for building, managing, and deploying skill
 > libraries for LLM agents. These rules should be active whenever developing
 > skill memory systems, tool registries, or context injection pipelines.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

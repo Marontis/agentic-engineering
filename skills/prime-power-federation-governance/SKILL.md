@@ -6,9 +6,13 @@ description: >
   adversarial-resistant participation tracking and enforcement.
   Derived from "PRIMUS" (arXiv:2609.07910).
 source: https://arxiv.org/abs/2609.07910
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # PRIMUS: Prime-Power Federation Governance
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building multi-agent federations that need
 cryptographically verifiable identity, participation tracking, and

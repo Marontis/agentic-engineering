@@ -2,6 +2,7 @@
 
 > **Paper**: [WHALE: A Simple Recipe for Joint Harness–Weight Optimization](https://arxiv.org/abs/2609.00196)
 > **Praxis source**: src:2609-00196v1
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

@@ -2,11 +2,14 @@
 name: security-aware-context-slicing
 description: >
   Construct security-aware repository context for code generation and coding agents using CWE-agnostic source-sink call-graph slicing, early-exit endpoint guard linking, and static exemplar screening. Prevents silent omission of project-specific validators and imitation of unfixed sibling vulnerabilities. Derived from A.S.E 2.0 / CASE-Bench (arXiv:2611.06294).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Security-Aware Repository Context Slicing
 
 > **Source**: [arXiv:2611.06294](https://arxiv.org/abs/2611.06294) | `src:2611-06294`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use
 

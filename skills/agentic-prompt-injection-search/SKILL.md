@@ -8,9 +8,13 @@ description: >
   compute-budget-aware security assessment.
   Derived from "Rethinking Indirect Prompt Injection as a Test-Time
   Search Problem" (arXiv:2609.04495).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Agentic Prompt Injection Search
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when evaluating the security of a tool-using agent
 against indirect prompt injection.  Instead of running a fixed set of

@@ -11,6 +11,8 @@ evidence: "SWE-bench verified: 62% → 87% in 12 months; complex scaffolding tha
 
 # Audit Agent Scaffolding for Stale Rules
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 ## Detection
 
 Look for agent scaffolding (prompts, skills, tool configurations, workflow

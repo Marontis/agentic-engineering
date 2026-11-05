@@ -1,6 +1,7 @@
 # From Clinical Judgment to Checkable Rules: Clinician-Led Guardrails for Mental-Health Chatbots
 
 > Source: `src:2610-30690` — "From Clinical Judgment to Checkable Rules: Clinician-Led Guardrails for Mental-Health Chatbots" (arXiv:2610.30690, 2026)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Classification: Research Brief (Contextual Knowledge)
 

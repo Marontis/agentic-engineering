@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.30202](https://arxiv.org/abs/2610.30202) — Yuchen Yang, Yiming Li, Baoyuan Wu, Pin-Yu Chen, Dacheng Tao (2026)
 > **Praxis Source ID**: `src:2610-30202`
 > **Category**: Research Brief (Multimodal Prompt Injection Detection & Evaluation)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

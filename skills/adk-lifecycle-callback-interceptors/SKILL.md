@@ -5,9 +5,13 @@ description: >
   updates in Google Agent Development Kit (ADK) using lifecycle callbacks (before/after agent,
   model, and tool) without polluting workflow graph topologies.
 source: https://codelabs.developers.google.com/codelabs/vibe-studio-lab/instructions
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # ADK Lifecycle Callback Interceptors
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when an ADK agent requires dynamic context enrichment (e.g., user preferences
 from a Memory Bank), deterministic input/output validation, telemetry, or long-term observation

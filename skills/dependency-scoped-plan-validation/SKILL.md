@@ -6,9 +6,13 @@ description: >
   systems. Prevents stale-plan execution without costly full-state
   synchronization. Derived from PlanFence (arXiv:2609.03340).
 source: https://arxiv.org/abs/2609.03340
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Dependency-Scoped Plan Validation
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when designing or deploying distributed, multi-agent, or
 asynchronous tool-execution systems where shared memory or requirements can

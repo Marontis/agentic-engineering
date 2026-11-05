@@ -12,9 +12,13 @@ description: >
   Derived from "Which Self-Improvements Should We Trust? Reliable
   Self-Improvement When Agents Reuse Their Benchmarks" (arXiv:2609.33180).
 source: https://arxiv.org/abs/2609.33180
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Decision-Only Sequential Acceptance (Reuse)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when a propose → evaluate → promote loop reuses one fixed
 evaluation set across many rounds, and you need the promoted changes to

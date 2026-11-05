@@ -3,6 +3,7 @@
 > **Source**: Schmotz, Prinzhorn, Beurer-Kellner, Paulus, Prabhu, Andriushchenko, arXiv:2609.30217, Sep 2026
 > **Status**: Research Brief — benchmark (EvasionBench) and propensity study of runtime action-monitor evasion
 > **Praxis source**: src:2609-30217v1
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

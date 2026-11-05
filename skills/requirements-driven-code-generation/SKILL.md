@@ -6,9 +6,13 @@ description: >
   evaluates specification quality, and synthesizes requirement-bound tests
   before writing code. Derived from WiseSpec (arXiv:2609.00568).
 source: https://arxiv.org/abs/2609.00568
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Requirements-Driven Code Generation
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when tackling complex software engineering tasks, ambiguous
 feature requests, or multi-component coding problems where raw user prompts

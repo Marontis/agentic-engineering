@@ -12,9 +12,13 @@ source: https://arxiv.org/pdf/2608.27266
 related_skills:
   - skill-design-methodology
   - knowledge-compounding-loop
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Iterative Instruction Refinement
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 How to improve agent instructions through simple, single-lineage revision
 using execution feedback — without the complexity of population-based search,

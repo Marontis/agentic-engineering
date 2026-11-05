@@ -1,6 +1,7 @@
 # Sandman: Building and Operating Sandboxes for Agentic Reinforcement Learning on Shared Kubernetes
 
 > **Source**: [arXiv:2610.39711](https://arxiv.org/abs/2610.39711) — Yiming Yan, Hongyang Wang, Wenbo Chen, Xuan Wang, Yichuan Li, Jingguo Liu, Xian Li, Leo Fan, Chen Qi, Siwei Li, Qianli Wu, Ruochen Wen, Qian Qu, Zheshen Wang, Benoit Dumoulin (Amazon), published 2026-10-29. Praxis ID: `src:2610-39711v1`.
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Summary
 

@@ -2,6 +2,7 @@
 
 > **Source**: Paul & Nandy, arXiv:2609.22949, Sep 2026
 > **Status**: Research Brief — threat taxonomy plus a four-layer defense evaluated on one 6-agent pipeline with a fixed payload set
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

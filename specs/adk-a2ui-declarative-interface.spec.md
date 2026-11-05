@@ -2,6 +2,8 @@
 
 > Fill in this template when designing rich, interactive frontend experiences
 > for Google ADK agents using the Agent-to-User Interface (A2UI) declarative protocol.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

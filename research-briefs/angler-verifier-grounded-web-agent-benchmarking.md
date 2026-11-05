@@ -1,6 +1,7 @@
 # ANGLER: Verifier-Grounded Benchmarking with an Adaptive Attacker for Web Agents
 
 > Source: `src:2610-41272` — "ANGLER: Verifier-Grounded Benchmarking with an Adaptive Attacker for Web Agents" (arXiv:2610.41272, 2026)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Classification: Research Brief (Contextual Knowledge — Defensive Evaluation Focus)
 

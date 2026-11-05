@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.38869](https://arxiv.org/abs/2610.38869) — Li et al. (University of Liverpool, 2026-10-28)  
 > **Praxis Source ID**: `src:2610-38869`  
 > **Tier**: Research Brief
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Summary
 

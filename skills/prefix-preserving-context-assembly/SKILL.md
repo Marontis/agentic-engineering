@@ -6,9 +6,13 @@ description: >
   and avoids ad-hoc history truncation through execution plans and cost models.
   Derived from ContextPipe (arXiv:2609.00749).
 source: https://arxiv.org/abs/2609.00749
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Prefix-Preserving Context Assembly
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when designing or configuring runtime context assembly,
 prompt templating, or history compaction in long-horizon LLM agents.

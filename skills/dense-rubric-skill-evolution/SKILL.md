@@ -5,9 +5,13 @@ description: >
   an oracle-aligned dense rubric as a surrogate evaluation space. Inner loops revise skills
   at zero rollout cost; sparse outer loops re-align rubric weights via rank correlation.
 source: https://arxiv.org/abs/2609.15396
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Dense Rubric Skill Evolution (SkillLift)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill to optimize and evolve persistent agent skills (reusable procedural system prompts
 and task guidelines) while reducing evaluation token costs by 40% to 70% compared to

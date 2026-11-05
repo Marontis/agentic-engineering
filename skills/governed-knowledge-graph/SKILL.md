@@ -5,9 +5,13 @@ description: >
   tracking, domain ownership, admission review, and audit metadata.
   Covers the MAGG multi-agent framework for governed KG construction.
   Derived from "From Extraction to Governed Memory" (arXiv:2608.28642).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Governed Knowledge Graph Construction
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building knowledge graphs for agentic systems
 and you need every fact to have provenance, ownership, and a

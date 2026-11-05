@@ -5,12 +5,15 @@ description: >-
   prior issue attempts into collector-private state detectors and short-horizon
   branch comparisons while keeping the agent's prompt strictly native. Derived
   from SWE-Trail (arXiv:2611.02074).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # History-Guided Trajectory Collection (`SWE-Trail`)
 
 > **Source**: [arXiv:2611.02074](https://arxiv.org/abs/2611.02074) — Li et al. (University of Connecticut & Ant Group, 2026-11-01)  
 > **Praxis Source ID**: `src:2611-02074`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use This Skill
 

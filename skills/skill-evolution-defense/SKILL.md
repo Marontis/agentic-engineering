@@ -5,9 +5,13 @@ description: >
   adversarial injection.  Covers provenance validation, mutation filtering,
   safety benchmarking of evolved skills, and quarantine patterns.
   Derived from "EvoSkill Injection" (arXiv:2608.30429).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Skill Evolution Defense
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building or maintaining systems where agents
 autonomously generate, evolve, or import skills — and you need to

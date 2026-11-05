@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.33684](https://arxiv.org/abs/2610.33684) — Dianxing Shi, Dingjie Fu, Tianyu Lei, Wangjie Qiu (2026)
 > **Praxis Source ID**: `src:2610-33684`
 > **Category**: Research Brief (Self-Evolving RL Training Pipeline & Coupled Mode–Budget Optimization)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

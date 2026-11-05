@@ -7,9 +7,13 @@ description: >
   cost by ~44% while maintaining accuracy.
   Derived from "Cost-Aware Hierarchical Multi-Agent Ransomware
   Detection and Family Attribution" (arXiv:2609.04820).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Cost-Aware Hierarchical Analysis
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building an analysis pipeline where multiple
 modalities or tools are available at different cost/latency tiers,

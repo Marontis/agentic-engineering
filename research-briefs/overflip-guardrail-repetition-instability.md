@@ -2,6 +2,7 @@
 
 > **Paper**: [Overflip: Repetition-Induced Label Flips in Guardrail Models](https://arxiv.org/abs/2609.15013)  
 > **Praxis source**: `src:2609-15013v1`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

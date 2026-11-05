@@ -2,6 +2,7 @@
 
 > **Paper**: [AgentLogs: A Dataset for Opening the Black Box of GitHub's Cloud Agent](https://arxiv.org/abs/2608.29204)
 > **Praxis source**: `src:records`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

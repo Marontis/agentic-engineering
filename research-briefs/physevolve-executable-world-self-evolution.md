@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.34921](https://arxiv.org/abs/2610.34921) — *PhysEvolve: Verifier-grounded Self-evolution for Physical Reasoning with Executable Worlds* (`src:2610-34921`)
 > **Authors**: Zihan Wang et al. (2026)
 > **Category**: Verifier-Grounded Self-Evolution / Multimodal World Models & Physical Reasoning
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

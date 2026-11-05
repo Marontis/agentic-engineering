@@ -2,6 +2,7 @@
 
 > **Source**: [arXiv:2611.03223](https://arxiv.org/abs/2611.03223) — Yiwei Zha, Qingyu Meng, Herbert Bos, Min Chen (VUSec, Vrije Universiteit Amsterdam, 2026-11-02)  
 > **Praxis ID**: `src:2611-03223` | **Code**: `https://github.com/VUAISec/ARCBench`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

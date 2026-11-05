@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.37738](https://arxiv.org/abs/2610.37738) — *Poisoned Skills: Propagating Jailbreaks Through Agent Markdown Files* (Manjusha & Emani, published 2026-10-27)  
 > **Praxis ID**: `src:2610-37738`  
 > **Tier**: Research Brief (Defensive Skill-Loading & Provenance Hardening)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Summary
 

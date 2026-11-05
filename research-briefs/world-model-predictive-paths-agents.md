@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.28945](https://arxiv.org/abs/2610.28945) — *Self-Improving Agents with World Model Predictive Paths* (`src:2610-28945`)
 > **Authors**: Haori Lu, Tianyu Gao, Yaoyao Liu, Yingying Li (UIUC, 2026)
 > **Category**: Agent Planning & World Models / Test-Time Experience-Guided MPC
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

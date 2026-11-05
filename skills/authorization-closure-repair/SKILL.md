@@ -9,9 +9,13 @@ description: >
   Derived from "Authorization Closure Graph: Minimal Repair for LLM Agents
   with Evolving User Instructions" (arXiv:2609.32428).
 source: https://arxiv.org/abs/2609.32428
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Authorization Closure Repair
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when a customer-service or operations agent executes writes
 (bookings, cancellations, refunds, account changes) on the user's behalf,

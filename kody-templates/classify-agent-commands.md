@@ -10,6 +10,8 @@ enabled: true
 
 ## Instructions
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 When a PR adds or modifies code that dispatches a command from an agent
 (subprocess, os.system, exec, eval, or any wrapper that shells out), check
 whether the command passes through a classification step **before** execution.

@@ -11,9 +11,13 @@ description: >
   Derived from "Mid-Harness: Scaling Actions Between Model and Harness
   for Terminal Agents" (arXiv:2609.39982).
 source: https://arxiv.org/abs/2609.39982
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Pairwise Action Verification (Mid-Harness)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when a terminal or coding agent's single bad command can
 derail the rest of the trajectory, and you have budget for extra model

@@ -6,6 +6,7 @@
 > **Status**: Research Brief, exploratory case study. Four trajectories,
 > two models, one author; treat the findings as hypotheses, not measured
 > effects.
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

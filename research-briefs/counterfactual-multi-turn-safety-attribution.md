@@ -2,6 +2,7 @@
 
 > **Source**: Subramanian, Islam, Khan (Kennesaw State), arXiv:2609.27773, Sep 2026
 > **Status**: Research Brief — dataset plus a trained attribution model for localizing which turns and tokens caused a multi-turn guardrail failure
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

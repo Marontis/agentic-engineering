@@ -2,6 +2,7 @@
 
 > **Paper**: [When Agents Collude: Weak-to-Strong On-Policy Distillation for Mitigating Strategic Deception in Multi-Agent Systems](https://arxiv.org/abs/2610.33011)
 > **Praxis source**: src:2610-33011
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

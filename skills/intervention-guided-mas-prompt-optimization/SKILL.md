@@ -6,9 +6,13 @@ description: >
   per failure, extracts agent-level supervision, and clusters gradients
   to prevent mixing unrelated failure modes.
   Derived from AgentGrad (arXiv:2609.08572).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Intervention-Guided MAS Prompt Optimization
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when optimizing prompts for multi-agent systems (MAS)
 where multiple specialized agents collaborate and you need to identify

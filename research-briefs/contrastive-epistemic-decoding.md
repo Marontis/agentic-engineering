@@ -1,5 +1,7 @@
 # Recovering Agentic Sovereignty: Contrastive Epistemic Decoding
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 **Source**: Shehata & Li, "Recovering Agentic Sovereignty: Mitigating the
 Consensus Paradox via Contrastive Epistemic Decoding"
 (arXiv:2609.25570), Sep 2026.

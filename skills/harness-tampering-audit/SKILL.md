@@ -6,9 +6,13 @@ description: >
   Classifies and localizes misaligned modifications across harness functional
   roles and integrity obligations. Derived from arXiv:2609.00069.
 source: https://arxiv.org/abs/2609.00069
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Harness Tampering Audit
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when developing, auditing, or deploying recursive self-improving
 agents (RSI), autonomous code optimizers, or systems that modify their own

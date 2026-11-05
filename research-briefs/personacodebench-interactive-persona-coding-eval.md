@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.05739](https://arxiv.org/abs/2611.05739) | `src:2611-05739`
 > **Authors**: Haixin Wang et al.
 > **Category**: Research Brief (Interactive Coding Benchmarks / Persona-Driven Requirements / Agent Evaluation)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Overview
 

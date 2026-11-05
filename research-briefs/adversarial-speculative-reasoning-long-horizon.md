@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.05345](https://arxiv.org/abs/2611.05345) | `src:2611-05345`
 > **Authors**: Hongyin Luo, Wei Fang, Lijie Yang, Owen Stepan, Daniel Suit, Jeff Krapf, Dana Wensberg, Jack O'Brien (Subconscious Systems Technologies, MIT, Princeton University, Northeastern University)
 > **Date**: 2026-11-03
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Key Findings
 

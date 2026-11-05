@@ -2,11 +2,14 @@
 name: mcts-full-harness-optimization
 description: >
   Optimize complete executable agent harnesses (context construction, memory/state tracking, control flow, and tool interfacing) under a small evaluation budget using top-K shortlisted Monte Carlo Tree Search with noise-calibrated exploitation, direct-child exploration, an execution experience archive, and a copy-on-adopt component library. Derived from HarnessFlow (arXiv:2611.06254).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # MCTS-Guided Full-Harness Optimization
 
 > **Source**: [arXiv:2611.06254](https://arxiv.org/abs/2611.06254) | `src:2611-06254`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use
 

@@ -6,9 +6,13 @@ description: >
   prewarming, stochastic prefetching via Markov SDG, semantic result caching,
   and zero-copy shared-memory artifact transport.
 source: https://arxiv.org/pdf/2607.23933
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Speculative Sandbox Scheduler
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Skill for building runtime systems that overlap sandbox environment preparation
 with LLM inference, eliminating cold-start latency in multi-tenant, multi-turn

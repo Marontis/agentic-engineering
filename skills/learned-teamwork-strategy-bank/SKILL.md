@@ -11,9 +11,13 @@ description: >
   Derived from "Self-Organizing Agent Teams Learn to Reason Together"
   (arXiv:2609.22682).
 source: https://arxiv.org/abs/2609.22682
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Learned Teamwork Strategy Bank
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when you have a fixed roster of different models that
 each solve different subsets of a reasoning task, and fixed protocols

@@ -4,6 +4,8 @@
 > own capabilities, training process, or decision-making procedures. Each
 > section surfaces research-backed decision points for architecture, safety,
 > evaluation, and change classification.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

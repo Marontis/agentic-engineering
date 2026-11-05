@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.05263](https://arxiv.org/abs/2611.05263) | `src:2611-05263v1`
 > **Authors**: Shanka Subhra Mondal, Jiayun Wang (Center for Advanced AI, Accenture)
 > **Category**: `cs.AI` (Hierarchical Multi-Agent Reinforcement Learning / Web & GUI Agents)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

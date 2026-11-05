@@ -8,9 +8,13 @@ description: >
   prevent Vulnerable Guardrail Tools (VGT), and iterative tool repair with
   intent-preserving action replanning. Derived from EVOLVE (arXiv:2611.02516).
 source: https://arxiv.org/abs/2611.02516
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Audited Guardrail Tool Evolution
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building or operating an LLM agent guardrail system in open-world domains (web, coding, finance, IoT, or embodied robotics) where static safety prompts, fixed policy rules, or fine-tuned classifiers degrade under distribution shift and novel attack patterns.
 

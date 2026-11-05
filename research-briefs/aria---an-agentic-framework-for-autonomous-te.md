@@ -3,6 +3,7 @@
 > **Paper**: [ARIA - An Agentic Framework for Autonomous Testing of Infotainment Systems](https://arxiv.org/abs/2609.04913)
 > **Praxis source**: `src:2609-04913v1`
 > **Primary topic**: Agent Self-Improvement & Harness Engineering
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

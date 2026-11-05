@@ -9,9 +9,13 @@ description: >
   Derived from "Self Improvement via Fast Tree-search (SIFT)"
   (arXiv:2609.19526).
 source: https://arxiv.org/abs/2609.19526
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Fast Tree-Search Self-Improvement (SIFT)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when running a self-improvement loop for a coding agent
 and you need to evaluate candidate modifications efficiently under

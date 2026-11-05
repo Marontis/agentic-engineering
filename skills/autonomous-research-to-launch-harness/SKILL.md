@@ -7,9 +7,13 @@ description: >
   and layered knowledge systems.
   Derived from "AutoLR: Automating the Path from Research to Launch
   Review" (arXiv:2609.04871).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Autonomous Research-to-Launch Harness
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building or operating an agent harness that must
 autonomously coordinate long-running, multi-day experimental cycles —

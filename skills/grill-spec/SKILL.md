@@ -10,9 +10,13 @@ description: >
   user wants to scaffold, spec, plan, or "grill me" on a new app/project
   before building it.
 source: https://gist.github.com/alexziskind1/fe55f03892f3fe1d6d8cf6065c631bb8
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Grill Spec
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Turn a vague idea ("a marketplace for renting GPUs") into the documents a
 project needs to be built **and maintained** by agents and humans over months:

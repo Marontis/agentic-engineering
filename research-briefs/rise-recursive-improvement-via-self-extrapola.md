@@ -3,6 +3,7 @@
 > **Paper**: [RISE: Recursive Improvement via Self-Extrapolating Policy Distillation](https://arxiv.org/abs/2609.05295)
 > **Praxis source**: `src:2609-05295v1`
 > **Primary topic**: Agent Self-Improvement & Harness Engineering
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

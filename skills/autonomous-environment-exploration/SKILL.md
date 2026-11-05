@@ -6,9 +6,13 @@ description: >
   actor, and verifier agents via broad-then-deep exploration to construct frozen,
   reusable causal memory without model weight updates. Derived from RSIAgent (arXiv:2609.15364).
 source: https://arxiv.org/abs/2609.15364
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Autonomous Environment Exploration
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when deploying an LLM agent into a novel or under-documented software environment—such as a new command-line utility, internal API, proprietary operating system interface, or complex sandbox—where pretrained knowledge is incomplete or prone to hallucination.
 

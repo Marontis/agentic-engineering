@@ -4,9 +4,13 @@ description: >
   Integrate Model Context Protocol (MCP) servers with Google ADK agents and implement
   multimodal tool parameter injection and response sanitization via tool lifecycle callbacks.
 source: https://codelabs.developers.google.com/adk-multimodal-tool-part-2?hl=en
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # ADK MCP Multimodal Tool Interception
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when integrating external Model Context Protocol (MCP) toolsets with Google ADK
 agents, particularly for multimodal tools (video generation, image analysis, audio processing)

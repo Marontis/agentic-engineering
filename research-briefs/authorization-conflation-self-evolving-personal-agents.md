@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.39122](https://arxiv.org/2610.39122) — *Appreciation Teaches Unauthorized Execution: Self-Evolution Degrades the Robustness of Personal Agents to Indirect Prompt Injection* (Wang et al., published 2026-10-29)  
 > **Praxis ID**: `src:2610-39122`  
 > **Tier**: Research Brief
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Summary
 

@@ -5,9 +5,13 @@ description: >
   discovery and programmatic tool calling (code mode). Covers workflow tools,
   outputSchema, category scoping, and the layered SDK → Tools → Server
   architecture. Reference implementation: Neon's MCP server stack.
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # MCP Server Design Best Practices
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why This Exists
 

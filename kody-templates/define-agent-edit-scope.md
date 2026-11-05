@@ -10,6 +10,8 @@ enabled: false
 
 ## Instructions
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 When a PR adds or modifies a self-modifying or self-improving agent system —
 code where the agent can change its own prompts, tools, heuristics, or
 configuration — check whether the **edit scope** is explicitly defined and

@@ -2,6 +2,7 @@
 
 > **Paper**: [On the Steering Dimensionality of Refusal in Language Models](https://arxiv.org/abs/2610.04245)
 > **Praxis source**: src:2610-04245
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

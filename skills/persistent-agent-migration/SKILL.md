@@ -6,9 +6,13 @@ description: >
   architectural identity, private memory, and software body lineage.
   Derived from Enoch (arXiv:2609.00546).
 source: https://arxiv.org/abs/2609.00546
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Persistent Agent Migration
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when designing, executing, or verifying migrations of
 long-lived, stateful AI agents across models, orchestration frameworks,

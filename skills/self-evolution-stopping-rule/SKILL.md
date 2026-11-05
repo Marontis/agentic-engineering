@@ -12,9 +12,13 @@ description: >
   Derived from "When Is Enough Enough in Self-Evolving LLM Systems?"
   (arXiv:2610.04756).
 source: https://arxiv.org/abs/2610.04756
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Self-Evolution Stopping Rule (Restart E-Detector)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when a propose → evaluate → keep loop runs against a
 fixed validation set with binary per-item outcomes and you are paying

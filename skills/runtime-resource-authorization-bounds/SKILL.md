@@ -5,9 +5,13 @@ description: >
   AI agents (credentials, endpoints, MCP tools, compute). Quarantines acquired outputs,
   resolves capability manifests, and gates activation via single-use effect permits.
 source: https://arxiv.org/abs/2609.14744
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Runtime Resource Authorization Bounds (AcquireBound)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when an autonomous AI agent dynamically provisions, purchases, or discovers
 external resources—such as API keys, cloud compute, database accounts, or Model Context Protocol

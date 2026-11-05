@@ -5,9 +5,13 @@ description: >
   priors and locally regenerated instance details, protected by execution-gated
   commit boundaries. Derived from SkillGLoW (arXiv:2609.02217).
 source: https://arxiv.org/abs/2609.02217
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Procedural-Family Skill Consolidation
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when designing, scaling, or curating self-improving agent skill libraries
 operating over diverse, long-horizon task streams.

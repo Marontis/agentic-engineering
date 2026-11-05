@@ -9,9 +9,13 @@ description: >
   Derived from "Dual-Frontier: When Can an Agent Trust Its World
   Model?" (arXiv:2609.26293).
 source: https://arxiv.org/abs/2609.26293
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # World Model Trust Gating (Dual-Frontier)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when an agent uses a learned world model for planning
 or decision-making, and you need a principled gate to decide when to

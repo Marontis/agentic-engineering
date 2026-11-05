@@ -4,6 +4,7 @@
 > **Authors**: E. Jacopin, É. Jacopin, Takahashi (RIKEN, Cosmic AI)
 > **Praxis source**: src:2609-33731v1
 > **Status**: Research Brief — architecture with a demonstration, no LLM baseline measured
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

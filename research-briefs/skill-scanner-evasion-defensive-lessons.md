@@ -6,6 +6,7 @@
 > **Status**: Research Brief, defensive lessons only. Both papers are attack
 > papers; this brief deliberately omits how the malicious skills are built
 > or revised (see the repo's `AGENTS.md`).
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

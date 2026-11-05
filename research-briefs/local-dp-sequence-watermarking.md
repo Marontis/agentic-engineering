@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.06100](https://arxiv.org/abs/2611.06100) | `src:2611-06100v1`
 > **Authors**: Elise L. Han, Tatsunori Hashimoto (Stanford University)
 > **Date**: November 2026
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Executive Summary
 

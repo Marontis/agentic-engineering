@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.00314](https://arxiv.org/abs/2611.00314) — Rishabh Mediratta, Lingyun Xiao, Peter Stone, Joydeep Biswas, Elias Stengel-Eskin (2026-10-30)
 > **Praxis Source ID**: `src:2611-00314`
 > **Category**: Research Brief (Decentralized Multi-Agent Coding Benchmark & Coordination Failure Analysis)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

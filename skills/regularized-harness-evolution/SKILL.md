@@ -11,9 +11,13 @@ description: >
   Derived from "RRSI: Regularized Recursive Self-Improvement of Agent
   Harnesses" (arXiv:2609.24972).
 source: https://arxiv.org/abs/2609.24972
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Regularized Harness Evolution (RRSI)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when an outer loop proposes edits to an agent harness
 around a **frozen** backbone model, scores them on an evolve set, and

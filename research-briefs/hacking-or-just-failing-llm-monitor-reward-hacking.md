@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.00407](https://arxiv.org/abs/2611.00407) — Kaushik Kezendirane (2026-10-30)  
 > **Praxis Source ID**: `src:2611-00407`  
 > **Tier**: Research Brief
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Summary
 

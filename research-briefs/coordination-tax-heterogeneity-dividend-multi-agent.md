@@ -2,6 +2,7 @@
 
 > **Source**: [arXiv:2610.37700](https://arxiv.org/abs/2610.37700) — Andreas Zettl, Diego Gosmar (VoiceInteroperability.ai, Linux Foundation AI & Data, 2026-10-25)  
 > **Praxis ID**: `src:2610-37700` | **Code**: `https://github.com/azettl/coordination-tax-harness`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

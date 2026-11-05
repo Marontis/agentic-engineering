@@ -1,6 +1,7 @@
 # RSIV-Harness: Recursive Self-Improvement Harness for Open-Domain Conversational Visualization
 
 > Source: `src:2610-35316` — "RSIV-Harness: A Recursive Self-Improvement Harness Framework for Open-Domain Conversational Text-to-Visualization" (arXiv:2610.35316, 2026)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Classification: Research Brief (Contextual Knowledge)
 

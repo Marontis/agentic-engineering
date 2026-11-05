@@ -4,9 +4,13 @@ description: >
   Harden Google ADK agents against prompt injection, jailbreaks, and sensitive data leakage
   using Google Cloud Model Armor and Sensitive Data Protection (SDP) lifecycle interceptors.
 source: https://codelabs.developers.google.com/secure-customer-service-agent/instructions?hl=en
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # ADK Model Armor & Sensitive Data Interceptors
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when deploying customer-facing or production ADK agents that process
 untrusted user prompts and query sensitive internal databases, requiring deterministic

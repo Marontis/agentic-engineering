@@ -9,9 +9,13 @@ description: >
   Derived from "A2M: Trace-Optimized Agent Hijacking in the MCP
   Ecosystem" (arXiv:2609.26761).
 source: https://arxiv.org/abs/2609.26761
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # MCP Tool Hijacking Defense (A2M)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building or auditing agent systems that connect to
 third-party MCP tool servers, and you need to defend against semantic

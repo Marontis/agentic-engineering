@@ -1,6 +1,7 @@
 # MCP Tool Poisoning in Agentic AI Frameworks: A Cross-Framework Measurement Study
 
 > Source: `src:2611-03555` — "MCP Tool Poisoning in Agentic AI Frameworks: A Cross-Framework Measurement Study" (arXiv:2611.03555, 2026)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Classification: Research Brief (Contextual Knowledge)
 

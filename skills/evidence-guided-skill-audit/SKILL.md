@@ -10,9 +10,13 @@ description: >
   Derived from "SKILLLITE: Evidence-Guided Malicious Skill Auditing with
   Compact LLMs" (arXiv:2609.36879).
 source: https://arxiv.org/abs/2609.36879
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Evidence-Guided Skill Audit
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when you vet agent skills from outside your organization
 (marketplaces, public repos, other teams) and want a cheap, local,

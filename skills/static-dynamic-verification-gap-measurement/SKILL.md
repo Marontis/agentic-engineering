@@ -6,9 +6,13 @@ description: >
   Covers gap quantification, root-cause classification, and
   targeted dynamic test selection.
   Derived from "Beyond Static Guarantees" (arXiv:2609.10762).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Static-Dynamic Verification Gap Measurement
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when your static checks (linting, type checking,
 plan validation) pass but runtime execution still fails.

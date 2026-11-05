@@ -11,9 +11,13 @@ description: >
   Derived from "ToolFence: Fine-Grained Authorization for Secure Tool-Using
   LLM Agents" (arXiv:2609.37196).
 source: https://arxiv.org/abs/2609.37196
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Provenance-Bound Capability Grants
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when a tool-using agent reads untrusted content and can take
 side-effecting actions, and tool-level allowlists are too coarse: the attack

@@ -10,9 +10,13 @@ description: >
   Derived from "Zero-Trust Authorization and Discovery for Enterprise MCP"
   (arXiv:2609.22573).
 source: https://arxiv.org/abs/2609.22573
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Zero-Trust Tool Authorization for MCP Servers
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when you build or harden an HTTP-transport MCP server
 that exposes privileged tools (deployments, cluster operations, database

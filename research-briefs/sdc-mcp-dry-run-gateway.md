@@ -3,6 +3,7 @@
 > **Source**: Gerlach & Fischer, arXiv:2609.31358, Sep 2026
 > **Status**: Research Brief — domain integration architecture with deterministic and five-model evaluation
 > **Praxis source**: src:2609-31358v1
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

@@ -1,12 +1,15 @@
 ---
 name: challenge-aware-knowledge-recruitment
 description: Trigger external evidence retrieval and specialist recruitment in multi-agent reasoning only after an initial reasoning pass exposes a specific gap diagnosed by a non-answering supervisory Challenger, while isolating retrieval and specialist channels to prevent majority-vote double-counting. Derived from Riccio et al. (arXiv:2611.05393).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Challenge-Aware Knowledge Recruitment
 
 > **Source**: [arXiv:2611.05393](https://arxiv.org/abs/2611.05393) | `src:2611-05393`
 > **Derived from**: *Challenge-Aware Knowledge Recruitment with Meta-Agent Supervision for Medical Multi-Agent Reasoning* (Riccio, Sáez de Ocáriz Borde, & Liò, 2026)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use
 

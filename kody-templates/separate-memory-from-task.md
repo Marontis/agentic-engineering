@@ -11,6 +11,8 @@ evidence: "Harvey: 6x task completion when dreaming handles memory separately"
 
 # Separate Memory Quality from Task Completion
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 ## Detection
 
 Look for agent harness code that asks a task-focused agent to ALSO

@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.01301](https://arxiv.org/abs/2611.01301) — Borah et al. (University of Michigan, University of Toronto & Vector Institute, MPI for Intelligent Systems, EuroSafeAI, 2026-10-31)  
 > **Praxis Source ID**: `src:2611-01301`  
 > **Tier**: Research Brief
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Summary
 

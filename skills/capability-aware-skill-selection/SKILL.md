@@ -10,9 +10,13 @@ description: >
 source: https://arxiv.org/pdf/2608.19993
 related_skills:
   - skill-design-methodology
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Capability-Aware Skill Selection
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 How to choose which skills to load into bounded context so the agent gets
 the capabilities it needs without wasting tokens on redundancy or

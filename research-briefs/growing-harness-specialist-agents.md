@@ -1,5 +1,7 @@
 # Grow the Harness, Not the Context: Strategy-Free Scaffolds to Reusable Specialist Agents
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 **Source**: Li et al., "Grow the Harness, Not the Context: From
 Strategy-Free Scaffolds to Reusable Specialist Agents"
 (arXiv:2609.26760), Sep 2026.

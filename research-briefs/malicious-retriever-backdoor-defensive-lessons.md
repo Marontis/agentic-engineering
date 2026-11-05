@@ -5,6 +5,7 @@
 > **Status**: Research Brief, defensive lessons only. This is an attack
 > paper; the brief omits how the backdoors are trained, triggered or
 > concealed (see the repo's `AGENTS.md`).
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

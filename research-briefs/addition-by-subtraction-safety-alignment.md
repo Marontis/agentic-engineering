@@ -4,6 +4,7 @@
 > **Authors**: Hamid Dashtbani, Alexandra Dmitrienko (University of Duisburg-Essen)
 > **Date**: November 2026
 > **Categories**: cs.CR, cs.AI, cs.CL, cs.LG
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

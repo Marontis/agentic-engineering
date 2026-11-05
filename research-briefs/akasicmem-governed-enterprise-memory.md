@@ -1,5 +1,7 @@
 # AkasicMEM: Governed Enterprise Memory for Agents
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 **Source**: Bae et al., "AkasicMEM: Governed Enterprise Memory for Agents"
 (arXiv:2609.25563), Sep 2026.
 

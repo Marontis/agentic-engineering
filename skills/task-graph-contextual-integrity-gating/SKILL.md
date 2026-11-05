@@ -5,9 +5,13 @@ description: >-
   multi-agent workflows using Task-Graph Contextual Integrity (TG-CI),
   maximal admissible propagation subtrees (Auto-Region), and zero-LLM semantic
   frontier gates. Derived from Wu et al. (arXiv:2610.39532).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Task-Graph Contextual Integrity (TG-CI) Gating
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when orchestrating multi-agent workflows (`Chain`, `Tree`, `Branching` DAGs) where agents retrieve records from a shared or private persistent memory store (e.g., `Mem0`, vector DBs) and pass synthesized messages downstream. Traditional Contextual Integrity (`Local-History CI`) checks only whether the *requesting* agent is allowed to see a record — ignoring that the record will propagate along downstream task-graph edges to unauthorized terminal recipients or colluding peers, or combine with earlier facts to violate compositional privacy rules.
 

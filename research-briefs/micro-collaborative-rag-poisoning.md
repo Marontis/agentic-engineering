@@ -2,6 +2,7 @@
 
 > **Source**: Pereira et al., arXiv:2609.21573, Sep 2026
 > **Status**: Research Brief — attack characterization
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

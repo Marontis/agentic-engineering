@@ -3,6 +3,7 @@
 > **Paper**: [Contagion on the Trading Floor: How Adversarial Signals Spread in Multi-Agent Trading Systems](https://arxiv.org/abs/2609.19789)  
 > **Conference**: ECML PKDD 2026  
 > **Praxis source**: `src:2609-19789`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

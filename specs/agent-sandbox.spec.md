@@ -3,6 +3,8 @@
 > Fill in this template when designing an execution sandbox for AI agents.
 > Each section surfaces research-backed decision points. Defaults are
 > marked where the evidence clearly favors one option.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

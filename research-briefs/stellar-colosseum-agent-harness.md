@@ -3,6 +3,7 @@
 > **Paper**: [Stellar Colosseum: A Many-Agent Harness for Long-Horizon Research in Mathematics and Theoretical Computer Science](https://arxiv.org/abs/2609.15983)
 > **Praxis source**: `src:2609-15983v1`
 > **Primary topic**: Agent Self-Improvement & Harness Engineering
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

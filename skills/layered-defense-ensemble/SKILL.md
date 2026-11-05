@@ -5,9 +5,13 @@ description: >
   modeling, and cost-aware composition.  Defense layers are NOT independent —
   correlation must be measured, not assumed.  Derived from Alotaibi et al.
   (arXiv:2608.28327).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Layered Defense Ensemble
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when designing or auditing a multi-layer defense stack for
 LLM-based systems.  The key insight: defense layers correlate through the

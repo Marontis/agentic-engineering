@@ -5,9 +5,13 @@ description: >
   using internal model representations.  Lightweight linear probe on
   hidden activations from a single layer outperforms prompting baselines.
   Derived from "Knowing Before Answering" (arXiv:2608.27661).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # RAG Evidence Triage
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building retrieval-augmented generation systems that
 need to determine whether retrieved documents provide sufficient,

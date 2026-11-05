@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.05524](https://arxiv.org/abs/2611.05524) | `src:2611-05524`
 > **Authors**: Kiran Ravish, Ankita Kushwaha, Preeti, Pawan Kumar (IIIT Hyderabad; AAMAS 2026)
 > **Date**: 2026-11-03
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Key Findings
 

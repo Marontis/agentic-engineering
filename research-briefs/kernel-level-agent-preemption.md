@@ -2,6 +2,7 @@
 
 > **Source**: Pino, arXiv:2609.29808, Sep 2026
 > **Status**: Research Brief — incident analysis plus a reference architecture evaluated on a self-built testbed
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

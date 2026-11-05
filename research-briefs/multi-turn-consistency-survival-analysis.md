@@ -2,6 +2,7 @@
 
 > **Source**: Bogdanov, Manakina, Lung et al., arXiv:2609.29508, Sep 2026
 > **Status**: Research Brief — evaluation methodology and controlled empirical study
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

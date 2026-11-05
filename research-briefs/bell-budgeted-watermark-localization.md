@@ -1,6 +1,7 @@
 # Query-Efficient Scan-and-Search Watermark Localization (BELL)
 
 > **Source**: [arXiv:2611.02030](https://arxiv.org/abs/2611.02030) — Liyuan Wang, Xinsong Ma, Ziye Ma (City University of Hong Kong), published 2026-11-01. Praxis ID: `src:2611-02030v1`.
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Summary
 

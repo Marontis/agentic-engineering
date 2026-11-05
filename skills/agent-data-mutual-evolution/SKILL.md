@@ -5,9 +5,13 @@ description: >-
   trajectories driven by student rollout failure attribution, skill-guided
   recovery, and Avoidable-Work Ratio (AWR) refinement. Derived from EvoMCP
   (arXiv:2610.41479).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Agent–Data Mutual Evolution (EvoMCP)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when building or operating a post-training / SFT data pipeline for tool-using or Model Context Protocol (MCP) agents. Static synthetic datasets saturate quickly because tasks remain disconnected from the student's changing failure modes and raw teacher trajectories contain trial-and-error noise. This procedure couples **student-feedback-driven task evolution** (with synchronized executable verifiers) and **skill-guided trajectory refinement** in an iterative loop.
 

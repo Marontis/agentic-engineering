@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.38617](https://arxiv.org/abs/2610.38617) — *How Deterministic SAST and AI Security Agents Divide the Work: Coverage, Harness Policy and Cost in Snyk VulnBench 2.0* (Tal et al., published 2026-10-28)  
 > **Praxis ID**: `src:2610-38617`  
 > **Tier**: Research Brief
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Summary
 

@@ -2,6 +2,7 @@
 
 > **Paper**: [Not the Same Protector: Deployment-Dependent Protective Intervention in LLMs](https://arxiv.org/abs/2608.29136)
 > **Praxis source**: `src:2608-29136v1`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

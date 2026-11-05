@@ -3,6 +3,7 @@
 > **Paper**: [Breaking Babel: A Self-Evolving Multi-Agent System for Long-Form Subtitle Translation](https://arxiv.org/abs/2609.38660)
 > **Praxis source**: src:2609-38660v1
 > **Status**: Research Brief. Domain system (subtitle translation) with one transferable pattern.
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

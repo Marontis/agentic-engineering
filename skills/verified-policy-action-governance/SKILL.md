@@ -11,9 +11,13 @@ description: >
   Derived from "ActGov: Governing LLM Agent Actions via Policy-Constrained
   Validation" (arXiv:2609.24446).
 source: https://arxiv.org/abs/2609.24446
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Verified Policy Action Governance
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when an agent must adapt its plan to tool outputs (so you
 cannot pre-commit a plan), yet untrusted tool content must never be able to

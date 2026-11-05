@@ -4,6 +4,7 @@
 > **Code**: [slee-persis/GVS5H](https://github.com/slee-persis/GVS5H)  
 > **Praxis source**: src:2608-26480v1  
 > **Related Skill**: [`ledger-orchestrated-coding-loop`](../skills/ledger-orchestrated-coding-loop/SKILL.md)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

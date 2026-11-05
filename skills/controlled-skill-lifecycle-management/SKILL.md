@@ -8,9 +8,13 @@ description: >
   Derived from "FINSKILLOPS: A Self-Evolving Multi-Agent System for
   SEC Filing QA" (arXiv:2609.19680).
 source: https://arxiv.org/abs/2609.19680
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Controlled Skill Lifecycle Management (FINSKILLOPS)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when managing a registry of reusable agent skills that
 evolve post-deployment, and you need admission gates to prevent skill

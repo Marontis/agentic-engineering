@@ -9,9 +9,13 @@ description: >
   ALLOW/DENY with a reason code.
   Derived from "ActionGuard: Tool Call Authorization under Poisoned Skills" (arXiv:2609.39450).
 source: https://arxiv.org/abs/2609.39450
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Tool Call Authorization under Poisoned Skills (ActionGuard)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when an agent loads skills (instruction files plus helper
 scripts) from sources you don't control, and a skill could carry inserted

@@ -1,6 +1,7 @@
 # On the Framing Effect of AI Red-Teaming Instructions: Evidence from Prior Exercises and Controlled Simulations
 
 > Source: `src:2611-00412` — "On the Framing Effect of AI Red-Teaming Instructions: Evidence from Prior Exercises and Controlled Simulations" (arXiv:2611.00412, 2026)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Classification: Research Brief (Contextual Knowledge)
 

@@ -3,6 +3,8 @@
 > Fill in this template when designing a distributed, multi-agent system communicating
 > across service boundaries via the Agent-to-Agent (A2A) protocol and Gemini Enterprise
 > Agent Runtime.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

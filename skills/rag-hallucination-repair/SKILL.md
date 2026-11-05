@@ -6,9 +6,13 @@ description: >
   strategies (delete, replace, rewrite), and the grounding-preservation
   trade-off.  Derived from "Detecting and Repairing Hallucinations in
   Retrieval-Augmented Generation" (arXiv:2608.29307).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # RAG Hallucination Repair
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when your RAG system produces answers that may contain
 unsupported claims, and you need to not just detect but *fix* them.

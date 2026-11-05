@@ -1,5 +1,7 @@
 # Dynamic Deep Prompt Optimization for Jailbreak Defense
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 **Source**: Obidov et al., "Dynamic Deep Prompt Optimization for Defending
 Against Jailbreak Attacks on LLMs" (arXiv:2609.26185), Sep 2026.
 

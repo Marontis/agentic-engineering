@@ -4,6 +4,7 @@
 > **Authors**: Xinyu Yang, Jiejun Tan, Chenlong Deng, Chenghao Zhang, Tongyu Wen, Zhicheng Dou (Renmin University of China)
 > **Date**: November 2026
 > **Categories**: cs.CL, cs.AI
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

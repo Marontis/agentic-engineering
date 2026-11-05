@@ -6,11 +6,14 @@ description: >-
   input-provenance and state-precondition edges via counterfactual sandbox
   execution, and applying bounded one-hop retrieval propagation. Derived from
   LIBRA (arXiv:2611.05445).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Counterfactual Tool Dependency Induction
 
 > **Source**: [arXiv:2611.05445](https://arxiv.org/abs/2611.05445) — *LIBRA: Programmatic Induction of Executable Tool Libraries* (Li et al., 2026) | `src:2611-05445v1`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use This Skill
 

@@ -10,9 +10,13 @@ description: >
   training signals or benchmark scores.
   Derived from "WEFT: Scaling Tool-Use Post-Training for General-Purpose Agents" (arXiv:2609.36887).
 source: https://arxiv.org/abs/2609.36887
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Execution-Driven Environment Repair
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when you train or evaluate tool-use agents on synthesized,
 stateful environments (generated MCP servers, mock backends, composed

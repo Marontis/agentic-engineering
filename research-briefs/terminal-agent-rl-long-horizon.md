@@ -2,6 +2,7 @@
 
 > **Paper**: [T1](https://arxiv.org/abs/2609.11042)
 > **Praxis source**: `src:2609-11042v1`
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

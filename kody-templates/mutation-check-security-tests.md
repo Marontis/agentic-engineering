@@ -9,6 +9,8 @@ tags: [security, testing, attestation]
 
 # Mutation Check Security Tests
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 A mutation check that passes means the test is wrong, not that the code is safe. 
 Security tests must be explicitly mutation-checked (e.g., disabling the control to confirm the test fails) before they are trusted.
 

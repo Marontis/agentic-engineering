@@ -1,6 +1,7 @@
 # Toward Recursive Self-Improvement in Physical AI
 
 > Source: `src:2610-29677` — Luo et al., "Toward Recursive Self-Improvement in Physical AI" (arXiv:2610.29677, 2026)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Classification: Research Brief (Contextual Knowledge)
 

@@ -2,6 +2,8 @@
 
 > Fill in this template when deploying production-grade, containerized ADK 2 agents
 > to Google Kubernetes Engine (GKE) Autopilot with Eventarc reactive triggers.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

@@ -1,12 +1,15 @@
 ---
 name: verified-telemetry-tool-routing
 description: Project host-verified runtime telemetry (rolling failure rates, latency EWMA, consecutive failures, circuit state, and observation age) into a bounded, freshness-labeled Substrate State Telemetry (SST) snapshot before operational tool selection while retaining host dispatch authority. Derived from Agrawal & Nagpal (arXiv:2611.05391).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Verified Telemetry Tool Routing
 
 > **Source**: [arXiv:2611.05391](https://arxiv.org/abs/2611.05391) | `src:2611-05391`
 > **Derived from**: *Agent Harness Awareness: Turning Verified Telemetry into Operational Control for Tool-Using Agents* (Agrawal & Nagpal, 2026)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use
 

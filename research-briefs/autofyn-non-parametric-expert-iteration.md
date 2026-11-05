@@ -2,6 +2,7 @@
 
 > **Paper**: [AutoFyn Technical Report: Non-Parametric Expert Iteration for Long-Horizon Agent Tasks](https://arxiv.org/abs/2609.05446)
 > **Praxis source**: src:2609-05446
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

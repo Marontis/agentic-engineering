@@ -6,9 +6,13 @@ description: >
   and programmatic subprocess execution test vetoes. Prevents runaway reasoning loops
   in mid-sized models and grounds completion in empirical test outcomes.
   Derived from GVS5H (arXiv:2608.26480).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Ledger-Orchestrated Coding Loop
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill to orchestrate code generation and repair across multiple invocations
 of the same base model without conversational context bloat or reasoning runaway loops.

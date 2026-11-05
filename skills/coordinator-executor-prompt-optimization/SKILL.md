@@ -6,11 +6,14 @@ description: >-
   meta-instructions and a sequential coordinator-first schedule so shared
   handoff and evidence rules stay consistent across agents while local
   execution instructions specialize. Derived from CEPO (arXiv:2610.34722).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Coordinator-Executor Prompt Optimization
 
 > Source: "CEPO: A General Framework for Improving Prompt Optimization in Multi-Agent Systems" — Zhang, Liu, Wang, Yang, Li (arXiv:2610.34722v1, 2026; Praxis `src:2610-34722`)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use
 

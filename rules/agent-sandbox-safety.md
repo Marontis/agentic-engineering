@@ -3,6 +3,8 @@
 > Research-backed guardrails for building sandboxed AI agent execution
 > environments. These rules should be active whenever developing, reviewing,
 > or debugging agent sandbox infrastructure.
+>
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

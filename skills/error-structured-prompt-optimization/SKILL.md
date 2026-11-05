@@ -6,9 +6,13 @@ description: >
   patterns, explores four diverse mutation operators, and selects via bootstrap
   stability. Derived from ESPO (arXiv:2609.04197).
 source: https://arxiv.org/abs/2609.04197
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Error-Structured Prompt Optimization
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when optimizing agent system prompts, task instructions, or tool
 descriptions using automated reflection loops, especially when facing prompt bloat

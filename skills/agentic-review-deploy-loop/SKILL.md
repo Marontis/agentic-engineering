@@ -8,9 +8,13 @@ description: >
   incident-to-intent feedback loops. Derived from the AI-Native SDLC
   Playbook (Claude Academy, Anthropic Applied AI).
 source: https://academy.claude.com/courses/ai-native-sdlc-playbook
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Agentic Review & Deploy Loop
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when establishing or improving the review, deployment, and
 operational monitoring pipeline for teams using agentic coding tools. The

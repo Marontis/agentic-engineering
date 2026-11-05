@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2611.04952](https://arxiv.org/abs/2611.04952) | `src:2611-04952v1`
 > **Authors**: Ziqian Ban, Haoxiang Yang, Yanfei Zhang, Shixin Liang, Haoran Yu, Xu Lin, Shaobin Zhao, Xuran Li, Zhiyi Cheng (Tianjin University & International Digital Economy Academy / IDEA)
 > **Category**: `cs.AI` (Self-Evolving Agents / Capability Evaluation & Diagnostics)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---
 

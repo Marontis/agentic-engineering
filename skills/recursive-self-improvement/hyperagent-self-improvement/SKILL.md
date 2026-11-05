@@ -10,9 +10,13 @@ category: recursive-self-improvement
 source: https://arxiv.org/pdf/2603.19461
 related_skills:
   - algorithmic-design-evaluation
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Hyperagent Self-Improvement
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Skill for building self-referential agent systems where the agent can improve
 not only how it solves tasks but also how it generates future improvements.

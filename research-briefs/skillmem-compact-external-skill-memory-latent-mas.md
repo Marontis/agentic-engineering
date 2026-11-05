@@ -3,6 +3,7 @@
 > **Source**: [arXiv:2610.37935](https://arxiv.org/abs/2610.37935) — Zhu et al. (Rensselaer Polytechnic Institute & IBM Research, 2026-10-27)  
 > **Praxis Source ID**: `src:2610-37935`  
 > **Tier**: Research Brief
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Summary
 

@@ -11,9 +11,13 @@ description: >
   Derived from "CART: Closed-Loop Adaptive Red Teaming for Large
   Language Models" (arXiv:2609.27336).
 source: https://arxiv.org/abs/2609.27336
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Closed-Loop Adaptive Red Teaming
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when you have a seed set of red-team cases (benchmarks,
 incident reports, OWASP/ATLAS cases) and a fixed evaluation budget, and

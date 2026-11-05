@@ -6,9 +6,13 @@ description: >
   Covers description parsing, injection surface identification,
   and trust-boundary analysis.
   Derived from "No-Box Vulnerability Analysis" (arXiv:2609.10854).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Description-Only Injection Detection
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when evaluating whether tools or APIs are safe to
 connect to an LLM agent, based solely on their descriptions.

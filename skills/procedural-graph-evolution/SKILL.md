@@ -5,9 +5,13 @@ description: >
   action selection.  Covers graph construction from trajectories,
   inference-time guidance, and self-evolution from execution feedback.
   Derived from "Procedural Graphs" (arXiv:2609.09153).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Procedural Graph Evolution
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when you want LLM agents to follow structured
 execution patterns that improve over time from experience.

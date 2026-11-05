@@ -5,9 +5,13 @@ description: >
   then restrict reflection to only the responsible agent.  Avoids memory
   contamination of agents that performed correctly.  Derived from DoCtOR
   (arXiv:2608.28264).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Targeted Failure Attribution
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when a multi-agent system has failed a task and you need to
 determine *which* agent and *which* step caused the failure, then generate

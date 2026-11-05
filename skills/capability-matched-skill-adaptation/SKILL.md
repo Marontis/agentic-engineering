@@ -7,11 +7,14 @@ description: >-
   executors or evolving skills across heterogeneous agent runtimes. Derived
   from "Evolving to Match Capabilities: Improving Harness Self-Evolution via
   Skill Adaptation" (arXiv:2610.33024).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Capability-Matched Skill Adaptation
 
 > **Source**: [arXiv:2610.33024](https://arxiv.org/abs/2610.33024) — *Evolving to Match Capabilities: Improving Harness Self-Evolution via Skill Adaptation* (`src:2610-33024`)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## When to Use This Skill
 

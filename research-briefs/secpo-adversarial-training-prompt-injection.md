@@ -1,6 +1,7 @@
 # SecPO: Principled Adversarial Training for Prompt Injection Security
 
 > Source: `src:2610-41998` — "SecPO: Principled Adversarial Training for Prompt Injection Security" (arXiv:2610.41998, 2026)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Classification: Research Brief (Contextual Knowledge)
 

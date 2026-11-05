@@ -10,6 +10,8 @@ enabled: true
 
 ## Instructions
 
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
+
 When a PR adds or modifies agent code, check whether the agent has write
 access to any file, database record, or API endpoint that controls its own
 safety boundaries — rate limits, allowlists, interception rules, sandbox

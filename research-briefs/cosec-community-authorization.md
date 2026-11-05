@@ -3,6 +3,7 @@
 > **Paper**: [CoSec: Benchmarking Agent Security in Communities](https://arxiv.org/abs/2609.34790)
 > **Praxis source**: src:2609-34790v1
 > **Status**: Research Brief. Executable benchmark.
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Why Not a Skill?
 

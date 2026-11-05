@@ -11,9 +11,13 @@ description: >
   Derived from "MedRSI: Recursive Self-Improvement for Medical Agents via
   Clinically Aligned Self-Evolution" (arXiv:2609.24838).
 source: https://arxiv.org/abs/2609.24838
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Staged Capability Registration
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when an agent writes, composes, or trains its own tools
 from its failures, and those tools persist and shape future rounds of

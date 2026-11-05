@@ -9,9 +9,13 @@ description: >
   Derived from "SkillAA: Attribution-Guided Skill-Graph Updating with
   Targeted Validation and Rollback" (arXiv:2609.20455).
 source: https://arxiv.org/abs/2609.20455
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Attribution-Guided Skill-Graph Updating (SkillAA)
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when maintaining a skill graph for a frozen LLM agent
 and you need to repair skills from failed execution traces without

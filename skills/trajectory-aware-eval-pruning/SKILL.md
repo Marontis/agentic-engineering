@@ -6,9 +6,13 @@ description: >
   features with outcome signals to reduce benchmark costs by 65–80% without
   compromising ranking fidelity. Derived from PTA-IRT (arXiv:2609.01603).
 source: https://arxiv.org/abs/2609.01603
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Trajectory-Aware Evaluation Pruning
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when designing, pruning, or selecting evaluation suites for
 coding agents and long-horizon autonomous systems.

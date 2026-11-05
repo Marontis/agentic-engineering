@@ -4,9 +4,13 @@ description: >
   Route every agent capability invocation through a single multi-stage
   pipeline for subject binding, contract resolution, policy enforcement,
   authorization, and dispatch.  Derived from CrabOS (arXiv:2608.28165).
+repository: https://github.com/Marontis/agentic-engineering
+license: CC-BY-4.0
 ---
 
 # Unified Capability Gateway
+
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 Use this skill when designing the capability invocation layer for systems
 where multiple executors (human users, AI agents, apps) share the same

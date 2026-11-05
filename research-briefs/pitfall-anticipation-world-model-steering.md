@@ -1,6 +1,7 @@
 # Steering Black-Box Large Language Model Agents with Pitfall Anticipation World Model
 
 > Source: `src:2610-29139` — Wang et al., "Steering Black-Box Large Language Model Agents with Pitfall Anticipation World Model" (arXiv:2610.29139, 2026)
+> **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ## Classification: Research Brief (Contextual Knowledge)
 
