@@ -304,6 +304,50 @@ See also: rules/agent-sandbox-safety.md — "DON'T: Permit dialogue-driven ident
 
 ---
 
+## Accessible UI Hierarchy, Generative Diagrams & CUA Overlays
+
+### DO: Group flat mobile accessibility trees into shallow spatial-functional hierarchies and refine multi-granularity labels in a single LLM request
+
+Raw mobile accessibility trees flatten composite visual cards and toolbars into long linear focus sequences (averaging $18.7 \pm 16.5$ swipes to reach a target across 50 commercial Android pages, with 34.0% of pages suffering functional-unit focus interruptions and 28.8% of focus stops carrying non-informative labels). Reconstruct a 3-level hierarchy (Page Root $\rightarrow$ Functional Units $\rightarrow$ Atomic Elements) by combining spatial bounding-box containment, XML shared parenthood, and row/column alignment, then enforce three shallow-hierarchy simplification rules: (1) strip unlabelled containers covering $\ge 80\%$ of the screen, (2) cap XML sibling grouping at 2 rounds, and (3) flatten units with $< 3$ children. Finally, pass the entire simplified page tree in a single structured LLM call to generate a 3-area page summary, functional unit labels with 1–2 decision attributes (e.g., product name + price), and context-repaired leaf labels, while preserving a flat-traversal bypass for simple or familiar screens. Procedure: [`mobile-spatial-accessibility-grouping`](../skills/mobile-spatial-accessibility-grouping/SKILL.md).
+
+**Scope:** Mobile screen-reader transformation (`SeeR`), BLV accessibility interfaces ($N=10$ BLV users, 37 paired task attempts), and GUI perception across 50 commercial Android pages (10 apps, 1,858 focus stops, 1,324 semantic actions, arXiv:2611.02410).
+
+**Evidence**: Across 50 Android pages (`arXiv:2611.02410`), `SeeR` constructed hierarchies in 5.8 ms median latency (0.996 pairwise precision, 0.711 recall, 0.769 F1), cut non-informative focus stops by 82.1% (from 28.8% [535/1,858] to 5.1% [82 stops]) in a single `deepseek-v4-flash` pass (median 3.4 s, 2,535.4 prompt + 273.8 completion tokens), and reduced target navigation distance by 52.7% ($18.7 \pm 16.5$ to $8.8 \pm 6.2$ steps, $p < .001$). In a within-subjects study with 10 BLV users (37 paired task attempts), `SeeR` reduced visited nodes by 45.8% (17.9 to 9.7, $p = .004$) and task completion time by 34.2% (58.2 s to 38.3 s, $p = .014$).
+
+> Source: Spatial Organization Is Accessibility Structure: Hierarchical Screen Reading of Mobile UIs (arXiv:2611.02410)
+
+### DO: Decouple editable diagram generation into Semantic-Style-Layout specs and use bottom-up geometric text sizing before top-down coordinate layout
+
+One-shot prompting of an LLM to emit complete canvas JSON simultaneously entangles entity extraction, styling, and 2D coordinate math, resulting in severe node overlaps and text overflow. Decouple the diagram into a Semantic Graph $G = (\mathcal{V}, \mathcal{E})$ (built entity-first, relation-last), a closed Style Schema $S$ (mapped strictly to discrete canvas enums), and a Layout Configuration $L$. Have specialized agents emit strategy specifications ($\tilde{G}, \tilde{S}, \tilde{L}$) first, invoke a deterministic font-aware Geometric Size Estimator tool bottom-up to calculate collision-free leaf and container dimensions before assigning top-down recursive $(x, y)$ coordinates, and refine rendered snapshots via surgical VLM tool calls rather than full-canvas regeneration. Procedure: [`editable-semantic-diagram-generation`](../skills/editable-semantic-diagram-generation/SKILL.md).
+
+**Scope:** Automated generation of object-level editable diagrams (`tldraw`) across CanvasBench (`2,260` validated diagrams across `21` diagram types and `30` domains; `210`-sample test set evaluated on `GPT-5.2`, `Gemini-3-Pro`, and `Qwen3-VL-Plus`, arXiv:2604.09568).
+
+**Evidence**: On `CanvasBench` (`arXiv:2604.09568`), `EvoDiagram` improved Visual Space Balance ($V_{\text{SB}}$) over one-shot schema prompting from 1.782 to 2.705 (+51.8%) on `GPT-5.2`, from 2.312 to 3.010 on `Gemini-3-Pro`, and from 1.705 to 2.695 on `Qwen3-VL-Plus`, while boosting Cognitive Comprehension Accuracy ($G_{\text{CA}}$) from 3.146 to 3.419 (`GPT-5.2`) and 2.224 to 3.018 (`Qwen3-VL-Plus`). Removing the multi-agent decomposition collapsed Space Balance back to 1.891 (`GPT-5.2`), 2.435 (`Gemini-3-Pro`), and 1.884 (`Qwen3-VL-Plus`).
+
+> Source: EvoDiagram: Agentic Editable Diagram Creation via Design Expertise Evolution (arXiv:2604.09568)
+
+### DO: Restrict architecture-documentation agents to read-only drift auditing and factual scaffolding while requiring humans to author rationale
+
+To prevent **cognitive debt** (erosion of a team's shared mental model of how the system works) and **intent debt** (loss of design rationale, constraints, and discarded alternatives), never allow coding agents to autonomously author or overwrite architectural rationale and narrative walkthroughs. Restrict documentation-maintenance skills to **read-only staleness/drift audits** (reporting one finding at a time against git history) and **factual graph scaffolding** (proposing only `label`, `type`, `file path`, `edges`, and candidate stop orders paired with Socratic questions), preserving **productive friction** by requiring human developers to articulate the "why" and docent commentary in their own words.
+
+**Scope:** Six-month longitudinal deployment of Cognitive Tours (`59` socio-technical waypoints, `73` named relationships, `5` curated narrative tours, and 4 read-only Claude Code skills: `/audit-waypoints`, `/audit-tours`, `/suggest-waypoint`, `/suggest-tour`) in an AI-assisted software development project (arXiv:2611.08456).
+
+**Evidence**: In `Cognitive Tours` (`arXiv:2611.08456`), auditing the repository after a high-velocity AI coding session (`28` commits since the prior checkpoint, including `>20` commits in a single evening) via `/suggest-waypoint` surfaced and ranked `#1` an unrecorded architectural shift (*"One site and database per team"*) that directly contradicted an existing `Accepted` Architecture Decision Record (`ADR 007`). Withholding AI-generated rationale and prompting the human author with Socratic questions forced explicit reconciliation of the contradicted ADR and prevented silent intent drift (see [cognitive-tours-understanding-deliverable-swe](../research-briefs/cognitive-tours-understanding-deliverable-swe.md)).
+
+> Source: Cognitive Tours: Making Understanding a Deliverable in AI-Assisted Development (arXiv:2611.08456)
+
+### DO: Separate build-time CUA visual grounding from runtime pixel template matching when overlaying Generative UI patches on desktop applications
+
+Confine expensive Vision-Language Model (VLM) screen exploration (`OmniParser v2`, coordinate-grounding VLMs) to an isolated build-time phase that exports a declarative `JSON` binding manifest (coordinates, glyph templates, shortcuts) decoupled from `TypeScript` UI logic. At runtime, synchronize application state using lightweight local luminance text tags and zero-mean normalized cross-correlation (ZNCC) glyph template matching, and inject synthetic actions via background PID-targeted OS events (`CGEvent.postToPid`) rather than hijacking the user's foreground cursor.
+
+**Scope:** Interface Quilt desktop GUI modification and Generative UI overlay architecture evaluated across 5 macOS `26.5.2` applications (`PowerPoint`, `Affinity`, `Fusion`, `Slack`, `Overleaf`) using `OmniParser v2`, `Apple Vision OCR`, and `Holo2-8B-bf16` (arXiv:2611.01891).
+
+**Evidence**: In `Interface Quilt` (`arXiv:2611.01891`), decoupling `TypeScript` patch logic from `JSON` bindings allowed interactive overlays (such as radial *Marking Menus*) to port directly from `PowerPoint` to `Overleaf` by regenerating only the `JSON` binding file, while runtime ZNCC glyph matching and `CGEvent.postToPid` enabled real-time reactive state binding and background cross-app actuation (`PowerPoint` driving `Affinity`) without VLM critical-path latency or focus stealing (see [interface-quilt-cua-generative-ui](../research-briefs/interface-quilt-cua-generative-ui.md)).
+
+> Source: Interface Quilt: Modifying Applications with Computer Use Agents and Generative UI (arXiv:2611.01891)
+
+---
+
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
@@ -311,6 +355,8 @@ For implementation details on the procedures behind these rules:
 - [`agentic-review-deploy-loop`](../skills/agentic-review-deploy-loop/SKILL.md) — Layered review pipeline with escalation triggers
 - [`requirements-driven-code-generation`](../skills/requirements-driven-code-generation/SKILL.md) — Requirement decomposition for evaluable specifications
 - [`persistent-agent-migration`](../skills/persistent-agent-migration/SKILL.md) — Preserving agent identity across interaction sessions
+- [`mobile-spatial-accessibility-grouping`](../skills/mobile-spatial-accessibility-grouping/SKILL.md) — Spatial-functional hierarchy reconstruction and single-pass multi-granularity LLM labeling for mobile screen readers (`SeeR`)
+- [`editable-semantic-diagram-generation`](../skills/editable-semantic-diagram-generation/SKILL.md) — Decoupled Semantic-Style-Layout specification and bottom-up geometric text sizing for editable vector diagrams (`EvoDiagram`)
 
 ## Sources
 
@@ -325,3 +371,7 @@ For implementation details on the procedures behind these rules:
 - The AI-Native SDLC Playbook: https://academy.claude.com/courses/ai-native-sdlc-playbook
 - FirstMate agent distro: https://github.com/kunchenguid/firstmate
 - When Consent Outlives Context: arXiv:2609.33910
+- SeeR (Spatial Organization Is Accessibility Structure): arXiv:2611.02410
+- EvoDiagram (Agentic Editable Diagram Creation via Design Expertise Evolution): arXiv:2604.09568
+- Cognitive Tours (Making Understanding a Deliverable in AI-Assisted Development): arXiv:2611.08456
+- Interface Quilt (Modifying Applications with CUAs and Generative UI): arXiv:2611.01891

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Knowledge-base lint for agentic-engineering.
+Knowledge-base lint for the praxis knowledge base (praxis/output).
 
 Deterministic checks that keep rules, skills and briefs consistent as papers
 are added. Errors fail CI; warnings are printed for a human to judge.
@@ -129,7 +129,9 @@ def all_headings():
 def changed_lines(base):
     """{path: set(line numbers)} for lines added/changed in rules/ since base."""
     try:
-        out = subprocess.run(["git", "diff", "-U0", base, "--", "rules/"], cwd=ROOT,
+        # --relative: paths come back relative to ROOT even when the KB is a
+        # subdirectory of a larger repo (praxis/output).
+        out = subprocess.run(["git", "diff", "-U0", "--relative", base, "--", "rules/"], cwd=ROOT,
                              capture_output=True, text=True, check=True).stdout
     except (subprocess.CalledProcessError, FileNotFoundError) as exc:
         sys.exit(f"cannot diff against {base}: {exc}")

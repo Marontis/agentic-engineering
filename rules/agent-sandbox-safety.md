@@ -1435,6 +1435,58 @@ Standard Python document-ingestion parsers (`python-docx`, `openpyxl`, `python-p
 
 > Source: When File Ingestion Misleads Language Models: Measuring and Mitigating Divergences in Office Documents (arXiv:2611.05806)
 
+### DO: Enforce write-protected 2-hop dependency impact sets and CSS-only visual patches during iterative multi-file webapp repair
+
+When repairing visual or functional defects in multi-page web apps, feeding unstructured text summaries (`Text-State Memory`) or passive JSON state dumps into prompts without restricting file writes causes severe prototype-to-project state drift: working triggers break downstream (`Correspondence Break Rate`) and previously passing checks regress (`Verified-State Drift Rate`). Represent the project as an explicit Project State Graph ($\mathcal{G}$) linking prototype regions, files, interactions, and render evidence. When a check fails, map `mismatch_at` edges to seed nodes $\Omega_0$, compute the 2-hop reachability impact set $\Omega = \mathcal{N}_{\mathcal{G}}^{\le 2}(\Omega_0, \{\texttt{implements}, \texttt{triggers}, \texttt{depends\_on}\})$, and reject any patch that modifies files outside $\Omega$. When structural checks pass and only visual alignment fails (Playwright RMS pixel diff $> 0.28$ or VLM component judge $< 0.75$), restrict repairs to CSS-only append patches so working HTML anchors and JS handlers cannot be overwritten. Procedure: [`state-aware-prototype-to-webapp`](../skills/state-aware-prototype-to-webapp/SKILL.md).
+
+**Scope:** Multi-file code generation and automated render-evidence repair loops across 193 Vision2Web tasks (918 prototypes, 1,255 test cases) and 5 foundation models (`Doubao-Seed-1.8`, `Gemini-3-Flash-Preview`, `Gemini-3.1-Pro-Preview`, `GPT-5.1`, `Qwen3.5-Plus`) plus WebGen-Bench (arXiv:2610.17861).
+
+**Evidence**: Across 193 Vision2Web tasks (`arXiv:2610.17861`), `VisStateCoder` improved average score by +26.1 points on Interactive Frontend (34.6 to 60.8) and +22.6 points on Full-Stack tasks (21.2 to 43.8), lowered Correspondence Break Rate from 44.2% to 33.3%, and cut Verified-State Drift Rate from 3.0% to 1.1% compared to passive `JSON-State`, while `Text-State Memory` actually worsened Correspondence Break Rate (55.0% vs 50.0% on Interactive Frontend; 80.8% vs 78.8% on Full-Stack) at only $1.03\times$ token cost.
+
+> Source: State-Aware Generation of Deployable Websites from Visual Prototypes and Requirements (arXiv:2610.17861)
+
+### DON'T: Trust child-process stdout acknowledgements as proof of physical actuator execution, and always pair agent-synthesized hardware control loops with an out-of-band kill switch
+
+Never validate an agent-written hardware connector solely by parsing its own child-process `stdout` for an acknowledgement string (such as `->`) or checking transport-layer packet delivery: a hallucinating script can print `->` without calling the transport, and a transport can acknowledge packets even when the physical endpoint is muted or misconfigured. Furthermore, isolate high-frequency agent-synthesized control functions (such as 30 Hz per-frame pose-to-command scripts) inside a networkless worker with a hard per-frame execution budget ($\le 2\text{ ms}$ dry-run average across 480 synthetic frames, $4\text{ ms}$ runtime cap, $50\text{ ms}$ watchdog, 3-strike limit) and provide an agent-independent hardware/OS stop path that immediately dispatches neutral actuator commands (e.g., gimbal stop, MIDI panic) before sending `SIGTERM` (250 ms) and `SIGKILL` (600 ms) with a post-retirement message filter (1.7 s).
+
+**Scope:** Coding agents synthesizing device connectors, hardware bridges, or real-time control loops across 10 mixed-reality spoken requests and 5 physical/OS targets (Web MIDI, DJI Osmo Mobile 4 BLE gimbal, AppleScript) on Meta Quest 3 (arXiv:2611.08321).
+
+**Evidence**: In `ControlAnything` (`arXiv:2611.08321`, 9/10 requests reaching ready state in median 32.5 s), the BLE gimbal bridge logged 889 `status-00` transport acknowledgements (881 from agent code, 8 from stop/release), but USB-MIDI packets to an OP-1 Field synthesizer were acknowledged by the transport while producing zero sound because the device's internal MIDI receive setting was off, and `test_action` stdout parsing of `->` prefixes could be spoofed by connector print statements (see [controlanything-on-demand-generative-ui](../research-briefs/controlanything-on-demand-generative-ui.md)).
+
+> Source: ControlAnything: Generative UI and On-Demand Device Integration for Mixed-Reality Hand Interaction by a Coding Agent (arXiv:2611.08321)
+
+### DO: Compile web-agent tasks offline against a typed Trusted Website API and feed back only schema-level error diagnostics during replanning
+
+Separate web-agent execution into an offline, network-isolated compilation sandbox (which sees only the user request and strongly typed Trusted Website API contracts $\mathcal{C}(f) = (\Sigma, \mathcal{P}, \mathcal{Q}, \mathcal{E})$) and an isolated runtime subprocess (which executes the mock-tested Python script with live credentials). If a runtime exception occurs, pass only the prior code and sanitized schema-level diagnostics (HTTP status code, missing required parameter name, invalid filter field name, or a `0` -> `"not found"` result count)—never retrieved website content, stored resource values, or raw server error payloads—into the replanning loop. Procedure: [`compile-then-execute-web-agent-gateway`](../skills/compile-then-execute-web-agent-gateway/SKILL.md).
+
+**Scope:** Browser-using and API-augmented web agents operating on websites with untrusted user-generated content across 581 WebArena Verified tasks and 84 WASP indirect prompt-injection attacks over 3 frontier LLMs (arXiv:2611.06039).
+
+**Evidence**: On WebArena Verified (`581` tasks across GitLab, Shopping, Shopping Admin, and Postmill; `arXiv:2611.06039`), compiling to Python (`Baya_Code`) achieved a `77.8%` 3-model average task completion rate (`81.9%` with `Claude Sonnet-4.6`), outperforming `ReAct_web + API` (`66.7%`, `+11.1` pp), `ReAct_web` (`55.1%`, `+22.7` pp), and Untrusted Content Masking on GitLab (`92.9%` vs `75.3%`, `+17.6` pp at `82.6%` lower cost: `$0.70` vs `$4.01`), while achieving `0.0%` intermediate and `0.0%` end-to-end Attack Success Rate across all `84` WASP prompt-injection instances (vs `16.2%` and `25.5%` intermediate ASR for ReAct baselines). In `616/627` (`98.2%`) compiled executions, retrieved website content was never supplied to an LLM at runtime.
+
+> Source: Securing Web Agents with the Compile-Then-Execute Paradigm (arXiv:2611.06039)
+
+### DON'T: Rely on instruction-stripping sanitizers or tool-name allowlists to stop task-tampering indirect prompt injections
+
+Do not assume that stripping imperative instructions from tool outputs (`DRIFT-iso`) or enforcing tool-level plan alignment (`Progent`, `DRIFT-full`) protects agents when untrusted fields coexist with authoritative fields inside retrieved data. Enforce field-level source-authority bindings so privileged tool arguments (such as refund amounts, recipient addresses, or deployment targets) can only be populated from designated authoritative schema fields, never from untrusted free-text comment or dispute fields.
+
+**Scope:** Authority-based indirect prompt injection benchmark across 90 task cases, 1,343 single-primitive and 90 compound task-tampering attacks spanning Productivity, DevOps, and Marketplace MCP environments, 5 LLMs, and 7 defenses (arXiv:2611.07640).
+
+**Evidence**: Across `1,343` single-primitive and `90` compound task-tampering attacks (`arXiv:2611.07640`), non-imperative tampering of action-selection rules $b(\pi)$ (`21.2%` undefended ASR), action-space constraints $b(A)$ (`19.0%`), and world-state assertions $b(s)$ (`18.6%`) outperformed direct imperative objective overrides $b(U)$ (`15.0%`). While `DRIFT-iso` fully stripped `78.2–85.1%` of $b(U)$ carriers (reducing $b(U)$ ASR to `2.4%`), it stripped only `26.2–34.3%` of observation $b(O)$ and world-state $b(s)$ carriers, leaving `9.5%` and `12.1%` ASR (`14.0%` compound). Tool-level gates in `DRIFT-full` and `Progent` blocked `0` attacked tool calls across all runs because task-tampering invokes the expected benign tool, and argument-level gates blocked only `0.0–9.7%` of attacks while reducing `Progent` benign task success from `95.3%` to `74.9%` (see [task-tampering-indirect-prompt-injection](../research-briefs/task-tampering-indirect-prompt-injection.md)).
+
+Tension with "Filter prompt injections and jailbreaks at the interceptor layer using Model Armor" (adk-security-and-evaluation.md) and "Consider rendering untrusted prose as images as one layer against indirect prompt injection" (agent-sandbox-safety.md): interceptor-layer sanitizers (`DRIFT-iso`, Model Armor) and visual rendering (`Pictionary`) reduce imperative objective overrides $b(U)$ (`78.2–85.1%` carrier removal), but non-imperative task-tampering (`arXiv:2611.07640`) corrupts observations $b(O)$ (`9.5%` ASR) and world-state assertions $b(s)$ (`12.1%` ASR) inside retrieved records while invoking the expected benign tool. Keep interceptor filtering and visual rendering for $b(U)$, and enforce field-level source-authority bindings for privileged tool parameters.
+
+> Source: Beyond Instruction Override: Benchmarking Indirect Prompt Injection with Task-Tampering Attacks (arXiv:2611.07640)
+
+### DO: Sweep and strip symlinks, FIFOs, sockets, and special device files from agent working directories after workload exit before hashing or sealing
+
+Treat the agent run directory as untrusted input once the workload process exits: walk the directory tree without following symbolic links, delete every symlink, FIFO, socket, and device file at any depth, log each removed entry in tamper metadata, disable remote `$ref` resolution during schema validation, and perform secret redaction via atomic file rename followed by a residual rescan before computing RFC 6962 v2 Merkle leaf hashes over both relative file paths and file contents. Procedure: [`sealed-replayable-agent-audit-log`](../skills/sealed-replayable-agent-audit-log/SKILL.md).
+
+**Scope:** NovaFabric (`v0.107.0`) black-box agent flight recorder, cryptographic sealer, and fail-closed replay harness across $n = 30$ capture/seal/replay benchmark runs (arXiv:2610.34594).
+
+**Evidence**: In `NovaFabric` (`arXiv:2610.34594`), post-exit untrusted-workload sanitization prevented a compromised agent from planting symlinks to host files (or FIFOs that hang the sealer) while keeping trivial capture overhead at a median of `168.8 ms` ($n = 30$), wire interception marginal latency at `0.41–0.55 ms` per call (`0.5–3.6%`), and tri-proof cryptographic sealing (`NovaSeal`) below `50 ms` median.
+
+> Source: NovaFabric: A Black-Box Recorder for AI Agents with Sealed, Replayable, Diffable and Auditable Runs (arXiv:2610.34594)
+
 ---
 
 ## Related Skills
@@ -1469,6 +1521,9 @@ For implementation details on the procedures behind these rules:
 - [`germline-isolated-tool-execution`](../skills/germline-isolated-tool-execution/SKILL.md) — Declared-destination view splitting and data-free germline forks for MCP toolchains
 - [`security-aware-context-slicing`](../skills/security-aware-context-slicing/SKILL.md) — Security-aware repository context slicing and safeguard caller-contract verification
 - [`ooxml-display-fidelity-extraction`](../skills/ooxml-display-fidelity-extraction/SKILL.md) — Display-fidelity OOXML filtering and rendered-view reconciliation for Office document ingestion
+- [`state-aware-prototype-to-webapp`](../skills/state-aware-prototype-to-webapp/SKILL.md) — Project State Graph grounding and 2-hop write-protected repair for deployable web apps
+- [`compile-then-execute-web-agent-gateway`](../skills/compile-then-execute-web-agent-gateway/SKILL.md) — Offline Python compilation against a typed Trusted Website API with schema-only replanning diagnostics
+- [`sealed-replayable-agent-audit-log`](../skills/sealed-replayable-agent-audit-log/SKILL.md) — Wire-level black-box agent capture, post-exit capsule sanitization, tri-proof sealing, and fail-closed replay
 
 ## Sources
 
@@ -1578,3 +1633,8 @@ For implementation details on the procedures behind these rules:
 - SafeStart (MoE Expert Reduction Safety): arXiv:2611.06147
 - ABS-Align (Addition by Subtraction Safety Alignment): arXiv:2611.06553
 - Prism (OOXML File Ingestion Divergences): arXiv:2611.05806
+- VisStateCoder (State-Aware Generation of Deployable Websites): arXiv:2610.17861
+- ControlAnything (Mixed-Reality Generative UI & Hardware Bridges): arXiv:2611.08321
+- Baya (Compile-Then-Execute Web Agent Gateway): arXiv:2611.06039
+- Task-Tampering Indirect Prompt Injection Benchmark: arXiv:2611.07640
+- NovaFabric (Black-Box Sealed & Replayable Agent Recorder): arXiv:2610.34594

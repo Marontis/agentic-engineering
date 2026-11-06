@@ -644,25 +644,61 @@ appropriateness falls below threshold (**grounded fulfillment**).
 **Scope:** 13,824 injectable MCP faults mined from 57,240 threads across
 1,774 open-source MCP repositories, and a 1,350-cell factorial
 experiment across `gpt-oss-20B` and `gpt-oss-120B` on `MCP-Bench`,
-`OpenAI Agents SDK`, and `LangChain` (arXiv:2610.32555).
+`OpenAI Agents SDK`, and `LangChain` (arXiv:2610.32555); MCPHallu 358
+tasks across 5 capability domains and 36 isolated production MCP servers
+(~300 tools) evaluated over 5,012 trajectories from 14 frontier LLMs
+across 8 vendors (arXiv:2611.07689); MCP-Eco relational dataset of
+16,880,899 records across 19 Parquet tables covering 78,302 candidate
+MCP servers, 284,845 tool schemas (Glama directory vs live protocol
+probing), 16,165 consuming repositories, and 9,200 configuration
+declarations (arXiv:2611.06897).
 
-**Evidence**: Across 13,824 empirical MCP failures, 91.3% (12,616) were
-permanent, 8.0% intermittent, and 0.75% transient; by mode, 71.2% were
-explicit errors (`OP4`), 19.1% silent content corruptions (`OP1–OP3`),
-and 9.7% timing hangs/delays (`OP5–OP6`). Under the calibrated fault
-profile, pooled task-completion score dropped 60%, from 8.08 to 3.23 out
-of 10 ($p < 0.001$), with 56% of faulted runs ending in silent partial
-degradation. Scaling from `gpt-oss-20B` to `gpt-oss-120B` gave zero
-resilience gain ($\beta_{\text{model}} = -0.009$, 95% CI $[-0.39, 0.37]$,
-$p = 0.96$) and a descriptively lower completion rate under faults
-(91.1% vs 95.6%) because `120B` retried broken tools longer (4.5 vs 3.9
-consecutive retries) and hit wall-clock timeouts (18/20 non-completions).
-In 6.0% (27/450) of faulted runs, agents fabricated plausible answers
-from parametric memory without valid tool output, inflating 16% of
-apparent fulfillment credit under faults. See
-[mcp-fault-injection-resilience](../research-briefs/mcp-fault-injection-resilience.md).
+**Evidence**:
+- Across 13,824 empirical MCP failures (`arXiv:2610.32555`), 91.3% (12,616) were
+  permanent, 8.0% intermittent, and 0.75% transient; by mode, 71.2% were
+  explicit errors (`OP4`), 19.1% silent content corruptions (`OP1–OP3`),
+  and 9.7% timing hangs/delays (`OP5–OP6`). Under the calibrated fault
+  profile, pooled task-completion score dropped 60%, from 8.08 to 3.23 out
+  of 10 ($p < 0.001$), with 56% of faulted runs ending in silent partial
+  degradation. Scaling from `gpt-oss-20B` to `gpt-oss-120B` gave zero
+  resilience gain ($\beta_{\text{model}} = -0.009$, 95% CI $[-0.39, 0.37]$,
+  $p = 0.96$) and a descriptively lower completion rate under faults
+  (91.1% vs 95.6%) because `120B` retried broken tools longer (4.5 vs 3.9
+  consecutive retries) and hit wall-clock timeouts (18/20 non-completions).
+  In 6.0% (27/450) of faulted runs, agents fabricated plausible answers
+  from parametric memory without valid tool output, inflating 16% of
+  apparent fulfillment credit under faults. See
+  [mcp-fault-injection-resilience](../research-briefs/mcp-fault-injection-resilience.md).
+- In `MCPHallu` (`arXiv:2611.07689`), `Unreachable Goal` was the hardest
+  hallucination subtype across 12 of 14 frontier models (mean score 0.458
+  vs 0.642 overall; 23.2% pass rate): runs declaring infeasibility at 0
+  tool calls passed 65.0% (`320` runs, 0.6% completion language) and at
+  1–3 probing calls passed 27.9% (`455` runs, 13.8% completion language),
+  whereas **every run issuing $\ge 4$ tool calls passed 0.0% of the time**
+  (`667` runs across `4–7`, `8–15`, and `16+` calls) while false-completion
+  language (`successfully`, `saved`, `created`) climbed to 36.7% at 8–15
+  calls (`0.0%` pass rate across `517` runs that kept acting without
+  declaring infeasibility vs `48.0%` across `448` early-stop runs). On
+  `Tool Misuse`, invoking the target tool alone passed 84.7% (`825` runs,
+  3.54 average steps), whereas invoking a semantically overlapping
+  confusion tool alongside the correct tool dropped pass rate to 32.3%
+  (`260` runs, 10.70 steps). On `Context Forgetting`, requiring remembered
+  values to be written to external state (`Productivity`/`Coding`, `504`
+  runs) cut pass rate by 34.6 pp compared to stateless queries (`24.6%` vs
+  `59.2%` across `644` runs). See
+  [`mcp-hallucination-boundary-guards`](../skills/mcp-hallucination-boundary-guards/SKILL.md).
+- Across `MCP-Eco` (`arXiv:2611.06897`), only 5,975 of 9,200 (64.9%)
+  consumer `mcpServers` declarations resolved to 5,138 distinct
+  repository–server pairs, and dual-channel capability tracking
+  (`source='glama'` directory vs `source='probe'` live `initialize` +
+  `tools/list` handshakes across 284,845 tool records, 20,795 resources,
+  and 8,983 prompts) exposed pervasive drift between advertised directory
+  schemas and live server behavior, as well as asynchronous
+  state-transition bugs in multi-tool workflows (e.g., `download_paper` $\to$
+  `read_paper` in `ecosystem_issues`; see
+  [mcp-eco-server-consumer-ecosystem](../research-briefs/mcp-eco-server-consumer-ecosystem.md)).
 
-> Source: Tool-Calling LLM Agents Under Realistic MCP Faults: Scale Does Not Purchase Fault Tolerance (arXiv:2610.32555)
+> Source: Tool-Calling LLM Agents Under Realistic MCP Faults: Scale Does Not Purchase Fault Tolerance (arXiv:2610.32555); MCPHallu: Benchmarking Reasoning, Execution, and Memory Hallucinations in MCP Agents (arXiv:2611.07689); MCP-Eco: A Linked Dataset of MCP Servers, Consumers, and Development Activity (arXiv:2611.06897)
 
 ### DO: Extract skills as explicit text from paired trajectories before distilling them into role-conditioned latent representations
 
@@ -716,6 +752,30 @@ Tool-using agents routinely fail when environment substrate conditions change mi
 
 > Source: Agent Harness Awareness: Turning Verified Telemetry into Operational Control for Tool-Using Agents (arXiv:2611.05391)
 
+### DO: Partition multi-framework UI codegen tuning into compatibility-ordered phases and gate shared LoRA updates using offline pre-gradient similarity and JSD heterogeneity
+
+Jointly fine-tuning a shared MLLM across multiple frontend frameworks causes cross-framework syntax contamination and compilation failures, while uniform gradient scaling ($a_m = 0.5$) degrades performance below ungated training. Instead, apply moderate code normalization (stripping comments, whitespace, and local variable identifiers while preserving framework syntax tokens) to compute unigram+bigram Jensen–Shannon divergence $\Delta_{i,j}$, and measure offline shared-adapter pre-gradients over $K = 100$ batches (+2% overhead vs +23% for online gradient tracking) to compute cosine compatibility $S(\mathcal{D}_i, \mathcal{D}_j)$. Partition frameworks into compatibility-ordered phases—training high-synergy component frameworks first (`Phase 1: {React, Vue}`, $S = 0.79, \Delta = 0.18$) and heterogeneous frameworks second (`Phase 2: {Vanilla, Angular}`, $S = 0.31, \Delta = 0.73$)—and scale shared LoRA adapter updates by $a_m = \mathrm{clip}(\frac{1}{2}\hat{S}_m + \frac{1}{2}(1 - \hat{\Delta}_m), 0, 1)$, which sets $a_{\text{Angular}} = 0.00$ so high-divergence frameworks rely exclusively on their dedicated top-layer adapters. Procedure: [`two-phase-framework-ui-codegen`](../skills/two-phase-framework-ui-codegen/SKILL.md).
+
+**Scope:** Multi-task / multi-framework parameter-efficient fine-tuning (LoRA) of multimodal LLMs (`Qwen2.5-VL-7B-Instruct`) across 13,224 DesignBench + WebCode2M samples (10,862 train / 1,206 val / 1,156 test across Vanilla HTML/CSS, React, Vue, and Angular) plus 484 Design2Code pages (arXiv:2611.01692).
+
+**Evidence**: On 13,224 DesignBench + WebCode2M samples (`arXiv:2611.01692`), two-phase relationship-gated tuning achieved 0.7950 average CLIP and 0.9007 Compilation Success Rate (Angular: 0.7489 CLIP / 0.8135 CSR), outperforming Claude-3.7 (0.7470 CLIP / 0.8044 CSR; Angular 0.6029 CSR), ScreenCoder (0.7300 / 0.8735), joint ungated tuning (0.7468 / 0.8479), ungated phase-wise tuning (0.7741 / 0.8712), and uniform gating $a_m = 0.5$ (0.7698 / 0.8681). Stripping framework syntax during normalization ("strong normalization") dropped CLIP to 0.7769 and CSR to 0.8694.
+
+> Source: Phase-wise MLLM Tuning for Multi-framework WebUI Code Generation (arXiv:2611.01692)
+
+### DO: Route MCP code representations by task type rather than defaulting to a unified hybrid index
+
+Match the exposed code representation to the structural demands of the software engineering task: (1) expose a **multi-view Hybrid index** (combining AST spans, call graphs, imports, and docstrings) for pure **fault localization**, and use **AST or Callgraph** tools during **program repair** primarily to displace full-file `Read` calls and reduce token/latency overhead; (2) route **security vulnerability patching** to a dedicated **Callgraph** server (`get_callers`, `get_callees`, `trace_backwards`, `impact_analysis`) rather than a merged Hybrid server; and (3) route **bug-reproducing test generation** to **Docs** or **Hybrid** views while withholding standalone Callgraph tools.
+
+**Scope:** Coding agents (`Claude Code` with `claude-haiku-4-5`) equipped with 6 MCP code-representation configurations (`Baseline`, `AST`, `Callgraph`, `Deps`, `Docs`, `Hybrid`) across `LinuxFLBench` ($N=152$), `SWE-bench Pro` ($N=253$), `SWT-bench` ($N=161$), and `SecBench` ($N=166$) (arXiv:2611.07286).
+
+**Evidence**: Across the controlled $6 \times 4$ evaluation (`arXiv:2611.07286`), no single representation dominated all tasks:
+1. On **LinuxFLBench** ($N=152$, fault localization), **Hybrid** raised top-10 file recall (`fR@10`) from `0.717` (built-in Baseline) to `0.829` (`+11.2` pp, `17` wins / `0` losses) while cutting average tokens by **39%** (`1,008,163` to `610,910`).
+2. On **SWE-bench Pro** ($N=253$, program repair), **AST** and **Hybrid** reached `50.6%` resolution vs `49.0%` Baseline while **Callgraph** and **AST** reduced total token consumption by **26%** (`3,116,193` to `2,310,653`) and **21%** (`2,450,752`) and cut wall-clock runtime from `268.8 s` to `193.7 s–209.1 s` via `Read` displacement (`12.7` built-in reads down to `8.4–8.7`).
+3. On **SWT-bench** ($N=161$, test generation), **Hybrid** (`47.8%`, `+3.1` pp) and **Docs** (`47.2%`, `+2.5` pp) improved fault reproduction over Baseline (`44.7%`), whereas **Callgraph** degraded performance by **6.8 pp** (`37.9%`, `18` wins / `29` losses).
+4. On **SecBench** ($N=166$, security patching), **Callgraph** raised vulnerability resolution from `28.9%` to **`34.3%`** (`+5.4` pp, `18` wins / `9` losses) and cut tokens by **10%** (`683,774` to `614,360`), whereas **Hybrid** achieved only `29.5%` (`+0.6` pp): on `14` of the `18` instances that Callgraph solved and Hybrid missed, Hybrid edited the exact same target file, showing that merging all views diluted execution-flow salience during patch synthesis (see [rethinking-code-representations-agentic-swe](../research-briefs/rethinking-code-representations-agentic-swe.md)).
+
+> Source: How Should Agents See Code? Rethinking Code Representations for Agentic Software Engineering (arXiv:2611.07286)
+
 ---
 
 ## Related Skills
@@ -748,6 +808,8 @@ For implementation details on the procedures behind these rules:
 - [`contrastive-meta-skill-harness-evolution`](../skills/contrastive-meta-skill-harness-evolution/SKILL.md) — Offline contrastive meta-skill precomputation paired with bounded online harness evolution (`Meta^2`)
 - [`counterfactual-tool-dependency-induction`](../skills/counterfactual-tool-dependency-induction/SKILL.md) — Counterfactual sandbox verification of tool dependency graphs with 1-hop top-2 retrieval (`LIBRA`)
 - [`verified-telemetry-tool-routing`](../skills/verified-telemetry-tool-routing/SKILL.md) — Host-verified Substrate State Telemetry (`SST`) projection and operational tool routing
+- [`mcp-hallucination-boundary-guards`](../skills/mcp-hallucination-boundary-guards/SKILL.md) — Pre-execution feasibility gates, confusion-tool isolation, and transactional state ledgers for MCP agents
+- [`two-phase-framework-ui-codegen`](../skills/two-phase-framework-ui-codegen/SKILL.md) — Compatibility-ordered two-phase LoRA tuning and relationship-gated adapters for multi-framework UI codegen
 
 ## Sources
 
@@ -790,4 +852,8 @@ For implementation details on the procedures behind these rules:
 - Meta$^2$ (Precomputing Reusable Knowledge for Online Harness Evolution): arXiv:2611.05139
 - LIBRA (Programmatic Induction of Executable Tool Libraries): arXiv:2611.05445
 - Agent Harness Awareness (Verified Telemetry into Operational Control): arXiv:2611.05391
+- MCPHallu (Reasoning, Execution, and Memory Hallucinations in MCP Agents): arXiv:2611.07689
+- MCP-Eco (Linked Dataset of MCP Servers, Consumers & Activity): arXiv:2611.06897
+- Phase-wise MLLM Tuning for Multi-framework WebUI Code Generation: arXiv:2611.01692
+- Rethinking Code Representations for Agentic Software Engineering: arXiv:2611.07286
 

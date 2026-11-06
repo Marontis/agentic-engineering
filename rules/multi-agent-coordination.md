@@ -930,6 +930,39 @@ When a multi-agent team tackles knowledge-intensive or clinical reasoning tasks,
 
 > Source: Challenge-Aware Knowledge Recruitment with Meta-Agent Supervision for Medical Multi-Agent Reasoning (arXiv:2611.05393)
 
+### DO: Insert a governed Generator–Evaluator–Human architecture lifecycle between requirements and code generation
+
+Do not move directly from informal or heterogeneous stakeholder prompts to code generation on multi-component systems. Structure software architecture design as a four-stage governed pipeline — **Requirement Definition** (`ISO/IEC 25010` quality normalization + `ISO/IEEE 29148`/`INCOSE` critic), **Attribute-Driven Architecture Design** (`ADD 3.0` decomposition + tradeoff and overengineering challenger), **Validation & Assurance** (`ATAM` risk assessment + checklist verification with focused patch refinement), and **Architecture-Aligned Delivery & Evolution** (conformance and drift detection) — enforced by deterministic traceability rules (verifying every architectural driver traces to $\ge 1$ requirement and every `ADR` references $\ge 1$ driver), bounded schema retries (at most 1 reinforced retry on parse failure), and lock-and-advance human approval gates. Procedure: [`multi-agent-architecture-first-codegen`](../skills/multi-agent-architecture-first-codegen/SKILL.md).
+
+**Scope:** TimeArch 28-prompt multi-agent prototype (`LangChain.js`, `Deno` edge functions, `PostgreSQL` full-text RAG and audit store) evaluated across representative case systems in Intelligent Transport Systems (ITS), IoT monitoring, and mobile applications (`MoodFlow`) producing `SRS`, `SAD`, `AAR`, and `FAP` deliverables (arXiv:2611.06921).
+
+**Evidence**: Across multi-domain feasibility evaluations (`arXiv:2611.06921`), decomposing architectural reasoning across 28 stage-specific generator, critic (`ISO/IEEE 29148`, `INCOSE`, `ATAM`), checklist-verification, focused-patch refinement, and overengineering-challenger prompts grounded in stage-filtered RAG chunks maintained end-to-end bidirectional traceability from heterogeneous inputs (`SRS`/`BRD`/audio/forms) to `ADRs` and implementation guidance. Conversely, repeated runs showed LLM evaluator quality and risk scores vary across executions and logical/component views out-detail process/deployment views unless constrained by deterministic cross-artifact traceability rules, Mermaid syntax validation, and lock-and-advance human architect approval gates.
+
+> Source: TimeArch: A Multi-Agent Approach for Software Architecture Design (arXiv:2611.06921)
+
+### DO: Reconstruct inherited project state via deterministic requirement-event replay and verify physical artifact diffs on takeover
+
+When taking over an in-progress project, never rely on naive turn-level relevance filtering (`C2`) or free-form history summarization, and never treat an earlier assistant's `IMPLEMENTATION_CLAIM` as verified completion. Instead: (1) replay the full chronological history into independent **Requirement Atoms** (`attributes`, `lifecycle_status`, `scope`, `ambiguity`, `execution`) where `MODIFY` events carry forward all unremoved attributes and reset `execution` to `null`; (2) copy every `ACTIVE` requirement from the pre-request state $G_q^-$ into the post-request state $G_q^+$ before applying the new turn's delta to prevent silent constraint dropping; and (3) verify physical file diffs and target assertions on the primary deliverable artifact before reporting completion. Procedure: [`history-grounded-project-takeover`](../skills/history-grounded-project-takeover/SKILL.md).
+
+**Scope:** Coding agents taking over ongoing multi-turn human-AI projects mid-stream on ReqMemBench (`349` diagnostic takeover targets across `44` projects with mean `181.43` turns, plus `37` executable delivery targets across `7` projects evaluated across 6 frontier configurations: `Codex CLI v0.155.1` with `GPT-6 Astra`, `GPT-6 Sol`, `GPT-5.6 Sol`, `GPT-5.6 Terra`; `Claude Code v2.1.283` with `Claude Opus 5.5` and `Claude Sonnet 5`, arXiv:2611.07307).
+
+**Evidence**: On `ReqMemBench` (`arXiv:2611.07307`):
+1. **Catastrophic takeover failure and harm of naive history filtering**: Mean end-to-end takeover delivery (`Build ∧ Target ∧ Regression`) was only **`4.95%`** under Full History (`C1`, `GPT-6 Astra` highest at `10.81%`, `Sonnet 5` at `0.00%`) and dropped to **`2.70%`** under filtered Relevant History (`C2`, mean `8.70` turns), with `Build` falling from `58.56%` to `47.30%` and `Regression` from `51.35%` to `40.54%`.
+2. **`0.00%` Exact Post-State Accuracy due to silent constraint dropping**: Across all `312` `Gold-ACT` diagnostic targets, **all 6 frontier configurations scored `0 / 312` (`0.00%`) exact post-request state match** (continuous `Post-State Score` `0.0535–0.1670` under `C1`), repeatedly dropping valid historical constraints from $G_q^-$ when computing $G_q^+$.
+3. **Explicit post-state preserves regressions (`90.99%`), but agents fail `Target` (`9.01%`) via no-op artifact edits**: Supplying the researcher-verified `Oracle Post-State` jumped `Build` from `58.56%` to **`96.40%`** and `Regression` from `51.35%` to **`90.99%`** (`100.00%` on both in `Claude Code`), yet **184 of 219 submitted runs (`84.02%`) still failed the `Target` test** (`8.11%` complete delivery) because agents updated summary text or auxiliary JSON models while leaving the actual delivered PCB/Word/software artifact unedited.
+
+> Source: Take It From Here: Evaluating Coding Agents On Project Takeover (arXiv:2611.07307)
+
+### DO: Bind multi-hop Agent2Agent (A2A) delegations with origin-private asymmetric signatures, per-hop signed envelopes, separated replay caches, and monotonic scope attenuation
+
+Require downstream verifiers in multi-agent delegation chains to check four independent invariants before executing business logic: (1) direct hop caller authentication (`CallerContext.clientId == envelope.sender`), (2) per-hop Ed25519 request envelope signature covering both text and metadata with a hop replay cache $R_R$ separated from the workflow authorization replay cache $R_A$ ($n_R \neq n_A$, consuming $n_A$ only after all verification layers pass), (3) origin-signed transitive authorization commitment $H(A') == H(A)$ signed with an origin-private key or attenuable capability chain (never a group-shared symmetric HMAC key), and (4) monotonic scope attenuation ($Scope_{i+1} \subseteq Scope_i$) across every hop in the delegation path $D$. Procedure: [`multi-hop-delegation-auth-propagation`](../skills/multi-hop-delegation-auth-propagation/SKILL.md).
+
+**Scope:** Multi-hop Agent2Agent (A2A) pipelines ($U \to P \to H \to I$) across 400 benign and 500 adversarial runs in a 4-party healthcare reimbursement workflow (`C0`–`C3` defense configurations, arXiv:2611.07050).
+
+**Evidence**: Across `400` benign and `500` adversarial runs (`arXiv:2611.07050`), the layered `C3` architecture added `5.1149 ms` (`5.11 ms`) median end-to-end latency (`3,870 B` payload vs `513 B` in `C0`) and blocked `100%` of the `500` repeated adversarial runs (`14/15` isolated conditions in `0.0155–1.8038 ms`). However, structural path verification alone ($\textsf{VerifyPath}(D) = 1$) failed to block intermediate scope expansion (`approve_reimbursement` appended mid-route in the `1/15` condition), and protecting authorization evidence with a shared symmetric HMAC key $K_A$ allowed an authorized intermediate (`Hospital Agent`) to escalate `max_amount` from `EUR 120` to `EUR 9000`, recompute $H(A)$ and $\operatorname{HMAC}_{K_A}(E_A)$, and pass all `C1–C3` checks.
+
+> Source: Authorization Propagation in Agent2Agent Systems: An Experimental Security Evaluation of Multi-Hop Delegation (arXiv:2611.07050)
+
 ---
 
 ## Related Skills
@@ -946,6 +979,9 @@ For implementation details on the procedures behind these rules:
 - [`task-graph-contextual-integrity-gating`](../skills/task-graph-contextual-integrity-gating/SKILL.md) — Task-graph contextual integrity (`Auto-Region`) and zero-LLM semantic frontier gating
 - [`service-mesh-agent-self-healing`](../skills/service-mesh-agent-self-healing/SKILL.md) — Sidecar proxy mesh with consumer-conditioned reflection and role-based hot failover (`MA-Mesh`)
 - [`challenge-aware-knowledge-recruitment`](../skills/challenge-aware-knowledge-recruitment/SKILL.md) — External non-answering Challenger supervision with mid-trace retrieval and isolated specialist recruitment
+- [`multi-agent-architecture-first-codegen`](../skills/multi-agent-architecture-first-codegen/SKILL.md) — Four-stage Generator–Evaluator–Human software architecture lifecycle (`TimeArch`)
+- [`history-grounded-project-takeover`](../skills/history-grounded-project-takeover/SKILL.md) — Deterministic Requirement Atom replay, non-destructive delta application, and physical artifact-diff verification for project takeover
+- [`multi-hop-delegation-auth-propagation`](../skills/multi-hop-delegation-auth-propagation/SKILL.md) — Four-layer transitive authorization verification with origin-private signatures and monotonic scope attenuation for A2A pipelines
 
 ## Sources
 
@@ -995,3 +1031,6 @@ For implementation details on the procedures behind these rules:
 - MA-Mesh (Role-Based Self-Healing Multi-Agent Mesh): arXiv:2611.06389
 - Challenge-Aware Knowledge Recruitment: arXiv:2611.05393
 - Disparity Laundering in Clinical MAS: arXiv:2610.38215
+- TimeArch (Multi-Agent Software Architecture Design): arXiv:2611.06921
+- Take It From Here (ReqMemBench Project Takeover Evaluation): arXiv:2611.07307
+- Authorization Propagation in Agent2Agent Systems: arXiv:2611.07050

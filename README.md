@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 510+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 540+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -100,6 +100,10 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`germline-isolated-tool-execution`](skills/germline-isolated-tool-execution/SKILL.md) | Signed, Sealed, Leaked: Trust Beyond Signature for MCP Toolchains (arXiv:2611.06585) |
 | [`security-aware-context-slicing`](skills/security-aware-context-slicing/SKILL.md) | A.S.E 2.0: Repository Context & Security of LLM-Generated Code (arXiv:2611.06294) |
 | [`ooxml-display-fidelity-extraction`](skills/ooxml-display-fidelity-extraction/SKILL.md) | When File Ingestion Misleads Language Models: OOXML Divergences (arXiv:2611.05806) |
+| [`compile-then-execute-web-agent-gateway`](skills/compile-then-execute-web-agent-gateway/SKILL.md) | Baya: Securing Web Agents with the Compile-Then-Execute Paradigm (arXiv:2611.06039) |
+| [`llm-api-relay-integrity-verification`](skills/llm-api-relay-integrity-verification/SKILL.md) | What the Middleman Delivers: Auditing LLM API Relays (arXiv:2611.07650) |
+| [`multi-hop-delegation-auth-propagation`](skills/multi-hop-delegation-auth-propagation/SKILL.md) | Authorization Propagation in Agent2Agent Systems (arXiv:2611.07050) |
+| [`sealed-replayable-agent-audit-log`](skills/sealed-replayable-agent-audit-log/SKILL.md) | NovaFabric: Black-Box Recorder for Sealed, Replayable & Auditable Agent Runs (arXiv:2610.34594) |
 
 #### Self-Improvement & Evaluation
 
@@ -152,6 +156,11 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`mcts-full-harness-optimization`](skills/mcts-full-harness-optimization/SKILL.md) | HarnessFlow: MCTS-Guided Harness Optimization for LLM Agents (arXiv:2611.06254) |
 | [`contrastive-meta-skill-harness-evolution`](skills/contrastive-meta-skill-harness-evolution/SKILL.md) | Meta$^2$: Precomputing Reusable Knowledge for Online Harness Evolution (arXiv:2611.05139) |
 | [`three-surface-verified-code-audit`](skills/three-surface-verified-code-audit/SKILL.md) | Verified but Vacuous: Three Failure Surfaces of Verified Code Generation (arXiv:2611.05590) |
+| [`persona-driven-mobile-feature-testing`](skills/persona-driven-mobile-feature-testing/SKILL.md) | ECS: Mobile Application Testing for User-Centric Feature Coverage via Personas (arXiv:2611.06922) |
+| [`post-migration-behavioral-differential-testing`](skills/post-migration-behavioral-differential-testing/SKILL.md) | Accepted but Wrong: Silent Failures of LLM Code Repairs after API Migrations (arXiv:2611.08269) |
+| [`contract-verified-test-mock-generation`](skills/contract-verified-test-mock-generation/SKILL.md) | MockBench: Executable but Unfaithful Mock, Stub & Assertion Generation (arXiv:2610.14629) |
+| [`ui-dataflow-intent-verification`](skills/ui-dataflow-intent-verification/SKILL.md) | FlowCheck: Specifying and Verifying Intent in Vibe-Coded Web Apps (arXiv:2608.28880) |
+| [`mobile-ui-hierarchical-synthesis`](skills/mobile-ui-hierarchical-synthesis/SKILL.md) | UI-UG 2: Advancing Mobile UI Understanding & Generation with RL (arXiv:2611.00926) |
 
 #### Skill Evolution & Knowledge
 
@@ -192,6 +201,13 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`service-mesh-agent-self-healing`](skills/service-mesh-agent-self-healing/SKILL.md) | MA-Mesh: Resilient Multi-Agent Collaboration via Role-based Self-Healing (arXiv:2611.06389) |
 | [`counterfactual-tool-dependency-induction`](skills/counterfactual-tool-dependency-induction/SKILL.md) | LIBRA: Programmatic Induction of Executable Tool Libraries (arXiv:2611.05445) |
 | [`verified-telemetry-tool-routing`](skills/verified-telemetry-tool-routing/SKILL.md) | Agent Harness Awareness: Verified Telemetry into Operational Control (arXiv:2611.05391) |
+| [`mcp-hallucination-boundary-guards`](skills/mcp-hallucination-boundary-guards/SKILL.md) | MCPHallu: Reasoning, Execution, and Memory Hallucinations in MCP Agents (arXiv:2611.07689) |
+| [`multi-agent-architecture-first-codegen`](skills/multi-agent-architecture-first-codegen/SKILL.md) | TimeArch: Multi-Agent Approach for Software Architecture Design (arXiv:2611.06921) |
+| [`history-grounded-project-takeover`](skills/history-grounded-project-takeover/SKILL.md) | Take It From Here: Evaluating Coding Agents on Project Takeover (arXiv:2611.07307) |
+| [`two-phase-framework-ui-codegen`](skills/two-phase-framework-ui-codegen/SKILL.md) | Phase-wise MLLM Tuning for Multi-framework WebUI Code Generation (arXiv:2611.01692) |
+| [`state-aware-prototype-to-webapp`](skills/state-aware-prototype-to-webapp/SKILL.md) | VisStateCoder: State-Aware Generation of Deployable Websites from Prototypes (arXiv:2610.17861) |
+| [`mobile-spatial-accessibility-grouping`](skills/mobile-spatial-accessibility-grouping/SKILL.md) | SeeR: Spatial Organization Is Accessibility Structure for Mobile UIs (arXiv:2611.02410) |
+| [`editable-semantic-diagram-generation`](skills/editable-semantic-diagram-generation/SKILL.md) | EvoDiagram: Agentic Editable Diagram Creation via Design Expertise Evolution (arXiv:2604.09568) |
 
 #### Retrieval & Evidence
 
@@ -221,6 +237,8 @@ Structured decision frameworks to fill in when starting a new project. Each temp
 | [`adk-enterprise-deployment-gke.spec`](specs/adk-enterprise-deployment-gke.spec.md) | Production containerized ADK deployment on GKE & Eventarc |
 | [`adk-eval-quality-gate.spec`](specs/adk-eval-quality-gate.spec.md) | Designing golden datasets, trajectory assertions & CI/CD gates |
 | [`adk-a2ui-declarative-interface.spec`](specs/adk-a2ui-declarative-interface.spec.md) | Designing rich agentic interfaces with A2UI dynamic widgets |
+| [`nextjs-public-agent-app.spec`](specs/nextjs-public-agent-app.spec.md) | Securing public-facing Next.js & full-stack agent web applications (BFF boundary, MCP gateway, relay checks & audit sealing) |
+| [`mobile-and-generative-ui.spec`](specs/mobile-and-generative-ui.spec.md) | Designing mobile UIs, accessible spatial hierarchies, editable diagrams & statically verified interactive web apps |
 
 ### Research Briefs
 
@@ -548,6 +566,16 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`scamworld-web-agent-online-fraud-benchmark`](research-briefs/scamworld-web-agent-online-fraud-benchmark.md) | Browser agents complete 45.7–87.3% of online scams despite flagging suspicious cues in 23–63% of traces |
 | [`auditable-unlearning-gapwiden-gapveil`](research-briefs/auditable-unlearning-gapwiden-gapveil.md) | Standard unlearning leaks membership (GapWiden) while calibration camouflages retained knowledge (GapVeil) |
 | [`personacodebench-interactive-persona-coding-eval`](research-briefs/personacodebench-interactive-persona-coding-eval.md) | Interactive coding agents drop 27.2 pp when scored on joint functional tests and persona workflow obligations |
+| [`controlanything-on-demand-generative-ui`](research-briefs/controlanything-on-demand-generative-ui.md) | Mixed-reality Generative UI and on-demand hardware bridge synthesis with out-of-band kill-switch safety |
+| [`mcp-eco-server-consumer-ecosystem`](research-briefs/mcp-eco-server-consumer-ecosystem.md) | 16.88M-record relational dataset linking 78,302 MCP servers, 284,845 tool schemas, and 16,165 consumer repos |
+| [`vibench-2-long-horizon-software-building`](research-briefs/vibench-2-long-horizon-software-building.md) | 241-stage full-stack web building benchmark showing 93–98% plan pass yields only 48–65% end-to-end pass@1 |
+| [`multi-step-swe-long-horizon-self-building`](research-briefs/multi-step-swe-long-horizon-self-building.md) | 574-step repository evolution benchmark exposing a 5x post-failure cliff and 52% false completion claims |
+| [`rethinking-code-representations-agentic-swe`](research-briefs/rethinking-code-representations-agentic-swe.md) | 6x4 MCP code-representation study showing task-specific trade-offs across AST, Callgraph, Docs, and Hybrid views |
+| [`kg-ast-budgeted-cicd-test-selection`](research-briefs/kg-ast-budgeted-cicd-test-selection.md) | Cross-project 46-feature risk ranking and depth-2 call-graph + naming test selection hitting 85.1% of fixes at 2.3% suite cost |
+| [`cognitive-tours-understanding-deliverable-swe`](research-briefs/cognitive-tours-understanding-deliverable-swe.md) | Socio-technical waypoints and read-only drift skills that preserve human architectural understanding |
+| [`trap-trust-responsive-runtime-authorization`](research-briefs/trap-trust-responsive-runtime-authorization.md) | Empirical characterization of TRAP runtime authorization hysteresis and its gradual-degradation blindness |
+| [`task-tampering-indirect-prompt-injection`](research-briefs/task-tampering-indirect-prompt-injection.md) | Authority-based IPI benchmark across six POMDP influence primitives showing why sanitizers and tool gates fail |
+| [`interface-quilt-cua-generative-ui`](research-briefs/interface-quilt-cua-generative-ui.md) | Build-time CUA visual grounding paired with zero-VLM runtime pixel template matching for desktop Generative UI overlays |
 
 ---
 

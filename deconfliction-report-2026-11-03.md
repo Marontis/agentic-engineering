@@ -55,3 +55,4 @@ Running `python scripts/kb_lint.py --base origin/master` surfaced 8 candidate op
 ## 3. Verification Summary
 
 - `python scripts/kb_lint.py --base origin/master` $\to$ **`0 error(s)`**, `0` unresolved conflict warnings, and `4` verified `copied-stat` coincidences where exact paper figures (`MemHarmBench`, `CuriousTogether`, `EB-MAS`, `Safin-1.5`) share common percentages (`1.00%`, `6.50%`, `14.00%`, `27.16%`, `40.00%`, `71.43%`, `75.36%`, `81.82%`, `87.50%`) with earlier briefs.
+

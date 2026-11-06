@@ -152,4 +152,32 @@ Decompose evaluation into orthogonal, rubric-based scoring dimensions:
 
 Each dimension must evaluate independently with explicit grading criteria and counterexample probe checks.
 
+**Scope:** Multi-dimensional LLM-as-a-Judge evaluation rubrics for Google ADK 2 agent trajectories (Google Codelab: Advanced ADK Evaluation with LLM-as-a-Judge Method; design guidance, no benchmark figures).
+
 > Source: Google Codelab: Advanced ADK Evaluation with LLM-as-a-Judge Method
+
+---
+
+## Runtime Authority Hysteresis & Third-Party API Relay Auditing
+
+### DON'T: Gate runtime authority restriction solely on single-step trust derivatives (d_t < -theta_r)
+
+Never trigger authority restriction solely when a single-step readiness drop exceeds a fixed derivative threshold ($g_t - g_{t-1} < -\theta_r$). Always combine step-drop triggers with an absolute band-ceiling check ($g_t < \mathrm{down}(a_{t-1})$) or a sliding-window cumulative degradation check, and fuse behavioural trust ($T_t$), stability ($S_t$), and risk ($R_t$) rather than relying on a single signal.
+
+**Scope:** TRAP (`v1.0.0`) dynamic runtime authorization controller across $n = 100$ matched Monte Carlo traces (`exp003`–`exp012`) comparing abrupt ($L = 1$) vs gradual ($L \in \{5, 10, 20\}$) readiness degradation against Static, Risk-only, and Symmetric baselines (arXiv:2611.06996).
+
+**Evidence**: Across $n = 100$ matched Monte Carlo traces (`arXiv:2611.06996`), TRAP's single-step restriction rule ($\theta_r = 0.10$, $k = 3$, $\theta_e = 0.05$) restricted immediately ($\mathrm{RR} = 0.00$, Excess-Authority Duration $\mathrm{EAD} = 0.81$ intervals) and recovered `37.5%` faster than a symmetric baseline (`10.72` vs `17.14` intervals) under abrupt degradation ($L = 1$). However, when the exact same `~0.308` readiness drop occurred gradually over $L = 5, 10, 20$ intervals (`exp012`), TRAP restricted on only `4/100` traces at $L = 5$ and `0/100` traces (`0%`) at $L = 10$ and $L = 20$, causing Excess-Authority Duration to jump from `0.81` to `18.92`, `18.15`, and `15.89` intervals (worse than Symmetric's `10.12`, `10.28`, and `9.85` intervals and matching the Static no-restriction policy), while a Risk-only baseline granted `24.05%` of escalations during active degradation ($\mathrm{PER} = 0.2405$; see [trap-trust-responsive-runtime-authorization](../research-briefs/trap-trust-responsive-runtime-authorization.md)).
+
+Tension with "Separate assurance evidence validity from contextual applicability, gate actions by authority epoch, and enforce hard step-wise safety projections" (agent-sandbox-safety.md): authority-epoch revocation (`ACCA`, `arXiv:2611.05632`) invalidates in-flight capabilities once a degradation event is triggered, whereas `TRAP` (`arXiv:2611.06996`) shows that triggering restriction solely on a single-step derivative ($g_t - g_{t-1} < -\theta_r$) misses gradual readiness drift ($L \in \{5, 10, 20\}$); pair authority-epoch revocation with an absolute band-ceiling check ($g_t < \mathrm{down}(a_{t-1})$) or sliding-window cumulative degradation trigger.
+
+> Source: Trust Responsive Runtime Authorization for Agentic AI with Empirical Characterization of Policy Behavior and Parameter Sensitivity (arXiv:2611.06996)
+
+### DO: Enforce client-side tool-permission firewalls, behavioral canary checks, and input-token reconciliation when routing through third-party LLM API relays
+
+Verify relay integrity continuously (`11–18` day cadence) across three surfaces: (1) run a pre-validated `25`-question $\times$ `5`-trial discriminative question bank ($q < 0.05$ and $|\mathrm{RD}| \ge 0.20$), (2) enforce a client-side tool firewall that drops any returned `tool_calls` when `tool_choice=none` was specified or when no tools were declared, and (3) compare relay-reported total input tokens (`input_tokens + cache_creation_input_tokens + cache_read_input_tokens` or `prompt_tokens`) against local canonical tokenization on every request. Procedure: [`llm-api-relay-integrity-verification`](../skills/llm-api-relay-integrity-verification/SKILL.md).
+
+**Scope:** Two-round empirical audit (`11–18` days apart) of `20` third-party API relays offering `GPT-6 Astra` and `Claude Opus 5` (`36` and `35` relay–model pairs) across OpenAI Chat Completions and Anthropic Messages endpoints (arXiv:2611.07650).
+
+**Evidence**: Across `20` third-party relays (`arXiv:2611.07650`), `7/10` low-price ($P_s < 0.95$) and `2/10` same- or higher-price relays were flagged for behavioral inconsistency in Round 1 (with `Claude Opus 5` accuracy dropping from `0.968–1.000` official to `0.409` at `R20` and `0.418` at `R11`, and `7/35` pairs changing flag status between rounds). Four relays returned `30` `noop` tool calls despite `tool_choice=none` (`R11`: `24`, `R17`: `4`, `R04`: `1`, `R10`: `1`) and a fifth (`R08`) returned `2` undeclared `web_search` tool calls. Five relays overreported input tokens by `4,200` to `60,000` tokens per request (e.g., `4,416–4,418` billed input tokens on a `36`-token official Astra request at `R01`, `R11`, and `R20`, and a `59.5k` median token surplus on `R10` Opus), with wallet deductions matching the inflated token counts to the cent across all `6` relays with balance APIs.
+
+> Source: What the Middleman Delivers: Answer Behavior, Tool Permissions, and Billed Usage in LLM API Relays (arXiv:2611.07650)

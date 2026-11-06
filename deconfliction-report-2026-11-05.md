@@ -32,3 +32,4 @@
 
 4. **Reviewed Non-Contradiction Pairs (`scripts/kb_lint_reviewed.txt`)**:
    - Recorded 7 lexical stem overlaps verified as complementary or distinct in scope (e.g., `multi-renderer consensus` on OOXML documents vs. `multi-agent consensus` in clinical triage; pre-call host-verified `Substrate State Telemetry` vs. post-call `HTTP 200` state verification; formal theorem-prover `Surface A/B/C` specification fidelity vs. MCP/CLI action realization repair).
+
