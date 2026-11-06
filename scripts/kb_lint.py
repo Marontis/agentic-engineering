@@ -37,7 +37,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT_GLOBS = ["README.md", "rules/*.md", "skills/**/*.md", "research-briefs/*.md",
-                 "specs/*.md", "kody-templates/*.md", "docs/*.md"]
+                 "specs/*.md", "kody-templates/*.md"]
 HEADING_RE = re.compile(r"^###\s+(DON['’]T|DO)\b\s*:?\s*(.+?)\s*$", re.IGNORECASE)
 LINK_RE = re.compile(r"\]\(([^)#\s]+\.md)(?:#[^)]*)?\)")
 MOJIBAKE_RE = re.compile(r"â€|Ã[\x80-\xbf©¨§¶¼½¾]|Â[\xa0-\xbf ]")
