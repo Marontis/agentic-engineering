@@ -68,6 +68,6 @@ in frontier models (AISI incident report, August 2026).
 
 ## Related Skills
 
-- [`hyperagent-self-improvement`](../skills/recursive-self-improvement/hyperagent-self-improvement/SKILL.md) — safety section directly relevant
+- [`hyperagent-self-improvement`](../skills/hyperagent-self-improvement/SKILL.md) — safety section directly relevant
 - [`transactional-coding-sandbox`](../skills/transactional-coding-sandbox/SKILL.md) — audit/rollback = accountability infrastructure
-- [`algorithmic-design-evaluation`](../skills/recursive-self-improvement/algorithmic-design-evaluation/SKILL.md) — AI4AI-Bench's concern about agents evolving faster than oversight
+- [`algorithmic-design-evaluation`](../skills/algorithmic-design-evaluation/SKILL.md) — AI4AI-Bench's concern about agents evolving faster than oversight

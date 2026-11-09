@@ -1,13 +1,3 @@
----
-name: adk-a2ui-dynamic-widgets
-description: >
-  Construct declarative A2UI interactive widget messages from Google ADK agents and
-  synchronize client-side user action callbacks with the backend session journal.
-source: https://codelabs.developers.google.com/adk-gemini-a2ui?hl=en
-repository: https://github.com/Marontis/agentic-engineering
-license: CC-BY-4.0
----
-
 # ADK A2UI Declarative Interface & Dynamic Widgets
 
 > **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)

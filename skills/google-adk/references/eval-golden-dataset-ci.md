@@ -1,13 +1,3 @@
----
-name: adk-eval-golden-dataset-ci
-description: >
-  Construct golden evaluation datasets from ADK Web traces and implement automated
-  trajectory validation quality gates using adk eval and pytest in CI/CD pipelines.
-source: https://codelabs.developers.google.com/adk-eval/instructions?hl=en
-repository: https://github.com/Marontis/agentic-engineering
-license: CC-BY-4.0
----
-
 # ADK Evaluation & Golden Dataset CI/CD Gates
 
 > **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)

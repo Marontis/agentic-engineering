@@ -128,7 +128,7 @@ Before planning the next edit, force a dedicated belief-calibration turn:
 
 ## Cross-References
 
-- [`recursive-self-improvement`](../recursive-self-improvement/hyperagent-self-improvement/SKILL.md) — Fundamental bounds and validation gates for self-improving agents.
+- [`hyperagent-self-improvement`](../hyperagent-self-improvement/SKILL.md) — Fundamental bounds and validation gates for self-improving agents.
 - [`reference-trajectory-harness-evolution`](../reference-trajectory-harness-evolution/SKILL.md) — Reference trajectory tracking to avoid shortcut learning.
 - [`iterative-instruction-refinement`](../iterative-instruction-refinement/SKILL.md) — Single-lineage prompt optimization feedback loops.
 

@@ -4,7 +4,7 @@
 > **Codelab**: [ADK 2 Orchestration: Graph, Collaborative & Dynamic Workflows](https://codelabs.developers.google.com/adk2/instructions#0)  
 > **Repository**: [cuppibla/adk2-tutorial](https://github.com/cuppibla/adk2-tutorial)  
 > **Praxis source**: `src:adk-2-orchestration-graph-collaborative-dynamic-workflows`  
-> **Related Skill**: [`adk2-agent-orchestration-patterns`](../skills/adk2-agent-orchestration-patterns/SKILL.md)
+> **Related Skill**: [`google-adk`](../skills/google-adk/SKILL.md) ([`orchestration-patterns.md`](../skills/google-adk/references/orchestration-patterns.md))
 > **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)
 
 ---

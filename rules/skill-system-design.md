@@ -801,7 +801,7 @@ For implementation details on the procedures behind these rules:
 - [`static-dynamic-verification-gap-measurement`](../skills/static-dynamic-verification-gap-measurement/SKILL.md) — Measuring static-pass dynamic-fail gaps
 - [`bayesian-backward-disagreement-anchor`](../skills/bayesian-backward-disagreement-anchor/SKILL.md) — Label-free multi-agent disagreement resolution
 - [`ledger-orchestrated-coding-loop`](../skills/ledger-orchestrated-coding-loop/SKILL.md) — File-ledger multi-turn loop with test veto
-- [`adk2-agent-orchestration-patterns`](../skills/adk2-agent-orchestration-patterns/SKILL.md) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
+- [`google-adk`](../skills/google-adk/SKILL.md) ([`orchestration-patterns.md`](../skills/google-adk/references/orchestration-patterns.md)) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
 - [`capability-matched-skill-adaptation`](../skills/capability-matched-skill-adaptation/SKILL.md) — Adapting skill text across executor capability bottlenecks
 - [`decoupled-interface-action-repair`](../skills/decoupled-interface-action-repair/SKILL.md) — Decoupled semantic commitment and interface-specific realization repair
 - [`composite-skill-vulnerability-scanner`](../skills/composite-skill-vulnerability-scanner/SKILL.md) — Dependency-graph static/LLM auditing and sandbox-verified repair for local and cross-skill composite vulnerabilities

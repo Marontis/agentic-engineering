@@ -1,16 +1,3 @@
----
-name: adk2-agent-orchestration-patterns
-description: >
-  Implement Google Agent Development Kit (ADK) 2's three core orchestration
-  patterns: Graph Workflows (deterministic functions, JoinNode, dict routers),
-  Collaborative Agents (single_turn parallel dispatch vs task mode subroutines),
-  and Dynamic Workflows (runtime parallel_worker fan-out, recursive ctx.run_node).
-  Includes the 1-question decision tree and composition rules.
-  Derived from Google Cloud Tech "Graph Engineering with ADK" and official Codelab.
-repository: https://github.com/Marontis/agentic-engineering
-license: CC-BY-4.0
----
-
 # ADK 2 Agent Orchestration Patterns
 
 > **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)

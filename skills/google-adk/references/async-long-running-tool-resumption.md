@@ -1,14 +1,3 @@
----
-name: adk-async-long-running-tool-resumption
-description: >
-  Implement asynchronous, long-running tool operations and deterministic resumption
-  in Google Agent Development Kit (ADK) workflows using LongRunningFunctionTool,
-  pending call receipts, external background daemons, and FunctionResponse matching.
-source: https://codelabs.developers.google.com/codelabs/vibe-studio-lab/instructions
-repository: https://github.com/Marontis/agentic-engineering
-license: CC-BY-4.0
----
-
 # ADK Asynchronous Long-Running Tool Resumption
 
 > **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | **Repository**: [Marontis/agentic-engineering](https://github.com/Marontis/agentic-engineering)

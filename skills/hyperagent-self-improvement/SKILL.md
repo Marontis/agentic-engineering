@@ -50,7 +50,7 @@ benchmark, internalized `verify=False` and kept it through later clean
 generations (arXiv:2609.17817). See `rules/recursive-improvement.md`
 "DO: Make the improvement mechanism part of the agent's editable
 source"; for a concrete bounded loop use
-[`regularized-harness-evolution`](../../regularized-harness-evolution/SKILL.md).
+[`regularized-harness-evolution`](../regularized-harness-evolution/SKILL.md).
 
 ## Architecture: DGM-Hyperagents (DGM-H)
 
@@ -338,7 +338,7 @@ learned elsewhere.
 - Creating agents that improve their own improvement process
 - Setting up transfer learning between agent populations across domains
 - Designing safety guardrails for self-modifying systems (together with
-  [`regularized-harness-evolution`](../../regularized-harness-evolution/SKILL.md)
+  [`regularized-harness-evolution`](../regularized-harness-evolution/SKILL.md)
   and the envelope and gate rules in `rules/recursive-improvement.md`)
 
 ## Diagnostic Check (via companion skill)

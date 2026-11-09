@@ -1097,8 +1097,8 @@ When evolving multi-component agent harnesses (system prompts, tool wrappers, me
 ## Related Skills
 
 For implementation details on the procedures behind these rules:
-- [`hyperagent-self-improvement`](../skills/recursive-self-improvement/hyperagent-self-improvement/SKILL.md) — Editable meta-improvement architecture
-- [`algorithmic-design-evaluation`](../skills/recursive-self-improvement/algorithmic-design-evaluation/SKILL.md) — 8-family taxonomy and scoring
+- [`hyperagent-self-improvement`](../skills/hyperagent-self-improvement/SKILL.md) — Editable meta-improvement architecture
+- [`algorithmic-design-evaluation`](../skills/algorithmic-design-evaluation/SKILL.md) — 8-family taxonomy and scoring
 - [`iterative-instruction-refinement`](../skills/iterative-instruction-refinement/SKILL.md) — NPO-style revision loop
 - [`knowledge-compounding-loop`](../skills/knowledge-compounding-loop/SKILL.md) — Persistent knowledge accumulation
 - [`targeted-failure-attribution`](../skills/targeted-failure-attribution/SKILL.md) — DoCtOR decisive error identification
@@ -1111,7 +1111,7 @@ For implementation details on the procedures behind these rules:
 - [`belief-calibrated-scaffold-optimization`](../skills/belief-calibrated-scaffold-optimization/SKILL.md) — Persistent causal world model for scaffold optimization
 - [`debate-consensus-memory-calibration`](../skills/debate-consensus-memory-calibration/SKILL.md) — Memory calibration and confidence reweighting for multi-agent debate
 - [`ledger-orchestrated-coding-loop`](../skills/ledger-orchestrated-coding-loop/SKILL.md) — File-ledger multi-turn loop with test veto
-- [`adk2-agent-orchestration-patterns`](../skills/adk2-agent-orchestration-patterns/SKILL.md) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
+- [`google-adk`](../skills/google-adk/SKILL.md) ([`orchestration-patterns.md`](../skills/google-adk/references/orchestration-patterns.md)) — Three pillars of agent orchestration (Graph, Collaborative, Dynamic)
 - [`dense-rubric-skill-evolution`](../skills/dense-rubric-skill-evolution/SKILL.md) — Bilevel dense rubric surrogate optimization for skill evolution
 - [`autonomous-environment-exploration`](../skills/autonomous-environment-exploration/SKILL.md) — Curriculum-guided broad-then-deep environment exploration and causal memory
 - [`fast-tree-search-self-improvement`](../skills/fast-tree-search-self-improvement/SKILL.md) — Budget-constrained self-improvement via LLM-judge-guided tree search

@@ -68,7 +68,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`multi-agent-federation-governance`](skills/multi-agent-federation-governance/SKILL.md) | PRIMUS Federation Identity (arXiv:2609.07910) |
 | [`description-only-injection-detection`](skills/description-only-injection-detection/SKILL.md) | No-Box Vulnerability Analysis (arXiv:2609.10854) |
 | [`high-fanout-sandbox-memory-compression`](skills/high-fanout-sandbox-memory-compression/SKILL.md) | High-Fanout Sandbox Memory (arXiv:2609.11294) |
-| [`adk-model-armor-interceptor`](skills/adk-model-armor-interceptor/SKILL.md) | Google Cloud Model Armor & SDP Interceptors |
+| [`google-adk` (Model Armor & SDP)](skills/google-adk/references/model-armor-interceptor.md) | Google Cloud Model Armor & SDP Interceptors (via [`google-adk`](skills/google-adk/SKILL.md)) |
 | [`runtime-resource-authorization-bounds`](skills/runtime-resource-authorization-bounds/SKILL.md) | AcquireBound (arXiv:2609.14744) |
 | [`pre-execution-action-auditing`](skills/pre-execution-action-auditing/SKILL.md) | ActGuard (arXiv:2609.14987) |
 | [`agentic-prompt-injection-search`](skills/agentic-prompt-injection-search/SKILL.md) | Test-Time Injection Search (arXiv:2609.04495) |
@@ -109,8 +109,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 
 | Skill | Source Paper |
 |:------|:------------|
-| [`hyperagent-self-improvement`](skills/recursive-self-improvement/hyperagent-self-improvement/SKILL.md) | HyperAgents (arXiv:2603.19461) |
-| [`algorithmic-design-evaluation`](skills/recursive-self-improvement/algorithmic-design-evaluation/SKILL.md) | AI4AI-Bench (arXiv:2608.20318) |
+| [`hyperagent-self-improvement`](skills/hyperagent-self-improvement/SKILL.md) | HyperAgents (arXiv:2603.19461) |
+| [`algorithmic-design-evaluation`](skills/algorithmic-design-evaluation/SKILL.md) | AI4AI-Bench (arXiv:2608.20318) |
 | [`targeted-failure-attribution`](skills/targeted-failure-attribution/SKILL.md) | DoCtOR (arXiv:2608.28264) |
 | [`behavior-aware-verification`](skills/behavior-aware-verification/SKILL.md) | HarnessLens (arXiv:2608.27311) |
 | [`agent-working-memory-eval`](skills/agent-working-memory-eval/SKILL.md) | Measure Before You Manage (arXiv:2608.31057) |
@@ -129,7 +129,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`self-verification-elicitation`](skills/self-verification-elicitation/SKILL.md) | Self-Verification via RL (arXiv:2609.08025) |
 | [`static-dynamic-verification-gap-measurement`](skills/static-dynamic-verification-gap-measurement/SKILL.md) | Beyond Static Guarantees (arXiv:2609.10762) |
 | [`bayesian-backward-disagreement-anchor`](skills/bayesian-backward-disagreement-anchor/SKILL.md) | Bayesian Backward Reasoning (arXiv:2609.11709) |
-| [`adk-eval-golden-dataset-ci`](skills/adk-eval-golden-dataset-ci/SKILL.md) | Google ADK Golden Dataset & Trajectory CI/CD |
+| [`google-adk` (Eval & Golden Dataset CI)](skills/google-adk/references/eval-golden-dataset-ci.md) | Google ADK Golden Dataset & Trajectory CI/CD (via [`google-adk`](skills/google-adk/SKILL.md)) |
 | [`dense-rubric-skill-evolution`](skills/dense-rubric-skill-evolution/SKILL.md) | SkillLift (arXiv:2609.15396) |
 | [`agentic-review-deploy-loop`](skills/agentic-review-deploy-loop/SKILL.md) | AI-Native SDLC Playbook (Review, deploy, and maintain stages) |
 | [`autonomous-research-to-launch-harness`](skills/autonomous-research-to-launch-harness/SKILL.md) | AutoLR Research-to-Launch Harness (arXiv:2609.04871) |
@@ -187,13 +187,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`graph-of-skills-scaling`](skills/graph-of-skills-scaling/SKILL.md) | SE-GoS (arXiv:2609.08228) |
 | [`stable-skill-evolution`](skills/stable-skill-evolution/SKILL.md) | SkillAdam (arXiv:2609.08944) |
 | [`ledger-orchestrated-coding-loop`](skills/ledger-orchestrated-coding-loop/SKILL.md) | Zero-Shot Self-Orchestration (arXiv:2608.26480) |
-| [`adk2-agent-orchestration-patterns`](skills/adk2-agent-orchestration-patterns/SKILL.md) | Google Cloud Tech / ADK 2 Orchestration |
-| [`adk-async-long-running-tool-resumption`](skills/adk-async-long-running-tool-resumption/SKILL.md) | Google ADK VibeStudio (Async Tool Resumption & Call ID Matching) |
-| [`adk-lifecycle-callback-interceptors`](skills/adk-lifecycle-callback-interceptors/SKILL.md) | Google ADK VibeStudio (Lifecycle Callbacks & Interceptors) |
-| [`adk-a2a-agent-federation`](skills/adk-a2a-agent-federation/SKILL.md) | Google ADK & Agent Runtime (A2A Protocol & Agent Cards) |
-| [`adk-a2ui-dynamic-widgets`](skills/adk-a2ui-dynamic-widgets/SKILL.md) | Google ADK & A2UI (Declarative Widgets & Action Dispatch) |
-| [`adk-eventarc-reactive-trigger`](skills/adk-eventarc-reactive-trigger/SKILL.md) | Google Cloud Eventarc & ADK (Event-Driven Reactive Pipelines) |
-| [`adk-mcp-multimodal-tool-interception`](skills/adk-mcp-multimodal-tool-interception/SKILL.md) | Google ADK & MCP (Multimodal Tool Interceptors & Callbacks) |
+| [`google-adk`](skills/google-adk/SKILL.md) | Google ADK 2 Unified Skill (Orchestration Pillars, Lifecycle Interceptors, Async Tool Resumption, MCP Multimodal Interception, Model Armor, A2A Federation, A2UI Widgets, Eventarc Triggers & Eval CI) |
 | [`intent-driven-sdlc-planning`](skills/intent-driven-sdlc-planning/SKILL.md) | AI-Native SDLC Playbook (Intent → Spec → Plan upstream pipeline) |
 | [`mcp-server-design`](skills/mcp-server-design/SKILL.md) | MCP Server Best Practices & Progressive Discovery |
 | [`agentic-requirements-reverse-engineering`](skills/agentic-requirements-reverse-engineering/SKILL.md) | Code to Requirements (arXiv:2609.22719) |
