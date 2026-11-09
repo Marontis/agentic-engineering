@@ -695,6 +695,23 @@ To cut CI/CD test and review costs without sacrificing defect detection: (1) ran
 
 > Source: KG-AST for Cheaper CI/CD: Budgeted Test Selection and AI Bug Review (arXiv:2611.06950)
 
+### DO: Audit domain fine-tuned models against their matched base checkpoints across capability, knowledge-centric abstention, newly-answered accuracy, and shared-error commitment
+
+Do not evaluate domain-adapted or fine-tuned LLMs (such as clinical or biomedical models) on answerable-only accuracy or without their exact ancestor base checkpoint. Domain fine-tuning frequently erodes **knowledge-centric abstention** (failing to abstain when decisive evidence is missing) without improving epistemic discrimination (Youden's $J$ informedness), pulls difficult competence-boundary questions into answer coverage at much lower accuracy, and inflates choice-normalized answer-token probability commitment even on shared errors. Always run a **four-dimensional paired audit** ($\Delta m = m_{\text{fine-tuned}} - m_{\text{base}}$ with base-clustered inference when multiple fine-tunes share a base model):
+1. **Capability**: Accuracy on answerable items (`MA NA`, `CD Complete`).
+2. **Appropriate Caution & Informedness**: Abstention rate on evidence-ablated/undeterminable items ($U_{\mathrm{AP}}, U_{\mathrm{Undet}}$) minus excessive abstention on answerable items ($J = U_{\mathrm{AP}} - U_{\mathrm{A}}$).
+3. **Coverage-Transition Partition Accuracy**: Accuracy on **newly answered** items (where the base model abstained but the fine-tuned model answered) compared against **always-answered** items.
+4. **Calibration & Shared-Error Commitment**: Expected Calibration Error (`ECE10`), normalized entropy, and maximum-choice probability restricted to **shared errors** (items both the base and fine-tuned checkpoints answer incorrectly).
+
+**Scope:** Paired observational audit of 25 biomedical domain fine-tuned LLMs (`4B–70B` parameters across `CPT`, `SFT`, `RL`, `DPO`, `PEFT`, and `MERGE` recipes) against their 11 ancestor base checkpoints (`Llama 2`, `Llama 3`, `Llama 3.1`, `Gemma-3`) on `MedAbstain` (`1,007` MedQA-USMLE items across 4 variants: `MA NA`, `MA A`, `MA NAP`, `MA AP`) and `ClinDet-Bench` (`94` scenarios across `Complete`, `Incomplete-Determinable`, and `Incomplete-Undeterminable`), evaluated with Benjamini–Hochberg (`BH`) correction across 15 prespecified tests and two-stage hierarchical base-clustered bootstrap ($p_{\mathrm{cluster}}$) (arXiv:2611.08780).
+
+**Evidence**:
+- **H1 & H2 — Appropriate abstention erodes without improved informedness (`arXiv:2611.08780`)**: On `MedAbstain` (`MA AP`), median appropriate abstention fell from **`8.3%` in base models to `4.2%` after domain fine-tuning** (median pair change $\Delta = -3.48\text{ pp}$, `-45.0%` relative decrease, base-clustered 95% CI `[-5.66, -0.79] pp`, $p = 0.0038, q_{\mathrm{BH}} = 0.009, p_{\mathrm{cluster}} = 0.003$), **decreasing in `21 of 25` pairs** (and in `7/9` pairs under native chat templates, median $\Delta = -2.88\text{ pp}$). `ClinDet-Bench` `Incomplete-Undeterminable` showed a directional `-6.25 pp` median drop ($p = 0.061, q_{\mathrm{BH}} = 0.083$). Informedness did not improve ($\Delta J^{\mathrm{MA}} = -0.60\text{ pp}$, $q_{\mathrm{BH}} = 0.052$; $\Delta J^{\mathrm{CD}} = -2.71\text{ pp}$, $p = 0.158$).
+- **H3 — Newly answered questions suffer a `-14.98 pp` accuracy deficit**: On `MA A`, fine-tuned models achieved a median **`14.98 pp` lower accuracy** (`-24.8%` relative deficit; 95% CI `[-17.91, -8.36] pp`, $p < 0.0001, q_{\mathrm{BH}} = 0.00009, p_{\mathrm{cluster}} < 0.001$) on **newly answered** questions than on questions answered by both base and fine-tuned models (symmetric base accuracy on newly abstained items was `-11.47 pp` lower, $p = 0.014, q_{\mathrm{BH}} = 0.023, p_{\mathrm{cluster}} = 0.051$).
+- **H4 & H5 — Higher commitment on shared errors, worse `ECE10` calibration, and extreme heterogeneity**: On `MA NA`, fine-tuning decreased normalized entropy by **`-0.191`** ($q_{\mathrm{BH}} < 0.001, p_{\mathrm{cluster}} = 0.001$), increased maximum-choice probability by **`+0.127`** ($q_{\mathrm{BH}} < 0.001, p_{\mathrm{cluster}} = 0.002$), increased **shared-wrong confidence by `+0.112`** ($q_{\mathrm{BH}} < 0.001, p_{\mathrm{cluster}} = 0.001$; `+0.225` on `CD Complete`), and worsened `ECE10` calibration error by **`+0.040`** ($q_{\mathrm{BH}} = 0.009, p_{\mathrm{cluster}} = 0.040$) with no reliable improvement in confidence `AUROC`. Across pairs, capability and caution changes were highly heterogeneous ($I^2 = 96.3\%$ on `MA`, $93.4\%$ on `CD`; on `MA`, `16/25` pairs raised capability while losing caution, `1/25` raised both, `3/25` lost capability while gaining caution, and `5/25` lost both; see [guardrail-erosion-domain-finetuned-abstention](../research-briefs/guardrail-erosion-domain-finetuned-abstention.md)).
+
+> Source: Guardrail Erosion in Domain Fine-Tuned Large Language Models: A Paired Audit of Knowledge-Centric Abstention in Biomedical LLMs (arXiv:2611.08780)
+
 ---
 
 ## Verification Scaling
@@ -787,3 +804,7 @@ For implementation details on the procedures behind these rules:
 - Accepted but Wrong (Silent Failures of LLM Code Repairs after API Migrations): arXiv:2611.08269
 - Executable but Unfaithful (MockBench Mock/Stub/Assertion Generation): arXiv:2610.14629
 - KG-AST for Cheaper CI/CD (Budgeted Test Selection and AI Bug Review): arXiv:2611.06950
+- Guardrail Erosion in Domain Fine-Tuned LLMs (MedAbstain & ClinDet-Bench): arXiv:2611.08780
+- Logit Laundering (Evading Data-Use Auditing in LLMs): arXiv:2611.09446
+- AUTEUR (Acoustic Plan Learning for Red-Teaming Text-to-Audio Models): arXiv:2611.09351
+- ToolDex (Ego-Exo Creative Physical Tool Use Benchmark): arXiv:2611.09036

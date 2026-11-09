@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 540+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 555+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -104,6 +104,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`llm-api-relay-integrity-verification`](skills/llm-api-relay-integrity-verification/SKILL.md) | What the Middleman Delivers: Auditing LLM API Relays (arXiv:2611.07650) |
 | [`multi-hop-delegation-auth-propagation`](skills/multi-hop-delegation-auth-propagation/SKILL.md) | Authorization Propagation in Agent2Agent Systems (arXiv:2611.07050) |
 | [`sealed-replayable-agent-audit-log`](skills/sealed-replayable-agent-audit-log/SKILL.md) | NovaFabric: Black-Box Recorder for Sealed, Replayable & Auditable Agent Runs (arXiv:2610.34594) |
+| [`intent-ltl-mcp-orchestration`](skills/intent-ltl-mcp-orchestration/SKILL.md) | SafeOrchestrate: Runtime Checked Intent-Driven Orchestration for CPS (arXiv:2611.09364) |
+| [`principal-context-permission-intersection`](skills/principal-context-permission-intersection/SKILL.md) | Conflux: Preventing Privilege Escalation with Principal Contexts (arXiv:2611.08768) |
 
 #### Self-Improvement & Evaluation
 
@@ -161,6 +163,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`contract-verified-test-mock-generation`](skills/contract-verified-test-mock-generation/SKILL.md) | MockBench: Executable but Unfaithful Mock, Stub & Assertion Generation (arXiv:2610.14629) |
 | [`ui-dataflow-intent-verification`](skills/ui-dataflow-intent-verification/SKILL.md) | FlowCheck: Specifying and Verifying Intent in Vibe-Coded Web Apps (arXiv:2608.28880) |
 | [`mobile-ui-hierarchical-synthesis`](skills/mobile-ui-hierarchical-synthesis/SKILL.md) | UI-UG 2: Advancing Mobile UI Understanding & Generation with RL (arXiv:2611.00926) |
+| [`feedback-poisoning-skill-promotion-guard`](skills/feedback-poisoning-skill-promotion-guard/SKILL.md) | When Feedback Becomes a Backdoor: SkillOpt Promotion Guards (arXiv:2611.09348) |
 
 #### Skill Evolution & Knowledge
 
@@ -202,6 +205,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`state-aware-prototype-to-webapp`](skills/state-aware-prototype-to-webapp/SKILL.md) | VisStateCoder: State-Aware Generation of Deployable Websites from Prototypes (arXiv:2610.17861) |
 | [`mobile-spatial-accessibility-grouping`](skills/mobile-spatial-accessibility-grouping/SKILL.md) | SeeR: Spatial Organization Is Accessibility Structure for Mobile UIs (arXiv:2611.02410) |
 | [`editable-semantic-diagram-generation`](skills/editable-semantic-diagram-generation/SKILL.md) | EvoDiagram: Agentic Editable Diagram Creation via Design Expertise Evolution (arXiv:2604.09568) |
+| [`parallel-small-team-tts-scaling`](skills/parallel-small-team-tts-scaling/SKILL.md) | Test-Time Compute Scales Better with Parallel Agent Teams (arXiv:2611.09798) |
 
 #### Retrieval & Evidence
 
@@ -570,6 +574,15 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`trap-trust-responsive-runtime-authorization`](research-briefs/trap-trust-responsive-runtime-authorization.md) | Empirical characterization of TRAP runtime authorization hysteresis and its gradual-degradation blindness |
 | [`task-tampering-indirect-prompt-injection`](research-briefs/task-tampering-indirect-prompt-injection.md) | Authority-based IPI benchmark across six POMDP influence primitives showing why sanitizers and tool gates fail |
 | [`interface-quilt-cua-generative-ui`](research-briefs/interface-quilt-cua-generative-ui.md) | Build-time CUA visual grounding paired with zero-VLM runtime pixel template matching for desktop Generative UI overlays |
+| [`attentionswitch-sparse-head-scaling-jailbreak-defense`](research-briefs/attentionswitch-sparse-head-scaling-jailbreak-defense.md) | Sparse 5-head dynamic KV attention scaling cutting jailbreak ASR below 1% at zero extra token overhead |
+| [`thought-injection-attacks-reasoning-agents`](research-briefs/thought-injection-attacks-reasoning-agents.md) | Reasoning-formatted injections wrapped in `<think>` tags amplify agent IPI ASR up to 88.2% on AgentDojo |
+| [`debate-to-deceive-fact-checking-poisoning`](research-briefs/debate-to-deceive-fact-checking-poisoning.md) | Two-agent adversarial evidence-crafting debate flips automated fact-checkers up to 73.9% of the time |
+| [`criteria-exposure-verifier-overfitting`](research-briefs/criteria-exposure-verifier-overfitting.md) | Exposing benchmark verifier code to skill-library learners inflates pass rates by +26 pp while degrading transfer |
+| [`flex-rsi-frontier-agent-benchmark`](research-briefs/flex-rsi-frontier-agent-benchmark.md) | 10-task open-ended frontier ML benchmark showing unguided self-evolving agents regress (−1.8 pp) and stall after 3 iterations |
+| [`tooldex-ego-exo-physical-tool-use`](research-briefs/tooldex-ego-exo-physical-tool-use.md) | Synchronized ego-exo RGB-D dataset and 4-stage affordance-pose-force benchmark for physical tool use |
+| [`logit-laundering-data-auditing-evasion`](research-briefs/logit-laundering-data-auditing-evasion.md) | Reverse-KL and sinkhorn logit projection evade output-space data-use audits while retaining 96%+ utility |
+| [`auteur-acoustic-plan-red-teaming`](research-briefs/auteur-acoustic-plan-red-teaming.md) | Plan-conditioned hierarchical voice synthesis and prosody search reaching 78.4% multi-turn audio jailbreak ASR |
+| [`guardrail-erosion-domain-finetuned-abstention`](research-briefs/guardrail-erosion-domain-finetuned-abstention.md) | Benign domain LoRA fine-tuning erodes unanswerable-question abstention by up to −50.2 pp via attention shift |
 
 ---
 

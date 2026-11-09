@@ -963,6 +963,23 @@ Require downstream verifiers in multi-agent delegation chains to check four inde
 
 > Source: Authorization Propagation in Agent2Agent Systems: An Experimental Security Evaluation of Multi-Hop Delegation (arXiv:2611.07050)
 
+### DO: Scale test-time compute on verifiable long-horizon tasks via parallel small flat teams rather than solo Best-of-N, one giant team, or manager orchestration
+
+When allocating a budget of $B$ agent runs on long-horizon tasks with an automated verifier, do not spend the entire budget on $B$ independent solo agents (`Best-of-N`, $M=1$) or on a single large collaborating team ($M=B, K=1$), and do not route intra-team communication through a central manager agent. Instead, partition the budget into **$K = B / M$ independent small flat peer teams of size $M \in [5, 10]$** (e.g., $K = 10$ teams of $M = 10$ agents at $B = 100$), let teammates share verified discoveries asynchronously on an append-only forum (`post`, `list`, `read`) without assigned roles or a manager, and select the best verified submission across all $K$ teams:
+$$\mathbb{E}\!\left[\max_{1 \le k \le K} X_k\right] \approx \mu(M) + \sigma(M)\sqrt{2 \ln(B / M)}$$
+Solo `Best-of-N` draws the most samples ($K = B$) but stalls around a low single-agent mean $\mu(1)$ (`50` solo agents already exhaust `81%–100%` of the gain of `100` agents); one giant team ($K = 1, M = B$) gets zero order-statistic gain from variance ($\sqrt{2\ln 1} = 0$) and loses mean performance above $M = 64$ due to premature peer copying; and a central manager creates a communication bottleneck that lowers $\mu(M)$ below even solo agents. Parallel small flat teams raise the per-sample mean $\mu(M)$ by `0.5\sigma` to `4.4\sigma` while preserving $K = B / M$ independent draws on the steep early part of the order-statistic curve. Procedure: [`parallel-small-team-tts-scaling`](../skills/parallel-small-team-tts-scaling/SKILL.md).
+
+**Scope:** Over 8,000 agent runs (~95,000 agent-hours; 12-hour sessions per agent, 6 hours on `Browser Exploit`) across 12 verifiable long-horizon optimization tasks from 6 benchmarks (`EdgeBench`, `MLS-Bench`, `ExploitBench`, `KernelBench`, `KernelBench-Verified`, `TopOpt`) spanning GPU kernels, Lean 4 formal proofs, hydrogeology/geophysics inversion, ML systems, structural design, and cybersecurity with `Qwen3.8-27B`, `DeepSeek V4.1 Flash`, and `GPT-5.6-sol` inside isolated Modal sandboxes (arXiv:2611.09798).
+
+**Evidence**:
+- **Beats parallel solo agents and slower saturation (`arXiv:2611.09798`)**: With `Qwen3.8-27B`, parallel teams of $M = 10$ beat solo `Best-of-N` on **`11 of 12` tasks at $B = 50$** (5 teams vs 50 solo agents) and **`10 of 12` tasks at $B = 100$** (10 teams vs 100 solo agents), averaging **`+10%` higher score at $B = 10$** and **`+27%` higher at $B = 100$** (e.g., `Carleson Formalization` Lean 4 proofs jumped from `19.0` to **`54.8`**, `+187.7%`; `KDA Chunk Forward` GPU kernel from `11.83` to **`16.54`**, `+39.8%`; `SwinMLP BF16` from `6.29` to **`8.33`**, `+32.5%`). From $B = 10$ to $B = 20$, each extra agent added **`+1.27%`** to parallel teams vs **`+0.64%`** to solo agents (`2.0x` steeper scaling, matching the theoretical $\sqrt{\ln 20 / \ln 2} \approx 2.1\times$ marginal return).
+- **Beats one giant team and longer single-agent sessions**: On all **4 of 4 tasks** tested with single large teams up to $M = 100$, team scores dropped between `64` and `100` agents, and `10` teams of `10` beat `1` team of `100` by **`+8%` to `+30%`** (on 2 tasks, `1` team of `100` scored below `100` solo agents). On `Graph Node Classification`, doubling solo session length from `6 h` to `12 h` barely moved the mean (`52.0 -> 52.7`), whereas a 2-agent team for `6 h` each at the exact same `12 agent-hour` cost raised the mean to **`57.4`** and led by `+4.1` points at `120` agent-hours (`75.5` vs `71.4`).
+- **Matches/beats a frontier model at equal dollar cost, while central managers hurt**: At equal GPU/token dollar cost, `Qwen3.8-27B` parallel teams of 10 beat 5 `GPT-5.6-sol` runs on **`4 of 8` tasks** (`6 of 12` overall; e.g., `52.0` for 8 `Qwen` teams vs `47.9` for 5 `GPT-5.6-sol` runs on `Carleson Formalization`). Replacing the flat forum with a central manager/orchestrator agent degraded team performance **below both flat teams and solo agents at every budget** on all 3 tested tasks (e.g., on `Borden Source Inversion`, the best of 10 manager-orchestrated teams scored **`68.4`**, below the **`76.5`** average of a single flat team).
+
+Tension with "Default to a fixed multi-agent topology" (this file) and "Structure inter-agent communication around typed intents and bus substrates" (this file): hierarchical orchestration (`ORCH`, `arXiv:2609.11737`) and Chair-arbitrated intent buses (`BusMA`, `arXiv:2609.15054`) coordinate heterogeneous role pipelines where subtasks are interdependent and lack a fast per-attempt oracle, whereas on verifiable open-ended search and optimization tasks where any agent can score candidate solutions against an exact verifier (`arXiv:2611.09798`), a central manager becomes a bottleneck and flat asynchronous discovery sharing across $K$ small peer teams ($M=10$) dominates.
+
+> Source: Test-Time Compute Scales Better with Parallel Agent Teams (arXiv:2611.09798)
+
 ---
 
 ## Related Skills
@@ -982,6 +999,7 @@ For implementation details on the procedures behind these rules:
 - [`multi-agent-architecture-first-codegen`](../skills/multi-agent-architecture-first-codegen/SKILL.md) — Four-stage Generator–Evaluator–Human software architecture lifecycle (`TimeArch`)
 - [`history-grounded-project-takeover`](../skills/history-grounded-project-takeover/SKILL.md) — Deterministic Requirement Atom replay, non-destructive delta application, and physical artifact-diff verification for project takeover
 - [`multi-hop-delegation-auth-propagation`](../skills/multi-hop-delegation-auth-propagation/SKILL.md) — Four-layer transitive authorization verification with origin-private signatures and monotonic scope attenuation for A2A pipelines
+- [`parallel-small-team-tts-scaling`](../skills/parallel-small-team-tts-scaling/SKILL.md) — Test-time compute scaling via $K$ parallel small flat peer teams ($M=10$) sharing an asynchronous discovery forum
 
 ## Sources
 
@@ -1034,3 +1052,5 @@ For implementation details on the procedures behind these rules:
 - TimeArch (Multi-Agent Software Architecture Design): arXiv:2611.06921
 - Take It From Here (ReqMemBench Project Takeover Evaluation): arXiv:2611.07307
 - Authorization Propagation in Agent2Agent Systems: arXiv:2611.07050
+- Test-Time Compute Scales Better with Parallel Agent Teams: arXiv:2611.09798
+- Debate to Deceive (Game-Theoretic Multi-Agent Debate Fact-Checking Poisoning): arXiv:2611.08756

@@ -810,6 +810,7 @@ For implementation details on the procedures behind these rules:
 - [`verified-telemetry-tool-routing`](../skills/verified-telemetry-tool-routing/SKILL.md) — Host-verified Substrate State Telemetry (`SST`) projection and operational tool routing
 - [`mcp-hallucination-boundary-guards`](../skills/mcp-hallucination-boundary-guards/SKILL.md) — Pre-execution feasibility gates, confusion-tool isolation, and transactional state ledgers for MCP agents
 - [`two-phase-framework-ui-codegen`](../skills/two-phase-framework-ui-codegen/SKILL.md) — Compatibility-ordered two-phase LoRA tuning and relationship-gated adapters for multi-framework UI codegen
+- [`feedback-poisoning-skill-promotion-guard`](../skills/feedback-poisoning-skill-promotion-guard/SKILL.md) — Four-gate defense against reference-feedback backdoor poisoning in text-space skill optimization (`SkillOpt`)
 
 ## Sources
 
@@ -856,4 +857,5 @@ For implementation details on the procedures behind these rules:
 - MCP-Eco (Linked Dataset of MCP Servers, Consumers & Activity): arXiv:2611.06897
 - Phase-wise MLLM Tuning for Multi-framework WebUI Code Generation: arXiv:2611.01692
 - Rethinking Code Representations for Agentic Software Engineering: arXiv:2611.07286
+- When Feedback Becomes a Backdoor (SkillOpt Reference-Feedback Poisoning): arXiv:2611.09348
 

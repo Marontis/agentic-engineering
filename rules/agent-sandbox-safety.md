@@ -1487,6 +1487,26 @@ Treat the agent run directory as untrusted input once the workload process exits
 
 > Source: NovaFabric: A Black-Box Recorder for AI Agents with Sealed, Replayable, Diffable and Auditable Runs (arXiv:2610.34594)
 
+### DO: Compile cyber-physical and multi-device intents into role-grounded LTL specifications with SMT precondition gating
+
+When orchestrating multi-device, ordered, or event-triggered workflows over Model Context Protocol (MCP) tools and resources, decompose natural-language intents into ordered atomic trigger-response goals ($D_{am}$), translate each goal into a symbolic Linear Temporal Logic (LTL) specification ($G_f$), ground propositions by syntactic role ($G_m$: restricting preconditions to observable resources or read-only query tools and actions to executable actuator tools, followed by numeric threshold enrichment), and gate every single-action consequent through a two-phase Guardrail Verifier ($V_g$: Phase 1 direct precondition evaluation on the sampled runtime state $s_t$, followed by Phase 2 SMT satisfiability checking of $\phi_g \land C \land \widehat{s_t} \land (t_i = \text{true})$) before dispatch. Avoid unconstrained direct LLM-to-MCP tool calling on conditional or multi-device workflows, which frequently skips preconditions, confuses read queries with state-mutating actuator calls, and executes actions when trigger events are absent. Procedure: [`intent-ltl-mcp-orchestration`](../skills/intent-ltl-mcp-orchestration/SKILL.md).
+
+**Scope:** LLM-driven tool and cyber-physical system (CPS) orchestration over W3C Web of Things Thing Descriptions (TDs) exposed as MCP tools and resources; evaluated with GPT-3.5 Turbo (`nl2spec`), GPT-4.1 grounding, and Z3 SMT verification across 8 smart home, greenhouse, and industrial automation tasks (arXiv:2611.09364).
+
+**Evidence**: Across 8 CPS orchestration benchmarks (10 runs per atomic goal at temperature 0, `arXiv:2611.09364`), SafeOrchestrate achieved 100% required-action accuracy on all 8 tasks and 100% MCP Execution Similarity (MCP-ES) on 7 of 8 tasks (92% on Coming/Leaving Home), whereas the direct LLM-to-MCP baseline (`VanillaOrchestrate`) degraded to 50% accuracy / 50% MCP-ES on Washing Machine Event, 25% accuracy / 25% MCP-ES on Alarm Ringing, 80% accuracy / 17% MCP-ES on Coming/Leaving Home, and 17% accuracy / 13% MCP-ES on Doorbell Workflow.
+
+> Source: SafeOrchestrate: Runtime Checked Intent-Driven Orchestration for Cyber-Physical Systems (arXiv:2611.09364)
+
+### DO: Intersect permissions across all influencing principals in a no-laundering Principal Context outside model judgment
+
+When an agent consumes inputs from multiple principals (users, documents, APIs, tool outputs) before invoking externally effectful tools, track every contributing author in an immutable **Principal Context** ($\mathrm{PC}(e)$) merged with authority-bearing argument provenance ($\mathrm{DC}(e, a) = \mathrm{PC}(e) \cup \mathrm{Prov}_{\mathrm{arg}}(a)$), and admit an action at the effect boundary only if $\mathrm{DC}(e, a)$ is non-empty, contains no unknown provenance ($\bot \notin \mathrm{DC}(e, a)$), and **every** principal $u \in \mathrm{DC}(e, a)$ holds permission $P_t(u, a)$ in the organization's existing access-control system (ACS) alongside orthogonal read, visibility, consent, and argument-selector ports. Never let LLM judgment, intermediate summarization/copying, or user consent widen authority or strip a contributing principal from $\mathrm{DC}(e, a)$, and use **Exposure Planning** (executing high-privilege actions or branching before reading low-privilege inputs) to avoid unnecessary authority attenuation. Procedure: [`principal-context-permission-intersection`](../skills/principal-context-permission-intersection/SKILL.md).
+
+**Scope:** Formal system-level authority confinement (`ITES` kernel and `Conflux` architecture) covering the represented value-influence fragment under five explicit assumptions (`A1` complete mediation, `A2` no-laundering influence completeness, `A3` rule conformance, `A4` atomic certificate recheck and action binding at dispatch, `A5` known non-empty context); control-flow influence (tool, branch, recipient, or plan-step selection) remains a refinement obligation on `A2`. Bounded evaluation via `SLED` (black-box finite-model exploration) and `SLED-V` (white-box plan IR verification) (arXiv:2611.08768).
+
+**Evidence**: Proposition 1 (`arXiv:2611.08768`) proves that under worst-case LLM behavior, no deterministic model-level defense can guarantee authority confinement because identical token histories authored by an authorized principal $u$ vs. an unauthorized adversary $v$ are indistinguishable without system-level provenance. Under `A1`–`A5`, Theorem 1 proves that pointwise ACS permission intersection admits zero privilege-escalating actions while remaining maximal among sound context-only rules (Proposition 4). In retained `AgentDojo` runs (132 cells on 14B and 204 cells on 0.5B floor) and `SLED-V` IR checks, the paper also shows that zero-violation benchmark counts on read-only paths or low-utility models (19/132 and 0/204 utility) and `checked_by_construction` solver invariants (unfalsifiable under single-guard mutations) are vacuous for defense efficacy unless paired with effect-path execution and guard-mutation falsifiability (`checked`).
+
+> Source: Conflux: Preventing Privilege Escalation with Principal Contexts and System-Level Evaluation (arXiv:2611.08768)
+
 ---
 
 ## Related Skills
@@ -1524,6 +1544,8 @@ For implementation details on the procedures behind these rules:
 - [`state-aware-prototype-to-webapp`](../skills/state-aware-prototype-to-webapp/SKILL.md) — Project State Graph grounding and 2-hop write-protected repair for deployable web apps
 - [`compile-then-execute-web-agent-gateway`](../skills/compile-then-execute-web-agent-gateway/SKILL.md) — Offline Python compilation against a typed Trusted Website API with schema-only replanning diagnostics
 - [`sealed-replayable-agent-audit-log`](../skills/sealed-replayable-agent-audit-log/SKILL.md) — Wire-level black-box agent capture, post-exit capsule sanitization, tri-proof sealing, and fail-closed replay
+- [`intent-ltl-mcp-orchestration`](../skills/intent-ltl-mcp-orchestration/SKILL.md) — Role-grounded LTL specification synthesis and two-phase Z3 SMT precondition/safety gating for MCP orchestration (`SafeOrchestrate`)
+- [`principal-context-permission-intersection`](../skills/principal-context-permission-intersection/SKILL.md) — Pointwise ACS permission intersection over no-laundering Principal Contexts, exposure planning, and SLED/SLED-V evaluation (`Conflux`)
 
 ## Sources
 
@@ -1638,3 +1660,6 @@ For implementation details on the procedures behind these rules:
 - Baya (Compile-Then-Execute Web Agent Gateway): arXiv:2611.06039
 - Task-Tampering Indirect Prompt Injection Benchmark: arXiv:2611.07640
 - NovaFabric (Black-Box Sealed & Replayable Agent Recorder): arXiv:2610.34594
+- SafeOrchestrate (Runtime Checked Intent-Driven MCP Orchestration): arXiv:2611.09364
+- Conflux (Preventing Privilege Escalation with Principal Contexts): arXiv:2611.08768
+- AttentionSwitch (Sparse Attention-Head Selection & Scaling Jailbreak Defense): arXiv:2611.08752

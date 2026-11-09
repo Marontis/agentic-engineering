@@ -968,6 +968,8 @@ judge alone" (this file): there agreement only screens out weak
 training-reward verifiers; here rank agreement selects search candidates
 and is re-checked against the oracle, so the settings differ.
 
+Tension with "Expose benchmark verifier code or unstated rubric predicates to the skill-library learner" (this file): `SkillLift` (`arXiv:2609.15396`) synthesizes instruction-aligned surrogate rubrics in an inner search loop and calibrates them against ground-truth task outcomes, whereas `Criteria Exposure` (`arXiv:2611.08318`) exposes the benchmark verifier's internal source code and unstated rubric conventions directly to the skill-library learner, causing it to overfit to arbitrary verifier artifacts rather than the task instruction.
+
 > Source: SkillLift: Learning Dense Rubrics from Sparse Oracles for Efficient Skill Evolution (arXiv:2609.15396)
 
 ---
@@ -1092,6 +1094,47 @@ When evolving multi-component agent harnesses (system prompts, tool wrappers, me
 
 > Source: HarnessFlow: MCTS-Guided Harness Optimization for LLM Agents (arXiv:2611.06254); Reglos: Two-Timescale Memory Harness Evolution for Long-Horizon Agents (arXiv:2611.06049)
 
+### DON'T: Promote bundled text-space skill edits on aggregate clean validation accuracy alone
+
+In text-space skill optimization loops (`SkillOpt`, `ExpeL`) where an `Analyst` reflects on task failures against reference answers and proposes natural-language skill edits, an adversary who poisons only a fraction of training or validation reference answers (`reference-feedback poisoning`) can implant a persistent trigger-conditioned backdoor without access to the model, optimizer, prompts, or skill file. Clean validation accuracy gates fail for two reasons: (1) a trigger-conditioned rule never fires on clean validation items (`0/200` clean false-positive rate), so its clean accuracy matches benign optimization; and (2) when the optimizer accepts or rejects a multi-edit candidate atomically, a validation-neutral backdoor edit ($B_0$) rides through the gate on the validation score gains of an unrelated clean edit ($C$) bundled in the same step (**external carrier effect**).
+
+Harden text-space skill promotion across four stage-resolved gates:
+1. **Enforce strict literal abstraction in the reflection prompt**: Instruct the `Analyst` never to copy literal sentinel tags, bracketed identifiers, cell coordinates, or verbatim expected output strings from reference answers into candidate rules, even when they recur across a minibatch, and strip conditional override rules before edit merging.
+2. **Never skip generality ranking when the merged edit pool fits the edit budget**: Always run generality and security ranking on every merged edit rather than bypassing `Rank/Select` when `len(merged_pool) <= edit_budget`.
+3. **Decouple bundled edits via leave-one-edit-out (LOEO) validation and guard `SLOW_UPDATE` blocks**: Require each individual edit in a winning candidate to show positive marginal validation contribution ($\Delta_i = \text{Score}(P + E) - \text{Score}(P + E \setminus \{e_i\}) > 0$) before admission, audit epoch-level slow updates before writing to protected `SLOW_UPDATE` blocks, and pass the final candidate through "DO: Pass every self-modification through one acceptance gate".
+4. **Isolate endpoint evaluation workspaces**: Evaluate frozen skills in clean sandboxes with zero access to repository files, prior-run states, or training artifacts, paired with rule-deletion counterfactuals. Procedure: [`feedback-poisoning-skill-promotion-guard`](../skills/feedback-poisoning-skill-promotion-guard/SKILL.md).
+
+**Scope:** `SkillOpt` text-space skill optimization with `GPT-5.6 Luna` (target and Analyst) across `SearchQA` (`400` train with `5%–30%` poisoned references, `100` val with `0%–20%` poisoned references, `200` test across 5 frozen views, 3 seeds `42–44`) and `SpreadsheetBench` (`80` train with `25%` poisoned workbooks, `40` val, `40` clean + `40` triggered held-out workbooks per seed, natural vs literal-preservation and edit-budget diagnostics) (arXiv:2611.09348).
+
+**Evidence**:
+- **End-to-end persistence and clean-gate stealth (`SearchQA`, `arXiv:2611.09348`)**: Under 30% training-reference poisoning (`[ZEPHYR-17] -> ZEPHYR VERIFIED`) with a 100% clean validation set, unmodified `SkillOpt` retained an exact backdoor rule in **all 3 seeds (`42`, `43`, `44`)** (written into the protected `SLOW_UPDATE` block in seeds 42 and 44), firing on **`200/200` triggered held-out questions** and **`0/200` clean questions** while scoring **`169/200`** in-run clean test accuracy vs **`171/200`** for matched benign `SkillOpt` (`174/200` vs `156/200` initial skill on the frozen harness; deleting the rule block dropped triggered ASR from `200/200` to `0/200` while clean accuracy stayed `174/200`).
+- **External carrier effect**: On a frozen 40-item positive-control validation set, parent skill $P$ and backdoor-only $P + B_0$ both scored **`0.1700` (`3/10` gate passes)**, whereas bundling $B_0$ with a clean QA edit $C$ ($P + B_0 + C$) raised the score to **`0.3775` (`10/10` gate passes)** vs **`0.3725` (`10/10`)** for $P + C$ (a `+0.2075` external carrier lift vs a `0.0050` difference from $B_0$). Poisoning `5%`, `10%`, or `20%` of validation references also promoted opaque payloads (`[ZEPHYR-17] -> ORCHID-729`, `200/200` ASR, `178/200` clean utility).
+- **Two upstream formation and ranking bottlenecks (`SpreadsheetBench`)**: Natural reference poisoning (`TR`, `TRV`) and trajectory poisoning (`TBA`) retained **`0/3` exact rules (`0/120` Target ASR)** across 3 seeds despite `144/144` reflection-group visibility. Stage-resolved diagnostics showed: (1) relaxing one literal-abstraction line in the `Analyst` prompt jumped exact proposals from `0/3` to `3/3` sampled groups (`8/8`, `8/8`, and `2/8` steps across seeds 42–44); and (2) `Rank/Select` under the cosine edit budget (`4 -> 2`) clipped `8/8` and `7/8` merged exact edits down to `0/8` in seeds 42 and 43, whereas seed 44 skipped ranking when the merged pool had $\le 2$ edits and promoted the backdoor (`32/40` triggered ASR, `21/40` joint success, `0/40` clean FPR). Raising the edit budget from `2` to `3` at seed 43 step 8 bypassed ranking and passed validation (`24/40 = 0.600` vs `18/40 = 0.450`).
+
+> Source: When Feedback Becomes a Backdoor: Tracing Backdoor Skill Formation in Text-Space Skill Optimization (arXiv:2611.09348)
+
+### DON'T: Expose benchmark verifier code or unstated rubric predicates to the skill-library learner
+
+When a self-improving agent builds a reusable skill and memory library across episodes, feed the learner only the feedback available at deployment (such as episode trajectories and binary or task-faithful success) — never the benchmark verifier's source code, internal stage flags, or unstated numeric tolerances (**Criteria Exposure, `CE`**). When benchmark verifiers demand conventions omitted from the task instruction (such as hidden action orders, exact counts, or returning robot arms to home position), a learner that reads the verifier optimizes for the verifier rather than the task: its apparent gains vanish when re-judged by instruction-faithful criteria, and its verifier-specific memory entries degrade cross-task skill transfer.
+
+**Scope:** Embodied coding-agent self-improvement (`GPT-6 Astra` actor + `Claude Opus 5.5` library learner over 5 rounds) across `RoboDojo` (25 tasks: 16 criteria-limited, 9 faithful), `LIBERO-PRO` (6 tasks), and `RoboCasa365` (10 tasks) (arXiv:2611.08318).
+
+**Evidence**: Under original `RoboDojo` criteria ($C^{\text{orig}}$, `arXiv:2611.08318`), exposing verifier code and stage scores (`w/ CE`) beat success-only learning (`w/o CE`) overall (62.0% vs 47.8%) entirely due to criteria-limited tasks (51.6% vs 27.8%), while providing no benefit on faithful tasks where criteria matched instructions (80.6% vs 83.3%). When the exact same 320 test episodes on criteria-limited tasks were re-judged by instruction-faithful criteria ($C^{\text{faith}}$), the `w/ CE` lead disappeared completely (45.0% `w/ CE` vs 47.2% `w/o CE`, a 25.9 pp drop). Swapping the criteria read during learning caused each exposed library to fail under the other verifier ($\mathcal{L}_{\text{CE}}^{\text{faith}}$ fell from 65.0% under $C^{\text{faith}}$ to 13.5% under $C^{\text{orig}}$). Roughly one-third of `w/ CE` memory entries cited verifier code directly (vs 0% for `w/o CE`), and when distilled libraries were transferred to 10 unseen `RoboDojo` tasks and 10 `RoboCasa365` tasks, `w/o CE` beat `w/ CE` on both (80/200 vs 71/200 on `RoboDojo`; 33/100 vs 29/100 on `RoboCasa365`; see [criteria-exposure-verifier-overfitting](../research-briefs/criteria-exposure-verifier-overfitting.md)).
+
+Tension with "Use bilevel surrogate rubrics with rank-correlation calibration for prompt and skill evolution" (this file): `SkillLift` (`arXiv:2609.15396`) synthesizes instruction-aligned surrogate rubrics for inner-loop candidate ranking calibrated against task outcomes, whereas `Criteria Exposure` (`arXiv:2611.08318`) exposes the benchmark verifier's source code and unstated rubric predicates to the skill-library learner, causing verifier overfitting and poor cross-task transfer.
+
+> Source: Learning the Task or Learning the Verifier? Rethinking Criteria Exposure in Embodied Self-Improvement (arXiv:2611.08318)
+
+### DO: Pair validation-gated harness self-improvement with dense scale feedback on constructive tasks, and evolve harnesses per model rather than transferring a stronger model's harness
+
+When running recursive self-improvement (`RSI`) where an executor modifies the task solution (kept only if held-out validation improves beyond a noise margin $\delta = 2\sigma$, per "DO: Pass every self-modification through one acceptance gate") and an improver revises the harness itself, target **constructive tasks** (where the agent builds a program, policy, or pipeline rather than emitting a single answer) and ensure the validation evaluator scores episodes on a **continuous or multi-stage scale** rather than binary pass/fail. Furthermore, let weaker or open-weight models evolve their own harness from the generic starter rather than seeding them with a stronger frontier model's evolved harness without verification.
+
+**Scope:** `Flex-RSI` benchmark across 24 vision, robotics, 3D reconstruction, visual creation, and infrastructure tasks and 18 frontier models (11 closed-source, 7 open-weight; 177 total runs) under matched compute/token budgets (arXiv:2611.08946).
+
+**Evidence**: Across 177 `Flex-RSI` runs (`arXiv:2611.08946`), RSI raised validation scores in 85% of runs (94% of closed-source runs by a median of +14.9 points vs 76% of open-weight runs by +8.5 points), with zero correlation between relative token spend and score ($r_s = -0.05$). On 7 single-answer tasks, starter solutions already scored 78.2 at the median and model spread barely moved (27.5 to 25.0 points), whereas on 13 constructive tasks, models started nearly tied (0.9–2.5 points apart) and pulled 37.2–38.8 points apart. On the 9 constructive tasks scored on a scale, open-weight models gained a median of +9.9 validation points (matching closed-source models on `3D Tracking` at +39.8 vs +42.8 and `Active Search` at +29.3 vs +28.4), but on the 4 constructive tasks scored only by binary pass/fail (`RoboCasa`, `LIBERO-MAX`, `LIBERO-PRO`, `ARC-AGI-3`), open-weight median validation gain collapsed to +1.6 points (vs +16.9 for closed-source) because binary gating rejected partial episode repairs. Enabling the harness improver beat a frozen harness in 6 of 7 matched pairs by +2.0 to +40.0 test points (e.g., `Qwen3.8-Flash-Next` on `Active Search`: 21.0 frozen vs 59.3 self-improving; `DeepSeek-V4.1 Flash` on `Open Drawer`: 0.0 vs 40.0), whereas starting a weaker model from a stronger model's final harness helped on only 2 of 4 tasks and caused severe regressions on the other 2 (`Qwen3.8-27B` on `Active Search` dropped from 69.0 with its own harness to 49.2 from `Gemini 4 Argon`'s harness; `Qwen3.8-Flash-Next` on `Turn On Sink Faucet` dropped from 20.0 to 0.0 from `Claude Opus 5.5`'s harness; see [flex-rsi-frontier-agent-benchmark](../research-briefs/flex-rsi-frontier-agent-benchmark.md)).
+
+> Source: Flex-RSI: Benchmarking Recursive Self-Improvement of Frontier Agents (arXiv:2611.08946)
+
 ---
 
 ## Related Skills
@@ -1124,6 +1167,7 @@ For implementation details on the procedures behind these rules:
 - [`audited-guardrail-tool-evolution`](../skills/audited-guardrail-tool-evolution/SKILL.md) — Cumulative synthesis and 10-CWE security auditing of executable guardrail tools (`EVOLVE`)
 - [`mcts-full-harness-optimization`](../skills/mcts-full-harness-optimization/SKILL.md) — Execution-driven MCTS over multi-file agent harnesses (`HarnessFlow`)
 - [`contrastive-meta-skill-harness-evolution`](../skills/contrastive-meta-skill-harness-evolution/SKILL.md) — Offline contrastive meta-skill precomputation paired with bounded online harness evolution (`Meta^2`)
+- [`feedback-poisoning-skill-promotion-guard`](../skills/feedback-poisoning-skill-promotion-guard/SKILL.md) — Four-gate defense against reference-feedback backdoor poisoning in text-space skill optimization (`SkillOpt`)
 
 ## Sources
 
@@ -1190,3 +1234,6 @@ For implementation details on the procedures behind these rules:
 - JHiMA-WebRL (Joint Hierarchical Multi-Agent Web RL): arXiv:2611.05263
 - HarnessFlow (MCTS-Guided Harness Optimization): arXiv:2611.06254
 - Reglos (Two-Timescale Memory Harness Evolution): arXiv:2611.06049
+- When Feedback Becomes a Backdoor (SkillOpt Reference-Feedback Poisoning): arXiv:2611.09348
+- Rethinking Criteria Exposure in Embodied Self-Improvement: arXiv:2611.08318
+- Flex-RSI (Benchmarking Recursive Self-Improvement of Frontier Agents): arXiv:2611.08946
