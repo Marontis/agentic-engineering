@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 555+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 580+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -106,6 +106,11 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`sealed-replayable-agent-audit-log`](skills/sealed-replayable-agent-audit-log/SKILL.md) | NovaFabric: Black-Box Recorder for Sealed, Replayable & Auditable Agent Runs (arXiv:2610.34594) |
 | [`intent-ltl-mcp-orchestration`](skills/intent-ltl-mcp-orchestration/SKILL.md) | SafeOrchestrate: Runtime Checked Intent-Driven Orchestration for CPS (arXiv:2611.09364) |
 | [`principal-context-permission-intersection`](skills/principal-context-permission-intersection/SKILL.md) | Conflux: Preventing Privilege Escalation with Principal Contexts (arXiv:2611.08768) |
+| [`counterfactual-privilege-role-induction`](skills/counterfactual-privilege-role-induction/SKILL.md) | PRISM: Counterfactual Minimization of Agent Tool Privileges (arXiv:2611.11539) |
+| [`fact-grounded-access-control-proxy`](skills/fact-grounded-access-control-proxy/SKILL.md) | BACGuard: Fact-Grounded Runtime Mitigation of Broken Access Control (arXiv:2611.10157) |
+| [`hybrid-sandbox-skill-intent-audit`](skills/hybrid-sandbox-skill-intent-audit/SKILL.md) | The Devil Wears Markdown: Hybrid Static, Dynamic & Agentic Skill Intent Audit (arXiv:2611.10830) |
+| [`owner-authority-ipi-eval-construction`](skills/owner-authority-ipi-eval-construction/SKILL.md) | MetaPI: Owner-Authority Indirect Prompt Injection Benchmark Construction (arXiv:2611.10026) |
+| [`state-anchored-trajectory-auditing`](skills/state-anchored-trajectory-auditing/SKILL.md) | ErosionBench / Meta-Auditor: State-Anchored Trajectory Auditing for Multi-Agent Alignment Decay (arXiv:2611.11266) |
 
 #### Self-Improvement & Evaluation
 
@@ -164,6 +169,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`ui-dataflow-intent-verification`](skills/ui-dataflow-intent-verification/SKILL.md) | FlowCheck: Specifying and Verifying Intent in Vibe-Coded Web Apps (arXiv:2608.28880) |
 | [`mobile-ui-hierarchical-synthesis`](skills/mobile-ui-hierarchical-synthesis/SKILL.md) | UI-UG 2: Advancing Mobile UI Understanding & Generation with RL (arXiv:2611.00926) |
 | [`feedback-poisoning-skill-promotion-guard`](skills/feedback-poisoning-skill-promotion-guard/SKILL.md) | When Feedback Becomes a Backdoor: SkillOpt Promotion Guards (arXiv:2611.09348) |
+| [`online-fer-statistical-acceptance`](skills/online-fer-statistical-acceptance/SKILL.md) | TRUST: Trustworthy Recursive Self-Improvement with Statistical Guarantees (arXiv:2611.10787) |
+| [`scoped-multi-agent-harness-composition`](skills/scoped-multi-agent-harness-composition/SKILL.md) | SciMARS: Multi-Agent Recursive Self-Improvement for Closed-Loop Scientific Discovery (arXiv:2611.12552) |
 
 #### Skill Evolution & Knowledge
 
@@ -220,6 +227,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`evidence-gated-adversarial-deliberation`](skills/evidence-gated-adversarial-deliberation/SKILL.md) | LabourCrew (arXiv:2609.27814) |
 | [`visual-evidence-workspace`](skills/visual-evidence-workspace/SKILL.md) | VLM-in-Sandbox (arXiv:2609.24362) |
 | [`challenge-aware-knowledge-recruitment`](skills/challenge-aware-knowledge-recruitment/SKILL.md) | Challenge-Aware Knowledge Recruitment with Meta-Agent Supervision (arXiv:2611.05393) |
+| [`bidirectional-traceability-debate`](skills/bidirectional-traceability-debate/SKILL.md) | Rethinking Requirement-to-Code Traceability via Single- & Multi-Agent Debate (arXiv:2611.09162) |
 
 ### Spec Templates (Project Kickoff)
 
@@ -583,6 +591,23 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`logit-laundering-data-auditing-evasion`](research-briefs/logit-laundering-data-auditing-evasion.md) | Reverse-KL and sinkhorn logit projection evade output-space data-use audits while retaining 96%+ utility |
 | [`auteur-acoustic-plan-red-teaming`](research-briefs/auteur-acoustic-plan-red-teaming.md) | Plan-conditioned hierarchical voice synthesis and prosody search reaching 78.4% multi-turn audio jailbreak ASR |
 | [`guardrail-erosion-domain-finetuned-abstention`](research-briefs/guardrail-erosion-domain-finetuned-abstention.md) | Benign domain LoRA fine-tuning erodes unanswerable-question abstention by up to −50.2 pp via attention shift |
+| [`tracing-mcp-security-vulnerabilities-dataset`](research-briefs/tracing-mcp-security-vulnerabilities-dataset.md) | Curated 24-CVE MCP dataset showing 87.5% Critical/High severity and 75.0% input-validation root causes |
+| [`shadowbench-mcp-routing-shadow-invocations`](research-briefs/shadowbench-mcp-routing-shadow-invocations.md) | Measuring task-preserving operational-pressure shortcut routing in MCP tool selection |
+| [`untrusted-model-deterministic-policy-taint-hitl`](research-briefs/untrusted-model-deterministic-policy-taint-hitl.md) | Reference-monitor invariance, argument-fuzzing ladder, taint-triggered review & approval budgets |
+| [`badevolve-task-poisoning-defensive-lessons`](research-briefs/badevolve-task-poisoning-defensive-lessons.md) | Task-only evolution poisoning implants trigger-conditioned procedural backdoors (79.6% PI ASR, 80.0% AC DASR) while keeping clean accuracy intact |
+| [`adaptive-prompt-injection-swarms-defensive-lessons`](research-briefs/adaptive-prompt-injection-swarms-defensive-lessons.md) | 16-agent adaptive swarms with live strategy DBs drop benign-target ARR@150 to 1–5% on open-weight LLMs and erode resistance by 8–12 pp when CoT is visible |
+| [`agents-of-chaos-agentic-attacks-sok`](research-briefs/agents-of-chaos-agentic-attacks-sok.md) | SoK of 98 papers (284 attacks, 452 safeguards): Tool/MCP (24.7%) + Skills (18.0%) lead atomic attacks while Recovery is 0.4% and 57.9% of safeguard links go untested |
+| [`collusion-probe-evaluation-pitfalls`](research-briefs/collusion-probe-evaluation-pitfalls.md) | Three evaluation pitfalls in multi-agent collusion monitors: post-vote leakage, brief-presence confounding, and 57% public invisibility |
+| [`webtrap-farm-web-agent-harness-security`](research-briefs/webtrap-farm-web-agent-harness-security.md) | WebTrap Farm: 40.90 pp security swing across web-agent harnesses on the same backend LLM; goal-anchoring and DOM-filtering ablations |
+| [`benign-trained-probes-adversarial-tool-errors`](research-briefs/benign-trained-probes-adversarial-tool-errors.md) | Benign-trained pre-action hidden-state probes trail token entropy across 12/12 AgentDojo cells and collapse to 0.431 AUROC under system-override |
+| [`snaprag-rag-extraction-defensive-lessons`](research-briefs/snaprag-rag-extraction-defensive-lessons.md) | Defensive lessons from zero-LLM adversarial-perturbation RAG extraction: Llama Guard 3 leaves 50.7–96.3% of KBs exposed |
+| [`infrarsi-training-infrastructure-rsi`](research-briefs/infrarsi-training-infrastructure-rsi.md) | Five-stage verified multi-GPU training RSI achieving 1.83× geomean speedup and auditing 1,212 runs |
+| [`is-recursive-self-improvement-safe`](research-briefs/is-recursive-self-improvement-safe.md) | Three post-takeoff RSI regimes and Prisoner's Dilemma vs Stag Hunt initiation game theory |
+| [`reins-real-time-trajectory-planning-harness`](research-briefs/reins-real-time-trajectory-planning-harness.md) | Real-time trajectory planning harness achieving 1.9–4.6 ms latency and 5.5× LLM offloading via indexed rules |
+| [`coding-agent-vulnerability-propagation`](research-briefs/coding-agent-vulnerability-propagation.md) | Coding agents copy repository CWEs (up to -49 pp pass^sec) with 0–12% warnings, yet catch 70% in review branches |
+| [`appworld-replay-fidelity-hidden-state-oracles`](research-briefs/appworld-replay-fidelity-hidden-state-oracles.md) | AppWorld replay audit exposing a 26-case RNG/login gap, hidden SQLite/JWT state, and in-process oracle ORM corruption |
+| [`legion-sparse-signal-adversarial-noise-investigation`](research-briefs/legion-sparse-signal-adversarial-noise-investigation.md) | 74-scenario enterprise log benchmark where high event recall (0.89–0.97) masks 0.61–0.72 IoC precision on benign confounders |
+| [`cyberbingym-binary-patch-exposure-defensive-lessons`](research-briefs/cyberbingym-binary-patch-exposure-defensive-lessons.md) | Defensive lessons: binary patch diffs raise 1-day exploit risk 2.5x, while full binary mitigations cut exploits by 90% |
 
 ---
 

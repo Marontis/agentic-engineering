@@ -337,7 +337,21 @@ malicious) on `Qwen3.5-27B` and `Llama-3.1-8B-Instruct` (arXiv:2611.05088).
 
 See also "Validate skill provenance before adding to library" (skill-system-design.md) and "Assume stacked defense layers fail independently" (agent-sandbox-safety.md).
 
+Tension with "Pair static skill checks with safety-constrained sandbox dry-runs and provenance-weighted evidence rather than alert-count thresholds" (skill-system-design.md), "Assume clean-fitted hidden-state probes outrank token-entropy uncertainty on system-override hijackings" (agent-sandbox-safety.md), and "Score collusion probes post-vote or omit decliner and instruction-stripping ablations" (agent-evaluation-quality.md): provenance-weighted sandbox dry-runs cut pre-admission scanner FPR from `0.67` to `0.08` (`F1 = 0.89`, `Recall = 0.85`, `arXiv:2611.10830`) and supervised exposure-contrast probes (`LatentTriad`) reach `99.6%` macro-AUC when the injected skill is in context, whereas `15%` of malicious skills still evade dry-runs, benign-only pre-action error probes collapse to `0.431` AUROC under `system-override` (`arXiv:2611.11172`), and prompt-trained collusion probes drop from `1.00` to `0.61` AUROC when secret briefs are stripped (`arXiv:2611.10620`) — so provenance attestation, rate-limited resubmissions, and runtime sandboxing remain mandatory.
+
 > Source: SkillDRE: Dual-Stage Red-Team Evolution of Agent Skills via Pre-Execution and Runtime Feedback (arXiv:2609.32400); Pretext: Defeating Malicious Skill Detection Frameworks for AI Agents (arXiv:2609.39607); Scan Before You Install: Detecting and Mitigating Local and Composite Vulnerabilities in Skills (arXiv:2610.37901); Poisoned Skills: Markdown Skill Files as a Persistent Jailbreak Vector (arXiv:2610.37738); LatentTriad: Pre-Action Latent Risk Representations for Stealth Skill Injection (arXiv:2611.05088)
+
+### DO: Pair static skill checks with safety-constrained sandbox dry-runs and provenance-weighted evidence rather than alert-count thresholds
+
+Do not gate third-party or agent-authored Markdown skill packages (`SKILL.md` + helper scripts) on static regex/YARA alert totals or static-only LLM review. Benign developer and administrative skills legitimately reference `curl`, shell pipelines, and API keys—producing higher mean static alert counts than malicious skills—while passing static hits alone to an LLM adjudicator collapses recall because stealth prose instructions trigger few high-severity signatures. Instead, retain static findings with file/line provenance (`Low`/`Medium`/`High` severity), execute the candidate skill inside an isolated **safety-constrained dry-run container** (`appuser`, `300 s` cap, capturing `strace`, `tcpdump`, and filesystem diffs while intentionally blocking and logging credential reads, exfiltration, persistence, security-control bypasses, and unverified remote script execution), weight behavioral indicators by source-to-trace provenance multipliers (`0.45` ungrounded narrative vs. `0.85` source-grounded blocked primitive vs. `1.00–1.15` executed/corroborated), and adjudicate via bounded threat-grounded retrieval (`<= 3` rounds) emitting line-cited `SARIF 2.1.0` reports. Procedure: [`hybrid-sandbox-skill-intent-audit`](../skills/hybrid-sandbox-skill-intent-audit/SKILL.md).
+
+**Scope:** Pre-admission security auditing of `700` SHA-256 deduplicated AI agent skill bundles (`400` malicious, `300` benign across `MalSkillBench`, `Datadog AI-Skills`, and `VoltAgent Awesome Agent Skills`; `560` dev, `140` held-out test: `80` malicious, `60` benign) comparing `OSS-Detect-Backdoor`, `YARA`, `Cisco Skill Scanner` (`+/- Qwen3:8B`), and a 3-layer static + Docker sandbox (`Claude Opus 4.8`) + agentic (`Qwen3.5 122B` / `Qwen3:8B` + `Qdrant`) pipeline (arXiv:2611.10830).
+
+**Evidence**: On the `140`-skill held-out test set (`arXiv:2611.10830`), raw static alert counts inverted—benign skills triggered higher mean alerts than malicious skills on both `OSS-Detect-Backdoor` (`11.70` vs. `6.34`, test `F1 = 0.42`, `Recall = 0.33`, `FPR = 0.28`) and `YARA` (`105.78` vs. `60.05`, test `F1 = 0.72`, `FPR = 0.82`), while `Cisco Skill Scanner` reached `FPR = 0.55` (`33/60` FP) and `Cisco Skill Scanner + LLM` reached `FPR = 0.67` (`40/60` FP, `Recall = 0.85`, `F1 = 0.72`). In within-system evidence ablations using the identical agentic backend, `Skill content only` achieved `F1 = 0.70` (`Recall = 0.68`, `21` FP, `319.95 s` median latency), adding `+ Static evidence` alone collapsed recall to `0.35` (`F1 = 0.50`, `52/80` FN), `+ Dynamic sandbox evidence` raised `F1` to `0.85` (`Recall = 0.79`, `5` FP, `89.45 s` median latency), and the `Full Hybrid Pipeline` (`Static + Dynamic + Agentic`) achieved `F1 = 0.89`, `Precision = 0.93`, `Recall = 0.85` (`68/80`), and `FPR = 0.08` (`5/60` FP—cutting false positives by `87.5%` relative to `Cisco Skill Scanner + LLM`, at `109.35 s` median agentic latency plus `<= 300 s` sandbox execution).
+
+Tension with "Use a pre-execution skill scanner as the sole admission gate for third-party skills" (skill-system-design.md): resolved by defense-in-depth — this rule specifies how to replace high-FPR static/LLM pre-execution scanners with provenance-weighted sandbox dry-runs (`FPR 0.67 -> 0.08`, `F1 = 0.89`), while `12/80` (`15%`) malicious skills still evade pre-admission dry-runs (`Recall = 0.85`), so provenance attestation, rate-limited resubmission, and runtime per-task sandboxing remain mandatory.
+
+> Source: The Devil Wears Markdown: Detecting Malicious Intent Hidden in AI Agent Skill Instructions through Hybrid Static, Dynamic, and Agentic Analysis (arXiv:2611.10830)
 
 ---
 
@@ -531,7 +545,9 @@ Tension with "DO: Distinguish systems, data, and algorithmic changes"
 "nothing fundamental": that table refers to hardware/data ceilings; this
 entry refers to evaluator quality and diminishing returns. Both hold.
 
-> Source: The Last AI Built by Humans (arXiv:2609.11873); Evolutionary Safety of Recursive Self-Improving AI (arXiv:2609.31186); RRSI (arXiv:2609.24972); A Theory of Reliable Self-Evolution for Agent Harnesses (arXiv:2609.08175)
+**Evidence (Governance & Alignment Boundaries)**: Even if recursive takeoff crosses human-supervised ceilings across three capability regimes — supercharged digital AI, physical-world robotics/lab agency, and conceptual alienation where human-in-the-loop oversight fails semantically — delegating safety to a fully autonomous alignment researcher with no subsequent human oversight reduces inductively to solving full alignment at the final human-supervised handoff (`arXiv:2611.10261`). Moreover, in a symmetric two-actor RSI initiation game with private benefit `1` and catastrophic risk $r$, replacing additive harm (`2r` joint loss, which yields a Prisoner's Dilemma at $r = 3/4$ and dominant restraint at $r = 3/2$) with non-additive existential harm (`r` joint loss) transforms $r = 3/2$ into a Stag Hunt ("Flammable Duplex House", payoffs `(0, 0)` vs `(-1/2, -1/2)`), where mutual restraint `(no RSI, no RSI)` is already a pure-strategy Nash equilibrium threatened primarily by gradual capability habituation rather than unilateral defection incentives (see [is-recursive-self-improvement-safe](../research-briefs/is-recursive-self-improvement-safe.md)).
+
+> Source: The Last AI Built by Humans (arXiv:2609.11873); Evolutionary Safety of Recursive Self-Improving AI (arXiv:2609.31186); RRSI (arXiv:2609.24972); A Theory of Reliable Self-Evolution for Agent Harnesses (arXiv:2609.08175); Is Recursive Self-Improvement Safe? (arXiv:2611.10261)
 
 ---
 
@@ -811,6 +827,7 @@ For implementation details on the procedures behind these rules:
 - [`mcp-hallucination-boundary-guards`](../skills/mcp-hallucination-boundary-guards/SKILL.md) — Pre-execution feasibility gates, confusion-tool isolation, and transactional state ledgers for MCP agents
 - [`two-phase-framework-ui-codegen`](../skills/two-phase-framework-ui-codegen/SKILL.md) — Compatibility-ordered two-phase LoRA tuning and relationship-gated adapters for multi-framework UI codegen
 - [`feedback-poisoning-skill-promotion-guard`](../skills/feedback-poisoning-skill-promotion-guard/SKILL.md) — Four-gate defense against reference-feedback backdoor poisoning in text-space skill optimization (`SkillOpt`)
+- [`hybrid-sandbox-skill-intent-audit`](../skills/hybrid-sandbox-skill-intent-audit/SKILL.md) — Three-layer static, safety-constrained sandbox dry-run, and agentic SARIF skill intent audit
 
 ## Sources
 
@@ -858,4 +875,6 @@ For implementation details on the procedures behind these rules:
 - Phase-wise MLLM Tuning for Multi-framework WebUI Code Generation: arXiv:2611.01692
 - Rethinking Code Representations for Agentic Software Engineering: arXiv:2611.07286
 - When Feedback Becomes a Backdoor (SkillOpt Reference-Feedback Poisoning): arXiv:2611.09348
+- The Devil Wears Markdown (Hybrid Static, Dynamic & Agentic Skill Intent Audit): arXiv:2611.10830
+- Is Recursive Self-Improvement Safe?: arXiv:2611.10261
 

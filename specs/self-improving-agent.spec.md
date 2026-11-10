@@ -190,6 +190,7 @@ through one acceptance gate": accept a change only if it shows no regression bey
 | Negative security testbed (strict, zero tolerance) | [ ] Yes (must be Y) — cases: ___ |
 | Harmful-commit and missed-improvement rates reported | [ ] Yes |
 | Persistent registries: multi-cohort margin | [ ] Yes / [ ] N/A |
+| Subsampled search-time incumbent updates (prior to final gate) | [ ] Overlap-adjusted betting e-values (`TRUST`, `arXiv:2611.10787` — [`online-fer-statistical-acceptance`](../skills/online-fer-statistical-acceptance/SKILL.md)) / [ ] N/A |
 
 ---
 
@@ -308,3 +309,4 @@ shipped algorithm and the task optimum. Set expectations accordingly.
 - A Theory of Reliable Self-Evolution for Agent Harnesses: arXiv:2609.08175
 - AI Agency Typology: arXiv:2608.20041
 - Instruct-to-Act: arXiv:2608.26788
+- TRUST (Trustworthy Recursive Self-Improvement with Statistical Guarantees): arXiv:2611.10787

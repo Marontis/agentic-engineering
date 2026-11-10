@@ -55,8 +55,10 @@
 - [ ] **Authority-Epoch Continuous Authorization (`ACCA`, `arXiv:2611.05632` & `TRAP`, `arXiv:2611.06996`)**:
   - Separate **Intrinsic Token Validity** $V(e, t)$ from **Contextual Applicability** $A(e, x_t)$ (current risk score, tenant boundary, rate anomaly).
   - Bind mutative Server Actions and MCP tool calls to a monotonic **authority epoch** $\tau_k$ so stepping down trust (`A3 -> A1`) immediately preempts in-flight tool calls.
-- [ ] **Out-of-Band HITL for Consequential Actions (`I-HITL`, `arXiv:2610.35835`)**:
-  - Require hardware-attested out-of-band confirmation (separate from the chat stream) for financial transactions, destructive DB mutations, external sends, or permission escalations.
+- [ ] **Out-of-Band HITL for Consequential Actions (`I-HITL`, `arXiv:2610.35835`; `arXiv:2611.11571`)**:
+  - Require hardware-attested out-of-band confirmation (separate from the chat stream) behind a canonicalized capability monitor, triggered by provenance taint with a deterministic per-episode approval cap ($n = 1$), for financial transactions, destructive DB mutations, external sends, or permission escalations.
+- [ ] **Fact-Grounded Reverse-Proxy Access Control (`BACGuard`, `arXiv:2611.10157` — [`fact-grounded-access-control-proxy`](../skills/fact-grounded-access-control-proxy/SKILL.md))**:
+  - Canonicalize paths, hard-reject duplicate parameters, and reconstruct caller identity + multi-path FK/join-table resource ownership deterministically via read-only DB joins (`88–90%` of requests in `< 1 ms`), reserving out-of-band identity-grounded LLM inspection strictly for response-path cross-user leakage (`<= 12%`).
 
 ---
 
@@ -80,7 +82,7 @@
 
 ### How are MCP tool outputs validated and rendered in the Next.js UI?
 
-- [ ] **Server-Prefixed Closed-World Resolution (`<server_id>__<tool_name>`, `arXiv:2611.03555`, `arXiv:2609.19425`)**: Pin MCP tool schemas and container digests (`ETUDE`, `arXiv:2611.01976`) and validate all tool return payloads against strict Zod/JSON schemas at the BFF boundary.
+- [ ] **Server-Prefixed Closed-World Resolution & Counterfactual Least-Privilege Roles (`<server_id>__<tool_name>`, `arXiv:2611.03555`, `arXiv:2609.19425`; `PRISM`, `arXiv:2611.11539`)**: Pin MCP tool schemas and container digests (`ETUDE`, `arXiv:2611.01976`), induce minimal pre-session tool role masks via sandbox `do(m)` counterfactual interventions ([`counterfactual-privilege-role-induction`](../skills/counterfactual-privilege-role-induction/SKILL.md)), harden MCP servers/clients/SDKs against shell interpolation, post-symlink path traversal, and local HTTP DNS rebinding (`arXiv:2611.11104`), and validate all tool return payloads against strict Zod/JSON schemas at the BFF boundary.
 - [ ] **Typed UI Component Props (Zero Raw HTML/Markdown Injection)**:
   - Never render raw LLM or MCP strings via `dangerouslySetInnerHTML` or unsanitized Markdown/iframe links.
   - Stream structured, Zod-validated data objects from the BFF into typed React components (`Generative UI`), and bind critical numbers/citations directly to verified tool-return receipts (`MCPHallu`, `arXiv:2611.07689`) rather than letting the LLM re-transcribe tables from memory.
@@ -93,5 +95,6 @@
 
 - [ ] **Per-Tenant / Per-IP Token & Cost Budgets**: Enforce sliding-window token budgets, concurrency caps, and circuit breakers (`<= 2` tool retries on MCP faults, `arXiv:2610.32555`) at the BFF middleware layer before invoking any LLM or MCP server.
 - [ ] **Sealed, Replayable Flight Recorder (`NovaFabric`, `arXiv:2610.34594`)**: Log every BFF request, compiled plan, model call, MCP tool input/output, and authority epoch transition into an append-only, hash-chained audit log for post-incident diffing and replay.
-- [ ] **Post-Generation Security & Migration Gates (`A.S.E 2.0`, `arXiv:2611.06294`; `arXiv:2611.08269`)**: Run deterministic CWE static analysis, safeguard caller-contract checks, and behavioral differential tests on all agent-authored Next.js routes and SDK migrations before deployment.
+- [ ] **Post-Generation Security & Migration Gates (`A.S.E 2.0`, `arXiv:2611.06294`; `arXiv:2611.08269`; `arXiv:2611.11455`)**: Branch coding-agent completions into an isolated security-audit turn and run deterministic CWE static analysis, safeguard caller-contract checks, and behavioral differential tests on all agent-authored Next.js routes and SDK migrations before deployment.
+- [ ] **RAG Output-to-Chunk Overlap Caps & Coverage Budgets (`SNAPRAG`, `arXiv:2611.12241`)**: Never rely on topical safety classifiers alone (`Llama Guard 3`, `Model Armor`) to stop proprietary RAG corpus extraction; enforce deterministic output-to-chunk verbatim overlap limits (`ROUGE-L` / LCS synthesis checks) and stateful per-principal cumulative unique-chunk rate limits.
 
