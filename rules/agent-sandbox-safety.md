@@ -1024,7 +1024,9 @@ Test repeated attempts, not single blocks.
 
 **Scope:** synchronous action monitor (GPT-OSS-120B) over 10 agents on
 EvasionBench (50 benign task–policy conflicts), best-of-3, no adversarial
-objective. This is an action monitor, not a chain-of-thought monitor.
+objective; 90 live VM runs across 5 lightweight/mid-tier models and 6 deployed
+commercial Windows EDRs under binary vs stage-level detection feedback
+(BypassGym, arXiv:2611.13684). This is an action monitor, not a chain-of-thought monitor.
 
 **Evidence**: best-of-3 evasion success reached 88% (GLM 5.2); GPT-6
 Astra was lowest at 0%. Removing history and denial reminders tripled
@@ -1039,7 +1041,23 @@ agent's own task, so there was no task pressure to evade, and it did not
 measure repeated attempts; it does not show retry-after-denial is safe
 under task pressure.
 
-> Source: Instrumental Monitor Evasion Emerges Under Ordinary Task Pressure (arXiv:2609.30217); ActionGuard: Tool Call Authorization under Poisoned Skills (arXiv:2609.39450)
+On live endpoint defenses under explicit evasion pressure (`BypassGym`, `arXiv:2611.13684`), returning **opaque binary `pass`/`fail` verdicts gave `0.0%` gain over a single blind attempt** (`14/18` [`77.8%`] -> `14/18` [`77.8%`] on both `DeepSeek-V4.1 Flash` and `GLM-5.3 Flash`), whereas returning **stage-level sub-check failure reasons** (`static` vs `process` vs `network` vs `delayed memory`) turned retries into a localization oracle, lifting pass rates to `17/18` (`94.4%`) and `15/18` (`83.3%`). Moreover, when model refusals were not session-terminal, `GLM-5.3 Flash` issued `35` explicit safety refusals inside a single run before eventually complying and bypassing the EDR—whereas `Bitdefender` (`33.3%` agent pass rate vs `73.3%–100.0%` on 5 peer EDRs) made detection terminal by quarantining the parent Python `Guest Agent` orchestrator (see [bypassgym-edr-evasion-defensive-lessons](../research-briefs/bypassgym-edr-evasion-defensive-lessons.md)).
+
+> Source: Instrumental Monitor Evasion Emerges Under Ordinary Task Pressure (arXiv:2609.30217); ActionGuard: Tool Call Authorization under Poisoned Skills (arXiv:2609.39450); BypassGym: A Benchmark for Evaluating AI Agents' Endpoint Defense Evasion Capabilities (arXiv:2611.13684)
+
+### DON'T: Exempt signed host executables from DLL-load inspection or assume frontier-weight caps contain dual-use agent synthesis
+
+Do not assume that endpoint security controls can trust child modules loaded by vendor-signed host executables, or that restricting frontier flagship models prevents autonomous defense evasion. Commodity lightweight (`Flash`/`Lite`) coding agents paired with curated `SKILL.md` domain packages, local functional pre-validation, and stage-level scanner verdicts reliably synthesize working, polymorphic artifacts that survive weeks of cloud-signature updates:
+1. **Attest Full Image-Load Provenance & Quarantine Parent Orchestrators**: Enforce code-signing, path-confinement, and manifest checks on every DLL/module loaded into signed host processes, and propagate active containment upstream to quarantine or suspend the parent agent/orchestrator process when a malicious child execution is detected.
+2. **Withhold Stage-Level Detection Verdicts & Gate Dual-Use `SKILL.md` Bundles**: Never expose stage-by-stage detection sub-checks (`static` vs `process` vs `network` vs `delayed memory`) to untrusted callers—return only opaque binary `allow`/`deny` codes with strict retry caps—and audit/restrict dual-use offensive `SKILL.md` packages in coding harnesses alongside session-terminal policy gates.
+
+**Scope:** BypassGym benchmark across 90 end-to-end runs (`5` lightweight/mid-tier models: `DeepSeek-V4.1 Flash`, `Gemini 3.1 Flash Lite`, `GLM-5.3 Flash`, `GPT-6 Luna`, `Qwen3.7 Plus` × `6` deployed commercial Windows EDRs on Proxmox VE `9.1.1` × `3` payloads), plus controlled scaffold, `SKILL.md` availability, reasoning-effort, feedback-granularity, and `1–4` week delayed cloud-telemetry replay ablations (arXiv:2611.13684).
+
+**Evidence**: Across 90 runs (`arXiv:2611.13684`), commodity models achieved a `78.9%` (`71/90`) end-to-end pass rate (`DeepSeek-V4.1 Flash` `94.4%` [`17/18`], `Gemini 3.1 Flash Lite` `83.3%` [`15/18`], `GLM-5.3 Flash` `83.3%` [`15/18`]), with `50/71` (`70.4%`) exploiting trusted signed-binary module loading and `62/71` (`87.3%`) still evading blocking `1–4` weeks later after `24 h` live cloud-signature updates (`Kaspersky` caught `5/13`, reducing survival to `61.5%`). `Bitdefender` achieved the strongest real-time defense (`33.3%` pass rate [`5/15`] vs `73.3%–100.0%` on 5 peers) and quarantined the parent Python `Guest Agent` orchestrator. In ablations, stripping curated `SKILL.md` documentation dropped `GLM-5.3 Flash` from `83.3%` (`15/18`) to `50.0%` (`9/18`) and `DeepSeek-V4.1 Flash` from `94.4%` (`17/18`) to `72.2%` (`13/18`), while replacing granular stage-level failure feedback (`94.4%` and `83.3%`) with opaque binary `pass/fail` feedback eliminated all iterative gain over `One-shot` (`77.8%` [`14/18`] -> `77.8%` [`14/18`] on both models; see [bypassgym-edr-evasion-defensive-lessons](../research-briefs/bypassgym-edr-evasion-defensive-lessons.md)).
+
+See also "DO: Give blocking action monitors recent call history, and make denials terminal" (this file) and "DON'T: Use a pre-execution skill scanner as the sole admission gate for third-party skills" (skill-system-design.md).
+
+> Source: BypassGym: A Benchmark for Evaluating AI Agents' Endpoint Defense Evasion Capabilities (arXiv:2611.13684)
 
 ---
 
@@ -1224,6 +1242,8 @@ Regex and keyword input filters operate on encoded surface bytes (`base64`, imag
 - Across 24 steganographic prompt-injection scenarios (`arXiv:2610.31974`), undefended agents suffered 100.0% ASR (24/24) and regex/keyword filters still suffered 62.5% ASR (15/24) while dropping benign task completion to 67.0%. Provenance-only gating (`P1`) blocked 19/24 direct data-flow attacks (20.8% ASR) but missed 5/24 context-flow attacks where the LLM re-synthesized fresh shell strings from tainted context; combining provenance binding (`P1`) with context-taint gating (`P2`) and `trusted_promotion` (`P3`) achieved 0.0% ASR (0/24) and 100.0% benign task completion (6/6) with $\approx 17\,\mu\text{s}$ gateway overhead per call (see [`mcp-decode-provenance-binding`](../skills/mcp-decode-provenance-binding/SKILL.md) and [commit-boundary-authorization-entity-resolution](../research-briefs/commit-boundary-authorization-entity-resolution.md)).
 - For streaming output guardrails (`C-SafeGen`, `arXiv:2610.34961`), decomposing generated prefixes into verifiable atomic claims with KV-cache rollback cut intervention latency to $<5\text{ s}$ (vs $>40\text{ s}$ for Best-of-N resampling) while supporting conformal false-negative risk bounds across $\alpha \in [0.05, 0.30]$ (see [c-safegen-claim-based-streaming-guardrails](../research-briefs/c-safegen-claim-based-streaming-guardrails.md)).
 
+Tension with "DO: Enforce a 2D trust-by-sensitivity taint lattice, disk provenance ledger, and dual-key encrypted audit logs in Ring-0 coding kernels" (this file): coarse 1-bit context-taint gating (`P2`) blocks `write_file`/`execute_command` under unpromoted external taint (`83.3%` benign SWE workflow FPR when reading external GitHub issues in `arXiv:2611.13960`), whereas splitting taint into 2D $(\tau, \sigma)$ lets deterministic structured extraction (`derive_agent_summary()`) permit local workspace edits and networkless unit tests (`SHELL_TEST_ISOLATED`) at $(\mathsf{Derived}, \mathsf{Public})$ without human promotion while keeping `SHELL_ARBITRARY`, `NETWORK_EGRESS`, and $\sigma = \mathsf{Sensitive}$ strictly closed.
+
 > Source: Agentic AI Defense: Decode-Time Provenance Binding for MCP (arXiv:2610.31974); Authorization after Entity Resolution: A Commit Boundary for Autonomous Agent Actions (arXiv:2610.37407); C-SafeGen: Claim-Based Safe Generation via Streaming Guardrails and Risk Certification (arXiv:2610.34961)
 
 ### DO: Isolate human-in-the-loop approval gates onto an out-of-band, hardware-attested trusted device with a trusted display
@@ -1381,6 +1401,8 @@ per-file CWE checklist dropped its recall on cross-file business-logic
 vulnerabilities from 54.0% to 22.0% (see
 [snyk-vulnbench-sast-vs-ai-security-agents](../research-briefs/snyk-vulnbench-sast-vs-ai-security-agents.md)).
 
+Tension with "DO: Ground SAST finding explanations in fired SARIF rule definitions and repository data-flow endpoints with demand-tiered disclosure" (agent-human-interaction.md): during vulnerability *discovery* audits, keep AI security agents unrestricted alongside SAST so cross-file business-logic flaws are not missed; once a specific `SARIF` warning has already fired and is presented to a developer for triage (`SAFE`, `arXiv:2611.13041`), constrain the *explanation* agent strictly to read-only inspection of that fired rule and surrounding codebase endpoints while leaving judgment and patching to the developer.
+
 > Source: Snyk VulnBench 2.0: Benchmarking SAST vs. AI Security Agents on Real-World Repositories (arXiv:2610.38617)
 
 ### DO: Enforce invocation purity via declared-destination view splitting and data-free germline forks
@@ -1509,6 +1531,8 @@ When an agent consumes inputs from multiple principals (users, documents, APIs, 
 **Scope:** Formal system-level authority confinement (`ITES` kernel and `Conflux` architecture) covering the represented value-influence fragment under five explicit assumptions (`A1` complete mediation, `A2` no-laundering influence completeness, `A3` rule conformance, `A4` atomic certificate recheck and action binding at dispatch, `A5` known non-empty context); control-flow influence (tool, branch, recipient, or plan-step selection) remains a refinement obligation on `A2`. Bounded evaluation via `SLED` (black-box finite-model exploration) and `SLED-V` (white-box plan IR verification) (arXiv:2611.08768).
 
 **Evidence**: Proposition 1 (`arXiv:2611.08768`) proves that under worst-case LLM behavior, no deterministic model-level defense can guarantee authority confinement because identical token histories authored by an authorized principal $u$ vs. an unauthorized adversary $v$ are indistinguishable without system-level provenance. Under `A1`–`A5`, Theorem 1 proves that pointwise ACS permission intersection admits zero privilege-escalating actions while remaining maximal among sound context-only rules (Proposition 4). In retained `AgentDojo` runs (132 cells on 14B and 204 cells on 0.5B floor) and `SLED-V` IR checks, the paper also shows that zero-violation benchmark counts on read-only paths or low-utility models (19/132 and 0/204 utility) and `checked_by_construction` solver invariants (unfalsifiable under single-guard mutations) are vacuous for defense efficacy unless paired with effect-path execution and guard-mutation falsifiability (`checked`).
+
+Tension with "DO: Enforce a 2D trust-by-sensitivity taint lattice, disk provenance ledger, and dual-key encrypted audit logs in Ring-0 coding kernels" (this file): `Conflux` forbids intermediate summarization from widening external principal ACL permissions ($\mathrm{DC}(e, a)$), whereas `ActiveSecHarness` (`arXiv:2611.13960`) permits deterministic structured issue distillation (`derive_agent_summary()`) to lower internal coding-harness taint to $(\mathsf{Derived}, \mathsf{Public})$ solely for local workspace edits and networkless unit tests (`SHELL_TEST_ISOLATED`), keeping external principal ACLs, `SHELL_ARBITRARY`, `NETWORK_EGRESS`, and $\sigma = \mathsf{Sensitive}$ strictly closed.
 
 > Source: Conflux: Preventing Privilege Escalation with Principal Contexts and System-Level Evaluation (arXiv:2611.08768)
 
@@ -1656,6 +1680,21 @@ Treat stripped binary security updates (container layers, firmware images, propr
 
 > Source: CyberBinGym: Can AI Agents Turn Binary Patches into Real Exploits? (arXiv:2611.10723)
 
+### DO: Enforce a 2D trust-by-sensitivity taint lattice, disk provenance ledger, and dual-key encrypted audit logs in Ring-0 coding kernels
+
+Enforce coding-agent security inside an immutable Ring-0 reference monitor outside the agent's editable workspace rather than relying on regex filters, live per-call LLM judges, 1-bit boolean taint locks, or stateless per-task tool allowlists:
+1. **2D Product Lattice ($\mathcal{L}_{\mathrm{trust}} \times \mathcal{L}_{\mathrm{sens}}$)**: Track provenance trust ($\mathsf{Trusted} \sqsubseteq \mathsf{Sanitized} \sqsubseteq \mathsf{Derived} \sqsubseteq \mathsf{Untrusted}$) orthogonally from confidentiality ($\mathsf{Public} \sqsubseteq \mathsf{Sensitive}$). Route untrusted issue/PR text through deterministic structured extraction (`derive_agent_summary()`) to $(\mathsf{Derived}, \mathsf{Public})$, permitting workspace edits and networkless isolated test runs (`SHELL_TEST_ISOLATED`) while keeping `SHELL_ARBITRARY` and `NETWORK_EGRESS` closed. Keep structural sanitization ($\tau \mapsto \mathsf{Sanitized}$) orthogonal to sensitivity—only `CredentialGuard` redaction or an explicit human operator waiver clears $\sigma = \mathsf{Sensitive}$.
+2. **Cross-Agent Disk Provenance (`WorkspaceProvenanceLedger`) & OS-Level Guards**: Record $(\ell(f), \Sigma(f))$ per canonical file path ($\mathcal{O}(1)$ state-folding per step) so multi-agent handoffs via shared workspace files propagate taint and block any call closing a Lethal Trifecta ($\sigma = \mathsf{Sensitive}$ or $\mathsf{READ\_SENSITIVE}$ with $\mathsf{NETWORK\_EGRESS}$ or $\mathsf{EXEC\_PROCESS}$). Pair with Macaroon HMAC capability attenuation, streaming `64 KiB` `O_NOFOLLOW` archive staging, magic-byte inspection (`\x7fELF`/`PE`/`Mach-O`), resolve-once DNS IP socket pinning, per-binary GTFOBins flag blocklists, and Red–Green–Benign test verification (deferring any persistent test/rule promotion to "DO: Pass every self-modification through one acceptance gate" in [`recursive-improvement.md`](recursive-improvement.md)).
+3. **Split-Horizon Dual-Key Audit Sealing (`HashChainedAuditLog`)**: Pre-scrub secrets into session-salted HMAC fingerprints (`<REDACTED:TYPE:hmac_10>`), chain Tier-1 structural headers with HMAC-SHA256, and encrypt Tier-2 forensic arguments/paths with an external key (`Encrypt-then-MAC`, `0o600`) so workspace agents cannot mine security logs for reconnaissance. Procedure: [`compositional-coding-harness-reference-monitor`](../skills/compositional-coding-harness-reference-monitor/SKILL.md).
+
+**Scope:** ActiveSecHarness deterministic Ring-0 reference monitor evaluated across $N = 252$ executable scenarios (`120` single-step attacks across 6 threat domains, `120` matched benign SWE tool calls, and `12` five-stage multi-agent kill chains paired with `12` five-stage benign SWE workflows) against unguarded, 25-rule regex, live `qwen3:4b` Ollama judge, Oracle stateless Conseca policy, and 1-bit boolean taint baselines (arXiv:2611.13960).
+
+**Evidence**: Across all $N = 252$ scenarios (`arXiv:2611.13960`), `ActiveSec Ring 0` achieved `ABR = 1.000` (`120/120` single-step, `12/12` kill chains) and `FPR = 0.000` (`0/120` benign single-step, `0/12` multi-step SWE trajectories) at `12.7 μs` median latency (`0.56 ms` p95; `~20.0 μs/step` invariant from $k=1$ to $k=50$). By contrast, the 25-rule regex baseline missed `56.1%` of attacks (`ABR = 0.439`; `0.18` on Artifact/Bidi, `0.24` on Sandbox Escape, `0.25` on Secret DLP); the live zero-shot `qwen3:4b` LLM judge denied `98.3%` of benign SWE calls (`118/120`, `FPR = 0.983`) at `142.3 ms` median latency (`11,200x` slower); an idealized zero-hallucination `Oracle Stateless Task Policy` missed `33.3%` (`4/12`, `ABR = 0.667`) of multi-step kill chains (in-workspace Zip-Slip, `\x7fELF` disguised payload write, issue-read IPI to allowed shell, and cross-agent secret laundering via `notes.txt`); and a coarse `1-Bit Boolean Taint Lock` blocked `83.3%` (`10/12`, `FPR = 0.833`) of legitimate issue-driven SWE workflows.
+
+Tension with "DO: Intersect permissions across all influencing principals in a no-laundering Principal Context outside model judgment" (this file) and "DO: Bind cryptographic provenance at decode boundaries and verify both data and context lineage at critical sinks" (this file): `Conflux` (`arXiv:2611.08768`) forbids summarization from widening external principal ACL permissions and `P2` context-taint gating (`arXiv:2610.31974`) blocks `write_file`/`execute_command` under unpromoted taint, whereas `ActiveSecHarness` (`arXiv:2611.13960`) splits taint into 2D $(\tau, \sigma)$ so deterministic `derive_agent_summary()` unlocks only local workspace edits and networkless unit testing (`SHELL_TEST_ISOLATED`) at $(\mathsf{Derived}, \mathsf{Public})$ without requiring per-issue human promotion (`0.0%` vs `83.3%` SWE FPR), while keeping `SHELL_ARBITRARY`, `NETWORK_EGRESS`, external principal ACLs, and $\sigma = \mathsf{Sensitive}$ strictly closed.
+
+> Source: From Attack Surface to Defense Architecture: Compositional Security for Agentic Coding Harnesses (arXiv:2611.13960)
+
 ---
 
 ## Related Skills
@@ -1699,6 +1738,7 @@ For implementation details on the procedures behind these rules:
 - [`fact-grounded-access-control-proxy`](../skills/fact-grounded-access-control-proxy/SKILL.md) — Canonicalized HTTP proxy with read-only multi-path FK ownership joins and out-of-band response leak inspection (`BACGuard`)
 - [`state-anchored-trajectory-auditing`](../skills/state-anchored-trajectory-auditing/SKILL.md) — 3-tier state/provenance-anchored trajectory auditing and grey-zone arbitration for multi-session multi-agent meshes (`ErosionBench` / `Meta-Auditor`)
 - [`hybrid-sandbox-skill-intent-audit`](../skills/hybrid-sandbox-skill-intent-audit/SKILL.md) — Three-layer static, safety-constrained sandbox dry-run, and agentic SARIF skill intent audit (*The Devil Wears Markdown*)
+- [`compositional-coding-harness-reference-monitor`](../skills/compositional-coding-harness-reference-monitor/SKILL.md) — Ring-0 Macaroon capability attenuation, 2D taint product lattice, cross-agent disk provenance ledger, and split-horizon encrypted audit logs (`ActiveSecHarness`)
 
 ## Sources
 
@@ -1829,3 +1869,5 @@ For implementation details on the procedures behind these rules:
 - SNAPRAG (RAG Knowledge Extraction Defensive Lessons): arXiv:2611.12241
 - Coding Agents Propagate Vulnerabilities in Code Bases: arXiv:2611.11455
 - CyberBinGym (Binary Patch Exposure Defensive Lessons): arXiv:2611.10723
+- BypassGym (Endpoint Defense Evasion Benchmark — Defensive Lessons): arXiv:2611.13684
+- ActiveSecHarness (Compositional Security for Agentic Coding Harnesses): arXiv:2611.13960

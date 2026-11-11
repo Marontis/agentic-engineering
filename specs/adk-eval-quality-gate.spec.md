@@ -129,6 +129,9 @@ rubric:                      # each dimension is gated separately; no weighted a
 - [ ] Explicit rubrics defined with concrete score anchor definitions (1, 3, 5)
 - [ ] Per-dimension gates (`min_score`), never a weighted average across dimensions
 - [ ] Counterfactual probes (Section 2) run each release; a judge that fails to flip is not trusted for that dimension (see `rules/agent-evaluation-quality.md` — "DON'T: Trust single-score LLM-as-judge evaluations")
+- [ ] Full OpenTelemetry trajectory spans (intermediate tool arguments, queries, and raw tool outputs) are passed to rubric judges rather than final-response text alone, and judge reasoning output is disabled (`showThinking: false`) if reasoning spikes invalid-JSON errors or systemic score drift (arXiv:2611.14493)
+- [ ] Synthetic task-specific code graders are compiled in isolated agent-blind workspaces under observable-evidence precedence (`E`), domain-rule libraries (`R`), and weakest-match principles (`H`), and certified across five soundness axes (`G1` determinism, `G2` workspace safety, `G3` zero unrequested criteria, `G4` no implementation lock-in, `G5` adversarial decoy discrimination) before gating deployment ([`certified-task-verifier-harness`](../skills/certified-task-verifier-harness/SKILL.md), arXiv:2611.13336)
+- [ ] Both functional boundary-case synthesis and adversarial red-team security probing run before release (neither substitutes for the other), and human-annotated Golden Dataset `"pass"` labels are cross-audited against raw tool traces (arXiv:2611.14493)
 - [ ] Pairwise A/B comparison enabled for evaluating prompt version upgrades
 
 ---

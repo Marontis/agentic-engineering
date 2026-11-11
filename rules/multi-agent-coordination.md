@@ -1007,6 +1007,21 @@ Tension with "Assume multi-agent debate eliminates shared misconceptions" (multi
 
 > Source: Rethinking Requirement-to-Code Traceability Through Single-Agent and Multi-Agent Approaches (arXiv:2611.09162)
 
+### DO: Combine per-clause cryptographic signatures, private index obfuscation, and client-cached resolution on untrusted knowledge servers
+
+When multiple agents share an external semantic knowledge base (KB) hosted on untrusted infrastructure, do not rely on server-side access controls or unauthenticated plain-index queries, which expose both clean KB contents and live query patterns needed to optimize `AgentPoison`-style backdoor triggers. Instead, enforce three coupled defenses:
+1. **Per-Clause Provenance Signatures**: Attach explicit `source` metadata and an originating-agent cryptographic signature (e.g., SHA-256 signature verified client-side before caching or unification) to every stored KB record so untrusted servers cannot inject or mutate facts undetected.
+2. **Private Knowledge Retrieval (PKR)**: Conceal which key index $i \in \{1, \dots, n_{pa}\}$ the agent queries—using replicated non-colluding two-server XOR Information-Theoretic PIR (`2-PIR`, sending $2 n_{pa}$ bits and receiving $2r$ bits for information-theoretic single-server query privacy) when two independent hosts are available, or randomized single-server `$k$-anonymity` (fetching $i$ among $k-1$ random decoy indices) rather than deterministic `$b$-buckets`, which leak bucket access frequencies across repeated queries.
+3. **Client-Local Resolution with Bounded TTL Caching**: Execute logical unification/inference strictly inside the querying agent and cache verified records under a bounded TTL so recursive subgoals do not emit burst traffic or pay repeated PIR transfer costs.
+
+**Scope:** Python/Prolog prototype (`tipp++`) evaluated over a static signed Horn-clause KB ($n_h = 99$ clauses, $n_{pa} = 46$ `(predicate, arity)` entries padded to $r$ bits) across 18 recursive Prolog benchmark queries (`nreverse` depth 496, `zebra`) in single-machine simulations without network transport latency or dense vector ANN indexing (arXiv:2611.13696).
+
+**Evidence**: In `tipp++` (`arXiv:2611.13696`), cold non-cached two-server XOR `2-PIR` (`it2pir`) completed the 18-query suite in `0.2231 ± 0.0050 s` vs `0.1779 ± 0.0028 s` for the unprotected baseline (`~1.25x` cold cost, `+45.2 ms`) while single-server `$k$-anonymity` (`k = 4..10`) ran in `0.1785–0.1806 s` (statistically indistinguishable from baseline). With client-side TTL caching enabled across runs, `it2pir` dropped to `0.1192 s` on 2-run cold+warm averages and `0.0129 ± 0.0005 s` (`>17x` faster) once warm-cached with zero external queries leaked (see [private-knowledge-retrieval-multi-agent-semantic-memory](../research-briefs/private-knowledge-retrieval-multi-agent-semantic-memory.md)).
+
+See also "DON'T: Rely on prompt-level privacy instructions to keep carried information inside its boundary" (agent-sandbox-safety.md).
+
+> Source: On Private Knowledge Retrieval and Private Inference for secure multi-agent systems (arXiv:2611.13696)
+
 ---
 
 ## Related Skills
@@ -1085,3 +1100,4 @@ For implementation details on the procedures behind these rules:
 - Debate to Deceive (Game-Theoretic Multi-Agent Debate Fact-Checking Poisoning): arXiv:2611.08756
 - SciMARS (Multi-Agent Recursive Self-Improvement for Closed-Loop Scientific Discovery): arXiv:2611.12552
 - Rethinking Requirement-to-Code Traceability Through Single-Agent and Multi-Agent Approaches: arXiv:2611.09162
+- Private Knowledge Retrieval & Private Inference for Secure MAS (tipp++): arXiv:2611.13696

@@ -259,6 +259,8 @@ Before deploying a self-improving agent, verify:
 - [ ] Rollback works for every type of change the agent can make
 - [ ] Reasoning budget is sufficient for the agent to attempt algorithmic changes
 - [ ] Cross-task scoring uses a unified scale (not raw metrics)
+- [ ] Multi-cycle capability gains are reported net of a retry-matched stateless baseline (`pass@k` at identical rollout budget), and structural preconditions (observability, rollout budget, writer–reader model compatibility) are verified before porting iterative update mechanisms across modalities (arXiv:2611.14256)
+- [ ] Persistent memory or behavioral belief updates are stored as typed, falsifiable hypotheses (`precondition -> action -> postcondition + violation_predicate`), survive active counterfactual probes before admission, and face online EMA violation eviction at runtime ([`falsification-gated-memory-evolution`](../skills/falsification-gated-memory-evolution/SKILL.md), arXiv:2611.14326)
 - [ ] The diagnostic loop is in place (measure → name mechanism → change → measure)
 
 ---
@@ -310,3 +312,5 @@ shipped algorithm and the task optimum. Set expectations accordingly.
 - AI Agency Typology: arXiv:2608.20041
 - Instruct-to-Act: arXiv:2608.26788
 - TRUST (Trustworthy Recursive Self-Improvement with Statistical Guarantees): arXiv:2611.10787
+- Self-Evolving Multimodal Agents Across Scenarios: arXiv:2611.14256
+- FGSE (Falsification-Gated Self-Evolution): arXiv:2611.14326

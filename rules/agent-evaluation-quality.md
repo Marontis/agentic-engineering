@@ -165,6 +165,23 @@ See also: rules/agent-sandbox-safety.md — "DON'T: Provide ground-truth answers
 
 > Source: The Answer Is Not the Argument (arXiv:2609.00264)
 
+### DO: Expose OpenTelemetry trajectory spans to analytics-agent graders and combine functional boundary synthesis with security probing
+
+Never evaluate tool-calling data or SQL agents with text-only LLM-as-judge prompts that inspect only the user query and final prose response, and do not rely on deterministic regex rules alone for semantic error detection. Feed OpenTelemetry/execution traces (tool calls, generated SQL/code, and raw tool outputs) to functional rubric judges (`>= 3`-rep median, mid-tier judge models with inline `<think>` tags disabled via `showThinking: false`), audit human "gold" pass labels against trace-level rubric disagreements, and run **both** trajectory-grounded functional edge-case synthesis and adversarial security red-teaming prior to release because their discovered failure sets do not overlap.
+
+**Scope:** 11,700 evaluations across 3 phases (5,605 stability, 2,415 known-risk detection on 72 labeled frozen traces, and 3,680 discovery runs across 202 synthesized cases) comparing `Strands Evals` (full-trace LLM judge), `PromptFoo` (text-only LLM judge + red-teaming), and `Agenta` (deterministic heuristics) on 2 production `Claude Sonnet 4.5` supply-chain analytics agents with 9 tools each across `Claude Haiku 4.5`, `Claude Sonnet 4.6`, `Claude Opus 4`, and `Qwen3 32B` judges (arXiv:2611.14493).
+
+**Evidence**:
+- **Full-Trace vs. Text-Only & Deterministic Detection**: On 72 expert-labeled traces (`Claude Sonnet 4.6`, 3-rep median), full-trace `Strands Evals` achieved 88.2% precision, 90.9% recall, 0.896 F1, and 10.3% FPR—cutting false positives by `~5x` (`4.7x`) relative to text-only `PromptFoo` (60.4% precision, 87.9% recall, 0.716 F1, 48.7% FPR; 52.1% vs. 0% faithfulness FPR because text-only judges mistook valid database retrievals for hallucinations) and catching `8x` more tool-use errors (88.9% vs. 11.1% recall), whereas deterministic `Agenta` rules suffered 100% overall FPR and 0% recall on syntactically valid semantic SQL partition bugs (`Agent B`). Trace-level rubric judging also caught 9/72 (12.5%) real semantic SQL and calibration bugs that human domain experts had mislabeled as `"pass"`.
+- **Stability-Depth Trade-Off & Judge Scaling**: While 35/36 (97%) `(framework, metric, judge)` configurations met $\text{SD} \le 0.15$ (`Agenta` 0.000 SD / 100% Decision Consistency `DC`; `PromptFoo` 0.025 SD / 92% `DC`; `Strands` 0.053 SD / 82% `DC`, with trace variance scaling with tool count $m = 0.017$ and `Qwen3 32B / style` failing identically on both agents at 0.207 SD / 20% `DC`), 82%–92% per-case `DC` makes single-run LLM-judge verdicts too noisy for unaggregated per-case CI blockers. Mid-tier `Claude Sonnet 4.6` correlated at $r = 0.97$ with `Claude Opus 4` (`25x` vs. `5x` cost, 0 extra failures caught; `Haiku 4.5` $r = 0.94$).
+- **Zero-Overlap Discovery**: Across 202 Phase 3 discovery cases, trajectory-aware functional synthesis (`Strands ExperimentGenerator`) uncovered 9 novel functional bugs at 6.1% FDR (including 6 silent `0`-row `UPPER(SUBSTR(...))` SQL bugs) while `PromptFoo` red-teaming uncovered 15 novel security vulnerabilities at 20.8% FDR (10 schema leaks, 5 storage-path leaks, 4 system-prompt disclosures, 1 excessive agency; `4x` more findings on schema-richer `Agent B`) with **0 overlap** across all 24 novel failures (see [enterprise-analytics-agent-eval-framework-comparison](../research-briefs/enterprise-analytics-agent-eval-framework-comparison.md)).
+
+Tension with "DO: Gate production deployment on golden dataset trajectory validation in CI/CD" (adk-security-and-evaluation.md): use deterministic trajectory/schema checks (`100%` `DC`) for hard single-case CI build gates, and aggregate full-trace LLM-judge scores across `>= 3` repetitions or suite-level noise margins rather than failing builds on raw 1-rep per-case LLM-judge flips (`82%` `DC`).
+
+See also: "DON'T: Trust single-score LLM-as-judge evaluations" (above); "DON'T: Report red-team failure rates scored by a single judge model" (above); "DO: Decompose evaluations into atomic checklist items" (above).
+
+> Source: Comparative Analysis of Agent Evaluation Frameworks: Stability, Detection, and Discovery in Enterprise Analytics Agents (arXiv:2611.14493)
+
 ---
 
 ## Benchmark Design
@@ -501,6 +518,25 @@ MCP-Atlas (arXiv:2610.41479).
 
 > Source: Sandman: Managing Sandbox Environments at Scale for Agentic RL (arXiv:2610.39711); Evidence-View Gaming in Agentic Science (arXiv:2611.01334); EvoMCP: Mutual Evolution of Agent and Data for MCP Tool-Use (arXiv:2610.41479)
 
+### DO: Combine observable-evidence precedence, domain-rule libraries, and weakest-match principles in isolated grader synthesis, and certify graders across five soundness axes
+
+When synthesizing executable task verifiers (`eval.sh`) with a coding agent for benchmarks, CI quality gates, or RLVR reward pipelines, or when auditing human-written benchmark verifiers:
+1. **Enforce layout-level generation–scoring isolation**: Generate `eval.sh` from the task specification $q$ and initial environment snapshot $\mathcal{E}_0$ *before* any candidate trajectory $\tau$ or final state $\mathcal{E}_f$ exists, and execute `eval.sh` in a fresh read-only scoring container—never exposing `eval.sh` or domain-rule libraries to the task-solving agent.
+2. **Always pair `E` + `R` with `H` (`Never omit H`)**: Condition the verifier-authoring harness on three complementary inputs: (a) an **observable-evidence header (`E`)** enforcing **state-over-dialogue precedence** ($\mathcal{E}_0$ vs. $\mathcal{E}_f$ determines the verdict; $\tau$ is checked only for state-unwitnessable obligations), (b) an **on-demand filesystem domain-rule library (`R`)** mounted only when $\tau$ is in the evidence contract to surface unstated policy invariants, and (c) **nine verification principles (`H`)** enforcing anti-leniency, weakest sound comparison (numeric tolerances, normalized sets rather than brittle exact string equality), and pre-exit delivery checks. **Never supply `E + R` without `H`**, which causes hyper-strict assertion collapse.
+3. **Run a zero-label probe with at-most-one monotonic repair**: Probe `eval.sh` against $\mathcal{E}_0$ to verify shell syntax, schema-valid `/workspace/verdict.json` output, non-trivial task-dependent checks, and initial-state rejection (`pass: false` unless genuinely pre-satisfied), allowing at most **one** repair iteration committed only if strictly fewer probe checks fail.
+4. **Certify benchmark verifiers across five soundness gates (`G1–G5`)**: Extend two-check preflights (`G1` reference solution passes; `G2` non-constant discrimination—no-op fails and equivalent valid patches pass) with `G3` single-check deletion sensitivity (removing a gold hunk or required action flips the verdict to `fail`), `G4` manual/blinded mismatch adjudication, and `G5` 3-run zero-flip determinism. Procedure: [`certified-task-verifier-harness`](../skills/certified-task-verifier-harness/SKILL.md).
+
+**Scope:** `Veritas` (`E + R + H`) evaluated across 1,073 tasks on 4 execution benchmarks ($\tau^2$-bench [114], `SWE-bench Verified` [500], `Terminal-Bench 4.0` [89], `TB-Science 0.1` [370]) across 3 coding-agent harnesses (`OpenCode`, `Codex CLI`, `Claude Code`) and 5 backbone models (`GLM-5.2`, `GPT-5.7`, `Claude Sonnet 5.2`, `DeepSeek V4.1`, `Qwen3.8 Plus`), plus `G1–G5` official-verifier audits across `Agents' Last Exam` (82), $\tau^2$-bench (146), `DeepSWE` (106), and `MCP-Atlas` (500) (arXiv:2611.13336).
+
+**Evidence**:
+- **Benchmark-wide accuracy and harness portability (`arXiv:2611.13336`, Tables 2–3)**: With `GLM-5.2`, `Veritas` (`OpenCode + ERH`) ranked #1 on all 4 benchmarks by chance-corrected Cohen's $\kappa^*$: **0.787** on $\tau^2$-bench, **0.720** on `SWE-bench Verified`, **0.465** on `Terminal-Bench 4.0`, and **0.548** on `TB-Science 0.1`. Attaching `+ERH` across `OpenCode`, `Codex CLI`, and `Claude Code` improved $\kappa^*$ in **9 of 12** harness $\times$ benchmark pairs, lifting `Claude Code` by **+0.348** on `Terminal-Bench` (**0.238** to **0.586**) and **+0.321** on `TB-Science` (**0.144** to **0.465**).
+- **Critical `E + R` without `H` collapse and `E` ablation (`Table 4`)**: On $\tau^2$-bench, supplying `E + R` *without* `H` crashed $\kappa^*$ from **0.787** down to **0.250** (well below plain `OpenCode` at **0.563**) because domain rules without weakest-comparison calibration induced brittle, overly strict checks. Conversely, removing `E` on `SWE-bench Verified` (`R + H` only) dropped $\kappa^*$ from **0.741** to **0.579** and tripled missing verdicts from **15** to **46**.
+- **`G1–G5` defects in official human-written benchmark verifiers (`Table 9`)**: Auditing official verifiers exposed confirmed defects in **27/82** `Agents' Last Exam` tasks (`G4`), **57/146** $\tau^2$-bench tasks (**24** airline tasks passed a no-op rollout under `G2`, and **33** retail/telecom tasks over-constrained unordered database writes), **36/106** `DeepSWE` tasks (`G3`: **6** `G1`-passing tasks still awarded full marks after deleting a gold-patch hunk), and **72/500** `MCP-Atlas` tasks (`G5`: LLM-judge verdicts flipped across 3 identical runs at `temperature=0`).
+
+Tension with "DON'T: Expose benchmark verifier code or unstated rubric predicates to the skill-library learner" (recursive-improvement.md): `Criteria Exposure` (`arXiv:2611.08318`) forbids showing benchmark verifier code or unstated predicates to the task-solving learner, whereas `Veritas` (`arXiv:2611.13336`) mounts the domain-rule library `R` exclusively inside the layout-isolated verifier generator (`eval.sh` synthesized before any trajectory exists) and never exposes `R` or `eval.sh` to the task-solving agent. See also "DO: Certify benchmark tasks with reference-pass and empty-fail preflights, lock the verifier's evidence view, and fingerprint baseline bytes before reusing grading sandboxes" (this file).
+
+> Source: Veritas: A Verifier Generation Harness for Agent Tasks (arXiv:2611.13336)
+
 ### DO: Benchmark reward-hacking, manipulation, and backdoor monitors against gap-matched honest failures and counterfactual control pairs
 
 Do not evaluate trajectory monitors solely on successful vs hacking
@@ -833,6 +869,7 @@ For implementation details on the procedures behind these rules:
 - [`contract-verified-test-mock-generation`](../skills/contract-verified-test-mock-generation/SKILL.md) — Contract-verified mock/stub/assertion synthesis and 5-operator interaction mutation probing
 - [`owner-authority-ipi-eval-construction`](../skills/owner-authority-ipi-eval-construction/SKILL.md) — Converting agent utility benchmarks into owner-authority-validated IPI evaluation suites (`MetaPI`)
 - [`bidirectional-traceability-debate`](../skills/bidirectional-traceability-debate/SKILL.md) — Evidence-locality routing and symmetric Trace/Non-Trace partition-swap debate for requirement-to-code traceability
+- [`certified-task-verifier-harness`](../skills/certified-task-verifier-harness/SKILL.md) — Isolated `E + R + H` task-verifier synthesis and five-gate (`G1–G5`) verifier certification (`Veritas`)
 
 ## Sources
 
@@ -892,3 +929,5 @@ For implementation details on the procedures behind these rules:
 - MetaPI (Constructing Prompt Injection Benchmarks from LLM Agent Benchmarks): arXiv:2611.10026
 - Replay Fidelity in LLM Agent Evaluation (AppWorld Hidden State & Test Oracles): arXiv:2611.11216
 - LEGION (Sparse-Signal Investigation Under Adversarial Noise): arXiv:2611.11896
+- Veritas (Verifier Generation Harness for Agent Tasks): arXiv:2611.13336
+- Comparative Analysis of Agent Evaluation Frameworks (Enterprise Analytics Agents): arXiv:2611.14493

@@ -244,6 +244,9 @@ Before finalizing the sandbox design, verify:
 - [ ] Snapshot overhead is acceptable for the target latency
 - [ ] Rollback is tested and verified for all uncertain command types
 - [ ] Audit logs capture enough detail for post-incident attribution
+- [ ] Dual-key split-horizon audit logs (`K_trace` / `K_content`) seal encrypted payload transcripts against a tamper-evident hash chain outside the agent's write scope ([`compositional-coding-harness-reference-monitor`](../skills/compositional-coding-harness-reference-monitor/SKILL.md), arXiv:2611.13960)
+- [ ] A 2D $(\tau, \sigma)$ taint lattice and workspace disk provenance ledger prevent cross-turn untrusted-data laundering, magic-byte/GTFOBins command smuggling, and DNS-rebinding TOCTOU via resolve-once IP pinning (arXiv:2611.13960)
+- [ ] Denials return opaque binary verdicts to the agent caller (never diagnostic rule IDs or signature labels), signed host binaries are NOT exempted from untrusted-path DLL-load inspection, and child telemetry alerts quarantine the parent agent session (arXiv:2611.13684)
 - [ ] The sandbox works correctly when the agent fails (crash, timeout, OOM)
 
 ---
@@ -256,3 +259,5 @@ Before finalizing the sandbox design, verify:
 - AI Agency Typology: arXiv:2608.20041
 - Hard Stop: arXiv:2609.29808
 - Instrumental Monitor Evasion: arXiv:2609.30217
+- BypassGym (Defensive Lessons on Closed-Loop EDR Evasion): arXiv:2611.13684
+- ActiveSecHarness: arXiv:2611.13960

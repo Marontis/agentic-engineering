@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 580+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 590+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -111,6 +111,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`hybrid-sandbox-skill-intent-audit`](skills/hybrid-sandbox-skill-intent-audit/SKILL.md) | The Devil Wears Markdown: Hybrid Static, Dynamic & Agentic Skill Intent Audit (arXiv:2611.10830) |
 | [`owner-authority-ipi-eval-construction`](skills/owner-authority-ipi-eval-construction/SKILL.md) | MetaPI: Owner-Authority Indirect Prompt Injection Benchmark Construction (arXiv:2611.10026) |
 | [`state-anchored-trajectory-auditing`](skills/state-anchored-trajectory-auditing/SKILL.md) | ErosionBench / Meta-Auditor: State-Anchored Trajectory Auditing for Multi-Agent Alignment Decay (arXiv:2611.11266) |
+| [`compositional-coding-harness-reference-monitor`](skills/compositional-coding-harness-reference-monitor/SKILL.md) | ActiveSecHarness: Compositional Runtime Reference Monitor for Coding Agents (arXiv:2611.13960) |
+| [`code-grounded-sast-finding-explanations`](skills/code-grounded-sast-finding-explanations/SKILL.md) | SAFE: Grounded SAST Finding Explanations for Developer Comprehension (arXiv:2611.13041) |
 
 #### Self-Improvement & Evaluation
 
@@ -171,6 +173,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`feedback-poisoning-skill-promotion-guard`](skills/feedback-poisoning-skill-promotion-guard/SKILL.md) | When Feedback Becomes a Backdoor: SkillOpt Promotion Guards (arXiv:2611.09348) |
 | [`online-fer-statistical-acceptance`](skills/online-fer-statistical-acceptance/SKILL.md) | TRUST: Trustworthy Recursive Self-Improvement with Statistical Guarantees (arXiv:2611.10787) |
 | [`scoped-multi-agent-harness-composition`](skills/scoped-multi-agent-harness-composition/SKILL.md) | SciMARS: Multi-Agent Recursive Self-Improvement for Closed-Loop Scientific Discovery (arXiv:2611.12552) |
+| [`falsification-gated-memory-evolution`](skills/falsification-gated-memory-evolution/SKILL.md) | FGSE: Falsification-Gated Self-Evolution for Persistent Agent Memory (arXiv:2611.14326) |
+| [`certified-task-verifier-harness`](skills/certified-task-verifier-harness/SKILL.md) | Veritas: Task-Specific Verifier Harnesses with Soundness Certification (arXiv:2611.13336) |
 
 #### Skill Evolution & Knowledge
 
@@ -608,6 +612,12 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`appworld-replay-fidelity-hidden-state-oracles`](research-briefs/appworld-replay-fidelity-hidden-state-oracles.md) | AppWorld replay audit exposing a 26-case RNG/login gap, hidden SQLite/JWT state, and in-process oracle ORM corruption |
 | [`legion-sparse-signal-adversarial-noise-investigation`](research-briefs/legion-sparse-signal-adversarial-noise-investigation.md) | 74-scenario enterprise log benchmark where high event recall (0.89–0.97) masks 0.61–0.72 IoC precision on benign confounders |
 | [`cyberbingym-binary-patch-exposure-defensive-lessons`](research-briefs/cyberbingym-binary-patch-exposure-defensive-lessons.md) | Defensive lessons: binary patch diffs raise 1-day exploit risk 2.5x, while full binary mitigations cut exploits by 90% |
+| [`private-knowledge-retrieval-multi-agent-semantic-memory`](research-briefs/private-knowledge-retrieval-multi-agent-semantic-memory.md) | Private knowledge retrieval (`tipp++`) for untrusted multi-agent semantic servers via clause signatures and client-cached resolution |
+| [`bypassgym-edr-evasion-defensive-lessons`](research-briefs/bypassgym-edr-evasion-defensive-lessons.md) | Defensive lessons from closed-loop EDR evasion (`BypassGym`): telemetry oracle suppression, signed-binary DLL inspection, and parent session quarantine |
+| [`self-evolving-multimodal-agents-cross-scenario-survey`](research-briefs/self-evolving-multimodal-agents-cross-scenario-survey.md) | Cross-scenario portability diagnostic across GUI/web, coding, science, embodied, and generative self-evolving multimodal agents |
+| [`enterprise-analytics-agent-eval-framework-comparison`](research-briefs/enterprise-analytics-agent-eval-framework-comparison.md) | Empirical comparison of Promptfoo, DeepEval, and Inspect AI on traced enterprise analytics agents, exposing final-text grading blind spots |
+| [`language-grounded-hrl-multi-agent-sar`](research-briefs/language-grounded-hrl-multi-agent-sar.md) | Two-tier language-grounded hierarchical MARL for search-and-rescue coordination, with reproducibility and manuscript caveats |
+| [`lilo-multi-agent-conversational-sandbox-study`](research-briefs/lilo-multi-agent-conversational-sandbox-study.md) | Exploratory child-AI conversational sandbox (`Lilo`, $N=28$) demonstrating asymmetric orchestrator-to-peer context filtering |
 
 ---
 

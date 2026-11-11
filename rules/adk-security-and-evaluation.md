@@ -138,6 +138,8 @@ frozen and security suites at acceptance and deploy.
 
 The pass-rate floor (0.95) is necessary, not sufficient. A change is accepted only with no regression beyond a noise margin δ on previously-correct cases and held-out tasks, where δ is estimated from repeated runs of the unchanged baseline; the negative security testbed is always strict (zero tolerance). See "DO: Pass every self-modification through one acceptance gate" (recursive-improvement.md).
 
+Tension with "DO: Expose OpenTelemetry trajectory spans to analytics-agent graders and combine functional boundary synthesis with security probing" (agent-evaluation-quality.md): use deterministic `tool_call_match` and schema assertions (`100%` Decision Consistency) for hard single-case CI blockers, and aggregate full-trace LLM-as-a-Judge scores across `>= 3` repetitions or suite-level noise margins (`δ`) rather than failing CI builds on single-run per-case LLM-judge flips (`82%` single-run Decision Consistency on full traces in `arXiv:2611.14493`).
+
 > Source: Google Codelab: Evaluating Agents with ADK; Advanced ADK Evaluation with LLM-as-a-Judge Method
 
 ### DO: Use multi-criteria rubrics for LLM-as-a-Judge rather than single scalar scores

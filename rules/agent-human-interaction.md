@@ -248,6 +248,20 @@ stamping.
 
 > Source: The AI-Native SDLC Playbook (Claude Academy)
 
+### DO: Ground SAST finding explanations in fired SARIF rule definitions and repository data-flow endpoints with demand-tiered disclosure
+
+When integrating LLM agents into Static Application Security Testing (`SAST`), linter, or policy-compliance workflows, keep finding detection inside deterministic, auditable `SARIF` analysers (`Semgrep`, `CodeQL`, `Qodana`), deterministically pre-enrich CWE metadata and taint-trace step roles (`source`, `propagator`, `call`, `sanitizer`, `sink`) outside the model, and restrict the agent to a **read-only** repository and rule-inspection toolkit that verifies both the **fired rule definition** (`lookup_sast_rule`) and the **surrounding codebase endpoints** (`read_code`) before emitting a single structured response tiered by on-demand progressive disclosure rather than self-reported `beginner`/`intermediate`/`advanced` labels. Keep verbatim `SARIF` rule messages inspectable, pre-warm and cache explanations asynchronously, and leave true/false-positive judgment and patch application strictly with the human developer. Procedure: [`code-grounded-sast-finding-explanations`](../skills/code-grounded-sast-finding-explanations/SKILL.md).
+
+**Scope:** Developer-facing IDE and PR explanation of already-emitted static-analysis findings; controlled AB/BA crossover user study (`N = 24` participants; `124` triage decisions, `64` blind-coded true-positive remediation proposals with $\kappa = 0.79$, and `24` closing interviews) plus two formative studies (`20`-participant survey and `19`-practitioner World Cafe workshop) evaluating `SAFE` (`Semgrep v1.160.0` across `CWE-23`, `CWE-78`, `CWE-79`, `CWE-89`, `CWE-918` on `Health-Doc-Exchange` with prewarmed cache, arXiv:2611.13041).
+
+**Evidence**: Replacing a single-prompt audience-selector baseline (`SAFE-Blue`) with a demand-tiered UI backed by a 6-tool read-only repository and rule-lookup agent (`SAFE-Red`) more than doubled `correct` remediation proposals on true positives from 19% to 41% (participant-clustered cumulative-link odds ratio 2.6, 95% CI [0.93, 7.09], $p = .069$; 2.8, $p = .064$ with period and finding-set covariates), increased System Usability Scale (`SUS`) from 77.3 to 85.0 ($z = -2.55$, $p = .011$, $r = 0.62$), and raised perceived remediation actionability by +0.67 on a 5-point scale ($z = -2.53$, raw $p = .011$, Holm $p = .057$, $r = 0.73$), while perceived trust remained flat (+0.04)—showing that code-and-rule grounding improves comprehension and localization rather than uncritical belief. In closing interviews, 20 of 24 participants explicitly insisted that the developer, not the agent, judge findings and apply fixes.
+
+Tension with "DO: Combine deterministic SAST with unrestricted AI security agents rather than substituting one for the other or pre-filtering vulnerability classes in the harness" (agent-sandbox-safety.md): that rule governs vulnerability *discovery* audits (running an unrestricted AI security agent alongside SAST to catch cross-file business-logic bugs SAST misses and verifying the union via PoCs); once a specific `SARIF` warning is surfaced to a developer for triage, constrain the *explanation* agent to the fired rule and read-only repo context without inventing verdicts or auto-applying patches.
+
+See also: "DON'T: Treat agent output as implicit authorization" (above); "DON'T: Present all information at once" (above); "DO: Restrict architecture-documentation agents to read-only drift auditing and factual scaffolding while requiring humans to author rationale" (below).
+
+> Source: Code-Grounded Agentic Explanations for Static Analysis Vulnerability Findings (arXiv:2611.13041)
+
 ---
 
 ## Trust Calibration
@@ -357,6 +371,7 @@ For implementation details on the procedures behind these rules:
 - [`persistent-agent-migration`](../skills/persistent-agent-migration/SKILL.md) — Preserving agent identity across interaction sessions
 - [`mobile-spatial-accessibility-grouping`](../skills/mobile-spatial-accessibility-grouping/SKILL.md) — Spatial-functional hierarchy reconstruction and single-pass multi-granularity LLM labeling for mobile screen readers (`SeeR`)
 - [`editable-semantic-diagram-generation`](../skills/editable-semantic-diagram-generation/SKILL.md) — Decoupled Semantic-Style-Layout specification and bottom-up geometric text sizing for editable vector diagrams (`EvoDiagram`)
+- [`code-grounded-sast-finding-explanations`](../skills/code-grounded-sast-finding-explanations/SKILL.md) — Read-only repository & SARIF rule-grounded explanations with demand-tiered disclosure (`SAFE`)
 
 ## Sources
 
@@ -375,3 +390,4 @@ For implementation details on the procedures behind these rules:
 - EvoDiagram (Agentic Editable Diagram Creation via Design Expertise Evolution): arXiv:2604.09568
 - Cognitive Tours (Making Understanding a Deliverable in AI-Assisted Development): arXiv:2611.08456
 - Interface Quilt (Modifying Applications with CUAs and Generative UI): arXiv:2611.01891
+- SAFE (Code-Grounded Agentic Explanations for SAST Findings): arXiv:2611.13041
