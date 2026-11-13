@@ -66,6 +66,7 @@
 - [ ] Test cases cover adversarial red-team prompts (at least 10 injection probes)
 - [ ] Every adversarial probe has a **matched benign twin**: a benign request put through the same encoding, format and framing, so refusal can be scored as a harm gap
 - [ ] Counterfactual probes: for a sample of cases, flip the decisive fact in the candidate response or the rubric criterion and confirm the judge's verdict flips too
+- [ ] For GUI/mobile/computer-use security suites, exposure is gated at runtime on live UI-hierarchy predicates (`gate-on-match`) localized per target agent's benign trajectory (reporting **Payload Miss Rate `PMR`** alongside `Effective ASR`), and terminal OS-state verifiers report **Stealth Hijacking Rate (`SHR`)** and **Benign-Failed Susceptibility (`ASR-F`)** because frontier planners complete the benign task after compromise in `65.4%–68.1%` of hijacks (arXiv:2611.16693)
 
 ---
 

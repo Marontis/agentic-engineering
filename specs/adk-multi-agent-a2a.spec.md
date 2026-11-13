@@ -16,6 +16,7 @@
 - [ ] **Chained Pipeline**: Autonomous agents pass artifacts sequentially across A2A endpoints.
 - [ ] **Peer Mesh**: Independent peer agents discover each other dynamically via an Agent Directory registry.
 - [ ] **Hybrid**: Central coordinator with autonomous peer-to-peer sub-clusters.
+- [ ] **Graph-Constrained Decentralized Mesh (`N = 50–1,000+` peers or `100K+` owner-private tools, `arXiv:2611.15521`)**: When global Agent Card registries overflow context or `HMAC`/credentialed tools require owner-local `result` execution, run bounded `2`-hop neighbor capability-summary warmup ($W_i$), separate per-task loop/DAG caches ($h_{i,t}$) from cross-task semantic LLM routing memory ($M_{i,t}$) gated by `"DO: Pass every self-modification through one acceptance gate"` (`rules/recursive-improvement.md`), and monitor per-neighbor delivery receipts to quarantine misrouting hubs ([`topology-warmup-decentralized-routing`](../skills/topology-warmup-decentralized-routing/SKILL.md)).
 
 ### Agent Inventory & Roles:
 

@@ -194,6 +194,11 @@ mirror on the allowlist), also run it inside a snapshot.
 > speculation stops at Unsafe steps (`rules/agent-sandbox-safety.md`:
 > "Prefork sandbox environments on predicted execution branches").
 
+### Multi-session accelerator / exclusive-hardware command scheduling (`arXiv:2611.17294`):
+- [ ] Lightweight read-only inspection, search, and workspace edits execute immediately in **parallel** on the session's owner node, while builds, tests, GPU/accelerator benchmarks, and unrecognized commands enter a **fail-closed per-node FIFO serial slot** (`1` active benchmark per physical accelerator)
+- [ ] Local FIFO queue-wait time is **excluded** from active session/tool timeout budgets (`3,600 s` / `600 s`) so skewed node queues do not abort healthy rollouts
+- [ ] Idle helper nodes migrate only **waiting, path-portable serial commands** whose expected runtime and remaining wait exceed the measured cross-node handoff floor ($T_{\text{mig}} \approx 1.86\text{--}2.16\text{ s}$ on gigabit LAN/SMB) via three-phase **`reserve -> claim -> commit`** ([`serial-slot-accelerator-command-scheduling`](../skills/serial-slot-accelerator-command-scheduling/SKILL.md))
+
 ### Resource limits:
 
 | Resource | Limit | Action on exceed |
@@ -202,6 +207,8 @@ mirror on the allowlist), also run it inside a snapshot.
 | Memory per sandbox | ___ MB | Kill + rollback |
 | Disk writes per command | ___ MB | Kill + rollback |
 | Total sandbox lifetime | ___ minutes | Checkpoint + teardown |
+| Repeated status/read polls per tool | <= 2–3 sync calls | Handoff to async waiter / abort on `No fixed point` (monotonic `source_version` without task delta; arXiv:2611.14808) |
+| Cumulative + prefix-weighted token budget | ___ tokens | Terminate loop + alert on quiescent-vs-churn amplification (arXiv:2611.14808) |
 
 ---
 
@@ -247,6 +254,9 @@ Before finalizing the sandbox design, verify:
 - [ ] Dual-key split-horizon audit logs (`K_trace` / `K_content`) seal encrypted payload transcripts against a tamper-evident hash chain outside the agent's write scope ([`compositional-coding-harness-reference-monitor`](../skills/compositional-coding-harness-reference-monitor/SKILL.md), arXiv:2611.13960)
 - [ ] A 2D $(\tau, \sigma)$ taint lattice and workspace disk provenance ledger prevent cross-turn untrusted-data laundering, magic-byte/GTFOBins command smuggling, and DNS-rebinding TOCTOU via resolve-once IP pinning (arXiv:2611.13960)
 - [ ] Denials return opaque binary verdicts to the agent caller (never diagnostic rule IDs or signature labels), signed host binaries are NOT exempted from untrusted-path DLL-load inspection, and child telemetry alerts quarantine the parent agent session (arXiv:2611.13684)
+- [ ] On `1.7B–35B` SLM agents, write-call authorization derives polarity and `authority`/`payload` roles deterministically from static tool schemas with pre-read `$placeholder` write commitments and exact request n-gram grounding—never from SLM-authored JSON policies, graphs, or compiled programs ([`schema-derived-write-integrity-gate`](../skills/schema-derived-write-integrity-gate/SKILL.md), arXiv:2611.17115)
+- [ ] Post-write verification binds strictly to the session's causal `mutation_id` or first-seen `source_version` snapshot (never global shared-queue `pending == 0` quiescence), caps synchronous status polls, and tests MCP status tools under concurrent background `churn` (arXiv:2611.14808)
+- [ ] Untrusted visual assets are ingested by VLMs at `>= 224x224–336x336` resolution parity rather than `64x64–128x128` thumbnails (or gated by multi-scale transcript consistency checks rather than single-view `JPEG`/blur/median filters, which have `p = 1.000` null effect; arXiv:2611.16744)
 - [ ] The sandbox works correctly when the agent fails (crash, timeout, OOM)
 
 ---
@@ -261,3 +271,7 @@ Before finalizing the sandbox design, verify:
 - Instrumental Monitor Evasion: arXiv:2609.30217
 - BypassGym (Defensive Lessons on Closed-Loop EDR Evasion): arXiv:2611.13684
 - ActiveSecHarness: arXiv:2611.13960
+- Metal Sandbox (Command Scheduling for GPU Coding Agents): arXiv:2611.17294
+- CapLite (Schema-Derived Write Integrity for SLM Agents): arXiv:2611.17115
+- OverServe (Resource Amplification Defensive Lessons): arXiv:2611.14808
+- SISS / ScaleGuard (Visual Prompt Injection Resolution Parity): arXiv:2611.16744

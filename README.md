@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 590+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 600+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -113,6 +113,8 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`state-anchored-trajectory-auditing`](skills/state-anchored-trajectory-auditing/SKILL.md) | ErosionBench / Meta-Auditor: State-Anchored Trajectory Auditing for Multi-Agent Alignment Decay (arXiv:2611.11266) |
 | [`compositional-coding-harness-reference-monitor`](skills/compositional-coding-harness-reference-monitor/SKILL.md) | ActiveSecHarness: Compositional Runtime Reference Monitor for Coding Agents (arXiv:2611.13960) |
 | [`code-grounded-sast-finding-explanations`](skills/code-grounded-sast-finding-explanations/SKILL.md) | SAFE: Grounded SAST Finding Explanations for Developer Comprehension (arXiv:2611.13041) |
+| [`serial-slot-accelerator-command-scheduling`](skills/serial-slot-accelerator-command-scheduling/SKILL.md) | Metal Sandbox: Isolated Execution and Command Scheduling for GPU Coding Agents (arXiv:2611.17294) |
+| [`schema-derived-write-integrity-gate`](skills/schema-derived-write-integrity-gate/SKILL.md) | CapLite: Prompt-Injection Defense for SLM Agents without Model-Written Security Artifacts (arXiv:2611.17115) |
 
 #### Self-Improvement & Evaluation
 
@@ -217,6 +219,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`mobile-spatial-accessibility-grouping`](skills/mobile-spatial-accessibility-grouping/SKILL.md) | SeeR: Spatial Organization Is Accessibility Structure for Mobile UIs (arXiv:2611.02410) |
 | [`editable-semantic-diagram-generation`](skills/editable-semantic-diagram-generation/SKILL.md) | EvoDiagram: Agentic Editable Diagram Creation via Design Expertise Evolution (arXiv:2604.09568) |
 | [`parallel-small-team-tts-scaling`](skills/parallel-small-team-tts-scaling/SKILL.md) | Test-Time Compute Scales Better with Parallel Agent Teams (arXiv:2611.09798) |
+| [`topology-warmup-decentralized-routing`](skills/topology-warmup-decentralized-routing/SKILL.md) | DecArena / GraphHarness: Two-Stage 2-Hop Capability Warmup & Contextual LLM Routing for Decentralized Collaboration (arXiv:2611.15521) |
 
 #### Retrieval & Evidence
 
@@ -618,6 +621,11 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`enterprise-analytics-agent-eval-framework-comparison`](research-briefs/enterprise-analytics-agent-eval-framework-comparison.md) | Empirical comparison of Promptfoo, DeepEval, and Inspect AI on traced enterprise analytics agents, exposing final-text grading blind spots |
 | [`language-grounded-hrl-multi-agent-sar`](research-briefs/language-grounded-hrl-multi-agent-sar.md) | Two-tier language-grounded hierarchical MARL for search-and-rescue coordination, with reproducibility and manuscript caveats |
 | [`lilo-multi-agent-conversational-sandbox-study`](research-briefs/lilo-multi-agent-conversational-sandbox-study.md) | Exploratory child-AI conversational sandbox (`Lilo`, $N=28$) demonstrating asymmetric orchestrator-to-peer context filtering |
+| [`overserve-saas-agent-resource-amplification-defenses`](research-briefs/overserve-saas-agent-resource-amplification-defenses.md) | Defensive lessons against conjunctive MCP status-tool + completion-clause resource amplification (`10.30x` geo-mean, up to `93.88x` calls under concurrent churn) |
+| [`scale-induced-semantic-shift-vlm-web-agents`](research-briefs/scale-induced-semantic-shift-vlm-web-agents.md) | Cross-scale visual prompt injection (`58.75%` ASR at `64x64` vs `6.85%` at `224x224`), failure of single-view pixel filters (`p = 1.000`), and `ScaleGuard` consistency limits |
+| [`mobileprobe-trajectory-aware-mobile-gui-security-eval`](research-briefs/mobileprobe-trajectory-aware-mobile-gui-security-eval.md) | Trajectory-aware mobile GUI security evaluation, `gate-on-match` exposure parity (`PMR`), Stealth Hijacking Rate (`SHR`), and cross-app susceptibility |
+| [`multi-agent-deliberation-human-ai-decision-making`](research-briefs/multi-agent-deliberation-human-ai-decision-making.md) | Two-study human-AI deliberation (`N=401, 417`): multi-round interaction drives gains, standing devil's advocate hurts human accuracy and trust, shared AI errors persist |
+| [`rsi-pdebench-self-improving-pde-agents`](research-briefs/rsi-pdebench-self-improving-pde-agents.md) | `1,001`-case PDE/FPDE self-improving solver benchmark: `+10.5 pp` gain over native coding agents under `50%` noise, `-46.9%` total calls, non-monotonic operator residuals |
 
 ---
 

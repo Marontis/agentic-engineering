@@ -351,6 +351,8 @@ Do not gate third-party or agent-authored Markdown skill packages (`SKILL.md` + 
 
 Tension with "Use a pre-execution skill scanner as the sole admission gate for third-party skills" (skill-system-design.md): resolved by defense-in-depth — this rule specifies how to replace high-FPR static/LLM pre-execution scanners with provenance-weighted sandbox dry-runs (`FPR 0.67 -> 0.08`, `F1 = 0.89`), while `12/80` (`15%`) malicious skills still evade pre-admission dry-runs (`Recall = 0.85`), so provenance attestation, rate-limited resubmission, and runtime per-task sandboxing remain mandatory.
 
+Tension with "Poll global backend quiescence to close a session or screen status endpoints only on idle backends" (agent-sandbox-safety.md): isolated sandbox dry-runs on quiescent mock backends catch overt malicious skill behavior (`F1 = 0.89`, `FPR = 0.08`), but `OverServe` (`arXiv:2611.14808`) passes quiescent dry-runs cleanly (`1.25x–1.50x` calls, `<= 2` status polls, `0/22` static scanner alerts) while amplifying calls `10.30x–93.88x` when paired with an ordinary user completion clause under concurrent workspace `churn`; dry-run harnesses for status/verification tools must inject non-converging state-churn profiles.
+
 > Source: The Devil Wears Markdown: Detecting Malicious Intent Hidden in AI Agent Skill Instructions through Hybrid Static, Dynamic, and Agentic Analysis (arXiv:2611.10830)
 
 ---
@@ -753,6 +755,8 @@ When organizing large executable tool libraries (`100–1,000+` tools), do not r
 **Scope:** LIBRA programmatic tool library induction and dependency-aware retrieval across ToolBench, RestBench, and StableToolBench (`1,600+` APIs) on Qwen2.5 and GPT-4o agents (arXiv:2611.05445).
 
 **Evidence**: In `LIBRA` (`arXiv:2611.05445`), pruning schema-inferred dependency edges via counterfactual sandbox execution removed 38.6% false-positive edges and lifted prerequisite tool recall@5 from 68.2% (dense embedding retrieval) to 89.4%. Bounding graph expansion to 1 hop and top-2 providers per input improved end-to-end multi-tool pass rate by +9.8 pp over flat top-$k$ retrieval, whereas 2-hop unconstrained expansion increased context tokens by $2.7\times$ and dropped pass rate by $-4.3\text{ pp}$.
+
+Tension with "DO: Pair 2-hop local capability warmup with contextual LLM routing memory in privacy- or scale-constrained decentralized graphs, and harden hubs against misrouting" (multi-agent-coordination.md): `LIBRA` bounds *centralized* full-schema prompt expansion to `1 hop` (`top-2` providers) so distractor schemas do not bloat a single agent's context (`2.7x` tokens at 2 hops), whereas `GraphHarness` (`arXiv:2611.15521`) propagates compact semantic *domain summaries* across `2 hops` of a decentralized peer network where no central tool index exists.
 
 > Source: LIBRA: Programmatic Induction of Executable Tool Libraries (arXiv:2611.05445)
 

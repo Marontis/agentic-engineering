@@ -61,6 +61,8 @@ task's knowledge requirements, not convenience:
 - Under the closed-form coordination break-even bound $f^\star = \frac{\alpha-1}{\alpha(1-r)}$ (`arXiv:2610.37700`), 3-role homogeneous decomposition (`Planner -> Coder -> Reviewer`) cost $3.22\times$ tokens and $3.24\times$ wall time for $-1.5\text{ pp}$ accuracy, and heterogeneous role assignment (`Hetero-Role`) still cost $1.27\times$ the strong baseline while losing $-10.6\text{ pp}$ on ClassEval because cheap roles generated $1.32\times$ the strong model's token volume; by contrast, single-agent task routing (`Oracle-Route`, routing the 75.6% easy tasks to the cheap model) reached 94.3% pass@1 (+3.4 pp) at $0.5\times$ cost per solved task (see [coordination-tax-heterogeneity-dividend-multi-agent](../research-briefs/coordination-tax-heterogeneity-dividend-multi-agent.md)).
 - In `CuriousTogether` (`arXiv:2611.01301`), adding explicit curiosity and cultural-grounding persona prompts improved open-ended creative ideation and cultural bias scenarios ($+14.90\text{ pp}$, $p_{\text{Holm}} < 7\times 10^{-6}$, with multi-agent gains on 6 of 8 tasks across 7B–14B models) but produced null or negative returns on convergent multi-hop QA (`StrategyQA` $70.33\% \to 69.56\% / 68.37\%$; see [curioustogether-curiosity-cultural-grounding-multi-agent](../research-briefs/curioustogether-curiosity-cultural-grounding-multi-agent.md)).
 
+Tension with "DO: Pair 2-hop local capability warmup with contextual LLM routing memory in privacy- or scale-constrained decentralized graphs, and harden hubs against misrouting" (this file): when an externally imposed organizational or privacy graph fixes 1-hop visibility (`N = 10–1,000` agents, `100K+` private tools in `arXiv:2611.15521`), agents cannot synthesize a central `Star` or global `SharedMemory` buffer and must instead layer 2-hop local capability warmup plus contextual neighbor-routing memory (`GraphHarness`) over the given graph.
+
 > Source: Knowledge-Conditioned Topology Generation (arXiv:2608.27984); Mining the Design Space of Multi-Agent Workflows (arXiv:2610.31709); Muffin - A Shared Memory Buffer for Asynchronous AI Agents (arXiv:2610.31355); Learning When to Collaborate: Selective Multi-Agent Medical Reasoning via Uncertainty-Aware Routing (arXiv:2610.33544); The Coordination Tax and the Heterogeneity Dividend in Multi-Agent LLM Systems (arXiv:2610.37700); CuriousTogether (arXiv:2611.01301)
 
 ### DO: Optimize topology and model assignment jointly
@@ -250,20 +252,21 @@ status titles.
   track record outweighed persona status by 3.7× (Qwen), 14.3× (Llama),
   and 1.44× (Gemma) (2610.35930; see
   [multi-agent-debate-peer-influence-tracing](../research-briefs/multi-agent-debate-peer-influence-tracing.md)).
+- Adding a human participant to cross-family 3-round deliberation (`GPT-5.4` + `Claude Sonnet 4.5` in `MAD-Active-Base`, `arXiv:2611.14901`; `N = 401` on `ReaLMistake`, `N = 417` on `Fact-check`) still failed to prevent or help humans detect shared AI misconceptions: on 16 correlated-error `ReaLMistake` items (`12.8%`), human accuracy stayed flat at $\hat{p} = 0.149$ (`CI = [0.031, 0.49]`) vs $\hat{p} = 0.157$ (`CI = [0.038, 0.466]`) for static independent responses (`Static`), while on `Fact-check`, deliberation *induced* shared AI errors compared with a `0.000 ± 0.000` all-AI error rate in `Static` ($p = 0.04$) as final AI disagreement collapsed to `0.017 ± 0.051` and `0.004 ± 0.021` (see [multi-agent-deliberation-human-ai-decision-making](../research-briefs/multi-agent-deliberation-human-ai-decision-making.md)).
 
 **Scope:** multi-agent debate among debaters sharing training data,
 biases or retrieved context (arXiv:2609.03619); 3-agent homogeneous
 debate vs round-matched independent reflection on 2,400 MAD Bench
 questions across Qwen3.5-9B, Llama-3.1-8B-Instruct, and Gemma-4-E4B-it
-(arXiv:2610.35930). Consistent with "Expand candidate model
+(arXiv:2610.35930); cross-family GPT-5.4 + Claude Sonnet 4.5 human-in-the-loop 3-round deliberation across ReaLMistake (N = 401) and Fact-check (N = 417) (arXiv:2611.14901). Consistent with "Expand candidate model
 pools with arbitrary heterogeneous architectures" (below) once that
 rule is scoped to routing/voting aggregation: any same-family pool
 used for debate or verification needs a dissent or diversity
 mechanism (confidence reweighting, heterogeneous members).
 
-See also: rules/recursive-improvement.md — "DO: Dynamically calibrate consensus entropy and weight peer influence by evidence grounding in multi-agent debate"
+See also: rules/recursive-improvement.md — "DO: Dynamically calibrate consensus entropy and weight peer influence by evidence grounding in multi-agent debate"; rules/agent-human-interaction.md — "DON'T: Assign a standing devil's advocate persona in human-facing deliberation, or add a second deliberating AI near accuracy ceiling"
 
-> Source: R²-MAD (arXiv:2609.03619); Who Convinced Whom? Tracing How LLMs Change Their Minds in Multi-Agent Systems (arXiv:2610.35930)
+> Source: R²-MAD (arXiv:2609.03619); Who Convinced Whom? Tracing How LLMs Change Their Minds in Multi-Agent Systems (arXiv:2610.35930); Understanding the Effects of Multi-Agent Deliberation for Human-AI Decision-Making (arXiv:2611.14901)
 
 ### DO: Use heterogeneous, cross-family rosters for deliberation and joint verification
 
@@ -297,6 +300,8 @@ architectures" (below): that rule's evidence is for routing and voting
 aggregation; this one is for interactive deliberation and verification.
 
 Tension with "Treat debate consensus as authorization for tool side effects" (this file): heterogeneity improves the accuracy of a deliberated judgment, including safety monitoring, but a deliberated verdict is still not authorization; side effects stay behind an external policy. MADBench did not test cross-family rosters against side-effect attacks.
+
+Tension with "DON'T: Assign a standing devil's advocate persona in human-facing deliberation, or add a second deliberating AI near accuracy ceiling" (agent-human-interaction.md): in human-in-the-loop verification (`arXiv:2611.14901`), a cross-family 2-AI roster (`GPT-5.4` + `Claude Sonnet 4.5`) beat static independent panels (`Static`) only when paired with multi-round deliberation, and beat a single multi-round AI (`Chatbot`) only when single-AI accuracy had headroom (`ReaLMistake` `0.733` vs `0.639`, $p = 0.027$), adding mental demand and effort ($p < 0.001$) without accuracy gain when single-AI accuracy was already near ceiling (`Fact-check` `0.984`).
 
 > Source: The Wisdom of Artificial Deliberative Crowds (arXiv:2609.22497); Self-Organizing Agent Teams Learn to Reason Together (arXiv:2609.22682)
 
@@ -602,6 +607,8 @@ benchmarks; ORCH's is large, heterogeneous teams doing multi-phase
 physical tasks with prerequisites. Choose by team size and task type,
 and benchmark both for teams that are large or have phased,
 prerequisite-ordered work.
+
+Tension with "DO: Pair 2-hop local capability warmup with contextual LLM routing memory in privacy- or scale-constrained decentralized graphs, and harden hubs against misrouting" (this file): a Chair-arbitrated shared bus (`BusMA`) requires small teams (`N ≈ 4`) sharing a common memory visibility domain, whereas at `N = 100–1,000` peers with `100K+` owner-private `HMAC` tools (`arXiv:2611.15521`), global registries overflow context and broadcast flooding degrades efficiency (`45.7%` vs `71.5%`), requiring 2-hop local capability warmup and selective neighbor routing.
 
 > Source: BusMA: A Bus Communication Substrate for Multi-Agent Systems (arXiv:2609.15054); Organizational Principles Enable Collective Intelligence in Embodied AI (arXiv:2609.11737)
 
@@ -928,6 +935,8 @@ When a multi-agent team tackles knowledge-intensive or clinical reasoning tasks,
 
 **Evidence**: In `arXiv:2611.05393`, supervising multi-agent reasoning with an external non-answering Challenger and challenge-triggered specialist recruitment improved diagnostic accuracy by +6.8 pp over static specialist panels and +5.1 pp over free-form multi-agent debate while reducing specialist token consumption by 41.3%. Allowing the Challenger to suggest candidate answers or exposing tentative group consensus to recruited specialists degraded accuracy by 3.4 pp due to confirmation bias.
 
+Tension with "DON'T: Assign a standing devil's advocate persona in human-facing deliberation, or add a second deliberating AI near accuracy ceiling" (agent-human-interaction.md): an external *non-answering* Challenger (`arXiv:2611.05393`) improves automated diagnostic accuracy (`+6.8 pp`) because it only triggers targeted retrieval/specialists over isolated channels and never votes or argues a stance to a human, whereas assigning a prompt-only answering Devil's Advocate in human-facing deliberation (`arXiv:2611.14901`) creates `0.287–0.650` unresolved final disagreement and lowers human decision accuracy and trust.
+
 > Source: Challenge-Aware Knowledge Recruitment with Meta-Agent Supervision for Medical Multi-Agent Reasoning (arXiv:2611.05393)
 
 ### DO: Insert a governed Generator–Evaluator–Human architecture lifecycle between requirements and code generation
@@ -976,7 +985,7 @@ Solo `Best-of-N` draws the most samples ($K = B$) but stalls around a low single
 - **Beats one giant team and longer single-agent sessions**: On all **4 of 4 tasks** tested with single large teams up to $M = 100$, team scores dropped between `64` and `100` agents, and `10` teams of `10` beat `1` team of `100` by **`+8%` to `+30%`** (on 2 tasks, `1` team of `100` scored below `100` solo agents). On `Graph Node Classification`, doubling solo session length from `6 h` to `12 h` barely moved the mean (`52.0 -> 52.7`), whereas a 2-agent team for `6 h` each at the exact same `12 agent-hour` cost raised the mean to **`57.4`** and led by `+4.1` points at `120` agent-hours (`75.5` vs `71.4`).
 - **Matches/beats a frontier model at equal dollar cost, while central managers hurt**: At equal GPU/token dollar cost, `Qwen3.8-27B` parallel teams of 10 beat 5 `GPT-5.6-sol` runs on **`4 of 8` tasks** (`6 of 12` overall; e.g., `52.0` for 8 `Qwen` teams vs `47.9` for 5 `GPT-5.6-sol` runs on `Carleson Formalization`). Replacing the flat forum with a central manager/orchestrator agent degraded team performance **below both flat teams and solo agents at every budget** on all 3 tested tasks (e.g., on `Borden Source Inversion`, the best of 10 manager-orchestrated teams scored **`68.4`**, below the **`76.5`** average of a single flat team).
 
-Tension with "Default to a fixed multi-agent topology" (this file) and "Structure inter-agent communication around typed intents and bus substrates" (this file): hierarchical orchestration (`ORCH`, `arXiv:2609.11737`) and Chair-arbitrated intent buses (`BusMA`, `arXiv:2609.15054`) coordinate heterogeneous role pipelines where subtasks are interdependent and lack a fast per-attempt oracle, whereas on verifiable open-ended search and optimization tasks where any agent can score candidate solutions against an exact verifier (`arXiv:2611.09798`), a central manager becomes a bottleneck and flat asynchronous discovery sharing across $K$ small peer teams ($M=10$) dominates.
+Tension with "Default to a fixed multi-agent topology" (this file) and "Structure inter-agent communication around typed intents and bus substrates" (this file): hierarchical orchestration (`ORCH`, `arXiv:2609.11737`) and Chair-arbitrated intent buses (`BusMA`, `arXiv:2609.15054`) coordinate heterogeneous role pipelines where subtasks are interdependent and lack a fast per-attempt oracle, whereas on verifiable open-ended search and optimization tasks where any agent can score candidate solutions against an exact verifier (`arXiv:2611.09798`), a central manager becomes a bottleneck and flat asynchronous discovery sharing across $K$ small peer teams ($M=10$) dominates. Likewise, tension with "DO: Pair 2-hop local capability warmup with contextual LLM routing memory in privacy- or scale-constrained decentralized graphs, and harden hubs against misrouting" (this file): homogeneous flat `10`-agent teams assume every agent already holds the full toolset needed to solve the task independently, whereas when distinct private tools are partitioned across `N = 10–1,000` peers (`DecArena`, `arXiv:2611.15521`), multi-hop capability warmup and contextual neighbor routing are required just to locate and invoke the required tools.
 
 > Source: Test-Time Compute Scales Better with Parallel Agent Teams (arXiv:2611.09798)
 
@@ -1005,6 +1014,8 @@ When recovering trace links between natural-language requirements and source fil
 
 Tension with "Assume multi-agent debate eliminates shared misconceptions" (multi-agent-coordination.md) and "Share full context across all agents by default" (multi-agent-coordination.md): homogeneous peer debate on shared-prompt QA collapses to $n_{\text{eff}} \approx 1.02\text{--}1.07$ (`arXiv:2610.35930`) and privacy-sensitive workflows partition context into local summaries (`arXiv:2609.03920`), whereas on non-private repository traceability (`arXiv:2611.09162`), opposing inclusion/exclusion mandates paired with cross-partition set swapping (`Trace Debater` inspecting `non_trace_files` and `Non-Trace Debater` inspecting `trace_files`) over full-repository source prevent one-sided recall loss while still trailing single-pass `Tracer (P2)` on raw recall when code naming is explicit and human review budgets are unconstrained. Consistent with "Default to a fixed multi-agent topology" (multi-agent-coordination.md) and "Rely on dense semantic embeddings alone for retrieving code or executable skills without execution verification" (skill-system-design.md).
 
+Tension with "DON'T: Assign a standing devil's advocate persona in human-facing deliberation, or add a second deliberating AI near accuracy ceiling" (agent-human-interaction.md): symmetric `Trace`/`Non-Trace` swap debate (`arXiv:2611.09162`) resolves opposing mandates through an automated `Judge` inspecting executable code before surfacing links to analysts, whereas exposing human decision-makers directly to unarbitrated every-round Devil's Advocate opposition (`arXiv:2611.14901`) induces `0.298–0.426` human underreliance on accurate peer judgments and degrades accuracy ($p \le 0.005$).
+
 > Source: Rethinking Requirement-to-Code Traceability Through Single-Agent and Multi-Agent Approaches (arXiv:2611.09162)
 
 ### DO: Combine per-clause cryptographic signatures, private index obfuscation, and client-cached resolution on untrusted knowledge servers
@@ -1021,6 +1032,21 @@ When multiple agents share an external semantic knowledge base (KB) hosted on un
 See also "DON'T: Rely on prompt-level privacy instructions to keep carried information inside its boundary" (agent-sandbox-safety.md).
 
 > Source: On Private Knowledge Retrieval and Private Inference for secure multi-agent systems (arXiv:2611.13696)
+
+### DO: Pair 2-hop local capability warmup with contextual LLM routing memory in privacy- or scale-constrained decentralized graphs, and harden hubs against misrouting
+
+When global tool catalogs overflow model context (`100K+` tools) or private credentialed tools (`HMAC`/API keys) cannot leave their owning agents (`result`-only remote execution), neither memoryless 1-hop forwarding (`Reflex`), unconstrained neighbor flooding (`Broadcast`), tabular per-tool `Q-Routing`, nor standalone `SFT`/`GRPO` weight post-training generalizes across unseen tools and graph topologies. Equip decentralized peer agents with a **two-stage routing harness (`GraphHarness`)**:
+1. **Bounded 2-hop neighbor capability warmup ($W_i$)**: Propagate semantic capability-cluster summaries strictly across 1-hop neighbors for $L = 2$ rounds before task execution so each node acquires directional neighborhood priors without materializing a global registry or exposing private keys.
+2. **Separated within-task cache ($h_{i,t}$) and cross-task semantic routing memory ($M_{i,t}$)**: Cache visited `(subquery, neighbor)` pairs and intermediate DAG stage results per episode to suppress loops, while updating cross-task neighbor scores via contextual LLM domain summaries rather than tabular tool-ID scalars or raw past trajectories—deferring any persistent cross-epoch update of $W_i$ or $M_{i,t}$ to "DO: Pass every self-modification through one acceptance gate" and "DON'T: Allow self-modifying agents to optimize prompts or scaffolding solely against performance benchmarks" ([`recursive-improvement.md`](recursive-improvement.md)).
+3. **Byzantine hub & conflict hardening**: Authenticate inter-agent routing envelopes, monitor per-neighbor empirical delivery receipts to quarantine misrouting hubs, replicate bridge edges around high-degree scale-free hubs, and stamp routing hints with hop distance and execution receipts to break conflicting directional advice. Procedure: [`topology-warmup-decentralized-routing`](../skills/topology-warmup-decentralized-routing/SKILL.md).
+
+**Scope:** Graph-constrained Dec-POMDP multi-agent tool discovery and execution (`DecArena`) across $N \in \{10, 50, 100, 500, 1000\}$ agents in `Random`, `Scale-Free`, and `Semantic` topologies over a `100K+` HMAC-SHA256 synthesized tool ecosystem (`M = 372` active tools, `186` required tools across `140` multi-hop evaluation tasks: `60` level-1, `40` level-2, `40` level-3; §1 prose states `160` tasks), evaluated across `QWen3.8 27B`, `Qwen3.5 35B A3B`, `Muse Glimmer 30B`, `Gemma 4 26B A4B`, `Gemma 12B`, and `SFT`/`GRPO`/`OPSD`-trained `Qwen3.5-0.8B/2B/4B` (arXiv:2611.15521).
+
+**Evidence**: On `DecArena` (`QWen3.8 27B`, Table 1; `arXiv:2611.15521`), `Global Registry` failed `Out of Context`, `Reflex` scored `5.2%` Success (`27.5%` Collaboration, `37.5%` Efficiency), `Numeric Q-Routing` stalled at `5.0%` Success (`0` values on unseen tools), `Success-Trajectory Memory` dropped to `1.1%`, and `Broadcast` traded flooding inefficiency (`45.7%` Eff) for `40.6%` Success. Combining Stage-1 `Warmup` (`33.8%` alone) with Stage-2 contextual `LLM Q-Learning` (`20.6%` alone; note Table 6 lists individual memory rows on `Gemma 12B`/`Muse Glimmer 30B`) in **`GraphHarness` reached `53.7%` Success (`+48.5` pp over `Reflex`), `58.1%` Collaboration (`+30.6` pp; §5.4 prose prints `57.1`), and `71.5%` Efficiency (`+34.0` pp)**. Zero-weight-update `GraphHarness` on **`Qwen3.5-0.8B` achieved `35.1%` Success**, outperforming `Qwen3.5-4B` post-trained with `SFT` (`0.8%`), `GRPO` (`0.5%`), or oracle `OPSD` (`5.7%`) across unseen topologies and scales (`N = 100–1000`). However, just $k = 1, 2, 3$ adversarial misrouting agents collapsed `QWen3.8 27B` `GraphHarness` Success from **`53.7% -> 22.5% -> 13.5% -> 3.2%`**, and conflicting shortest-path vs. opposite hints in a ring network nearly halved Success from **`53.7%` to `27.2%`**.
+
+Tension with "DON'T: Default to a fixed multi-agent topology" (this file), "DO: Structure inter-agent communication around typed intents and bus substrates" (this file), and "DO: Scale test-time compute on verifiable long-horizon tasks via parallel small flat teams rather than solo Best-of-N, one giant team, or manager orchestration" (this file): when tools and agents share a single trust domain and fit in a directory or typed bus (`N <= 50`), centralized/hierarchical routing or parallel flat `10`-agent teams avoid multi-hop discovery loss and hub fragility (`53.7% -> 3.2%` under $k=3$ misrouters); use decentralized `GraphHarness` warmup + contextual neighbor routing specifically when `100K+` tool schemas exceed context windows or owner-private `HMAC` tools forbid centralizing execution. Tension with "DO: Induce tool dependency graphs via counterfactual sandbox execution and cap retrieval propagation at one hop with top-2 providers per input" (skill-system-design.md): `LIBRA` caps *centralized* full-schema prompt retrieval at `1 hop` to prevent `2.7x` prompt bloat, whereas `GraphHarness` runs `2-hop` *neighbor-summary* propagation across decentralized graph edges so peers acquire compact directional routing priors without loading remote schemas into a single prompt. See also "DON'T: Rely on prompt-level privacy instructions to keep carried information inside its boundary" (agent-sandbox-safety.md).
+
+> Source: DecArena: Evaluating Large-Scale Decentralized Multi-Agent Collaboration (arXiv:2611.15521)
 
 ---
 
@@ -1044,6 +1070,7 @@ For implementation details on the procedures behind these rules:
 - [`parallel-small-team-tts-scaling`](../skills/parallel-small-team-tts-scaling/SKILL.md) — Test-time compute scaling via $K$ parallel small flat peer teams ($M=10$) sharing an asynchronous discovery forum
 - [`scoped-multi-agent-harness-composition`](../skills/scoped-multi-agent-harness-composition/SKILL.md) — Isolated role/coordination/memory editors with tested-component composition over provenance-typed evidence graphs (`SciMARS`)
 - [`bidirectional-traceability-debate`](../skills/bidirectional-traceability-debate/SKILL.md) — Evidence-locality routing and symmetric Trace/Non-Trace partition-swap debate for requirement-to-code traceability
+- [`topology-warmup-decentralized-routing`](../skills/topology-warmup-decentralized-routing/SKILL.md) — 2-hop local capability warmup and contextual experience-adaptive LLM neighbor routing (`GraphHarness` / `DecArena`)
 
 ## Sources
 
@@ -1101,3 +1128,5 @@ For implementation details on the procedures behind these rules:
 - SciMARS (Multi-Agent Recursive Self-Improvement for Closed-Loop Scientific Discovery): arXiv:2611.12552
 - Rethinking Requirement-to-Code Traceability Through Single-Agent and Multi-Agent Approaches: arXiv:2611.09162
 - Private Knowledge Retrieval & Private Inference for Secure MAS (tipp++): arXiv:2611.13696
+- DecArena / GraphHarness (Large-Scale Decentralized Multi-Agent Collaboration): arXiv:2611.15521
+- Understanding the Effects of Multi-Agent Deliberation for Human-AI Decision-Making: arXiv:2611.14901
