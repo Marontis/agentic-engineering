@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 600+ arXiv papers and counting.
+Research-backed rules, skills, and spec templates for building LLM agent systems -- distilled from 610+ arXiv papers and counting.
 
 > **What this is**: A curated knowledge base of transferable procedures, design rules, and decision frameworks for agent engineering. Every rule cites its evidence. Every skill describes a reusable procedure you can drop into your agent workflows.
 
@@ -31,13 +31,13 @@ Concise, evidence-backed guardrails. Load these so your agent applies them autom
 | Rules File | Domain |
 |:-----------|:-------|
 | [`agent-sandbox-safety`](rules/agent-sandbox-safety.md) | Sandbox design, command classification, network policy, capability gateway, defense composition, checkpoint integrity, deployment context, adversarial testing, tool output safety, GitOps span editing, harness tampering audit, blind CoT monitoring, hook security, multi-turn refusal variance, dependency-scoped plan lineage, dialogue authentication decoupling, semantic patch validation, input tree perturbation, constructive agent host obligations, guard-agent topologies, deterministic safety constraint gates, guardrail repetition instability, dynamic resource acquisition bounds, pre-execution action auditing, agent-tool boundary contracts, universal tool anomaly filtering, trajectory-level multi-turn safety, historical safety-constraint restoration, per-channel refusal testing |
-| [`skill-system-design`](rules/skill-system-design.md) | Skill authoring, selection, library management, skill evolution, training data quality, evidence triage, library integrity, hallucination detection, prefix-preserving context assembly, protocol-aware context trimming, persistent agent architecture, procedural families, operational know-how distillation, speculative macro commit, code embedding functional retrieval gap, standardized semantic envelopes |
-| [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification, multi-day autonomous loops, joint harness-weight optimization, reference trajectory evolution, error-structured prompt optimization (ESPO), counterexample-guided repair, rubric artifact bias, neural invariant diagnosis, belief-calibrated scaffold optimization, swarm commons governance, debate consensus calibration, surrogate-guided bilevel rubric evolution, autonomous environment exploration and frozen causal memory, sequential stopping for self-evolution loops |
+| [`skill-system-design`](rules/skill-system-design.md) | Skill authoring, selection, library management, skill evolution, training data quality, evidence triage, library integrity, hallucination detection, prefix-preserving context assembly, protocol-aware context trimming, persistent agent architecture, procedural families, operational know-how distillation, speculative macro commit, code embedding functional retrieval gap, standardized semantic envelopes, canonical-state backend adapters & factored layout-vs-content skills, tiered-contract zero-LLM MCP readiness gates |
+| [`recursive-improvement`](rules/recursive-improvement.md) | Self-modification architecture, change classification, evaluation, instruction refinement, targeted reflection, verification, multi-day autonomous loops, joint harness-weight optimization, reference trajectory evolution, error-structured prompt optimization (ESPO), counterexample-guided repair, rubric artifact bias, neural invariant diagnosis, belief-calibrated scaffold optimization, swarm commons governance, debate consensus calibration, surrogate-guided bilevel rubric evolution, autonomous environment exploration and frozen causal memory, sequential stopping for self-evolution loops, in-flight process-level RL supervision |
 | [`adk-workflow-architecture`](rules/adk-workflow-architecture.md) | Graph DAG orchestration, deterministic runtime gates, zero-token policy routing, default fallback edges, lifecycle callback interceptors, Memory Bank vs RAG separation, long-running tool receipts, universal resumption |
 | [`adk-security-and-evaluation`](rules/adk-security-and-evaluation.md) | Model Armor prompt injection guards, Sensitive Data Protection (SDP) PII de-identification, A2A mutual agent authentication & Agent Card verification, AP2/UCP cryptographic commerce tokens, CI/CD golden dataset trajectory validation, multi-criteria LLM-as-a-Judge rubrics |
-| [`agent-evaluation-quality`](rules/agent-evaluation-quality.md) | Output evaluation, benchmarking, quality gates, pass/fail rubrics, trajectory verification |
+| [`agent-evaluation-quality`](rules/agent-evaluation-quality.md) | Output evaluation, benchmarking, quality gates, pass/fail rubrics, trajectory verification, verification transport across abstraction boundaries, multi-agent PACE 6D compute-parity benchmarking, planner symbolic-vocabulary invariance |
 | [`agent-human-interaction`](rules/agent-human-interaction.md) | Work presentation, feedback solicitation, cognitive load management, structured reviews |
-| [`multi-agent-coordination`](rules/multi-agent-coordination.md) | Multi-agent topology, role delegation, communication protocols, coordination failure recovery, intent-regularized bus communication, intra-family model candidate selection, protocol overhead sizing, differential sub-agent auditing |
+| [`multi-agent-coordination`](rules/multi-agent-coordination.md) | Multi-agent topology, role delegation, communication protocols, coordination failure recovery, intent-regularized bus communication, intra-family model candidate selection, protocol overhead sizing, differential sub-agent auditing, trimmed embedding-consensus subtask aggregation, weakest-reader delegation & grounded-source boundaries |
 
 ### Skills (On-Demand)
 
@@ -115,6 +115,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`code-grounded-sast-finding-explanations`](skills/code-grounded-sast-finding-explanations/SKILL.md) | SAFE: Grounded SAST Finding Explanations for Developer Comprehension (arXiv:2611.13041) |
 | [`serial-slot-accelerator-command-scheduling`](skills/serial-slot-accelerator-command-scheduling/SKILL.md) | Metal Sandbox: Isolated Execution and Command Scheduling for GPU Coding Agents (arXiv:2611.17294) |
 | [`schema-derived-write-integrity-gate`](skills/schema-derived-write-integrity-gate/SKILL.md) | CapLite: Prompt-Injection Defense for SLM Agents without Model-Written Security Artifacts (arXiv:2611.17115) |
+| [`similarity-consensus-subtask-aggregation`](skills/similarity-consensus-subtask-aggregation/SKILL.md) | SecMAS: Securing Multi-Agent Systems by Design via Trimmed Similarity Aggregation (arXiv:2611.17883) |
 
 #### Self-Improvement & Evaluation
 
@@ -177,6 +178,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`scoped-multi-agent-harness-composition`](skills/scoped-multi-agent-harness-composition/SKILL.md) | SciMARS: Multi-Agent Recursive Self-Improvement for Closed-Loop Scientific Discovery (arXiv:2611.12552) |
 | [`falsification-gated-memory-evolution`](skills/falsification-gated-memory-evolution/SKILL.md) | FGSE: Falsification-Gated Self-Evolution for Persistent Agent Memory (arXiv:2611.14326) |
 | [`certified-task-verifier-harness`](skills/certified-task-verifier-harness/SKILL.md) | Veritas: Task-Specific Verifier Harnesses with Soundness Certification (arXiv:2611.13336) |
+| [`verification-transport-provenance-audit`](skills/verification-transport-provenance-audit/SKILL.md) | Verification Transport: Do Verifier Judgments Survive Abstraction? (arXiv:2611.18471) |
 
 #### Skill Evolution & Knowledge
 
@@ -220,6 +222,7 @@ Transferable, subtask-level procedures. Each skill has a `SKILL.md` with when-to
 | [`editable-semantic-diagram-generation`](skills/editable-semantic-diagram-generation/SKILL.md) | EvoDiagram: Agentic Editable Diagram Creation via Design Expertise Evolution (arXiv:2604.09568) |
 | [`parallel-small-team-tts-scaling`](skills/parallel-small-team-tts-scaling/SKILL.md) | Test-Time Compute Scales Better with Parallel Agent Teams (arXiv:2611.09798) |
 | [`topology-warmup-decentralized-routing`](skills/topology-warmup-decentralized-routing/SKILL.md) | DecArena / GraphHarness: Two-Stage 2-Hop Capability Warmup & Contextual LLM Routing for Decentralized Collaboration (arXiv:2611.15521) |
+| [`tiered-contract-readiness-gate`](skills/tiered-contract-readiness-gate/SKILL.md) | ProdPilot: Layered Zero-LLM MCP Production Readiness & Deployment Gate (arXiv:2611.17381) |
 
 #### Retrieval & Evidence
 
@@ -626,6 +629,12 @@ Papers that provide valuable context but don't produce standalone skills:
 | [`mobileprobe-trajectory-aware-mobile-gui-security-eval`](research-briefs/mobileprobe-trajectory-aware-mobile-gui-security-eval.md) | Trajectory-aware mobile GUI security evaluation, `gate-on-match` exposure parity (`PMR`), Stealth Hijacking Rate (`SHR`), and cross-app susceptibility |
 | [`multi-agent-deliberation-human-ai-decision-making`](research-briefs/multi-agent-deliberation-human-ai-decision-making.md) | Two-study human-AI deliberation (`N=401, 417`): multi-round interaction drives gains, standing devil's advocate hurts human accuracy and trust, shared AI errors persist |
 | [`rsi-pdebench-self-improving-pde-agents`](research-briefs/rsi-pdebench-self-improving-pde-agents.md) | `1,001`-case PDE/FPDE self-improving solver benchmark: `+10.5 pp` gain over native coding agents under `50%` noise, `-46.9%` total calls, non-monotonic operator residuals |
+| [`weakest-agent-delegation-safety-collapse`](research-briefs/weakest-agent-delegation-safety-collapse.md) | `58,589`-trial audit (`Claude Code`, `Codex`, `18` models): delegating untrusted file search to weaker sub-agents drops safety to the weak reader (`20/180–553/900`) and cascades (`751/757`), halted (`0/780`) by attaching raw source records |
+| [`pace-multi-agent-compute-parity-synthesis`](research-briefs/pace-multi-agent-compute-parity-synthesis.md) | `9`-study, `516`-configuration `PACE` synthesis: MAS trails sample/budget-matched single agents (`-0.042`, `74% <= 0`, REML `-0.195`), universal negative sampling gap (`-0.038`), 6D resource vector `R`, and positive-return preconditions |
+| [`symbolic-vocabulary-obfuscation-planner-defenses`](research-briefs/symbolic-vocabulary-obfuscation-planner-defenses.md) | Defensive lessons: counterintuitive symbol renaming drops LLM & `LLMFP` planners by `>70%` (`0.98 -> 0.03`), while pre-planning symbol translation restores `0.98` on `GTO` |
+| [`autorl-process-level-autonomous-rl`](research-briefs/autorl-process-level-autonomous-rl.md) | In-flight multi-agent RL supervision (`HOT` vs `COLD` lineage updates, `9/9` `Qwen3-4B` wins, `14.7`-day recovery across `11` crashes, `0/3` learning-rule redesigns deployed) |
+| [`sceneagent-portable-game-scene-generation`](research-briefs/sceneagent-portable-game-scene-generation.md) | Cross-engine 3D scene portability via canonical `SceneContext`, transcript-free `Builders` (`5.17x` runtime for `62.4%` completeness), and ID-free `Layout` vs `Content` skills (`78.2–89.4%` human preference) |
+| [`mastars-sequential-trajectory-augmentation-marl`](research-briefs/mastars-sequential-trajectory-augmentation-marl.md) | Offline MARL diffusion trajectory augmentation via `RePaint` agent-wise inpainting and descending return-conditioned subgoal ordering (`+31.3%–189.1%` win-rate gains on `SMAC`/`SMAC-v2`) |
 
 ---
 

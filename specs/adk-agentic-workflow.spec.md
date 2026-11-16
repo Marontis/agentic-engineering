@@ -35,6 +35,7 @@
 - [ ] **Parallel Research Fan-Out**: Independent readers branching from `START` converging at a `JoinNode`
 - [ ] **Conditional Branching**: Deterministic router node branching to alternative paths via edge dictionary
 - [ ] **Iterative Remediation Loop**: Self-contained task loop rejoining the primary pipeline
+- [ ] **Single-Agent Compute-Parity Check (`PACE`, `arXiv:2611.17610`)**: Confirmed that multi-node decomposition beats a `Category B/C` single-agent baseline (`k`-sample self-consistency or equal thinking/total tokens within $\epsilon \le 0.10$) after deducting system-prompt and echoed-history scaffold tokens (`rules/agent-evaluation-quality.md`).
 
 ### Map each stage to an ADK Node Archetype:
 

@@ -544,6 +544,10 @@ the model to output raw diffs or full rewritten files.
 `(target_file, resource, field_path, target_value)` and apply the edit via a
 deterministic AST/span editor.
 
+**Scope:** Declarative infrastructure-as-code and structured configuration manifests (YAML, JSON, TOML, Kubernetes, Helm, Terraform, GitOps repositories) modified by frontier and small open-weight LLMs (arXiv:2609.00227).
+
+Tension with "DO: Partition automated readiness repairs into static, ambiguity-refusing parametric, and checker-bound delegated contracts behind a zero-LLM MCP server" (skill-system-design.md): use semantic `(target_file, resource, field_path, target_value)` tuples + CST span editing when an LLM updates scalar fields in existing YAML/GitOps manifests (`arXiv:2609.00227`), and use `ProdPilot`'s three-tier contract split (`arXiv:2611.17381`) for project-wide readiness remediation—eliminating the LLM completely on `88.0%` of rules (`93.5%` of violations) via static/parametric contracts and gating the `12.0%` architecture-dependent source refactors with frozen server-side AST checkers and full-suite regression revert.
+
 > Source: Don't Let the Model Write the YAML (arXiv:2609.00227)
 
 ---

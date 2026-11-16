@@ -63,6 +63,8 @@ task's knowledge requirements, not convenience:
 
 Tension with "DO: Pair 2-hop local capability warmup with contextual LLM routing memory in privacy- or scale-constrained decentralized graphs, and harden hubs against misrouting" (this file): when an externally imposed organizational or privacy graph fixes 1-hop visibility (`N = 10–1,000` agents, `100K+` private tools in `arXiv:2611.15521`), agents cannot synthesize a central `Star` or global `SharedMemory` buffer and must instead layer 2-hop local capability warmup plus contextual neighbor-routing memory (`GraphHarness`) over the given graph.
 
+Tension with "DO: Isolate backend coordinates and asset IDs behind canonical state adapters and factor spatial-layout skills from semantic-content skills" (skill-system-design.md): while `3`-role decomposition lost `-1.5 pp` at `3.24x` wall time on self-contained coding tasks (`arXiv:2610.37700`), decomposing `5–10`-subtask 3D world construction across `Orchestrator -> Planner -> fresh Builder` sessions over canonical `SceneContext` (`SceneAgent`, `arXiv:2611.17821`) improved VLM `Completeness` (`62.4%` vs `37.7%`) and `Alignment` (`57.5%` vs `42.5%`, `57.0%` overall) at a `5.17x` wall-clock runtime cost (`203.2 s` vs `39.3 s`) with flat `Spatial Plausibility` (`51.0%`)—use multi-session canonical-state handoffs when single-transcript context drops multi-region requirements and offline generation latency is acceptable.
+
 > Source: Knowledge-Conditioned Topology Generation (arXiv:2608.27984); Mining the Design Space of Multi-Agent Workflows (arXiv:2610.31709); Muffin - A Shared Memory Buffer for Asynchronous AI Agents (arXiv:2610.31355); Learning When to Collaborate: Selective Multi-Agent Medical Reasoning via Uncertainty-Aware Routing (arXiv:2610.33544); The Coordination Tax and the Heterogeneity Dividend in Multi-Agent LLM Systems (arXiv:2610.37700); CuriousTogether (arXiv:2611.01301)
 
 ### DO: Optimize topology and model assignment jointly
@@ -72,11 +74,15 @@ choose models, or vice versa. The interaction between role structure
 and model capability is non-linear — a topology that works well with
 one model mix may fail with another.
 
+**Scope:** automated workflow topology and model-selection search under benign task-accuracy, latency, and token-cost constraints compared against fixed multi-agent frameworks such as MetaGPT and ChatDev (AgentFactory, arXiv:2609.01045; specific benchmarks not recorded in this repo); corpus poisoning and forged external records not tested.
+
 **Evidence**: jointly optimizing workflow topologies and model selection
 explores a richer solution space than fixed frameworks (MetaGPT, ChatDev),
 producing architectures that achieve frontier-level performance while
 reducing inference costs by delegating subtasks to specialized smaller
 models.
+
+Tension with "DON'T: Delegate untrusted evidence reading to a weaker sub-agent without forwarding primary source records to the orchestrator or verifier" (this file): delegating subtasks to cheaper, smaller models reduces inference cost on trusted inputs (`arXiv:2609.01045`), whereas on untrusted document stores (`arXiv:2611.17520`), interposing a weaker sub-agent reader without forwarding verbatim primary source records drops end-to-end safety to the weak reader's failure rate (`2/1,080` direct vs. `20/180–553/900` delegated).
 
 > Source: AgentFactory (arXiv:2609.01045)
 
@@ -303,6 +309,8 @@ Tension with "Treat debate consensus as authorization for tool side effects" (th
 
 Tension with "DON'T: Assign a standing devil's advocate persona in human-facing deliberation, or add a second deliberating AI near accuracy ceiling" (agent-human-interaction.md): in human-in-the-loop verification (`arXiv:2611.14901`), a cross-family 2-AI roster (`GPT-5.4` + `Claude Sonnet 4.5`) beat static independent panels (`Static`) only when paired with multi-round deliberation, and beat a single multi-round AI (`Chatbot`) only when single-AI accuracy had headroom (`ReaLMistake` `0.733` vs `0.639`, $p = 0.027$), adding mental demand and effort ($p < 0.001$) without accuracy gain when single-AI accuracy was already near ceiling (`Fact-check` `0.984`).
 
+Tension with "DON'T: Claim coordination gains over greedy decoding without sample-parity and compute-parity baselines and 6D PACE accounting" (agent-evaluation-quality.md): across `474` sample- and budget-matched contrasts (`arXiv:2611.17610`), homogeneous shared-prompt communication averaged `-0.042` (`74%` $\le 0$), whereas cross-family heterogeneity realizes Route III error decorrelation ($\rho_{\text{het}} < \rho_{\text{hom}}$, raising $K_{\text{eff}}$)—still requiring `Category B/C` compute-matched single-agent and routing-oracle baselines rather than a single greedy pass.
+
 > Source: The Wisdom of Artificial Deliberative Crowds (arXiv:2609.22497); Self-Organizing Agent Teams Learn to Reason Together (arXiv:2609.22682)
 
 ### DON'T: Rely on group size or majority vote to dilute adversarial agents
@@ -387,7 +395,31 @@ agents" (above): that rule covers an adversarial minority, where the
 untrusted share must be capped; this one covers aggregating
 good-faith preferences, where minority dissent must be kept.
 
+Tension with "DO: Aggregate untrusted parallel subtask responses via trimmed nearest-neighbor embedding consensus rather than LLM summarization or confidence scoring" (this file): `SecMAS` (`arXiv:2611.17883`) trims the $f_i + 1$ most distant responses to reject colluding Byzantine minorities on subtasks with an objective ground-truth answer, whereas this rule applies to good-faith pluralistic preference consultations where minority dissent must be preserved.
+
 > Source: Collective-Centric Preference Inference Evaluation (arXiv:2609.02990)
+
+### DO: Aggregate untrusted parallel subtask responses via trimmed nearest-neighbor embedding consensus rather than LLM summarization or confidence scoring
+
+When a manager agent delegates a subtask $t_i$ with an objective answer to a redundant group of $m_i$ worker agents in which up to $f_i < (m_i - 1)/2$ agents may be compromised, third-party, or colluding ($m_i \ge 2f_i + 2$), do not aggregate responses via LLM summarization (`Summarization`), prompt-injection filtering before summarization (`DeSummary`), self-reported or model-estimated confidence selection (`CP-WBFT-PCP` / `CP-WBFT-HCP`), or multi-LLM evaluator geometric medians (`DecentLLMs`). Adaptive surrogate-guided response manipulation (`ReMA`) drives Attack Success Rate (`ASR`) to `0.84–1.00` across all five baselines (`0.40–0.66` untargeted ASR even with zero attacker knowledge of benign responses, the aggregation rule, or the manager LLM). Instead, apply **`SecMAS` trimmed similarity consensus**:
+1. **Diversify worker backbones and set a conservative Byzantine bound $f_i$**: Sample workers across multiple LLM families and frameworks, and set $f_i = \lfloor (m_i - 2)/2 \rfloor$ (`f_i = m_i / 2 - 1` for even $m_i$) when the true compromised count is unknown.
+2. **Score each response by its top-$(m_i - f_i - 2)$ embedding neighbors**: Embed every response $\mathbf{e}_i^k = \phi(r_i^k)$ with a dense text embedding model (never coordinate-wise median/trimming), compute pairwise cosine similarities $s_i^{kl} = \cos(\mathbf{e}_i^k, \mathbf{e}_i^l)$ ($k \neq l$), and sum similarities over each response's $m_i - f_i - 2$ closest peers $N_i^k$: $S(r_i^k) = \sum_{l \in N_i^k} s_i^{kl}$ (leaving $f_i + 1$ non-neighbors so at least one excluded peer is benign).
+3. **Select the highest-scoring verbatim response**: Return $y_i = \arg\max_{r_i^k \in R_i} S(r_i^k)$ directly without passing raw untrusted responses through an LLM summarizer. Procedure: [`similarity-consensus-subtask-aggregation`](../skills/similarity-consensus-subtask-aggregation/SKILL.md).
+
+**Scope:** Manager-worker multi-agent systems (`1` manager + `4` role groups of $m_i = 10$ workers across `AutoGen` and `CrewAI`, randomly sampling `Gemma-4-31B`, `Qwen-3.8-27B`, `Llama-4-Scout-17B-16E`, `GPT-5.6-Sol`, `GPT-5.6-Terra`, and `GPT-5.6-Luna` with `Qwen3-Embedding-8B` and default $f_i = 2$) evaluated across `500` verified ground-truth tasks (`100` each in `Education`, `Finance`, `Healthcare`, `Legal`, and `News`) against `5` attacks (`TAMAS`, `MAST`, `AiTM`, `ObliInjection`, and adaptive `ReMA`) across `8` attacker-knowledge threat models (arXiv:2611.17883). Assumes benign worker embeddings concentrate around the ground-truth subtask solution (`Assumption 1`).
+
+**Evidence**:
+- **Provable untargeted and targeted bounds (`arXiv:2611.17883`, Theorems 1–2)**: Under benign concentration $\Pr(\cos(\mathbf{e}_i^k, \mathbf{e}_i^*) > 1 - \epsilon) > 1 - \exp(-\epsilon^2 / 2\sigma_i^2)$, `SecMAS` guarantees with probability $> 1 - m_i \exp(-\epsilon^2 / 2\sigma_i^2)$ that $\cos(\mathbf{e}_i, \mathbf{e}_i^*) > 1 - C(m_i, f_i)^2\epsilon$ (untargeted) and $\cos(\mathbf{e}_i, \mathbf{e}_i^{\mathrm{tar}}) < \cos(\mathbf{e}_i^*, \mathbf{e}_i^{\mathrm{tar}}) + 2C(m_i, f_i)\sqrt{\epsilon(1 - \cos(\mathbf{e}_i^*, \mathbf{e}_i^{\mathrm{tar}}))} - C(m_i, f_i)^2\epsilon$ (targeted), where $C(m_i, f_i) = 1 + 2\sqrt{(m_i - f_i - 2)/(m_i - 2f_i - 1)}$, even if a malicious response wins $\arg\max S$.
+- **Near-zero ASR across all attacks and adaptive white-box `ReMA` (`Tables 1–2, 5`)**: With `2/10` (`20%`) malicious agents in a group, `ReMA` broke `Summarization` (`0.93–0.99` untargeted / `0.87–0.91` targeted ASR), `CP-WBFT-PCP` (`1.00 / 1.00`), `CP-WBFT-HCP` (`0.89–0.97 / 0.79–0.84`), `DecentLLMs` (`0.90–0.94 / 0.80–0.85`), and `DataSentinel`-filtered `DeSummary` (`0.91–0.94 / 0.81–0.90`). `SecMAS` held `TAMAS`, `MAST`, `AiTM`, and `ObliInjection` to **`0.00` ASR across every cell**, held full-knowledge adaptive `ReMA` to **`0.00–0.02` untargeted ASR** and **`0.00–0.01` targeted ASR** (`0.00` targeted across all 5 domains under full white-box knowledge; `0.00` across all cross-rule transfers in `Table 5`), and tolerated up to `30%` malicious agents (`Fig. 7`).
+- **Zero statistically significant utility loss (`Tables 3–4`, `Fig. 8`)**: Without attacks (`5` runs/domain), `SecMAS` achieved **`0.88 ± 0.01` to `0.90 ± 0.01`** Performance under No Attacks (`PNA`) vs. `0.88–0.91` across all five baselines (all `25` two-sided Welch's $t$-test $p$-values `0.130–1.000 > 0.05`), and increasing $f_i$ from `2` to `4` (`m_i/2 - 1`) preserved clean utility while preventing the `f_i = 1 < 2` breakdown.
+
+Tension with "DO: Preserve minority viewpoints in agent voting and consensus" (multi-agent-coordination.md): `SecMAS` deliberately trims the $f_i + 1$ most distant responses to reject colluding Byzantine minorities on tasks with a single ground-truth answer, whereas preference-aggregation consultations (`arXiv:2609.02990`) aggregate good-faith pluralistic human opinions where minority dissent must be retained.
+
+Tension with "DON'T: Expand candidate model pools with arbitrary heterogeneous architectures" (multi-agent-coordination.md): on benign scientific routing/voting (`arXiv:2609.17306`), mixing >3–5 heterogeneous model families degraded confidence/judge aggregation, whereas under adversarial subtask aggregation (`arXiv:2611.17883`, `Fig. 5`), expanding the worker pool from `2` to `8` backbone LLMs reduced surrogate attack transferability while `SecMAS` selected one verbatim response in a single shared embedding space (`Qwen3-Embedding-8B`) without cross-model confidence calibration.
+
+See also "DON'T: Rely on group size or majority vote to dilute adversarial agents" (multi-agent-coordination.md), "DON'T: Assume multi-agent debate eliminates shared misconceptions" (multi-agent-coordination.md), and "DON'T: Treat debate consensus as authorization for tool side effects" (multi-agent-coordination.md).
+
+> Source: Securing Multi-Agent Systems by Design (arXiv:2611.17883)
 
 ---
 
@@ -523,6 +555,10 @@ a server-side permission check keyed to the calling agent's identity
 (see rules/agent-sandbox-safety.md — "Treat tool hiding, specialist
 prompts or roster delegation as access control").
 
+Tension with "DON'T: Delegate untrusted evidence reading to a weaker sub-agent without forwarding primary source records to the orchestrator or verifier" (this file): local summary extraction (`arXiv:2609.03920`) protects private user data across trust boundaries, whereas summarizing *untrusted external corpora* inside a weaker sub-agent (`arXiv:2611.17520`) strips provenance cues (`180/180 -> 96/180`, $p = 10^{-31}$) and induces `96.3%` aggregator cascades unless verbatim primary source records accompany the report (`0/780` error with source attached).
+
+Tension with "DO: Audit trajectory verifiers for Verification Transport across abstraction boundaries and attach lossless boundary provenance" (agent-evaluation-quality.md): keep task-executing peer workers on minimal semantic summaries (`arXiv:2609.03920`), **but** retain lossless out-of-band `BND-*` provenance for independent trajectory verifiers and auditors—exposing only a `DelegationBoundary` summary to a verifier induces `30.9%` transport failure (`41.3%` False Certification Rate under direct `V-LLM`), whereas selective `V-AGENTIC` provenance lookup recovers `86.9%` of delegation failures (`arXiv:2611.18471`).
+
 > Source: arXiv:2609.03920
 
 ---
@@ -646,6 +682,8 @@ from 27.70% to 77.00% (2609.27336), and a learned monitor jailbreak
 transferred to an unseen same-family monitor but more weakly across
 families (2609.31121). Same-family pools are for answer aggregation
 only.
+
+Tension with "DO: Aggregate untrusted parallel subtask responses via trimmed nearest-neighbor embedding consensus rather than LLM summarization or confidence scoring" (this file): intra-family pools reduce format and confidence-calibration noise in benign routing/voting (`arXiv:2609.17306`), whereas under adversarial subtask response manipulation (`arXiv:2611.17883`, `Fig. 5`), diversifying workers across `2` to `8` backbone LLMs reduces surrogate attack transferability while `SecMAS` scores candidates in one shared embedding space (`Qwen3-Embedding-8B`) without cross-model confidence scores.
 
 > Source: Mo' Models, Mo' Problems: How to Best Select Model Pools when Designing Multi-Agent Systems (arXiv:2609.17306)
 
@@ -987,6 +1025,8 @@ Solo `Best-of-N` draws the most samples ($K = B$) but stalls around a low single
 
 Tension with "Default to a fixed multi-agent topology" (this file) and "Structure inter-agent communication around typed intents and bus substrates" (this file): hierarchical orchestration (`ORCH`, `arXiv:2609.11737`) and Chair-arbitrated intent buses (`BusMA`, `arXiv:2609.15054`) coordinate heterogeneous role pipelines where subtasks are interdependent and lack a fast per-attempt oracle, whereas on verifiable open-ended search and optimization tasks where any agent can score candidate solutions against an exact verifier (`arXiv:2611.09798`), a central manager becomes a bottleneck and flat asynchronous discovery sharing across $K$ small peer teams ($M=10$) dominates. Likewise, tension with "DO: Pair 2-hop local capability warmup with contextual LLM routing memory in privacy- or scale-constrained decentralized graphs, and harden hubs against misrouting" (this file): homogeneous flat `10`-agent teams assume every agent already holds the full toolset needed to solve the task independently, whereas when distinct private tools are partitioned across `N = 10–1,000` peers (`DecArena`, `arXiv:2611.15521`), multi-hop capability warmup and contextual neighbor routing are required just to locate and invoke the required tools.
 
+Tension with "DON'T: Claim coordination gains over greedy decoding without sample-parity and compute-parity baselines and 6D PACE accounting" (agent-evaluation-quality.md): on shared-prompt benchmarks without external verifiers (`arXiv:2611.17610`), communicating multi-agent topologies trail sample- and budget-matched single agents (`\bar{\Delta} = -0.042` across `474` contrasts), whereas this rule operates specifically under `PACE` Route II (an exact automated verifier driving $\epsilon_{\text{FP}} \to 0$ and $p^* \to 1$, evaluated against equal-budget $B = K \cdot M$ solo `Best-of-N` controls).
+
 > Source: Test-Time Compute Scales Better with Parallel Agent Teams (arXiv:2611.09798)
 
 ### DO: Separate shared evidence graphs from isolated component editors and forbid composing untested handoff or memory edits
@@ -1048,6 +1088,28 @@ Tension with "DON'T: Default to a fixed multi-agent topology" (this file), "DO: 
 
 > Source: DecArena: Evaluating Large-Scale Decentralized Multi-Agent Collaboration (arXiv:2611.15521)
 
+### DON'T: Delegate untrusted evidence reading to a weaker sub-agent without forwarding primary source records to the orchestrator or verifier
+
+In orchestrator–subagent systems (including commercial coding harnesses that spawn cheaper file-search sub-agents by default), end-to-end safety against corpus poisoning and forged records tracks the **weakest model that touches the raw evidence**, not the frontier orchestrator. Never interpose a cheaper, weaker sub-agent as an ungrounded summarizer between untrusted files/records and a decision-making orchestrator or aggregator:
+1. **Match reader tier on untrusted corpora or pass verbatim primary records upstream**: Either run a same-tier model on untrusted document stores, or require a grounded verifier/retrieval step that attaches the **verbatim retrieved source records** (including metadata/accession headers and timestamps) alongside the sub-agent's report so the orchestrator/aggregator inspects primary evidence directly.
+2. **Treat sub-agent tool results as untrusted claims, not grounded observations**: Models adopt identical fabricated content at nearly twice the rate when it arrives via a **sub-agent tool-result channel** rather than a peer-message channel, defeating boundary-entry prompt-injection assumptions.
+3. **Evaluate models separately on documentary (`Evidence`) and peer-assertion (`Social`) channels**: Resistance to forged documents and resistance to bare peer assertions are negatively correlated across model families—never extrapolate robustness from one channel to the other.
+
+**Scope:** `58,589` recorded trials (`~$1,100` metered spend) across unmodified `Claude Code` CLI (`Opus 5` orchestrator $\to$ `Haiku 4.5` `Task` sub-agent via `--allowedTools Task`), unmodified `Codex` CLI (`gpt-5.6-sol` $\to$ `gpt-5.6-terra`), a `200`-line reference harness (`8` orchestrator/sub-agent pairs), and an `18`-model simulated panel from `6` labs over a `180`-item counterbalanced relational-fact corpus (`13`-file store, `35`-file store for `stacked`, `6` forgery families carrying two fixed provenance tells) plus `3` domain-transfer stores (`issue tracker`, `lab notebook`, `policy archive`, $n = 19\text{--}20$) and `5` frontier aggregators ($n = 780$ pooled) (arXiv:2611.17520).
+
+**Evidence**:
+- **Multi-agent delegation breaks unmodified `Claude Code` and `Codex` on forgeries strong models catch alone (`arXiv:2611.17520`, `Tables 1 & 6`)**: Reading the poisoned store directly, strong orchestrators committed only **`2` harmful revisions in `1,080` trials** on catchable forgeries (`Opus 5` `1/180` on `gloss` and `1/180` on `stacked`; `gpt-5.6-sol` `0/180` on `gloss`; reference orchestrators `0/540` on `volume`). Delegating the exact same store to default weaker sub-agents jumped harmful revisions to **`20/180`** (`Claude Code` `gloss`, $p = 10^{-4}$; `Haiku 4.5` alone `22/180`), **`75/180`** (`Claude Code` `stacked`, $p < 10^{-15}$; `Haiku 4.5` alone `136/180`), **`44/180`** (`Codex` `gloss`, $p = 10^{-13}$; `gpt-5.6-terra` alone `58/180`), and **`553/900`** (`reference` `volume`, $p < 10^{-15}$), replicating across issue-tracker, lab-notebook, and policy-archive stores (`0/19, 0/20, 0/20` direct vs. `8/20, 10/20, 14/20` delegated). Clean-store delegation caused `0/180` errors, and **same-tier sub-agents restored orchestrator-level safety** (`0/180` `Claude Code`, `1/180` `Codex`, `11/540` `reference`), while weaker sub-agents degraded monotonically (`92/180` to `148/180` across 5 weak pairs, $p < 10^{-15}$).
+- **Provenance stripping, channel asymmetry, and negative cross-channel transfer (`Tables 2–4`, `Figs. 3–5`)**: On `stacked`, `Opus 5` named the forgery's missing provenance in **`180/180`** direct runs vs. **`96/180`** `Haiku 4.5` sub-agent reports ($p = 10^{-31}$; even provenance-preserving reports still erred in `21/96` runs as orchestrator tool turns fell from `6.3` to `3.2`). Holding text byte-identical, delivery as a **sub-agent tool result** induced **`102/120` (`85%`)** harmful revisions vs. **`18/39` (`46%`)** as a peer message. Across `18` models, forged-document (`Evidence`) and bare-peer (`Social`) susceptibility correlated **negatively** (**Spearman $\rho = -0.76, p = 0.0002$**).
+- **`98%–100%` aggregator cascade vs. `0/780` grounded-source defense (`Table 5`, §6)**: Across `5` aggregators (`Claude Sonnet 5`, `GPT-5.5`, `Gemini 2.5 Flash`, `Claude Opus 5`, `GPT-5.6-sol`), honest workers yielded `0/780` errors, whereas corrupted workers caused **`94.7%–98.0%`** system errors (`96.3%` pooled; **`751/757` [`0.98–1.00`]** conditional propagation). Supplying the **retrieved primary source record** to the aggregator cut cascading errors to **`0/780` (`0%`, Clopper–Pearson `[0, 0.47%]`)** while workers stayed corrupted; in the live harness ($n = 40$ vs. `15/40` baseline), requiring source quotes (`3/40`, $p = 0.0018$), adding store-skepticism (`1/40`, $p = 0.0005$), or having the orchestrator read the record directly (`0/40`) similarly halted the break (see [weakest-agent-delegation-safety-collapse](../research-briefs/weakest-agent-delegation-safety-collapse.md)).
+
+Tension with "DO: Optimize topology and model assignment jointly" (multi-agent-coordination.md): assigning subtasks to cheaper, smaller models (`AgentFactory`, `arXiv:2609.01045`) reduces inference cost on trusted inputs, but placing a weaker model as an ungrounded reader over untrusted files/repositories drops end-to-end safety to the weak reader's level (`2/1,080` direct vs. `20/180–553/900` delegated in `arXiv:2611.17520`); restrict cheap-model delegation to trusted inputs or require verbatim primary-record forwarding to a strong verifier.
+
+Tension with "DON'T: Share full context across all agents by default" (multi-agent-coordination.md): local summary extraction (`arXiv:2609.03920`) protects private user data across trust boundaries, whereas summarizing *untrusted external corpora* inside a weaker sub-agent strips provenance cues (`180/180 -> 96/180`, $p = 10^{-31}$) and launders forged records (`96.3%` aggregator error vs. `0/780` when raw source records accompany the summary). Keep private user data minimized locally, but forward verbatim source spans and provenance metadata whenever a sub-agent reads untrusted external records.
+
+See also "DO: Attach Merkle-proven log receipts and three-valued claim checkers to inter-agent handoff messages before trusting claimed side effects" (multi-agent-coordination.md), "DO: Audit trajectory verifiers for Verification Transport across abstraction boundaries and attach lossless boundary provenance" (agent-evaluation-quality.md), "DON'T: Assume safety transfers across deployment contexts" (agent-sandbox-safety.md), and "DON'T: Rely on instruction-stripping sanitizers or tool-name allowlists to stop task-tampering indirect prompt injections" (agent-sandbox-safety.md).
+
+> Source: Only as Safe as the Weakest Agent: A Break That Appears Only When the System Is Multi-Agent (arXiv:2611.17520)
+
 ---
 
 ## Related Skills
@@ -1071,6 +1133,7 @@ For implementation details on the procedures behind these rules:
 - [`scoped-multi-agent-harness-composition`](../skills/scoped-multi-agent-harness-composition/SKILL.md) — Isolated role/coordination/memory editors with tested-component composition over provenance-typed evidence graphs (`SciMARS`)
 - [`bidirectional-traceability-debate`](../skills/bidirectional-traceability-debate/SKILL.md) — Evidence-locality routing and symmetric Trace/Non-Trace partition-swap debate for requirement-to-code traceability
 - [`topology-warmup-decentralized-routing`](../skills/topology-warmup-decentralized-routing/SKILL.md) — 2-hop local capability warmup and contextual experience-adaptive LLM neighbor routing (`GraphHarness` / `DecArena`)
+- [`similarity-consensus-subtask-aggregation`](../skills/similarity-consensus-subtask-aggregation/SKILL.md) — `SecMAS` trimmed $(m_i - f_i - 2)$-nearest-neighbor embedding consensus for Byzantine-tolerant parallel subtask aggregation
 
 ## Sources
 
@@ -1130,3 +1193,7 @@ For implementation details on the procedures behind these rules:
 - Private Knowledge Retrieval & Private Inference for Secure MAS (tipp++): arXiv:2611.13696
 - DecArena / GraphHarness (Large-Scale Decentralized Multi-Agent Collaboration): arXiv:2611.15521
 - Understanding the Effects of Multi-Agent Deliberation for Human-AI Decision-Making: arXiv:2611.14901
+- Securing Multi-Agent Systems by Design (SecMAS): arXiv:2611.17883
+- Only as Safe as the Weakest Agent: arXiv:2611.17520
+- More Agents, More Samples, or More Thinking? (PACE, cited from agent-evaluation-quality.md): arXiv:2611.17610
+- SceneAgent (cited from skill-system-design.md): arXiv:2611.17821

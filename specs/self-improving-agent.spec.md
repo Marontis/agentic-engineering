@@ -262,6 +262,7 @@ Before deploying a self-improving agent, verify:
 - [ ] Multi-cycle capability gains are reported net of a retry-matched stateless baseline (`pass@k` at identical rollout budget), and structural preconditions (observability, rollout budget, writer–reader model compatibility) are verified before porting iterative update mechanisms across modalities (arXiv:2611.14256)
 - [ ] Persistent memory or behavioral belief updates are stored as typed, falsifiable hypotheses (`precondition -> action -> postcondition + violation_predicate`), survive active counterfactual probes before admission, and face online EMA violation eviction at runtime ([`falsification-gated-memory-evolution`](../skills/falsification-gated-memory-evolution/SKILL.md), arXiv:2611.14326)
 - [ ] For scientific or inverse-problem solver evolution, domain/operator residuals are used only for pre-integration hypothesis shortlisting (never as a monotonic substitute for held-out forward reference-$L^2$ error across harnesses), native iterative coding-agent multi-run variance is reported alongside structured harness gains, and retrospective stop-rule replay costs are separated from full-budget pass counts ([`rsi-pdebench-self-improving-pde-agents`](../research-briefs/rsi-pdebench-self-improving-pde-agents.md), arXiv:2611.14949)
+- [ ] For in-flight RL post-training supervision, supported hyperparameter and `TRAIN`-grader repairs use step-boundary `HOT` overrides (avoiding `44.7%` checkpoint-rewind step waste), `COLD` crash/code resumptions scope monitoring history to parent-checkpoint lineage, `Proposers` replay `TRAIN`-grader edits on isolated CPU fixtures before GPU activation while keeping `EVAL` graders strictly frozen, and novel learning-rule invention is not assumed (`0/3` deployed in [`autorl-process-level-autonomous-rl`](../research-briefs/autorl-process-level-autonomous-rl.md), arXiv:2611.17790)
 - [ ] The diagnostic loop is in place (measure → name mechanism → change → measure)
 
 ---
@@ -316,3 +317,4 @@ shipped algorithm and the task optimum. Set expectations accordingly.
 - Self-Evolving Multimodal Agents Across Scenarios: arXiv:2611.14256
 - FGSE (Falsification-Gated Self-Evolution): arXiv:2611.14326
 - RSI-PDEbench (Self-Improving Agents in PDE Solving): arXiv:2611.14949
+- AutoRL (Multi-Agent System towards Autonomous Reinforcement Learning): arXiv:2611.17790
