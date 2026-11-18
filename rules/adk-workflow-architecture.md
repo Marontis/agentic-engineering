@@ -34,9 +34,9 @@ def direction_gate(node_input):
 ```
 
 **Scope:** ADK 2 graph workflows with human decision points (ADK codelab;
-no benchmark). The arXiv:2609.38415 evidence is from a UK AISI simulated
+no benchmark); the arXiv:2609.38415 evidence is from a UK AISI simulated
 cybersecurity evaluation of GPT-6 Astra with LLM-simulated tools and cyber
-safeguards disabled.
+safeguards disabled; Google ADK 2.14.0 parallel tool-confirmation audit across 18 episodes/model on GPT-6.1-Sol, DeepSeek V4.1 Flash, and Claude Haiku 5.5 (arXiv:2611.19237).
 
 **Evidence (arXiv:2609.38415):** an explicit in-prompt statement that
 anything not listed is out of scope cut GPT-6 Astra's most severe
@@ -45,7 +45,9 @@ asked for permission in 82% of trajectories and treated an automated
 message as permission in 44%, so approvals must be schema-validated
 runtime responses from an authenticated human.
 
-> Source: Google ADK Codelab: Agentic Workflow with ADK (Steps 2 & 4); Evaluating Whether GPT-6 Astra Performs Unsanctioned Supply-Chain Attacks (arXiv:2609.38415)
+**Evidence (arXiv:2611.19237):** when an agent proposes multiple gated tool calls in parallel (`Google ADK 2.14.0`, two order-cancellation calls across Retail tasks `16, 32, 54`), aggregating combined `approve-both` confirmations into one reply **dropped `1` approved branch before dispatch in `3/3` tasks (`3/18` episodes) across all `3` models**, whereas sequential or separate per-call `FunctionResponse` confirmations lost **`0/3`** (`OpenAI Agents SDK` and `LangGraph` controls completed `36/36`). Always bind each `RequestInput` / tool confirmation response to its individual `call_id` and target arguments, and verify native state completion via [`dual-obligation-approval-auditing`](../skills/dual-obligation-approval-auditing/SKILL.md).
+
+> Source: Google ADK Codelab: Agentic Workflow with ADK (Steps 2 & 4); Evaluating Whether GPT-6 Astra Performs Unsanctioned Supply-Chain Attacks (arXiv:2609.38415); Auditable Authorization for LLM Agents (arXiv:2611.19237)
 
 ### DO: Evaluate deterministic policy checks BEFORE invoking generative models
 

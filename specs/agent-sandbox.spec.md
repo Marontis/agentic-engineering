@@ -257,6 +257,11 @@ Before finalizing the sandbox design, verify:
 - [ ] On `1.7B–35B` SLM agents, write-call authorization derives polarity and `authority`/`payload` roles deterministically from static tool schemas with pre-read `$placeholder` write commitments and exact request n-gram grounding—never from SLM-authored JSON policies, graphs, or compiled programs ([`schema-derived-write-integrity-gate`](../skills/schema-derived-write-integrity-gate/SKILL.md), arXiv:2611.17115)
 - [ ] Post-write verification binds strictly to the session's causal `mutation_id` or first-seen `source_version` snapshot (never global shared-queue `pending == 0` quiescence), caps synchronous status polls, and tests MCP status tools under concurrent background `churn` (arXiv:2611.14808)
 - [ ] Untrusted visual assets are ingested by VLMs at `>= 224x224–336x336` resolution parity rather than `64x64–128x128` thumbnails (or gated by multi-scale transcript consistency checks rather than single-view `JPEG`/blur/median filters, which have `p = 1.000` null effect; arXiv:2611.16744)
+- [ ] Persistent multi-agent sandboxes sharing memory (`L1`), prompt/skill files (`L2`), or package/container state (`L3`) fuse statistical drift (`T1`) with deterministic policy (`T2`), file-hash (`T3`), and task-grader (`T4`) triggers and sanitize the **top-3** `2`-hop RTS trace-back origins rather than evicting only the visibly misbehaving agent (`R_c = 2.83` vs. `0.81`, [`multi-layer-compromise-filtering-and-traceback`](../skills/multi-layer-compromise-filtering-and-traceback/SKILL.md), arXiv:2611.18693)
+- [ ] Multi-round deep-research / web-search planners lock primary ranking rubrics from the user prompt (requiring user confirmation before planner-discovered metrics outweigh user criteria), verify publisher/temporal independence rather than hostname counts (`2`-domain bait bypasses single-site tags at `p = 0.5`), scrub private context from outbound search queries, and block auto-loaded external media in rendered reports (arXiv:2611.20045)
+- [ ] Agent service credentials use non-exportable per-relying-party hardware keys (`TPM`/`Secure Enclave`/`TEE`) with TLS-derived runtime origin binding and passkey-signed `RAR` mandates where supported rather than on-disk bearer PATs (arXiv:2611.19536)
+- [ ] Human-in-the-loop gates are audited via paired `Approve`/`Reject` four-witness checks (`decision -> calls -> dispatch -> native state`) for both denied-effect suppression and bounded approval completion, preserving per-call `call_id` multiplicity across parallel confirmations and checkpoint join resumptions ([`dual-obligation-approval-auditing`](../skills/dual-obligation-approval-auditing/SKILL.md), arXiv:2611.19237)
+- [ ] Irreversible coding-agent command/path contracts block synchronously pre-action (`C4`) rather than relying on post-generation checks (`C3`), workspace `/tmp` scratch allowances do not contradict command bans, and inter-agent relays use provenance/policy gates rather than `BLEU`/`ROUGE-L`/`METEOR` lexical overlap (arXiv:2611.19549, arXiv:2611.21520)
 - [ ] The sandbox works correctly when the agent fails (crash, timeout, OOM)
 
 ---
@@ -275,3 +280,9 @@ Before finalizing the sandbox design, verify:
 - CapLite (Schema-Derived Write Integrity for SLM Agents): arXiv:2611.17115
 - OverServe (Resource Amplification Defensive Lessons): arXiv:2611.14808
 - SISS / ScaleGuard (Visual Prompt Injection Resolution Parity): arXiv:2611.16744
+- Swarm Shepherd (Persistent Latent Compromise Filtering & Traceback): arXiv:2611.18693
+- Security of Deep Research Agents & Agenda Seeding (Defensive Lessons): arXiv:2611.20045
+- Agent Authenticator: arXiv:2611.19536
+- Auditable Authorization Across Model, Harness & Workflow Layers: arXiv:2611.19237
+- Beyond Prompts (Runtime Contracts for Coding Agents): arXiv:2611.19549
+- Safe Resemblance, Silent Propagation (Text-Similarity Guardrail Limits): arXiv:2611.21520

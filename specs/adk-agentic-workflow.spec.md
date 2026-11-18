@@ -129,6 +129,7 @@ edges = [
 - [ ] Strict JSON response schema configured (e.g., enum list `["1", "2", "3"]`)
 - [ ] Request payload bundled (enables frontend rendering without state querying)
 - [ ] Verified that chat text cannot bypass the gate
+- [ ] Parallel gated tool calls bind confirmations to individual `call_id` + target arguments (never collapsing `approve-both` into a single untyped boolean, which dropped `1` approved branch in `3/3` `ADK 2.14.0` tasks; [`dual-obligation-approval-auditing`](../skills/dual-obligation-approval-auditing/SKILL.md), arXiv:2611.19237)
 
 ### Long-Running External Tools (`LongRunningFunctionTool`)
 
