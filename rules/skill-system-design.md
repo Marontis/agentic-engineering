@@ -218,6 +218,8 @@ universally monotonic across model architectures").
 
 Tension with "DON'T: Equate in-domain SLM trace distillation or exact-reward RL gains with transferable search judgment without cross-schema minimality checks" (recursive-improvement.md): deploying explicit natural-language `SKILL.md` rules evolved/adapted by stronger models transfers decision criteria to weaker executors (`arXiv:2608.27454`, `arXiv:2610.33024`), whereas fine-tuning a `4B` student directly on exact-filtered frontier action traces (`Frontier-148`, `53.1%`) underperformed clean algorithmic traces (`Alg-148`, `84.4%` mean) in-domain and still failed to transfer cross-schema stopping judgment (`Alg-2000` `47.9%` OOD vs. `100%` [`47/47`] on `Claude Haiku 4.5` with a `1`-sentence instruction; `arXiv:2611.21529`).
 
+Tension with "DO: Pair sub-second System-1 action scorers with past-present-future harness modules, consecutive-loss quarantine, and audited asynchronous System-2 synthesis volume" (recursive-improvement.md): unconditional offline skill distillation benefits from stronger writer models (`arXiv:2608.27454`, `arXiv:2610.33024`), whereas in event-triggered System-1/System-2 harness development (`JevRSI`, `arXiv:2611.22432`), replacing `Qwen3.8-27B` or `DeepSeek-V4.1-Flash` with stronger standalone `GPT-6.1 Sol` cut triggered `BabyAI` development episodes `5–7x` (`10` vs. `49–67`) and lowered System-1 `SR@1` by `-13.33` to `-14.67 pp` ID (`50.66%` vs. `64.00%` / `65.33%`)—audit trigger volume whenever swapping in a stronger developer model.
+
 > Source: arXiv:2608.27454; Evolving to Match Capabilities: Improving Harness Self-Evolution via Skill Adaptation (arXiv:2610.33024)
 
 ---
@@ -512,7 +514,7 @@ DS-1000 illustration; $\text{Skill}^\infty$ across 83 SkillsBench tasks
 (arXiv:2610.35434); RSIV-Harness across 640 ODAC-Vis conversational
 visualization tasks (arXiv:2610.35316); Meta$^2$ offline contrastive
 meta-skill precomputation + bounded online harness evolution on ScienceWorld,
-ALFWorld, and BabyAI (arXiv:2611.05139).
+ALFWorld, and BabyAI (arXiv:2611.05139); `60`-issue `SWE-bench Lite` ablation (`sympy/sympy` Dev `N=12`, Val `N=8`, ID `N=20`; `django/django` cross-repo OOD `N=20`; `142`-line seed $h_0$ across `context_mgr.py`, `control.py`, `action_aci.py`, `verify.py` with $B_{\mathrm{tok}} = 110.0\text{k}$) on frozen `Gemini 3.8 Flash` plus zero-shot transfer to `Gemini 4 Argon` (arXiv:2611.22299).
 
 In $\text{Skill}^\infty$ (arXiv:2610.35434), the seed meta-skill $m_0$
 selected tied newer candidates 83% of the time without progress on the
@@ -535,6 +537,7 @@ restricting online test-time evolution to bounded skill-conditioned harness
 patches raised long-horizon task success by +11.4 pp over online-only
 reflection while cutting online adaptation rollouts by 62.5% (see
 [`contrastive-meta-skill-harness-evolution`](../skills/contrastive-meta-skill-harness-evolution/SKILL.md)).
+In `arXiv:2611.22299` (`Table IV`), single-module token-budgeted evolution (`1` module/step, $B_{\mathrm{tok}} = 110.0\text{k}$) lifted `Gemini 3.8 Flash` combined ID+OOD resolve rate `8×` from `5.0%` (`2/40`, `114.8k` avg tok/task, `15.0%` unverified OOD exits) to **`40.0%` (`16/40`: `40.0%` ID, `40.0%` OOD)** at **`46.7k` avg tok/task** (`116.8k` tok/solved, **`0.0%` unverified OOD exits**, `< 100`-query evolution payback) and transferred zero-shot (`0` re-evolution rollouts) to `Gemini 4 Argon` at **`37.5%` (`15/40`) and `64.8k` tok/task**—outperforming `Unconstrained Full-Harness Rewrite` on transfer (`30.0%` [`12/40`] at `284.7k` tok/task, after unconstrained rewrite raised turn limits `12 -> 28` and inflated `Flash` cost `~10×` to **`451.6k` avg tok/task** with a `>2.8M`-token rollout, whereas Stage 3 rejected `control.py`'s `12 -> 18` cap increase), while `Prompt-Only Reflection` (`RULES.md` text only) fell to `2.5%` (`1/40`) and **doubled unverified OOD exits from `15.0%` to `30.0%`** despite an explicit opening rule forbidding untested `finish` calls (see [self-improving-agent-harnesses-framework](../research-briefs/self-improving-agent-harnesses-framework.md)).
 
 Tension with "DO: Make the improvement mechanism part of the agent's
 editable source" (recursive-improvement.md): resolved by scope — the
@@ -545,7 +548,8 @@ tests and permissions stay outside.
 > Source: RobustSGPO (arXiv:2609.09646); RRSI (arXiv:2609.24972);
 > A Theory of Reliable Self-Evolution for Agent Harnesses (arXiv:2609.08175);
 > Skill$^{\infty}$: Recursive Self-Improvement for Agent Skill Optimization (arXiv:2610.35434);
-> RSIV-Harness (arXiv:2610.35316); Meta$^2$: Precomputing Reusable Knowledge for Online Harness Evolution in Long-Horizon Agents (arXiv:2611.05139)
+> RSIV-Harness (arXiv:2610.35316); Meta$^2$: Precomputing Reusable Knowledge for Online Harness Evolution in Long-Horizon Agents (arXiv:2611.05139);
+> Harnesses That Improve Themselves: A Unifying Framework for Self-Improving Agent Harnesses (arXiv:2611.22299)
 
 ---
 
@@ -935,6 +939,8 @@ For implementation details on the procedures behind these rules:
 - [`feedback-poisoning-skill-promotion-guard`](../skills/feedback-poisoning-skill-promotion-guard/SKILL.md) — Four-gate defense against reference-feedback backdoor poisoning in text-space skill optimization (`SkillOpt`)
 - [`hybrid-sandbox-skill-intent-audit`](../skills/hybrid-sandbox-skill-intent-audit/SKILL.md) — Three-layer static, safety-constrained sandbox dry-run, and agentic SARIF skill intent audit
 - [`tiered-contract-readiness-gate`](../skills/tiered-contract-readiness-gate/SKILL.md) — Zero-LLM MCP readiness remediation split into static, ambiguity-refusing parametric, and checker-bound delegated contracts with ordered release gating (`ProdPilot`)
+- [`regret-guided-continual-harness-evolution`](../skills/regret-guided-continual-harness-evolution/SKILL.md) — Signature-keyed continual playbook gating with paired directional regret and one-pass `[iff]` scope guards (`GUARD`)
+- [`asynchronous-system1-harness-evolution`](../skills/asynchronous-system1-harness-evolution/SKILL.md) — Past/present/future (`state`/`proc`/`wm`) harness module routing with `L=3` consecutive-loss quarantine (`JevRSI`)
 
 ## Sources
 
@@ -993,4 +999,7 @@ For implementation details on the procedures behind these rules:
 - Rule-Based Linguistic Tools in Prompt vs over MCP: arXiv:2611.19439
 - ConvRSI (From Recursion to Convolution: Parallel Self-Improvement for Multi-Agent Systems): arXiv:2611.20891
 - Procedure without Judgment (cited from recursive-improvement.md): arXiv:2611.21529
+- Harnesses That Improve Themselves (Unifying Framework for Self-Improving Agent Harnesses): arXiv:2611.22299
+- JevRSI (cited from recursive-improvement.md): arXiv:2611.22432
+- GUARD (cited from recursive-improvement.md): arXiv:2611.23476
 

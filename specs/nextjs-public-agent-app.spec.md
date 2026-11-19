@@ -59,6 +59,7 @@
   - Require hardware-attested out-of-band confirmation (separate from the chat stream) behind a canonicalized capability monitor, triggered by provenance taint with a deterministic per-episode approval cap ($n = 1$), for financial transactions, destructive DB mutations, external sends, or permission escalations.
 - [ ] **Fact-Grounded Reverse-Proxy Access Control (`BACGuard`, `arXiv:2611.10157` — [`fact-grounded-access-control-proxy`](../skills/fact-grounded-access-control-proxy/SKILL.md))**:
   - Canonicalize paths, hard-reject duplicate parameters, and reconstruct caller identity + multi-path FK/join-table resource ownership deterministically via read-only DB joins (`88–90%` of requests in `< 1 ms`), reserving out-of-band identity-grounded LLM inspection strictly for response-path cross-user leakage (`<= 12%`).
+- [ ] **Simple-Request CSRF & Companion Control-Plane Hardening (`CWE-306`/`1327`/`352`, `arXiv:2611.22761`)**: Never rely on absent CORS middleware to block cross-origin form `POST`s when routes parse bodies with `Content-Type`-agnostic `Request.json()` (which accepts `text/plain` browser simple requests without preflight); enforce header-carried auth tokens, middleware `Origin`/`Referer` allowlists (`HTTP 403`), and strict `application/json` schema validation, plus storage-layer PII/secret filtering inside memory write sinks.
 
 ---
 

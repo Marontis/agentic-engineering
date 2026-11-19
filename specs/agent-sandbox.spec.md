@@ -199,6 +199,10 @@ mirror on the allowlist), also run it inside a snapshot.
 - [ ] Local FIFO queue-wait time is **excluded** from active session/tool timeout budgets (`3,600 s` / `600 s`) so skewed node queues do not abort healthy rollouts
 - [ ] Idle helper nodes migrate only **waiting, path-portable serial commands** whose expected runtime and remaining wait exceed the measured cross-node handoff floor ($T_{\text{mig}} \approx 1.86\text{--}2.16\text{ s}$ on gigabit LAN/SMB) via three-phase **`reserve -> claim -> commit`** ([`serial-slot-accelerator-command-scheduling`](../skills/serial-slot-accelerator-command-scheduling/SKILL.md))
 
+### Learned startup snapshots for unseen multi-package scripts & stateful verifier pools (`arXiv:2611.22171`, `arXiv:2611.24788`):
+- [ ] Unseen multi-package code sandboxes use a compact portfolio (`~30–60`) of post-import memory snapshots planned via **greedy budgeted facility location** over two-pass additive package metadata ($t_p$, `RssAnon` $m_p$, excluding monkey-patching imports) and routed online by minimum $T(r, c) = t_{\mathrm{base}} + \alpha S(c) + \sum_{p \in D_r \setminus D_c} t_p$ ([`budgeted-facility-sandbox-snapshots`](../skills/budgeted-facility-sandbox-snapshots/SKILL.md))
+- [ ] Shared stateful theorem-prover / formal-verifier pools (`Isabelle/PIDE`, `Lean 4`) use interchangeable import-keyed leases with **empty editor visibility (`perspective = empty`)**, `cgroup` `85%` `HTTP 503` memory admission, `4 ms` document-version checkpoints, post-timeout heap-bloat recycling, and parsed-AST flags (`success && !proof_open && !used_sorry`) backed by a stateless scratch-build final arbiter ([`pooled-prover-verification-service`](../skills/pooled-prover-verification-service/SKILL.md))
+
 ### Resource limits:
 
 | Resource | Limit | Action on exceed |
@@ -262,6 +266,9 @@ Before finalizing the sandbox design, verify:
 - [ ] Agent service credentials use non-exportable per-relying-party hardware keys (`TPM`/`Secure Enclave`/`TEE`) with TLS-derived runtime origin binding and passkey-signed `RAR` mandates where supported rather than on-disk bearer PATs (arXiv:2611.19536)
 - [ ] Human-in-the-loop gates are audited via paired `Approve`/`Reject` four-witness checks (`decision -> calls -> dispatch -> native state`) for both denied-effect suppression and bounded approval completion, preserving per-call `call_id` multiplicity across parallel confirmations and checkpoint join resumptions ([`dual-obligation-approval-auditing`](../skills/dual-obligation-approval-auditing/SKILL.md), arXiv:2611.19237)
 - [ ] Irreversible coding-agent command/path contracts block synchronously pre-action (`C4`) rather than relying on post-generation checks (`C3`), workspace `/tmp` scratch allowances do not contradict command bans, and inter-agent relays use provenance/policy gates rather than `BLEU`/`ROUGE-L`/`METEOR` lexical overlap (arXiv:2611.19549, arXiv:2611.21520)
+- [ ] Companion configuration/management UIs (`Gradio`, `FastAPI`, `Streamlit`) bind to `127.0.0.1` by default (`CWE-1327`), require header bearer/session tokens (`HTTP 401`, `CWE-306`), enforce `Origin`/`Referer` allowlists + typed `application/json` schemas rather than `Content-Type`-agnostic `Request.json()` (`CWE-352`), verify `HMAC` digests on system-prompt files, and enforce PII/secret restrictions inside persistent-memory storage sinks rather than tool-description prose (`arXiv:2611.22761`)
+- [ ] When rendering untrusted prose as images for VLMs, protection is verified per model across `Append`, `Format`, and full-output `Replace` operations under `k >= 8` framing candidates and multi-span synthesis utility checks, and tainted documents are quarantined at the **whole-page** boundary rather than localized visual-token span masking (`46.88% / 76.04%` residual image ASR under full attack-span attention blocking; arXiv:2611.24231)
+- [ ] Offline IPI purple-teaming pairs rolling sparse strategy-dictionary (`BPDN`) coverage with `C1`/`C2` checks and symmetric `z+/z-` token-level self-distillation (`PIPETTE`), backed by deterministic sink-level parameter authorization ([`strategy-diverse-ipi-purple-teaming`](../skills/strategy-diverse-ipi-purple-teaming/SKILL.md), arXiv:2611.24362)
 - [ ] The sandbox works correctly when the agent fails (crash, timeout, OOM)
 
 ---
@@ -286,3 +293,8 @@ Before finalizing the sandbox design, verify:
 - Auditable Authorization Across Model, Harness & Workflow Layers: arXiv:2611.19237
 - Beyond Prompts (Runtime Contracts for Coding Agents): arXiv:2611.19549
 - Safe Resemblance, Silent Propagation (Text-Similarity Guardrail Limits): arXiv:2611.21520
+- Readie (Learned Startup Snapshots for AI Agent Code Sandboxes): arXiv:2611.22171
+- Isabelle Pool Server (Pooled Prover Verification Service): arXiv:2611.24788
+- Network-Exposed Configuration Attacks on Social Robots (Defensive Lessons): arXiv:2611.22761
+- PIPETTE (Prompt Injection Purple-Teaming for Robust LLM Agents): arXiv:2611.24362
+- What Survives the Shift from Text to Pixels? (Image-Rendered Document IPI Limits): arXiv:2611.24231
