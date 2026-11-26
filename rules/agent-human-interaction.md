@@ -20,6 +20,8 @@ preference probes rarely coincide. Agents that optimize only for
 immediate acceptance systematically converge to suboptimal long-term
 outcomes.
 
+**Scope:** Bayes-adaptive human-in-the-loop assistance planning (`ProSE` / `ProSE-Plan` depth-2 active preference probing under bounded human evaluation rationality; theoretical framework and synthetic planning evaluation, arXiv:2609.02242).
+
 **Evidence**: under a Bayes-adaptive planning framework (ProSE), agents
 that explicitly plan exploratory proposals when evaluation costs are
 low significantly improve downstream task alignment compared to agents
@@ -41,7 +43,28 @@ Use:
 - **Diffs** for proposed changes
 - **Decision matrices** when tradeoffs exist
 
+**Scope:** Approval-gate UI and artifact formatting derived from bounded-rationality proposal evaluation (`ProSE`, arXiv:2609.02242); design guidance, no standalone human-subjects latency/accuracy comparison in this repo.
+
 > Source: arXiv:2609.02242
+
+### DO: Enforce ancestor-masked attention and parent-gated chain-rule probabilities when pre-populating batch permission hierarchies
+
+When onboarding users or pre-populating batch capability proposals over multi-domain permission catalogs (`DAG`s where cross-domain actions depend on multiple parent scopes), never score permission nodes with independent classifiers (`IC`), tree-only encoders (`HMCN-F`), or post-hoc probability clipping (`IC(post)`), and never impute unasked permissions as denied (`0`):
+1. **Encode the permission catalog as a rooted multi-parent DAG with ancestor-only self-attention (`PATH`)**: Add a virtual root $0$ ($\hat{p}_{i0} \equiv 1$), fuse user-profile embeddings, node embeddings, and shortest-path root-distance embeddings ($t_{ij}^{(0)} = u_i + e_j + d_{s_j}$), and restrict Transformer self-attention strictly to $\mathrm{Anc}(j) \cup \{j\}$ so multi-parent (`AND`-gate) capabilities aggregate all required parent branches without descendant leakage.
+2. **Enforce parent-gated chain-rule recursion and observed-only masked `BCE`**: Predict each node's conditional gate probability $q_{ij} = \sigma(w^\top h_{ij} + b) \in (0, 1)$ and compute marginal grant probabilities in topological order via $\hat{p}_{ij} = q_{ij} \prod_{p \in \mathrm{Pa}(j)} \hat{p}_{ip}$, guaranteeing $\hat{p}_{ij} \le \min_{p \in \mathrm{Pa}(j)} \hat{p}_{ip}$ (**`0.0000` ancestor-consistency violations** at every threshold) while training strictly on observed user decisions ($o_{ij} = 1$).
+3. **Surface predictions strictly as human-inspectable batch proposals behind runtime gates**: Use thresholded $\hat{p}_{ij}$ to pre-populate structured review checklists (mapping ambiguous `"Ask every time"` / `"Depends"` preferences conservatively to `0`), bind confirmed grants to task/resource context, and pass any periodic recommender retraining through "DO: Pass every self-modification through one acceptance gate" (recursive-improvement.md). Procedure: [`parent-gated-hierarchical-authorization-prediction`](../skills/parent-gated-hierarchical-authorization-prediction/SKILL.md).
+
+**Scope:** Batch permission-hierarchy preference prediction (`PATH`: `2`-layer, `4`-head pre-norm Transformer, $d_h = 128$) across `3` synthetic DAG regimes (`Sim 1` independent & `Sim 2` correlated $c = 0.5$ over `171` nodes, `52` multi-parent nodes, `65%` missing, $N = 2,000 \times 100$ replicates; `Sim 3` `ChatGPT 5.5` `500`-user cohort over `167` nodes with `5` strict cross-parent `AND` gates, `83.04%` missing) and real contextualized permission data (`Wu et al. 2026`: `201` participants, `8` domains, `65` scenarios, `447` nodes, `78.18%` missing, augmented with `500` synthetic training profiles; note `§5` reports a `150` train / `51` test real split whereas `Appendix C.5.2`'s prompt text states `51` train / `150` test) (arXiv:2611.32018).
+
+**Evidence**:
+- **Zero structural violations without post-hoc calibration loss (`arXiv:2611.32018`, `Tables 1–3`)**: Across all four benchmarks, `PATH` achieved **`0.0000` ancestor violation rate**. In `Sim 1` (`100` replicates), `PATH` reached **`0.9013` AUC** (`95% CI [0.9003, 0.9022]`, $p < 10^{-4}$ vs. all baselines) and `0.5276` F1 (`CC` `0.8420` AUC / `0.5334` F1), whereas independent `IC` suffered `0.0570` violations and post-hoc clipping (`IC(post)`) dropped AUC from **`0.8801` to `0.8427`** (`Sim 2`: `PATH` **`0.8828` AUC** vs. `IC` `0.8633 -> 0.8221`). On `Sim 3`'s cross-parent `AND` gates, `PATH` led both AUC (**`0.7692`**) and F1 (**`0.7560`**) with `0.0000` violations, while `HMCN-F` suffered **`0.1421` violations** (`0.7474 -> 0.7380` AUC, `0.7182 -> 0.7011` F1) and `IC` suffered `0.1189` violations (`0.6867 -> 0.6571` AUC, `0.6974 -> 0.6228` F1).
+- **Real user permission hierarchy (`Table 4`)**: On the `447`-node real dataset (`"Yes, always share" = 1`), `PATH` matched top AUC (`0.6773` vs. `0.6778` `C-HMCNN` and `0.6751` `HMCN-F(post)`) while lifting F1 by **`+10.3` to `+12.0` points** (**`0.4060`** vs. `0.3019` `HMCN-F(post)`, `0.2997` `IC(post)`, `0.2864` `C-HMCNN`, and `0.2327` `CC`) at `0.0000` violations.
+
+Tension with "DON'T: Treat agent output as implicit authorization" (this file), "DON'T: Let a stored user approval outlive the context it was granted in" (this file), and "DON'T: Rely on structured LLM authorization decisions as the sole safety gate" (agent-sandbox-safety.md): `PATH` (`arXiv:2611.32018`) predicts personalized persistent-share (`Yes, always share`) batch *proposals* to reduce onboarding consent fatigue, never implicit runtime execution authority—predicted bundles still require explicit human confirmation, task/context lifetime binding (`arXiv:2609.33910`), and deterministic runtime enforcement at dispatch.
+
+See also "DO: Design proposals for evaluability, not just acceptability" (this file), "DO: Present structured, inspectable choices at approval gates" (this file), and "DO: Verify both denied-effect suppression and bounded approval completion across decision, call, dispatch, and native-state witnesses" (agent-sandbox-safety.md).
+
+> Source: Structure-Aware Transformers for Hierarchical Authorization in Personal AI Agents (arXiv:2611.32018)
 
 ---
 
@@ -121,6 +144,8 @@ triggers:
 - **Impact triggers**: changes affecting >N files, >N users, or
   >$N in cost
 
+**Scope:** AI-Native SDLC coding and deployment workflows (Claude Academy playbook); practitioner design guidance, not a controlled empirical benchmark.
+
 > Source: The AI-Native SDLC Playbook (Claude Academy)
 
 ### DON'T: Treat agent output as implicit authorization
@@ -162,6 +187,8 @@ act inside the scope they were granted up front.
 See also "Let a stored user approval outlive the context it was granted
 in" (below): a pre-granted scope stays a valid gate only while the
 context it was granted in still holds.
+
+Tension with "DO: Enforce ancestor-masked attention and parent-gated chain-rule probabilities when pre-populating batch permission hierarchies" (this file): `PATH` (`arXiv:2611.32018`) predicts personalized capability-DAG bundles (`0.0000` ancestor violations) solely to pre-populate human-reviewed onboarding checklists; predicted probabilities never authorize tool execution until the user explicitly confirms the bundle.
 
 > Source: FirstMate agent distro (github.com/kunchenguid/firstmate),
 > VISION.md: "Evidence is never authorization"
@@ -395,6 +422,7 @@ For implementation details on the procedures behind these rules:
 - [`mobile-spatial-accessibility-grouping`](../skills/mobile-spatial-accessibility-grouping/SKILL.md) — Spatial-functional hierarchy reconstruction and single-pass multi-granularity LLM labeling for mobile screen readers (`SeeR`)
 - [`editable-semantic-diagram-generation`](../skills/editable-semantic-diagram-generation/SKILL.md) — Decoupled Semantic-Style-Layout specification and bottom-up geometric text sizing for editable vector diagrams (`EvoDiagram`)
 - [`code-grounded-sast-finding-explanations`](../skills/code-grounded-sast-finding-explanations/SKILL.md) — Read-only repository & SARIF rule-grounded explanations with demand-tiered disclosure (`SAFE`)
+- [`parent-gated-hierarchical-authorization-prediction`](../skills/parent-gated-hierarchical-authorization-prediction/SKILL.md) — Ancestor-masked Transformer attention and parent-gated chain-rule probability recursion for zero-violation batch permission proposals (`PATH`)
 
 ## Sources
 
@@ -415,3 +443,4 @@ For implementation details on the procedures behind these rules:
 - Interface Quilt (Modifying Applications with CUAs and Generative UI): arXiv:2611.01891
 - SAFE (Code-Grounded Agentic Explanations for SAST Findings): arXiv:2611.13041
 - Understanding the Effects of Multi-Agent Deliberation for Human-AI Decision-Making: arXiv:2611.14901
+- PATH (Structure-Aware Transformers for Hierarchical Authorization in Personal AI Agents): arXiv:2611.32018

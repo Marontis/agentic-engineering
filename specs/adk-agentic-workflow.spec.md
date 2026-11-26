@@ -36,6 +36,7 @@
 - [ ] **Conditional Branching**: Deterministic router node branching to alternative paths via edge dictionary
 - [ ] **Iterative Remediation Loop**: Self-contained task loop rejoining the primary pipeline
 - [ ] **Single-Agent Compute-Parity Check (`PACE`, `arXiv:2611.17610`)**: Confirmed that multi-node decomposition beats a `Category B/C` single-agent baseline (`k`-sample self-consistency or equal thinking/total tokens within $\epsilon \le 0.10$) after deducting system-prompt and echoed-history scaffold tokens (`rules/agent-evaluation-quality.md`).
+- [ ] **Institutional `{cooperate, refuse, escalate}` Triage Check (`DiscernBench`, `arXiv:2611.28787`)**: Avoid splitting 3-way institutional decisions across separate `Policy`, `Hidden-Harm`, and `Oversight` specialist personas feeding a prose LLM `Final Responder` (`B3`), which inflates Over-Escalation Rate `7.5x` (`3.79% -> 28.27%`), induces up to `350x` lone-escalation Minority-Signal Override (`69.8%` vs. `0.2%`), and lowers social-pressure consistency on `8/8` models; prefer single-specialist joint rubric scoring (`B2`) or equal-weight `2-of-3` majority voting with deterministic tie-breakers ([`discernbench-institutional-cooperative-discernment`](../research-briefs/discernbench-institutional-cooperative-discernment.md)).
 
 ### Map each stage to an ADK Node Archetype:
 
@@ -77,6 +78,7 @@
 - [ ] **Shared Session State (`Event(state=...)`)**: Global key-value state journal accessible to all subsequent nodes.
 - [ ] **Parameter Auto-Binding**: Function nodes declare parameter names matching state keys to receive values without explicit unpacking.
 - [ ] **Cross-Session State (`user:` prefix)**: State keys like `user:preferences` persisted across multiple workflow runs for the same user.
+- [ ] **Compaction Timing, Epistemic Tagging & Authorization Separation (`arXiv:2611.25673`, `arXiv:2611.32194`)**: Delay working-context compaction in repository-editing workflows until edits materialize on disk (`86.9%` vs. `53.0%` accuracy), externalize negative search exclusions before compacting read-only research workflows (`52.9% -> 34.6%` late decay), structure summaries into explicit `verified` / `ruled-out (settled)` / `open hypothesis` buckets, key shared sub-agent caches by `(entity, period, source_id, route)` (`arXiv:2611.25071`), and deliver summaries in a `tool` role while gating authorization on `Witnessed-Request Gate` user turns ([`witnessed-request-compaction-gate`](../skills/witnessed-request-compaction-gate/SKILL.md)).
 
 ### Memory Bank vs RAG Engine Configuration
 
@@ -101,6 +103,7 @@
 - [ ] **Deterministic Regex / Word List (Recommended)**: Policy terms stored in external data files (`policy_words.txt`); evaluated in sub-milliseconds at 0 LLM cost.
 - [ ] **Model Self-Evaluation (Discouraged)**: LLM evaluates its own safety; vulnerable to jailbreaks and prompt overrides.
 - [ ] **Hybrid**: Fast deterministic filter first; ambiguous matches routed to an LLM evaluator.
+- [ ] **Typed Non-Generative Routers, Python Math & Post-Turn Receipt Supervision (`arXiv:2611.25071`, `arXiv:2611.27095`)**: Route fixed-taxonomy intents with a compact encoder classifier (`~400M` `ModernBERT`, `0.85` intent in `~315 ms` vs. `0.52` `7B` / `0.67` `R1-8B` at `2,588 ms`), run ratio/margin arithmetic in deterministic `Python` (`100%` vs. `29%–72%` in `7B–8B` LLMs), and verify post-turn side-effect prose claims against signed `executed=true && ok=true` `MCP` wire receipts ([`receipt-bound-mcp-prose-supervision`](../skills/receipt-bound-mcp-prose-supervision/SKILL.md)).
 
 ### Router Edge Map & Fallback:
 

@@ -105,3 +105,6 @@ Pair static skill checks with safety-constrained sandbox dry-runs || Feed unveri
 
 # Wave 10 (2026-11-17) reviewed non-contradictory pairs:
 Supervise persistent multi-agent ecosystems with zero-LLM || Equate in-domain SLM trace distillation or || homonym and unrelated scope: cross-layer OTel/eBPF RTS backward trace-back in persistent multi-agent security monitoring (Swarm Shepherd) vs cross-schema minimality checks after 4B SLM SFT trace distillation (Procedure without Judgment)
+
+# Wave 12 (2026-11-25) reviewed non-contradictory pairs:
+Allow self-initiated CUA risk checks to || Evolve and select experiences for on-policy || homonym and unrelated scope: banning agent-initiated CUA audit tool calls and context secret retention (Conartist) vs gradient-aligned experience selection for on-policy self-distillation (E2L)
