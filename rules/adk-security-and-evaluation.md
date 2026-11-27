@@ -46,6 +46,8 @@ def inspect_model_armor(context, request):
     return None  # Continue with safe prompt
 ```
 
+Tension with "DO: Filter untrusted RAG chunks and tool observations pre-LLM via joint query mutual-information and embedding-variance subset selection, paired with action-boundary authorization" (agent-sandbox-safety.md): supervised interceptor classifiers (`indirect-pia` in `arXiv:2611.34188`) catch overt template injections (`0.00%` `Inj-SQuAD` `ASR`) but can suffer `3.95 s` long-context latency and collapse benign accuracy (`4.03%–25.50%`) on conversational-pivot (`TopicAttack`) retrieved passages, whereas training-free query-MI + embedding-variance subset selection (`MINE`) filters retrieved RAG/JSON spans in `0.75 s` (`82.13%–92.22%` `conv_attack` Acc) as a complementary pre-LLM retrieval filter behind inbound Model Armor screening and deterministic sink authorization.
+
 > Source: Google Codelab: Build a Secure Agent with Model Armor and Identity; Securing a Multi-Agent System
 
 ### DO: Redact PII in tool inputs and outputs with Sensitive Data Protection (SDP)

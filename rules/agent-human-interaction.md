@@ -229,11 +229,15 @@ into Agent B). This loses provenance, execution context, and semantic
 constraints. Design direct agent-to-agent communication channels with
 human oversight, not human intermediation.
 
+**Scope:** Cross-agent and human–tool–agent collaboration design (The Civilization Framework Embassy Protocol architecture, arXiv:2609.03425; plus interactive human–agent shared-console simulation trials in `itasca-mcp`, arXiv:2611.33926).
+
 **Evidence**: the "human as transport layer" anti-pattern is the
 primary failure mode in multi-agent collaboration. The Civilization
 Framework's Embassy Protocol eliminates this by providing asynchronous
 store-and-forward messaging between agent systems under sovereign
 policy constraints.
+
+See also: skill-system-design.md — "DO: Pair progressive BM25 manual tools with five orthogonal sync-async execution primitives, step-atomic cycle holds, and console-history injection for live stateful engines" (`arXiv:2611.33926`, replacing manual human copy-paste relaying between a solver GUI and an external chatbot with shared-process `console history` injection so the agent detects unannounced human `model restore` actions automatically).
 
 > Source: The Civilization Framework (arXiv:2609.03425)
 
@@ -444,3 +448,4 @@ For implementation details on the procedures behind these rules:
 - SAFE (Code-Grounded Agentic Explanations for SAST Findings): arXiv:2611.13041
 - Understanding the Effects of Multi-Agent Deliberation for Human-AI Decision-Making: arXiv:2611.14901
 - PATH (Structure-Aware Transformers for Hierarchical Authorization in Personal AI Agents): arXiv:2611.32018
+- Connecting AI Agents to Live Discrete Element Simulations via MCP (cited from skill-system-design.md): arXiv:2611.33926

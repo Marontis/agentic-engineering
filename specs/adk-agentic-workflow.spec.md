@@ -141,6 +141,7 @@ edges = [
 - [ ] External background worker / webhook listener configured
 - [ ] Delivery daemon dispatches `Part(function_response=FunctionResponse(id=call_id, response={...}))`
 - [ ] Verified that completed upstream nodes do not re-execute upon resumption
+- [ ] For **stateful, interactive scientific/CAD/CAE simulation engines** (`minutes–hours` per run coexisting with a live human console, `arXiv:2611.33926`) where full workflow suspension would blind mid-solve diagnostics, pair `2` zero-embedding `BM25`/`browse` manual tools (`< 3%` manual token read) with `5` orthogonal sync/async primitives (`execute_code` parked at a single-timestep `cycle hold`, `execute_task`, lock-free `check_task_status`, post-loop-deferred `interrupt_task`, `list_tasks`) and bidirectional human `console_history` injection ([`shared-console-async-simulation-mcp`](../skills/shared-console-async-simulation-mcp/SKILL.md)).
 
 ---
 

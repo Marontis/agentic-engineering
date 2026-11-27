@@ -181,6 +181,10 @@ render_desk = Agent(
 )
 ```
 
+**Scope:** ADK 2 graph workflows invoking opaque, non-interactive external batch operations (such as `Veo` video rendering or cloud batch jobs) where intermediate physical/solver state cannot or need not be inspected mid-run (Google ADK codelab; no benchmark).
+
+Tension with "DO: Pair progressive BM25 manual tools with five orthogonal sync-async execution primitives, step-atomic cycle holds, and console-history injection for live stateful engines" (skill-system-design.md): `LongRunningFunctionTool` fully suspends the workflow node until an opaque external job completes (`0` LLM cost while waiting), whereas interactive scientific/CAE simulations (`itasca-mcp` / `yade-mcp`, `arXiv:2611.33926`) return a non-blocking `task_id` (`execute_task`) while keeping `execute_code` (synchronized at a single-timestep `cycle hold`), lock-free `check_task_status`, and step-boundary `interrupt_task` active so the agent inspects live physics (`14/21` sessions) and aborts diverging runs early (`8/21` sessions).
+
 > Source: Google ADK Codelab: Agentic Workflow with ADK (Step 8)
 
 ### DO: Apply the Universal Resumption Pattern across human and tool suspensions
